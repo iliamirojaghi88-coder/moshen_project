@@ -1,0 +1,17 @@
+{
+  "pricesCheckedAt": "2026-10-24, ai.google.dev/gemini-api/docs/pricing",
+  "models": {
+    "text": { "id": "gemini-3.8-flash", "tier": "free tier available — scenario analysis, sequencing, prompt writing" },
+    "textPro": { "id": "gemini-3.1-pro-preview", "tier": "paid only — harder reasoning" },
+    "image": { "id": "gemini-3.1-flash-image", "tier": "paid only — character sheets, reference-guided edits" },
+    "imageFast": { "id": "gemini-nano-banana-2.1", "tier": "paid only — cheaper drafts" },
+    "imagePro": { "id": "gemini-3-pro-image", "tier": "paid only — highest fidelity" },
+    "video": { "id": "gemini-omni-1.1-flash", "tier": "paid only — Gemini Omni Flash video generation/editing, 3–10 s clips, 9:16 ok" }
+  },
+  "prices": {
+    "gemini-3.1-flash-image": { "0.5K": 0.045, "1K": 0.067, "2K": 0.101, "4K": 0.151 },
+    "gemini-nano-banana-2.1": { "1K": 0.0336, "2K": 0.0504, "4K": 0.113 },
+    "gemini-3-pro-image": { "1K": 0.134, "2K": 0.134, "4K": 0.24 },
+    "gemini-omni-1.1-flash": { "720p": 0.10 }
+  }
+}
