@@ -115,7 +115,7 @@
         "James Ray Cock"
       ],
       "resolution": "1k",
-      "realWorldSize": "204.87193763256073×206.37669414281845 mm",
+      "realWorldSize": "204.87193763256073\u00d7206.37669414281845 mm",
       "textures": "PBR (diffuse, normal-GL, roughness, AO, displacement)",
       "rig": false,
       "files": [
@@ -152,7 +152,7 @@
         "spdx": "MIT",
         "commercial": true,
         "attribution": true,
-        "note": "Microsoft Rocketbox Avatar Library — keep MIT notice (library/LICENSES/rocketbox-MIT.txt)"
+        "note": "Microsoft Rocketbox Avatar Library \u2014 keep MIT notice (library/LICENSES/rocketbox-MIT.txt)"
       },
       "authors": [
         "Microsoft / Rocketbox"
@@ -287,7 +287,7 @@
         "spdx": "MIT",
         "commercial": true,
         "attribution": true,
-        "note": "Microsoft Rocketbox Avatar Library — keep MIT notice (library/LICENSES/rocketbox-MIT.txt)"
+        "note": "Microsoft Rocketbox Avatar Library \u2014 keep MIT notice (library/LICENSES/rocketbox-MIT.txt)"
       },
       "authors": [
         "Microsoft / Rocketbox"
@@ -428,6 +428,5057 @@
         "passed": true,
         "checks": {
           "downloaded": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:classic_laptop",
+      "source": "polyhaven",
+      "id": "classic_laptop",
+      "installedAt": "2026-10-24T20:39:27.140Z",
+      "kind": "model",
+      "title": "Classic Laptop",
+      "category": "Electronics & Appliances/Computing/Computers",
+      "tags": [
+        "collection: project_lighthouse",
+        "office",
+        "electronics",
+        "old",
+        "vintage",
+        "beige",
+        "notebook",
+        "lcd",
+        "trackball"
+      ],
+      "page": "https://polyhaven.com/a/classic_laptop",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Arrangemonk"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        652,
+        486,
+        543
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/classic_laptop/classic_laptop.glb"
+      ],
+      "sha256": "f41f22e0ed72d4e36b77e6f19c41ddd7fd38bc5b85ab742c57d515b2d8e5fb51",
+      "sizeBytes": 731392,
+      "preview": "library/.cache/models/polyhaven/classic_laptop/preview.jpg",
+      "stats": {
+        "tris": 14450,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.652,
+          0.543,
+          0.486
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:Television_01",
+      "source": "polyhaven",
+      "id": "Television_01",
+      "installedAt": "2026-10-24T20:39:31.804Z",
+      "kind": "model",
+      "title": "Television 01",
+      "category": "Electronics & Appliances/Audio & Video/Televisions",
+      "tags": [
+        "props",
+        "electronics",
+        "collection: the_shed",
+        "vintage",
+        "prop",
+        "furniture",
+        "metal",
+        "wood",
+        "tv",
+        "television",
+        "video",
+        "audio"
+      ],
+      "page": "https://polyhaven.com/a/Television_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Gabriel Radi\u0107"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        600,
+        471,
+        457
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/Television_01/Television_01.glb"
+      ],
+      "sha256": "c5ca9b8eda96c5516df08cbb837c47c1adfda72fd4ff94b2ef8a4da8b821b814",
+      "sizeBytes": 286628,
+      "preview": "library/.cache/models/polyhaven/Television_01/preview.jpg",
+      "stats": {
+        "tris": 1918,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.6,
+          0.457,
+          0.471
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:Camera_01",
+      "source": "polyhaven",
+      "id": "Camera_01",
+      "installedAt": "2026-10-24T20:39:38.084Z",
+      "kind": "model",
+      "title": "Camera 01",
+      "category": "Electronics & Appliances/Audio & Video/Cameras",
+      "tags": [
+        "props",
+        "electronics",
+        "vintage",
+        "camera",
+        "antique",
+        "ornate",
+        "photography",
+        "photography",
+        "retro",
+        "lens",
+        "classic",
+        "classic",
+        "analog"
+      ],
+      "page": "https://polyhaven.com/a/Camera_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Rajil Jose Macatangay"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        214,
+        263,
+        78
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/Camera_01/Camera_01.glb"
+      ],
+      "sha256": "a7f52b00ee6b32cd0786e05d9b3e0863553b6addf264255655b914ff37b613a4",
+      "sizeBytes": 1558924,
+      "preview": "library/.cache/models/polyhaven/Camera_01/preview.jpg",
+      "stats": {
+        "tris": 26987,
+        "meshes": 4,
+        "materials": 4,
+        "textures": 9,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.214,
+          0.078,
+          0.263
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:boombox",
+      "source": "polyhaven",
+      "id": "boombox",
+      "installedAt": "2026-10-24T20:39:43.242Z",
+      "kind": "model",
+      "title": "Boombox",
+      "category": "Electronics & Appliances/Audio & Video/Radios & Portable Audio",
+      "tags": [
+        "appliances",
+        "electronics",
+        "collection: hidden_alley",
+        "loudspeaker",
+        "radio",
+        "cd player",
+        "stereo",
+        "80's",
+        "sound system",
+        "portable"
+      ],
+      "page": "https://polyhaven.com/a/boombox",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Thomas Paul Mouilleron"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        724,
+        186,
+        470
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/boombox/boombox.glb"
+      ],
+      "sha256": "b0cdf2d7d6ca4dd86c8cc078aad76c7e6e52fe1789cf3f38eec1a321af02b761",
+      "sizeBytes": 739700,
+      "preview": "library/.cache/models/polyhaven/boombox/preview.jpg",
+      "stats": {
+        "tris": 10168,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 5,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.724,
+          0.47,
+          0.186
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:security_camera_01",
+      "source": "polyhaven",
+      "id": "security_camera_01",
+      "installedAt": "2026-10-24T20:39:48.211Z",
+      "kind": "model",
+      "title": "Security Camera 01",
+      "category": "Industrial & Infrastructure/Utility Equipment/Surveillance Cameras",
+      "tags": [
+        "electronics",
+        "appliances",
+        "industrial",
+        "rigged",
+        "collection: hidden_alley",
+        "cctv",
+        "surveillance",
+        "monitoring",
+        "police",
+        "security",
+        "camera",
+        "utility",
+        "infrastructure"
+      ],
+      "page": "https://polyhaven.com/a/security_camera_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Alexander Otterbeck",
+        "Yann Kervran"
+      ],
+      "rigged": true,
+      "dimensionsMm": [
+        170,
+        554,
+        286
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/security_camera_01/security_camera_01.glb"
+      ],
+      "sha256": "ac109ec3b03e927769a89e1c22c9eb20e1dfaf10331ebd4baff878fa25612086",
+      "sizeBytes": 545108,
+      "preview": "library/.cache/models/polyhaven/security_camera_01/preview.jpg",
+      "stats": {
+        "tris": 13571,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.17,
+          0.286,
+          0.554
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:CashRegister_01",
+      "source": "polyhaven",
+      "id": "CashRegister_01",
+      "installedAt": "2026-10-24T20:39:53.577Z",
+      "kind": "model",
+      "title": "Cash Register 01",
+      "category": "Electronics & Appliances/Devices & Instruments/Retail Machines",
+      "tags": [
+        "appliances",
+        "props",
+        "commercial",
+        "store",
+        "vintage",
+        "cash",
+        "transaction",
+        "register",
+        "money",
+        "sales",
+        "convenience store",
+        "cashier",
+        "retail",
+        "business"
+      ],
+      "page": "https://polyhaven.com/a/CashRegister_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Joe Seabuhr"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        600,
+        624,
+        621
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/CashRegister_01/CashRegister_01.glb"
+      ],
+      "sha256": "5a1f65cf4d79289204686b191725b21e4eeaeb1c0d3604ce748d108ac081444b",
+      "sizeBytes": 616916,
+      "preview": "library/.cache/models/polyhaven/CashRegister_01/preview.jpg",
+      "stats": {
+        "tris": 9927,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 5,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.6,
+          0.621,
+          0.624
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:ceiling_fan",
+      "source": "polyhaven",
+      "id": "ceiling_fan",
+      "installedAt": "2026-10-24T20:39:58.659Z",
+      "kind": "model",
+      "title": "Ceiling Fan",
+      "category": "Electronics & Appliances/Home Appliances/Fans",
+      "tags": [
+        "appliances",
+        "electronics",
+        "utility",
+        "ceiling",
+        "air circulation",
+        "ventilation",
+        "fixture",
+        "cooling",
+        "fan",
+        "interior"
+      ],
+      "page": "https://polyhaven.com/a/ceiling_fan",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Ulan Cabanilla"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1463,
+        1463,
+        516
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/ceiling_fan/ceiling_fan.glb"
+      ],
+      "sha256": "93fcb9a9990e61feeadfca0ee07de2a4626de906712d19bcaabca5748ed4325b",
+      "sizeBytes": 613324,
+      "preview": "library/.cache/models/polyhaven/ceiling_fan/preview.jpg",
+      "stats": {
+        "tris": 16356,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 4,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          1.463,
+          0.516,
+          1.463
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:electric_stove",
+      "source": "polyhaven",
+      "id": "electric_stove",
+      "installedAt": "2026-10-24T20:40:03.954Z",
+      "kind": "model",
+      "title": "Electric Stove",
+      "category": "Electronics & Appliances/Home Appliances/Stoves & Heaters",
+      "tags": [
+        "electronics",
+        "appliances",
+        "rigged",
+        "props",
+        "kitchen appliance",
+        "cooking equipment",
+        "stovetop",
+        "oven",
+        "cooktop",
+        "simple",
+        "white",
+        "cooking",
+        "kitchen"
+      ],
+      "page": "https://polyhaven.com/a/electric_stove",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Kuutti Siitonen"
+      ],
+      "rigged": true,
+      "dimensionsMm": [
+        503,
+        648,
+        859
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/electric_stove/electric_stove.glb"
+      ],
+      "sha256": "710f325a198b0c726fce3ce8f5b12dff86fcab26b68f175982e049b40efc16e0",
+      "sizeBytes": 645968,
+      "preview": "library/.cache/models/polyhaven/electric_stove/preview.jpg",
+      "stats": {
+        "tris": 13914,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.503,
+          0.859,
+          0.648
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:desk_lamp_arm_01",
+      "source": "polyhaven",
+      "id": "desk_lamp_arm_01",
+      "installedAt": "2026-10-24T20:40:08.733Z",
+      "kind": "model",
+      "title": "Desk Lamp Arm 01",
+      "category": "Lighting/Floor & Desk/Desk Lamps",
+      "tags": [
+        "lighting",
+        "rigged",
+        "collection: the_shed",
+        "industrial",
+        "lamp",
+        "mounted",
+        "fixed",
+        "desk",
+        "table",
+        "light",
+        "arm"
+      ],
+      "page": "https://polyhaven.com/a/desk_lamp_arm_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Yann Kervran",
+        "Kuutti Siitonen"
+      ],
+      "rigged": true,
+      "dimensionsMm": [
+        617,
+        408,
+        879
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/desk_lamp_arm_01/desk_lamp_arm_01.glb"
+      ],
+      "sha256": "d9724304fe4a1f49d9aaa1f20ecd809971c6baf073a399d86781a9fe5a56d672",
+      "sizeBytes": 1082580,
+      "preview": "library/.cache/models/polyhaven/desk_lamp_arm_01/preview.jpg",
+      "stats": {
+        "tris": 24102,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.202,
+          0.893,
+          0.614
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:metal_office_desk",
+      "source": "polyhaven",
+      "id": "metal_office_desk",
+      "installedAt": "2026-10-24T20:40:13.628Z",
+      "kind": "model",
+      "title": "Metal Office Desk",
+      "category": "Furniture/Tables/Desks",
+      "tags": [
+        "collection: project_lighthouse",
+        "furniture",
+        "table",
+        "office",
+        "old",
+        "vintage",
+        "metal",
+        "dirty",
+        "scratched",
+        "industrial",
+        "rectangular"
+      ],
+      "page": "https://polyhaven.com/a/metal_office_desk",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Ulan Cabanilla"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        2000,
+        947,
+        788
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/metal_office_desk/metal_office_desk.glb"
+      ],
+      "sha256": "dc3a0478ec34718e77a5216ac43bdce8c3bfc72cb598bd08538543483fc1275a",
+      "sizeBytes": 370696,
+      "preview": "library/.cache/models/polyhaven/metal_office_desk/preview.jpg",
+      "stats": {
+        "tris": 6898,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          2,
+          0.788,
+          0.947
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:wall_clock",
+      "source": "polyhaven",
+      "id": "wall_clock",
+      "installedAt": "2026-10-24T20:40:19.371Z",
+      "kind": "model",
+      "title": "Wall Clock",
+      "category": "Decor & Art/Wall Decor/Wall Clocks",
+      "tags": [
+        "collection: project_lighthouse",
+        "decorative",
+        "appliances",
+        "time",
+        "timepiece",
+        "watch",
+        "watchface",
+        "wall clock",
+        "analog",
+        "modern",
+        "office decor",
+        "home interior",
+        "admin",
+        "office",
+        "90s"
+      ],
+      "page": "https://polyhaven.com/a/wall_clock",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "PierreB3D"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        320,
+        47,
+        320
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/wall_clock/wall_clock.glb"
+      ],
+      "sha256": "5f0f58c8cc9a441dddf79a03dfc57cd205c2588e616139abb440a74afab6cb2e",
+      "sizeBytes": 267536,
+      "preview": "library/.cache/models/polyhaven/wall_clock/preview.jpg",
+      "stats": {
+        "tris": 3658,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 4,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.32,
+          0.32,
+          0.047
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:stationery_supplies",
+      "source": "polyhaven",
+      "id": "stationery_supplies",
+      "installedAt": "2026-10-24T20:40:23.949Z",
+      "kind": "model",
+      "title": "Stationery Supplies",
+      "category": "Office & Stationery/Stationery & Supplies/Writing Instruments",
+      "tags": [
+        "collection: project_lighthouse",
+        "props",
+        "office",
+        "pen",
+        "pencil",
+        "eraser",
+        "stationery",
+        "art supplies",
+        "writing",
+        "office",
+        "desk"
+      ],
+      "page": "https://polyhaven.com/a/stationery_supplies",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Mateusz Sadek"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        302,
+        84,
+        164
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/stationery_supplies/stationery_supplies.glb"
+      ],
+      "sha256": "45cccbb501c60b08c3ded1c07d5407539080ebaba8172e811a241c7578e96443",
+      "sizeBytes": 352428,
+      "preview": "library/.cache/models/polyhaven/stationery_supplies/preview.jpg",
+      "stats": {
+        "tris": 4412,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.302,
+          0.164,
+          0.084
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:binder_notebook",
+      "source": "polyhaven",
+      "id": "binder_notebook",
+      "installedAt": "2026-10-24T20:40:28.933Z",
+      "kind": "model",
+      "title": "Binder Notebook",
+      "category": "Office & Stationery/Stationery & Supplies/Notebooks & Pads",
+      "tags": [
+        "collection: project_lighthouse",
+        "books",
+        "props",
+        "old",
+        "leather",
+        "vintage",
+        "worn",
+        "paper",
+        "pencil",
+        "pen",
+        "journal"
+      ],
+      "page": "https://polyhaven.com/a/binder_notebook",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "DaDrood"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        584,
+        200,
+        25
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/binder_notebook/binder_notebook.glb"
+      ],
+      "sha256": "e140644e926a7ee2889953a6fc554f62f4bc2e15c278edbb14cfc75bae5f37be",
+      "sizeBytes": 666300,
+      "preview": "library/.cache/models/polyhaven/binder_notebook/preview.jpg",
+      "stats": {
+        "tris": 18077,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.584,
+          0.025,
+          0.2
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:clipboard",
+      "source": "polyhaven",
+      "id": "clipboard",
+      "installedAt": "2026-10-24T20:40:34.215Z",
+      "kind": "model",
+      "title": "Clipboard",
+      "category": "Office & Stationery/Stationery & Supplies/Clipboards & Boards",
+      "tags": [
+        "collection: project_lighthouse",
+        "office",
+        "props",
+        "writing",
+        "desk",
+        "stationery",
+        "metal",
+        "scratched"
+      ],
+      "page": "https://polyhaven.com/a/clipboard",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "ProgrammerOnCoffee"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        229,
+        337,
+        42
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/clipboard/clipboard.glb"
+      ],
+      "sha256": "256b9bc54a99b8cd9ba3d96a1a367533e90676f5c748f3fa0513c0395128f728",
+      "sizeBytes": 318592,
+      "preview": "library/.cache/models/polyhaven/clipboard/preview.jpg",
+      "stats": {
+        "tris": 6176,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.229,
+          0.042,
+          0.337
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:projector_screen",
+      "source": "polyhaven",
+      "id": "projector_screen",
+      "installedAt": "2026-10-24T20:40:39.215Z",
+      "kind": "model",
+      "title": "Projector Screen",
+      "category": "Electronics & Appliances/Audio & Video/Projectors",
+      "tags": [
+        "collection: project_lighthouse",
+        "office",
+        "tripod",
+        "film",
+        "presentation",
+        "projection",
+        "roll-up",
+        "conference"
+      ],
+      "page": "https://polyhaven.com/a/projector_screen",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "PeterM"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1094,
+        916,
+        1799
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/projector_screen/projector_screen.glb"
+      ],
+      "sha256": "b5b89e367473e160a7a726cdd116246a9e256992ad5c73ae4483d937ab241496",
+      "sizeBytes": 505464,
+      "preview": "library/.cache/models/polyhaven/projector_screen/preview.jpg",
+      "stats": {
+        "tris": 8727,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 6,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          1.094,
+          1.799,
+          0.916
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:office_notepads",
+      "source": "polyhaven",
+      "id": "office_notepads",
+      "installedAt": "2026-10-24T20:40:43.809Z",
+      "kind": "model",
+      "title": "Office Notepads",
+      "category": "Office & Stationery/Stationery & Supplies/Notebooks & Pads",
+      "tags": [
+        "collection: project_lighthouse",
+        "props",
+        "office",
+        "stationery",
+        "notepad",
+        "lined paper",
+        "blank paper",
+        "art supplies",
+        "office",
+        "admin",
+        "sticky notes",
+        "filing",
+        "writing",
+        "business"
+      ],
+      "page": "https://polyhaven.com/a/office_notepads",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Ulan Cabanilla"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1103,
+        660,
+        22
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/office_notepads/office_notepads.glb"
+      ],
+      "sha256": "8b5b9a95e92e6d590a67eadc321ecb2ed1c4557d65e8b7c6a65979a427a74090",
+      "sizeBytes": 90540,
+      "preview": "library/.cache/models/polyhaven/office_notepads/preview.jpg",
+      "stats": {
+        "tris": 666,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          1.103,
+          0.022,
+          0.66
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:vintage_stapler",
+      "source": "polyhaven",
+      "id": "vintage_stapler",
+      "installedAt": "2026-10-24T20:40:48.835Z",
+      "kind": "model",
+      "title": "Vintage Stapler",
+      "category": "Office & Stationery/Stationery & Supplies/Office Tools",
+      "tags": [
+        "collection: project_lighthouse",
+        "props",
+        "tools",
+        "office",
+        "vintage",
+        "stationery",
+        "metal",
+        "retro"
+      ],
+      "page": "https://polyhaven.com/a/vintage_stapler",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Mateusz Sadek"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        208,
+        47,
+        95
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/vintage_stapler/vintage_stapler.glb"
+      ],
+      "sha256": "5104da5648956d803ff037dea28e15a84d26cbe0dda0f67ddf7f718c2c1a8f92",
+      "sizeBytes": 447664,
+      "preview": "library/.cache/models/polyhaven/vintage_stapler/preview.jpg",
+      "stats": {
+        "tris": 4370,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.208,
+          0.095,
+          0.047
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:alarm_clock_01",
+      "source": "polyhaven",
+      "id": "alarm_clock_01",
+      "installedAt": "2026-10-24T20:40:53.851Z",
+      "kind": "model",
+      "title": "Alarm Clock 01",
+      "category": "Electronics & Appliances/Clocks & Timepieces/Alarm Clocks",
+      "tags": [
+        "props",
+        "decorative",
+        "rigged",
+        "clock",
+        "time",
+        "alarm",
+        "bedside",
+        "old",
+        "90s",
+        "watch",
+        "blue",
+        "aqua"
+      ],
+      "page": "https://polyhaven.com/a/alarm_clock_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Yann Kervran",
+        "James Ray Cock"
+      ],
+      "rigged": true,
+      "dimensionsMm": [
+        228,
+        168,
+        174
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/alarm_clock_01/alarm_clock_01.glb"
+      ],
+      "sha256": "4d41ed6980d59cf87109c5280b813d21c9d8eb2e06679401b83438d1843d1f78",
+      "sizeBytes": 456636,
+      "preview": "library/.cache/models/polyhaven/alarm_clock_01/preview.jpg",
+      "stats": {
+        "tris": 8985,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.132,
+          0.174,
+          0.067
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:mantel_clock_01",
+      "source": "polyhaven",
+      "id": "mantel_clock_01",
+      "installedAt": "2026-10-24T20:40:59.095Z",
+      "kind": "model",
+      "title": "Mantel Clock 01",
+      "category": "Electronics & Appliances/Clocks & Timepieces/Mantel Clocks",
+      "tags": [
+        "decorative",
+        "appliances",
+        "rigged",
+        "vintage",
+        "antique",
+        "old",
+        "clock",
+        "time",
+        "wooden",
+        "shelf",
+        "mantel",
+        "fireplace",
+        "ornate"
+      ],
+      "page": "https://polyhaven.com/a/mantel_clock_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Yann Kervran",
+        "Rico Cilliers"
+      ],
+      "rigged": true,
+      "dimensionsMm": [
+        484,
+        251,
+        161
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/mantel_clock_01/mantel_clock_01.glb"
+      ],
+      "sha256": "9fabaa91550465bea20e50a6b5ad70cc5e50c6f8c372e9bfd7d7428a5edbed1b",
+      "sizeBytes": 863812,
+      "preview": "library/.cache/models/polyhaven/mantel_clock_01/preview.jpg",
+      "stats": {
+        "tris": 25721,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.342,
+          0.16,
+          0.126
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:retro_multimeter",
+      "source": "polyhaven",
+      "id": "retro_multimeter",
+      "installedAt": "2026-10-24T20:41:04.002Z",
+      "kind": "model",
+      "title": "Retro Multimeter",
+      "category": "Electronics & Appliances/Devices & Instruments/Lab Equipment",
+      "tags": [
+        "collection: project_lighthouse",
+        "electronics",
+        "industrial",
+        "tools",
+        "instrument",
+        "props",
+        "old",
+        "vintage",
+        "antique",
+        "analog",
+        "engineering",
+        "voltmeter",
+        "ammeter"
+      ],
+      "page": "https://polyhaven.com/a/retro_multimeter",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "elli moeller"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        216,
+        203,
+        279
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/retro_multimeter/retro_multimeter.glb"
+      ],
+      "sha256": "422f7ddb3e52410bfd064220d4cd84cb9fd7a19cf6c95c8b9d174c8b99c22a92",
+      "sizeBytes": 376108,
+      "preview": "library/.cache/models/polyhaven/retro_multimeter/preview.jpg",
+      "stats": {
+        "tris": 8948,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.216,
+          0.279,
+          0.203
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:vintage_microscope",
+      "source": "polyhaven",
+      "id": "vintage_microscope",
+      "installedAt": "2026-10-24T20:41:08.713Z",
+      "kind": "model",
+      "title": "Vintage Microscope",
+      "category": "Electronics & Appliances/Devices & Instruments/Lab Equipment",
+      "tags": [
+        "collection: project_lighthouse",
+        "instrument",
+        "industrial",
+        "tools",
+        "antique",
+        "brass",
+        "scientific",
+        "optical",
+        "lab equipment",
+        "gold"
+      ],
+      "page": "https://polyhaven.com/a/vintage_microscope",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Luis Jos\u00e9 Fern\u00e1ndez Rodr\u00edguez"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        107,
+        182,
+        400
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/vintage_microscope/vintage_microscope.glb"
+      ],
+      "sha256": "0e7274358f4869ff4918024054b56cf3dad4e03523b2a493a280c53511790fbe",
+      "sizeBytes": 911772,
+      "preview": "library/.cache/models/polyhaven/vintage_microscope/preview.jpg",
+      "stats": {
+        "tris": 20631,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.107,
+          0.4,
+          0.182
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:magnifying_glass_01",
+      "source": "polyhaven",
+      "id": "magnifying_glass_01",
+      "installedAt": "2026-10-24T20:41:13.711Z",
+      "kind": "model",
+      "title": "Magnifying Glass 01",
+      "category": "Electronics & Appliances/Devices & Instruments/Optical Instruments",
+      "tags": [
+        "props",
+        "tools",
+        "eye",
+        "focal",
+        "lense",
+        "magnifier",
+        "magnifying lens",
+        "inspection",
+        "optical tool",
+        "reading aid"
+      ],
+      "page": "https://polyhaven.com/a/magnifying_glass_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Nazar Borodavka"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        132,
+        27,
+        272
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/magnifying_glass_01/magnifying_glass_01.glb"
+      ],
+      "sha256": "f20aa43a3142aa32bfc5e0c7b0e47c86c1da4929a505f59b52e5439f1ac6973c",
+      "sizeBytes": 264824,
+      "preview": "library/.cache/models/polyhaven/magnifying_glass_01/preview.jpg",
+      "stats": {
+        "tris": 7240,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 4,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.132,
+          0.272,
+          0.027
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:sofa_02",
+      "source": "polyhaven",
+      "id": "sofa_02",
+      "installedAt": "2026-10-24T20:41:18.174Z",
+      "kind": "model",
+      "title": "Sofa 02",
+      "category": "Furniture/Seating/Sofas & Couches",
+      "tags": [
+        "furniture",
+        "seating",
+        "wood",
+        "furniture",
+        "chair",
+        "prop",
+        "couch",
+        "leather",
+        "fabric"
+      ],
+      "page": "https://polyhaven.com/a/sofa_02",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Kirill Sannikov"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1807,
+        818,
+        709
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/sofa_02/sofa_02.glb"
+      ],
+      "sha256": "239ce38b95e92db45c5641ff4366374ab4d2b910280ed406fe5283a68ec91016",
+      "sizeBytes": 221516,
+      "preview": "library/.cache/models/polyhaven/sofa_02/preview.jpg",
+      "stats": {
+        "tris": 2728,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          1.807,
+          0.709,
+          0.818
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:sofa_03",
+      "source": "polyhaven",
+      "id": "sofa_03",
+      "installedAt": "2026-10-24T20:41:22.776Z",
+      "kind": "model",
+      "title": "Sofa 03",
+      "category": "Furniture/Seating/Sofas & Couches",
+      "tags": [
+        "furniture",
+        "seating",
+        "vintage",
+        "chair",
+        "couch",
+        "seat",
+        "fancy",
+        "mansion",
+        "manor",
+        "victorian",
+        "antique",
+        "leather"
+      ],
+      "page": "https://polyhaven.com/a/sofa_03",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Fran Calvente"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        2731,
+        925,
+        1118
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/sofa_03/sofa_03.glb"
+      ],
+      "sha256": "02de379adbce1996a1103edfdc66ba1d68129d5032359b7208d961e5fda618a2",
+      "sizeBytes": 460276,
+      "preview": "library/.cache/models/polyhaven/sofa_03/preview.jpg",
+      "stats": {
+        "tris": 8004,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          2.731,
+          1.118,
+          0.925
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:modern_arm_chair_01",
+      "source": "polyhaven",
+      "id": "modern_arm_chair_01",
+      "installedAt": "2026-10-24T20:41:28.036Z",
+      "kind": "model",
+      "title": "Modern Arm Chair 01",
+      "category": "Furniture/Seating/Chairs",
+      "tags": [
+        "furniture",
+        "seating",
+        "office",
+        "wood",
+        "leather",
+        "fancy",
+        "modern",
+        "chair",
+        "contemporary",
+        "wooden",
+        "lounge"
+      ],
+      "page": "https://polyhaven.com/a/modern_arm_chair_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Vibrant Nordic"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        820,
+        987,
+        1023
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/modern_arm_chair_01/modern_arm_chair_01.glb"
+      ],
+      "sha256": "2363df6d5185404637fb224bbaab37df69a9fa1698f94fc9d7dc7c6730eca5f1",
+      "sizeBytes": 499396,
+      "preview": "library/.cache/models/polyhaven/modern_arm_chair_01/preview.jpg",
+      "stats": {
+        "tris": 8916,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 6,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.82,
+          1.023,
+          0.987
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:round_wooden_table_01",
+      "source": "polyhaven",
+      "id": "round_wooden_table_01",
+      "installedAt": "2026-10-24T20:41:32.369Z",
+      "kind": "model",
+      "title": "Round Wooden Table 01",
+      "category": "Furniture/Tables/Dining Tables",
+      "tags": [
+        "furniture",
+        "table",
+        "vintage",
+        "wooden",
+        "wood",
+        "polish",
+        "circle",
+        "dark",
+        "old"
+      ],
+      "page": "https://polyhaven.com/a/round_wooden_table_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Ulan Cabanilla"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1399,
+        1399,
+        1005
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/round_wooden_table_01/round_wooden_table_01.glb"
+      ],
+      "sha256": "9c669f2ce4b79d60c849c5b6cef192ed113bebdb033cbd1a0f2997586a37498e",
+      "sizeBytes": 360660,
+      "preview": "library/.cache/models/polyhaven/round_wooden_table_01/preview.jpg",
+      "stats": {
+        "tris": 8640,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          1.399,
+          1.005,
+          1.399
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:wooden_table_02",
+      "source": "polyhaven",
+      "id": "wooden_table_02",
+      "installedAt": "2026-10-24T20:41:36.980Z",
+      "kind": "model",
+      "title": "Wooden Table 02",
+      "category": "Furniture/Tables/Dining Tables",
+      "tags": [
+        "furniture",
+        "table",
+        "wooden",
+        "worn",
+        "village",
+        "rural",
+        "natural",
+        "simple"
+      ],
+      "page": "https://polyhaven.com/a/wooden_table_02",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Serhii Khromov"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1134,
+        706,
+        800
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/wooden_table_02/wooden_table_02.glb"
+      ],
+      "sha256": "2ee35d9aff6c292fac9a52f1b9ddaae624f8702105128309474f2e73427f3c98",
+      "sizeBytes": 213496,
+      "preview": "library/.cache/models/polyhaven/wooden_table_02/preview.jpg",
+      "stats": {
+        "tris": 196,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          1.134,
+          0.8,
+          0.706
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:outdoor_table_chair_set_01",
+      "source": "polyhaven",
+      "id": "outdoor_table_chair_set_01",
+      "installedAt": "2026-10-24T20:41:41.927Z",
+      "kind": "model",
+      "title": "Outdoor Table Chair Set 01",
+      "category": "Furniture/Seating/Outdoor Seating",
+      "tags": [
+        "furniture",
+        "seating",
+        "outdoor",
+        "foldable",
+        "folding",
+        "seating",
+        "coffee",
+        "diner",
+        "street",
+        "urban",
+        "deli",
+        "wood",
+        "city",
+        "cafe"
+      ],
+      "page": "https://polyhaven.com/a/outdoor_table_chair_set_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "James Ray Cock"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        776,
+        1831,
+        859
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/outdoor_table_chair_set_01/outdoor_table_chair_set_01.glb"
+      ],
+      "sha256": "e54ca627684aee02ac318f590346b65bf5f333e554b79b39c4f72caf5d5e9d01",
+      "sizeBytes": 755132,
+      "preview": "library/.cache/models/polyhaven/outdoor_table_chair_set_01/preview.jpg",
+      "stats": {
+        "tris": 9828,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 6,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.742,
+          0.859,
+          1.717
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:GreenChair_01",
+      "source": "polyhaven",
+      "id": "GreenChair_01",
+      "installedAt": "2026-10-24T20:41:46.475Z",
+      "kind": "model",
+      "title": "Green Chair 01",
+      "category": "Furniture/Seating/Chairs",
+      "tags": [
+        "furniture",
+        "seating",
+        "vintage",
+        "wood",
+        "gothic",
+        "furniture",
+        "chair",
+        "fabric",
+        "decorative"
+      ],
+      "page": "https://polyhaven.com/a/GreenChair_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Kirill Sannikov"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        673,
+        664,
+        1059
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/GreenChair_01/GreenChair_01.glb"
+      ],
+      "sha256": "3bddbae9f24cf6e8b6e27cd92b0f09ff6504f18a7965038ef604ae6aefad02f0",
+      "sizeBytes": 365452,
+      "preview": "library/.cache/models/polyhaven/GreenChair_01/preview.jpg",
+      "stats": {
+        "tris": 4213,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.673,
+          1.059,
+          0.664
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:Ottoman_01",
+      "source": "polyhaven",
+      "id": "Ottoman_01",
+      "installedAt": "2026-10-24T20:41:51.042Z",
+      "kind": "model",
+      "title": "Ottoman 01",
+      "category": "Furniture/Seating/Ottomans & Footstools",
+      "tags": [
+        "furniture",
+        "seating",
+        "furniture",
+        "leather",
+        "chair",
+        "fabric",
+        "ottoman",
+        "upholstery",
+        "interior design",
+        "living room",
+        "lounge"
+      ],
+      "page": "https://polyhaven.com/a/Ottoman_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Caspian Fortune"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        885,
+        621,
+        624
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/Ottoman_01/Ottoman_01.glb"
+      ],
+      "sha256": "73df15ef15c7e068d319f67b323108b66f00acfe6ce63d3b7c9d7bf5826e04d7",
+      "sizeBytes": 395232,
+      "preview": "library/.cache/models/polyhaven/Ottoman_01/preview.jpg",
+      "stats": {
+        "tris": 4240,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.885,
+          0.624,
+          0.621
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:steel_frame_shelves_01",
+      "source": "polyhaven",
+      "id": "steel_frame_shelves_01",
+      "installedAt": "2026-10-24T20:41:55.507Z",
+      "kind": "model",
+      "title": "Steel Frame Shelves 01",
+      "category": "Furniture/Storage Furniture/Shelving & Bookcases",
+      "tags": [
+        "furniture",
+        "shelves",
+        "industrial",
+        "collection: the_shed",
+        "commercial",
+        "modern",
+        "shelf",
+        "bookshelf",
+        "metal",
+        "wood"
+      ],
+      "page": "https://polyhaven.com/a/steel_frame_shelves_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "James Ray Cock"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1097,
+        502,
+        2141
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/steel_frame_shelves_01/steel_frame_shelves_01.glb"
+      ],
+      "sha256": "447fc087d97e2ed2d62cd2d0430fb1a6fbd4ba21b06f70016c1b2bd357aee015",
+      "sizeBytes": 288432,
+      "preview": "library/.cache/models/polyhaven/steel_frame_shelves_01/preview.jpg",
+      "stats": {
+        "tris": 4348,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          10.974,
+          21.405,
+          5.021
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:vintage_wooden_drawer_01",
+      "source": "polyhaven",
+      "id": "vintage_wooden_drawer_01",
+      "installedAt": "2026-10-24T20:42:00.271Z",
+      "kind": "model",
+      "title": "Vintage Wooden Drawer 01",
+      "category": "Furniture/Storage Furniture/Drawers & Dressers",
+      "tags": [
+        "furniture",
+        "shelves",
+        "table",
+        "vintage",
+        "old",
+        "filing",
+        "drawer",
+        "office",
+        "wooden",
+        "worn",
+        "cabinet"
+      ],
+      "page": "https://polyhaven.com/a/vintage_wooden_drawer_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "James Ray Cock"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1715,
+        1007,
+        1091
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/vintage_wooden_drawer_01/vintage_wooden_drawer_01.glb"
+      ],
+      "sha256": "e647e6a8904793c61b6dba42f489f99a3ad4ff59919479c9b53bdb545b59e64f",
+      "sizeBytes": 438516,
+      "preview": "library/.cache/models/polyhaven/vintage_wooden_drawer_01/preview.jpg",
+      "stats": {
+        "tris": 5184,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          1.715,
+          1.091,
+          1.007
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:modern_ceiling_lamp_01",
+      "source": "polyhaven",
+      "id": "modern_ceiling_lamp_01",
+      "installedAt": "2026-10-24T20:42:04.827Z",
+      "kind": "model",
+      "title": "Modern Ceiling Lamp 01",
+      "category": "Lighting/Ceiling/Pendant Lights",
+      "tags": [
+        "lighting",
+        "lighting",
+        "light",
+        "modern",
+        "glass",
+        "round",
+        "hanging",
+        "hanging lamp",
+        "ceiling lamp",
+        "decorative lighting",
+        "modern decor",
+        "interior design"
+      ],
+      "page": "https://polyhaven.com/a/modern_ceiling_lamp_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "James Ray Cock"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        432,
+        432,
+        952
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/modern_ceiling_lamp_01/modern_ceiling_lamp_01.glb"
+      ],
+      "sha256": "678a73b588e1e7dc5bdd0aa23d10fd69005fedbe70262456d22cb7012bc3c90b",
+      "sizeBytes": 265336,
+      "preview": "library/.cache/models/polyhaven/modern_ceiling_lamp_01/preview.jpg",
+      "stats": {
+        "tris": 5602,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.432,
+          0.952,
+          0.432
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:Drill_01",
+      "source": "polyhaven",
+      "id": "Drill_01",
+      "installedAt": "2026-10-24T20:42:09.505Z",
+      "kind": "model",
+      "title": "Drill 01",
+      "category": "Tools & Equipment/Power Tools/Drills",
+      "tags": [
+        "props",
+        "tools",
+        "electronics",
+        "collection: the_shed",
+        "metal",
+        "plastic",
+        "tool",
+        "drill",
+        "prop"
+      ],
+      "page": "https://polyhaven.com/a/Drill_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Fernando Quinn"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        183,
+        52,
+        185
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/Drill_01/Drill_01.glb"
+      ],
+      "sha256": "f5b6e5b2bdf3d7648a54fd9dde191a7325d0e21751986f7b7e3cbcd597feb7c9",
+      "sizeBytes": 267180,
+      "preview": "library/.cache/models/polyhaven/Drill_01/preview.jpg",
+      "stats": {
+        "tris": 2926,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.183,
+          0.185,
+          0.052
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:metal_tool_chest",
+      "source": "polyhaven",
+      "id": "metal_tool_chest",
+      "installedAt": "2026-10-24T20:42:14.256Z",
+      "kind": "model",
+      "title": "Metal Tool Chest",
+      "category": "Tools & Equipment/Workshop Equipment/Tool Chests",
+      "tags": [
+        "props",
+        "tools",
+        "industrial",
+        "containers",
+        "rigged",
+        "collection: the_shed",
+        "old",
+        "metal",
+        "garage",
+        "workshop",
+        "storage",
+        "shed",
+        "worn",
+        "mechanics toolbox",
+        "rusted",
+        "steel",
+        "red"
+      ],
+      "page": "https://polyhaven.com/a/metal_tool_chest",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Yann Kervran",
+        "John Hutcheson"
+      ],
+      "rigged": true,
+      "dimensionsMm": [
+        685,
+        407,
+        652
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/metal_tool_chest/metal_tool_chest.glb"
+      ],
+      "sha256": "8cc0d332c94fd987346448a247e187fdf8faf9b7785c2ad5979e998aa64e8dc7",
+      "sizeBytes": 667444,
+      "preview": "library/.cache/models/polyhaven/metal_tool_chest/preview.jpg",
+      "stats": {
+        "tris": 13360,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.685,
+          0.652,
+          0.407
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:wooden_hammer_01",
+      "source": "polyhaven",
+      "id": "wooden_hammer_01",
+      "installedAt": "2026-10-24T20:42:18.654Z",
+      "kind": "model",
+      "title": "Wooden Hammer 01",
+      "category": "Tools & Equipment/Hand Tools/Hammers & Mallets",
+      "tags": [
+        "industrial",
+        "tools",
+        "props",
+        "collection: the_shed",
+        "wooden",
+        "worn",
+        "used",
+        "old",
+        "dirty",
+        "mallet",
+        "nails",
+        "woodwork",
+        "workshop",
+        "metal",
+        "hammer",
+        "hardware",
+        "craftsmanship"
+      ],
+      "page": "https://polyhaven.com/a/wooden_hammer_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "James Ray Cock"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        112,
+        23,
+        279
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/wooden_hammer_01/wooden_hammer_01.glb"
+      ],
+      "sha256": "4490745e938b4ed369f808af2be9ee010b3d1e204bd6a3d58151059ce0474285",
+      "sizeBytes": 317028,
+      "preview": "library/.cache/models/polyhaven/wooden_hammer_01/preview.jpg",
+      "stats": {
+        "tris": 3617,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.112,
+          0.279,
+          0.023
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:measuring_tape_01",
+      "source": "polyhaven",
+      "id": "measuring_tape_01",
+      "installedAt": "2026-10-24T20:42:23.195Z",
+      "kind": "model",
+      "title": "Measuring Tape 01",
+      "category": "Tools & Equipment/Hand Tools/Measuring Tools",
+      "tags": [
+        "industrial",
+        "tools",
+        "props",
+        "collection: the_shed",
+        "tape",
+        "ruler",
+        "measure",
+        "tool",
+        "toolbox",
+        "woodwork"
+      ],
+      "page": "https://polyhaven.com/a/measuring_tape_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Kuutti Siitonen"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        41,
+        169,
+        73
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/measuring_tape_01/measuring_tape_01.glb"
+      ],
+      "sha256": "9ecb47b2b889b21b4a4bd27b8bfeba558c1b3446491f4b1804ffa89d11f5b455",
+      "sizeBytes": 244036,
+      "preview": "library/.cache/models/polyhaven/measuring_tape_01/preview.jpg",
+      "stats": {
+        "tris": 2868,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.041,
+          0.073,
+          0.169
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:handsaw_wood",
+      "source": "polyhaven",
+      "id": "handsaw_wood",
+      "installedAt": "2026-10-24T20:42:28.268Z",
+      "kind": "model",
+      "title": "Handsaw Wood",
+      "category": "Tools & Equipment/Hand Tools/Saws & Cutting",
+      "tags": [
+        "props",
+        "tools",
+        "industrial",
+        "collection: the_shed",
+        "wooden",
+        "workshop",
+        "shed",
+        "woodwork",
+        "worn",
+        "metal",
+        "carpentry",
+        "garage",
+        "saw"
+      ],
+      "page": "https://polyhaven.com/a/handsaw_wood",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Konrad Sza\u0142ankiewicz"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        41,
+        633,
+        167
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/handsaw_wood/handsaw_wood.glb"
+      ],
+      "sha256": "f6b701d5a531c0d92fd7b3f3218ac269403c41ff45943de0cdc2877536aaa196",
+      "sizeBytes": 525904,
+      "preview": "library/.cache/models/polyhaven/handsaw_wood/preview.jpg",
+      "stats": {
+        "tris": 2548,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.041,
+          0.167,
+          0.633
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:crowbar_01",
+      "source": "polyhaven",
+      "id": "crowbar_01",
+      "installedAt": "2026-10-24T20:42:32.981Z",
+      "kind": "model",
+      "title": "Crowbar 01",
+      "category": "Tools & Equipment/Hand Tools/Pry Bars",
+      "tags": [
+        "tools",
+        "industrial",
+        "props",
+        "collection: the_shed",
+        "metal",
+        "shed",
+        "workshop",
+        "garage",
+        "used",
+        "dirty",
+        "construction",
+        "carpentry",
+        "nails",
+        "farmhouse"
+      ],
+      "page": "https://polyhaven.com/a/crowbar_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Alexander Otterbeck"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        40,
+        128,
+        555
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/crowbar_01/crowbar_01.glb"
+      ],
+      "sha256": "8a5291a5993f53b7d8b829d08b9ff7ccc462ae03be1cfeb7a022b8f86048e65a",
+      "sizeBytes": 274688,
+      "preview": "library/.cache/models/polyhaven/crowbar_01/preview.jpg",
+      "stats": {
+        "tris": 2300,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.04,
+          0.555,
+          0.128
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:ladder_sectioned_01",
+      "source": "polyhaven",
+      "id": "ladder_sectioned_01",
+      "installedAt": "2026-10-24T20:42:38.007Z",
+      "kind": "model",
+      "title": "Ladder Sectioned 01",
+      "category": "Tools & Equipment/Workshop Equipment/Ladders",
+      "tags": [
+        "industrial",
+        "tools",
+        "collection: the_shed",
+        "scaffolding",
+        "foldable",
+        "folding",
+        "steps",
+        "metal",
+        "building",
+        "construction",
+        "workshop",
+        "garage",
+        "shed"
+      ],
+      "page": "https://polyhaven.com/a/ladder_sectioned_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "MP"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        662,
+        178,
+        2135
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/ladder_sectioned_01/ladder_sectioned_01.glb"
+      ],
+      "sha256": "b4dc8ce8677ea0b7737e22e9a2d308f22d3002679e6f0bebd39be2039d9ce78f",
+      "sizeBytes": 1110308,
+      "preview": "library/.cache/models/polyhaven/ladder_sectioned_01/preview.jpg",
+      "stats": {
+        "tris": 29140,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.662,
+          2.135,
+          0.178
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:cardboard_box_01",
+      "source": "polyhaven",
+      "id": "cardboard_box_01",
+      "installedAt": "2026-10-24T20:42:42.886Z",
+      "kind": "model",
+      "title": "Cardboard Box 01",
+      "category": "Containers & Storage/Boxes & Crates/Cardboard Boxes",
+      "tags": [
+        "industrial",
+        "containers",
+        "collection: the_shed",
+        "warehouse",
+        "shed",
+        "storage",
+        "box",
+        "paper",
+        "worn",
+        "old",
+        "broken",
+        "damaged",
+        "garage"
+      ],
+      "page": "https://polyhaven.com/a/cardboard_box_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Rahul Chaudhary"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        387,
+        516,
+        342
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/cardboard_box_01/cardboard_box_01.glb"
+      ],
+      "sha256": "1cead4dbace781d7926108cea2003ce46720a51827673818e7e297e89dbab4c8",
+      "sizeBytes": 607260,
+      "preview": "library/.cache/models/polyhaven/cardboard_box_01/preview.jpg",
+      "stats": {
+        "tris": 16952,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.387,
+          0.342,
+          0.516
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:Barrel_01",
+      "source": "polyhaven",
+      "id": "Barrel_01",
+      "installedAt": "2026-10-24T20:42:47.777Z",
+      "kind": "model",
+      "title": "Barrel_01",
+      "category": "Containers & Storage/Barrels & Drums/Metal Drums",
+      "tags": [
+        "industrial",
+        "containers",
+        "barrel",
+        "oil",
+        "explosive",
+        "radioactive",
+        "metal",
+        "red barrel",
+        "oil barrel",
+        "drums",
+        "fuel barrel",
+        "explosive barrel",
+        "industrial"
+      ],
+      "page": "https://polyhaven.com/a/Barrel_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Jorge Camacho"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        563,
+        563,
+        880
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/Barrel_01/Barrel_01.glb"
+      ],
+      "sha256": "3edd741fd125eaddb134d0c0c01f078625787e6e4da7821ec4938ce69af6e345",
+      "sizeBytes": 410152,
+      "preview": "library/.cache/models/polyhaven/Barrel_01/preview.jpg",
+      "stats": {
+        "tris": 2682,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.563,
+          0.88,
+          0.563
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:concrete_road_barrier_02",
+      "source": "polyhaven",
+      "id": "concrete_road_barrier_02",
+      "installedAt": "2026-10-24T20:42:52.469Z",
+      "kind": "model",
+      "title": "Concrete Road Barrier 02",
+      "category": "Industrial & Infrastructure/Traffic & Safety/Road Barriers",
+      "tags": [
+        "industrial",
+        "structures",
+        "collection: hidden_alley",
+        "road barrier",
+        "traffic barrier",
+        "safety barrier",
+        "wall",
+        "road",
+        "road block",
+        "blockade"
+      ],
+      "page": "https://polyhaven.com/a/concrete_road_barrier_02",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Amal Kumar"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1567,
+        442,
+        1112
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/concrete_road_barrier_02/concrete_road_barrier_02.glb"
+      ],
+      "sha256": "5833980efb607848467d7175a0658760a3c2d47ebb1d4f2c224c1bbb63c3a90b",
+      "sizeBytes": 980256,
+      "preview": "library/.cache/models/polyhaven/concrete_road_barrier_02/preview.jpg",
+      "stats": {
+        "tris": 23822,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          1.565,
+          1.112,
+          0.442
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:WetFloorSign_01",
+      "source": "polyhaven",
+      "id": "WetFloorSign_01",
+      "installedAt": "2026-10-24T20:42:57.032Z",
+      "kind": "model",
+      "title": "Wet Floor Sign 01",
+      "category": "Industrial & Infrastructure/Traffic & Safety/Signs",
+      "tags": [
+        "props",
+        "industrial",
+        "office",
+        "prop",
+        "plastic",
+        "sign",
+        "safety",
+        "caution",
+        "warning",
+        "yellow",
+        "hazard",
+        "slippery",
+        "slippery when wet",
+        "utility"
+      ],
+      "page": "https://polyhaven.com/a/WetFloorSign_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Fran Calvente"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        300,
+        359,
+        630
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/WetFloorSign_01/WetFloorSign_01.glb"
+      ],
+      "sha256": "77d9d43f71b8f8285dc91a9474b4dc8ccc2119fdbce49d02d64ea90854943662",
+      "sizeBytes": 111280,
+      "preview": "library/.cache/models/polyhaven/WetFloorSign_01/preview.jpg",
+      "stats": {
+        "tris": 228,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.3,
+          0.63,
+          0.359
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:utility_box_01",
+      "source": "polyhaven",
+      "id": "utility_box_01",
+      "installedAt": "2026-10-24T20:43:01.504Z",
+      "kind": "model",
+      "title": "Utility Box 01",
+      "category": "Industrial & Infrastructure/Electrical/Utility & Power Boxes",
+      "tags": [
+        "industrial",
+        "structures",
+        "collection: hidden_alley",
+        "utility",
+        "box",
+        "electrical",
+        "power",
+        "circuit",
+        "breakers",
+        "transformer",
+        "distributionpanel",
+        "junction box",
+        "control panel",
+        "utility box",
+        "infrastructure",
+        "urban",
+        "city",
+        "road"
+      ],
+      "page": "https://polyhaven.com/a/utility_box_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "James Ray Cock"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        520,
+        432,
+        1120
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/utility_box_01/utility_box_01.glb"
+      ],
+      "sha256": "bc21d2cd461301721cebe0806bbe43fc9c42ce82143dc2e5793f05ea18b68f3d",
+      "sizeBytes": 326900,
+      "preview": "library/.cache/models/polyhaven/utility_box_01/preview.jpg",
+      "stats": {
+        "tris": 4404,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.52,
+          1.12,
+          0.432
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:fire_hydrant",
+      "source": "polyhaven",
+      "id": "fire_hydrant",
+      "installedAt": "2026-10-24T20:43:06.831Z",
+      "kind": "model",
+      "title": "Fire Hydrant",
+      "category": "Industrial & Infrastructure/Traffic & Safety/Hydrants & Fire Safety",
+      "tags": [
+        "industrial",
+        "structures",
+        "collection: hidden_alley",
+        "city",
+        "urban",
+        "street",
+        "road",
+        "emergency",
+        "valve",
+        "extinguisher",
+        "utility",
+        "municipal",
+        "infrastructure"
+      ],
+      "page": "https://polyhaven.com/a/fire_hydrant",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Gon\u00e7alo Fel\u00edcio"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        875,
+        318,
+        799
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/fire_hydrant/fire_hydrant.glb"
+      ],
+      "sha256": "526c979856683f92627b2459dca25426b4ca4c68ff6dca737c58fdb7c53b6df1",
+      "sizeBytes": 2659932,
+      "preview": "library/.cache/models/polyhaven/fire_hydrant/preview.jpg",
+      "stats": {
+        "tris": 86316,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 6,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.875,
+          0.799,
+          0.318
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:street_lamp_02",
+      "source": "polyhaven",
+      "id": "street_lamp_02",
+      "installedAt": "2026-10-24T20:43:11.897Z",
+      "kind": "model",
+      "title": "Street Lamp 02",
+      "category": "Lighting/Street & Outdoor/Street Lamps",
+      "tags": [
+        "lighting",
+        "industrial",
+        "collection: hidden_alley",
+        "street",
+        "road",
+        "light",
+        "lamppost",
+        "outdoor",
+        "pole",
+        "sidewalk",
+        "night",
+        "urban",
+        "city"
+      ],
+      "page": "https://polyhaven.com/a/street_lamp_02",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Josh Dean"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        386,
+        807,
+        1675
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/street_lamp_02/street_lamp_02.glb"
+      ],
+      "sha256": "85f15606accecbe5d71ffba7f2324cdecac5719381c72f83a7ea801c0ba2e786",
+      "sizeBytes": 694404,
+      "preview": "library/.cache/models/polyhaven/street_lamp_02/preview.jpg",
+      "stats": {
+        "tris": 20338,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.386,
+          1.675,
+          0.807
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:metal_trash_can",
+      "source": "polyhaven",
+      "id": "metal_trash_can",
+      "installedAt": "2026-10-24T20:43:17.446Z",
+      "kind": "model",
+      "title": "Metal Trash Can",
+      "category": "Containers & Storage/Cans, Tins & Bottles/Trash Cans",
+      "tags": [
+        "industrial",
+        "containers",
+        "collection: hidden_alley",
+        "bin",
+        "rubbish",
+        "garbage",
+        "disposal",
+        "litter",
+        "dumpster",
+        "outdoor trash can",
+        " urban",
+        "utility"
+      ],
+      "page": "https://polyhaven.com/a/metal_trash_can",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "GurJas Studios"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1847,
+        556,
+        906
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/metal_trash_can/metal_trash_can.glb"
+      ],
+      "sha256": "2823ee26f6cf078a37e217fd7bd7943d70b2a1b4682109c02a803a4c7b12a067",
+      "sizeBytes": 1136288,
+      "preview": "library/.cache/models/polyhaven/metal_trash_can/preview.jpg",
+      "stats": {
+        "tris": 13960,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 6,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          1.778,
+          0.906,
+          0.556
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:wooden_crate_01",
+      "source": "polyhaven",
+      "id": "wooden_crate_01",
+      "installedAt": "2026-10-24T20:43:22.145Z",
+      "kind": "model",
+      "title": "Wooden Crate 01",
+      "category": "Containers & Storage/Boxes & Crates/Wooden Crates",
+      "tags": [
+        "containers",
+        "collection: smugglers_cove",
+        "vintage",
+        "wood",
+        "old",
+        "wooden",
+        "fancy",
+        "colonial",
+        "chest",
+        "box",
+        "prop",
+        "antique",
+        "farmhouse",
+        "crate",
+        "maritime",
+        "commercial",
+        "container"
+      ],
+      "page": "https://polyhaven.com/a/wooden_crate_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "James Ray Cock"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        825,
+        409,
+        350
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/wooden_crate_01/wooden_crate_01.glb"
+      ],
+      "sha256": "5006f7ddc873d2bf4a1d1e9cb498be46ac60b465ca7851f181004e6b9a98479b",
+      "sizeBytes": 461412,
+      "preview": "library/.cache/models/polyhaven/wooden_crate_01/preview.jpg",
+      "stats": {
+        "tris": 6576,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.825,
+          0.35,
+          0.409
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:potted_plant_04",
+      "source": "polyhaven",
+      "id": "potted_plant_04",
+      "installedAt": "2026-10-24T20:43:26.517Z",
+      "kind": "model",
+      "title": "Potted Plant 04",
+      "category": "Nature/Plants/Potted Plants",
+      "tags": [
+        "decorative",
+        "plants",
+        "potted plants",
+        "succulent",
+        "nature",
+        "cactus",
+        "aloe",
+        "succulent",
+        "potplant",
+        "small",
+        "pot",
+        "plant",
+        "decor"
+      ],
+      "page": "https://polyhaven.com/a/potted_plant_04",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "James Ray Cock"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        170,
+        186,
+        268
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/potted_plant_04/potted_plant_04.glb"
+      ],
+      "sha256": "13db6e4ace90e4245aa12fdb2db9cc9f073a481b622cdd62c37c42dc8fe6c79b",
+      "sizeBytes": 573656,
+      "preview": "library/.cache/models/polyhaven/potted_plant_04/preview.jpg",
+      "stats": {
+        "tris": 8929,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.168,
+          0.267,
+          0.185
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:potted_plant_02",
+      "source": "polyhaven",
+      "id": "potted_plant_02",
+      "installedAt": "2026-10-24T20:43:31.635Z",
+      "kind": "model",
+      "title": "Potted Plant 02",
+      "category": "Nature/Plants/Potted Plants",
+      "tags": [
+        "decorative",
+        "plants",
+        "potted plants",
+        "nature",
+        "potplant",
+        "plant",
+        "pot",
+        "vase",
+        "medium",
+        "leaf",
+        "green",
+        "terracotta"
+      ],
+      "page": "https://polyhaven.com/a/potted_plant_02",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Rico Cilliers"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        701,
+        657,
+        841
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/potted_plant_02/potted_plant_02.glb"
+      ],
+      "sha256": "1f82ce49ea0919dbb096da5fd537fd9c29e6bbaa89f45eda4f1c9cf3b0207f2c",
+      "sizeBytes": 2225484,
+      "preview": "library/.cache/models/polyhaven/potted_plant_02/preview.jpg",
+      "stats": {
+        "tris": 69806,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 6,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.701,
+          0.841,
+          0.657
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:fern_02",
+      "source": "polyhaven",
+      "id": "fern_02",
+      "installedAt": "2026-10-24T20:43:36.472Z",
+      "kind": "model",
+      "title": "Fern 02",
+      "category": "Nature/Plants/Ferns",
+      "tags": [
+        "plants",
+        "nature",
+        "collection: smugglers_cove",
+        "collection: pine_forest",
+        "plant",
+        "fern",
+        "foliage",
+        "jungle",
+        "shrub",
+        "bush",
+        "leaf",
+        "leaves",
+        "green",
+        "nature",
+        "forest",
+        "outdoor"
+      ],
+      "page": "https://polyhaven.com/a/fern_02",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Rob Tuytel",
+        "Rico Cilliers"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1973,
+        1724,
+        428
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/fern_02/fern_02.glb"
+      ],
+      "sha256": "8b5adbd096b83ede4097869ee66c19fbc96ec29d432a92ca8b1954cd810b3deb",
+      "sizeBytes": 304792,
+      "preview": "library/.cache/models/polyhaven/fern_02/preview.jpg",
+      "stats": {
+        "tris": 6232,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          1.973,
+          0.428,
+          1.724
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:rock_moss_set_01",
+      "source": "polyhaven",
+      "id": "rock_moss_set_01",
+      "installedAt": "2026-10-24T20:43:41.144Z",
+      "kind": "model",
+      "title": "Rock Moss Set 01",
+      "category": "Nature/Rocks & Stone/Stone Sets",
+      "tags": [
+        "rocks",
+        "nature",
+        "collection: pine_forest",
+        "rocks",
+        "outdoor",
+        "stones",
+        "pebbles",
+        "rock",
+        "dirt"
+      ],
+      "page": "https://polyhaven.com/a/rock_moss_set_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Kless Gyzen"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        8005,
+        6949,
+        1768
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/rock_moss_set_01/rock_moss_set_01.glb"
+      ],
+      "sha256": "db1067b55faac2a028529a0bb2ec2b470c6f99c370691fce647b8002df7690cb",
+      "sizeBytes": 1735404,
+      "preview": "library/.cache/models/polyhaven/rock_moss_set_01/preview.jpg",
+      "stats": {
+        "tris": 63127,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          8.005,
+          1.768,
+          6.949
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:dandelion_01",
+      "source": "polyhaven",
+      "id": "dandelion_01",
+      "installedAt": "2026-10-24T20:43:45.863Z",
+      "kind": "model",
+      "title": "Dandelion 01",
+      "category": "Nature/Plants/Wildflowers",
+      "tags": [
+        "plants",
+        "flowers",
+        "nature",
+        "ground cover",
+        "plant",
+        "nature",
+        "green",
+        "shrub",
+        "outdoor",
+        "leaf",
+        "bush",
+        "botany",
+        "field",
+        "flower",
+        "meadow",
+        "foliage",
+        "small",
+        "floral"
+      ],
+      "page": "https://polyhaven.com/a/dandelion_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Rob Tuytel",
+        "Rico Cilliers"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        4214,
+        258,
+        170
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/dandelion_01/dandelion_01.glb"
+      ],
+      "sha256": "cc2633d41e9a5112c6cee796a0bf055d7ac950ba473d92d8ecb6aa2b1b5686cc",
+      "sizeBytes": 1871540,
+      "preview": "library/.cache/models/polyhaven/dandelion_01/preview.jpg",
+      "stats": {
+        "tris": 54764,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          4.214,
+          0.17,
+          0.258
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:food_apple_01",
+      "source": "polyhaven",
+      "id": "food_apple_01",
+      "installedAt": "2026-10-24T20:43:50.600Z",
+      "kind": "model",
+      "title": "Food Apple 01",
+      "category": "Food & Kitchen/Produce/Fruit",
+      "tags": [
+        "food",
+        "nature",
+        "food",
+        "fruit",
+        "apple",
+        "fruitbowl",
+        "red",
+        "ripe",
+        "fresh",
+        "organic",
+        "stem",
+        "ripe apple"
+      ],
+      "page": "https://polyhaven.com/a/food_apple_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Oliver Harries"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        98,
+        96,
+        85
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/food_apple_01/food_apple_01.glb"
+      ],
+      "sha256": "0df8d3072d6905e8018e506d7b486ccc1eb34eb0e0e1205fbb3f9223012a765b",
+      "sizeBytes": 312172,
+      "preview": "library/.cache/models/polyhaven/food_apple_01/preview.jpg",
+      "stats": {
+        "tris": 7012,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.098,
+          0.085,
+          0.096
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:tea_set_01",
+      "source": "polyhaven",
+      "id": "tea_set_01",
+      "installedAt": "2026-10-24T20:43:55.288Z",
+      "kind": "model",
+      "title": "Tea Set 01",
+      "category": "Food & Kitchen/Tableware/Tea & Coffee Sets",
+      "tags": [
+        "props",
+        "dishes",
+        "antique",
+        "tea",
+        "cup",
+        "english",
+        "ornate",
+        "vintage",
+        "floral",
+        "decorative",
+        "ceramic",
+        "food",
+        "coffee",
+        "victorian"
+      ],
+      "page": "https://polyhaven.com/a/tea_set_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "James Ray Cock",
+        "Rico Cilliers",
+        "Jurita Burger"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        918,
+        484,
+        165
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/tea_set_01/tea_set_01.glb"
+      ],
+      "sha256": "78fe53e0a335af1113d0018f1c0cbbacef4f86b4dbdc5efd25e3d3637c634dab",
+      "sizeBytes": 1093104,
+      "preview": "library/.cache/models/polyhaven/tea_set_01/preview.jpg",
+      "stats": {
+        "tris": 40296,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.918,
+          0.165,
+          0.484
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:croissant",
+      "source": "polyhaven",
+      "id": "croissant",
+      "installedAt": "2026-10-24T20:43:59.807Z",
+      "kind": "model",
+      "title": "Croissant",
+      "category": "Food & Kitchen/Prepared Food/Cakes & Pastries",
+      "tags": [
+        "props",
+        "food",
+        "food",
+        "pastry",
+        "baked goods",
+        "french",
+        "breakfast",
+        "bakery",
+        "savory"
+      ],
+      "page": "https://polyhaven.com/a/croissant",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Greg Zaal",
+        "Dario Barresi"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        200,
+        76,
+        62
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/croissant/croissant.glb"
+      ],
+      "sha256": "aebf4a17a3645a77d648832e6d9c3620de838045f9db07ad077fc5a962e76832",
+      "sizeBytes": 371020,
+      "preview": "library/.cache/models/polyhaven/croissant/preview.jpg",
+      "stats": {
+        "tris": 1990,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.2,
+          0.062,
+          0.076
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:lemon",
+      "source": "polyhaven",
+      "id": "lemon",
+      "installedAt": "2026-10-24T20:44:04.673Z",
+      "kind": "model",
+      "title": "Lemon",
+      "category": "Food & Kitchen/Produce/Fruit",
+      "tags": [
+        "props",
+        "food",
+        "culinary",
+        "cooking",
+        "vegetable",
+        "vegetables",
+        "organic",
+        "ingredients",
+        "produce"
+      ],
+      "page": "https://polyhaven.com/a/lemon",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Kuutti Siitonen"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        69,
+        68,
+        95
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/lemon/lemon.glb"
+      ],
+      "sha256": "c067ef6e6f61c0b0d75066e4e7a68f9ffa1295f63468a9b5df2492aa5ce7bfd3",
+      "sizeBytes": 344248,
+      "preview": "library/.cache/models/polyhaven/lemon/preview.jpg",
+      "stats": {
+        "tris": 4012,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.069,
+          0.095,
+          0.068
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:wooden_bowl_01",
+      "source": "polyhaven",
+      "id": "wooden_bowl_01",
+      "installedAt": "2026-10-24T20:44:09.709Z",
+      "kind": "model",
+      "title": "Wooden Bowl 01",
+      "category": "Food & Kitchen/Tableware/Bowls",
+      "tags": [
+        "props",
+        "decorative",
+        "dishes",
+        "bowl",
+        "wooden",
+        "carved",
+        "fruit",
+        "fruitbowl",
+        "decoration"
+      ],
+      "page": "https://polyhaven.com/a/wooden_bowl_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Oliver Harries"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        313,
+        309,
+        94
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/wooden_bowl_01/wooden_bowl_01.glb"
+      ],
+      "sha256": "21194ddeee7ac9a8e5df00b6c4f8ea7bea60e28ab5d6536b6a93a21da6a28f1f",
+      "sizeBytes": 552284,
+      "preview": "library/.cache/models/polyhaven/wooden_bowl_01/preview.jpg",
+      "stats": {
+        "tris": 14122,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.313,
+          0.094,
+          0.309
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:jug_01",
+      "source": "polyhaven",
+      "id": "jug_01",
+      "installedAt": "2026-10-24T20:44:15.112Z",
+      "kind": "model",
+      "title": "Jug 01",
+      "category": "Food & Kitchen/Tableware/Jugs & Pitchers",
+      "tags": [
+        "props",
+        "decorative",
+        "dishes",
+        "containers",
+        "ceramic",
+        "milk",
+        "white",
+        "antique",
+        "vintage",
+        "old",
+        "fancy",
+        "decorative"
+      ],
+      "page": "https://polyhaven.com/a/jug_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Kuutti Siitonen"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        275,
+        168,
+        211
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/jug_01/jug_01.glb"
+      ],
+      "sha256": "e9da42d672690038f432af38b4a1980c523a6741ce956da54383fa57d8bc92f9",
+      "sizeBytes": 223628,
+      "preview": "library/.cache/models/polyhaven/jug_01/preview.jpg",
+      "stats": {
+        "tris": 5770,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.275,
+          0.211,
+          0.168
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:wine_bottles_01",
+      "source": "polyhaven",
+      "id": "wine_bottles_01",
+      "installedAt": "2026-10-24T20:44:22.732Z",
+      "kind": "model",
+      "title": "Wine Bottles 01",
+      "category": "Food & Kitchen/Drinks/Bottles & Wine",
+      "tags": [
+        "props",
+        "containers",
+        "dishes",
+        "wine",
+        "drink",
+        "bottle",
+        "champagne",
+        "grape",
+        "farmhouse",
+        "vineyard"
+      ],
+      "page": "https://polyhaven.com/a/wine_bottles_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Rico Cilliers",
+        "Jurita Burger"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        676,
+        81,
+        331
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/wine_bottles_01/wine_bottles_01.glb"
+      ],
+      "sha256": "a00191e735bee31340455d280ce152d0a4d801bf7920f2db958c0ebaa43edd98",
+      "sizeBytes": 1224516,
+      "preview": "library/.cache/models/polyhaven/wine_bottles_01/preview.jpg",
+      "stats": {
+        "tris": 28848,
+        "meshes": 9,
+        "materials": 9,
+        "textures": 12,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.676,
+          0.331,
+          0.081
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:ceramic_vase_02",
+      "source": "polyhaven",
+      "id": "ceramic_vase_02",
+      "installedAt": "2026-10-24T20:44:27.557Z",
+      "kind": "model",
+      "title": "Ceramic Vase 02",
+      "category": "Decor & Art/Vases & Vessels/Ceramic Vases",
+      "tags": [
+        "decorative",
+        "containers",
+        "vases",
+        "fancy",
+        "modern",
+        "vase",
+        "decor",
+        "clay",
+        "pot",
+        "painted"
+      ],
+      "page": "https://polyhaven.com/a/ceramic_vase_02",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "James Ray Cock"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        220,
+        221,
+        309
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/ceramic_vase_02/ceramic_vase_02.glb"
+      ],
+      "sha256": "f8f53328c700e3332136dc9e183a4e8efc8698000a7c0e9439301998c9c48abd",
+      "sizeBytes": 508052,
+      "preview": "library/.cache/models/polyhaven/ceramic_vase_02/preview.jpg",
+      "stats": {
+        "tris": 11128,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.218,
+          0.309,
+          0.218
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:marble_bust_01",
+      "source": "polyhaven",
+      "id": "marble_bust_01",
+      "installedAt": "2026-10-24T20:44:32.067Z",
+      "kind": "model",
+      "title": "Marble Bust 01",
+      "category": "Decor & Art/Sculptures & Figurines/Busts & Human Figures",
+      "tags": [
+        "decorative",
+        "sculpt",
+        "sculpture",
+        "statue",
+        "art",
+        "sandstone",
+        "bust",
+        "marble",
+        "mansion",
+        "renaissance",
+        "man"
+      ],
+      "page": "https://polyhaven.com/a/marble_bust_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Rico Cilliers"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        272,
+        300,
+        515
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/marble_bust_01/marble_bust_01.glb"
+      ],
+      "sha256": "01b351d29a97303ba751526a1e29bc613dccc1df34731d9164e0c06cb2c535bb",
+      "sizeBytes": 665592,
+      "preview": "library/.cache/models/polyhaven/marble_bust_01/preview.jpg",
+      "stats": {
+        "tris": 17456,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.272,
+          0.515,
+          0.3
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:chess_set",
+      "source": "polyhaven",
+      "id": "chess_set",
+      "installedAt": "2026-10-24T20:44:38.023Z",
+      "kind": "model",
+      "title": "Chess Set",
+      "category": "Leisure/Games & Toys/Board Games",
+      "tags": [
+        "decorative",
+        "props",
+        "boardgame",
+        "game",
+        "old",
+        "decor",
+        "home",
+        "vintage",
+        "antique",
+        "tabletop",
+        "display piece",
+        "ornamental",
+        "elegant"
+      ],
+      "page": "https://polyhaven.com/a/chess_set",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Riley Queen"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        553,
+        553,
+        112
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/chess_set/chess_set.glb"
+      ],
+      "sha256": "6b6f6b2b4ec097a337514fd1a6cda3738d043ea9ca7e0878c2f48b0c01779e86",
+      "sizeBytes": 2137596,
+      "preview": "library/.cache/models/polyhaven/chess_set/preview.jpg",
+      "stats": {
+        "tris": 53960,
+        "meshes": 7,
+        "materials": 5,
+        "textures": 9,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.553,
+          0.112,
+          0.553
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:horse_statue_01",
+      "source": "polyhaven",
+      "id": "horse_statue_01",
+      "installedAt": "2026-10-24T20:44:42.686Z",
+      "kind": "model",
+      "title": "Horse Statue 01",
+      "category": "Decor & Art/Sculptures & Figurines/Animal Figures",
+      "tags": [
+        "props",
+        "decorative",
+        "decorative",
+        "horse",
+        "statue",
+        "figurine",
+        "porcelain",
+        "animal",
+        "sculpture",
+        "white",
+        "fancy"
+      ],
+      "page": "https://polyhaven.com/a/horse_statue_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Rico Cilliers"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        164,
+        108,
+        220
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/horse_statue_01/horse_statue_01.glb"
+      ],
+      "sha256": "150e11b653bbf9603a4c6932515b4eefd60824206aa1548a5145bdf708f927a2",
+      "sizeBytes": 765344,
+      "preview": "library/.cache/models/polyhaven/horse_statue_01/preview.jpg",
+      "stats": {
+        "tris": 22388,
+        "meshes": 2,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 1,
+        "morphNames": [
+          "hooves"
+        ],
+        "animations": [],
+        "sizeM": [
+          0.164,
+          0.22,
+          0.108
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:rubber_duck_toy",
+      "source": "polyhaven",
+      "id": "rubber_duck_toy",
+      "installedAt": "2026-10-24T20:44:47.614Z",
+      "kind": "model",
+      "title": "Rubber Duck Toy",
+      "category": "Leisure/Games & Toys/Toys",
+      "tags": [
+        "props",
+        "decorative",
+        "collection: the_shed",
+        "shed",
+        "toy",
+        "bathroom",
+        "child",
+        "home",
+        "fun",
+        "kids",
+        "play",
+        "float",
+        "plastic",
+        "cute",
+        "animal"
+      ],
+      "page": "https://polyhaven.com/a/rubber_duck_toy",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Plat251"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        214,
+        300,
+        286
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/rubber_duck_toy/rubber_duck_toy.glb"
+      ],
+      "sha256": "506fd6ab936bf4c49158d992ac4248fb5bd493731a4e557c124c38110035254a",
+      "sizeBytes": 165800,
+      "preview": "library/.cache/models/polyhaven/rubber_duck_toy/preview.jpg",
+      "stats": {
+        "tris": 4288,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.214,
+          0.286,
+          0.3
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:fancy_picture_frame_01",
+      "source": "polyhaven",
+      "id": "fancy_picture_frame_01",
+      "installedAt": "2026-10-24T20:44:52.627Z",
+      "kind": "model",
+      "title": "Fancy Picture Frame 01",
+      "category": "Decor & Art/Wall Decor/Picture Frames & Art",
+      "tags": [
+        "decorative",
+        "wall decoration",
+        "art",
+        "vintage",
+        "old",
+        "dutch",
+        "painting",
+        "oil",
+        "antique",
+        "fancy",
+        "frame",
+        "picture"
+      ],
+      "page": "https://polyhaven.com/a/fancy_picture_frame_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Rob Tuytel",
+        "Rico Cilliers"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        603,
+        20,
+        464
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/fancy_picture_frame_01/fancy_picture_frame_01.glb"
+      ],
+      "sha256": "47b55116319c57ff6fb1e6492560d84d2ca35981951fe2c5f3d463c2aab39e4b",
+      "sizeBytes": 353796,
+      "preview": "library/.cache/models/polyhaven/fancy_picture_frame_01/preview.jpg",
+      "stats": {
+        "tris": 938,
+        "meshes": 2,
+        "materials": 2,
+        "textures": 6,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.603,
+          0.464,
+          0.02
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:brass_vase_03",
+      "source": "polyhaven",
+      "id": "brass_vase_03",
+      "installedAt": "2026-10-24T20:44:57.087Z",
+      "kind": "model",
+      "title": "Brass Vase 03",
+      "category": "Decor & Art/Vases & Vessels/Metal Vases",
+      "tags": [
+        "containers",
+        "props",
+        "decorative",
+        "vases",
+        "metal",
+        "prop",
+        "brass",
+        "decorative",
+        "ornate",
+        "vase",
+        "gold",
+        "pitcher",
+        "copper",
+        "container",
+        "pattern",
+        "old",
+        "antique",
+        "fancy",
+        "decor"
+      ],
+      "page": "https://polyhaven.com/a/brass_vase_03",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Rico Cilliers"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        83,
+        83,
+        200
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/brass_vase_03/brass_vase_03.glb"
+      ],
+      "sha256": "571a01e35bc0b82f1f6637e20b4690e52b30c2a5a8c499e580ec1f847f7bfab9",
+      "sizeBytes": 228832,
+      "preview": "library/.cache/models/polyhaven/brass_vase_03/preview.jpg",
+      "stats": {
+        "tris": 2616,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.083,
+          0.2,
+          0.083
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:covered_car",
+      "source": "polyhaven",
+      "id": "covered_car",
+      "installedAt": "2026-10-24T20:45:01.999Z",
+      "kind": "model",
+      "title": "Covered Car",
+      "category": "Vehicles & Transport/Road Vehicles/Cars",
+      "tags": [
+        "props",
+        "industrial",
+        "collection: hidden_alley",
+        "garage",
+        "stored",
+        "vehicle",
+        "car",
+        "workshop",
+        "mechanic",
+        "automotive",
+        "repair shop",
+        "junkyard",
+        "scrapyard"
+      ],
+      "page": "https://polyhaven.com/a/covered_car",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "MP"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1789,
+        4380,
+        1411
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/covered_car/covered_car.glb"
+      ],
+      "sha256": "51bdd373d75ba4b820317e39f5a1d24904f140bba778807b859afedfb2ea6d6b",
+      "sizeBytes": 638060,
+      "preview": "library/.cache/models/polyhaven/covered_car/preview.jpg",
+      "stats": {
+        "tris": 12592,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          1.789,
+          1.411,
+          4.38
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
         }
       },
       "status": "ready"

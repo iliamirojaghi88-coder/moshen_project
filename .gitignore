@@ -12,3 +12,7 @@ references/analysis/*/contact-sheet.jpg
 references/analysis/*/transcript.*
 library/**/tile.glb
 library/**/*_src.png
+
+# asset cache (re-creatable with `npm run assets -- install <key>`)
+library/.cache/
+library/index.html

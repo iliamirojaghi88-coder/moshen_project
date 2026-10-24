@@ -4,7 +4,10 @@
 //   node tools/assets/assets.mjs search "<query>" [--sources a,b] [--limit 8] [--commercial] [--json]
 //   node tools/assets/assets.mjs fetch <source>:<id> [--res 2k] [--format jpg]
 //   node tools/assets/assets.mjs ledger [--json]
-//   node tools/assets/assets.mjs status <source>:<id> approved|rejected|pending [--note "..."]
+//   node tools/assets/assets.mjs status <source>:<id> approved|ready|rejected|pending [--note "..."]
+//   node tools/assets/assets.mjs find "<need>" [--kind model|character|animation|icon|texture|hdri|photo|element] [--online]
+//   node tools/assets/assets.mjs install <source>:<id> [--res 1k] [--force]
+//   node tools/assets/assets.mjs catalog build | stats      node tools/assets/assets.mjs gallery | verify
 //
 // Every fetched asset lands in library/<source>/<id>/ with meta.json and a
 // ledger row (source URL, licence, commercial use, attribution, format,
@@ -15,7 +18,7 @@ import { execFileSync } from "node:child_process";
 import { dirname, join, resolve, basename } from "node:path";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const LIBRARY = join(ROOT, "library");
@@ -378,6 +381,11 @@ async function main() {
   const [cmd, ...rest] = process.argv.slice(2);
   const a = args(rest);
 
+  if (["catalog", "find", "install", "gallery", "verify"].includes(cmd)) {
+    const lib = await import("./library.mjs");
+    return lib[cmd](a);
+  }
+
   if (cmd === "search") {
     const q = a._.join(" ");
     const names = a.sources ? String(a.sources).split(",") : Object.keys(SOURCES);
@@ -414,7 +422,7 @@ async function main() {
     const [key, status] = a._;
     const l = readLedger();
     const row = l.assets.find((x) => x.key === key);
-    if (!row || !["approved", "rejected", "pending"].includes(status)) throw new Error("usage: status <source>:<id> approved|rejected|pending");
+    if (!row || !["approved", "ready", "rejected", "pending"].includes(status)) throw new Error("usage: status <source>:<id> approved|ready|rejected|pending");
     Object.assign(row, { status, statusNote: a.note ?? row.statusNote, statusAt: new Date().toISOString() });
     writeLedger(l);
     console.log(`${key}: ${status}`);
@@ -428,12 +436,16 @@ async function main() {
     return;
   }
 
-  console.log(readFileSync(fileURLToPath(import.meta.url), "utf8").split("\n").slice(1, 11).join("\n"));
+  console.log(readFileSync(fileURLToPath(import.meta.url), "utf8").split("\n").slice(1, 15).join("\n"));
   console.log("\nSources:");
   for (const [n, s] of Object.entries(SOURCES)) console.log(`  ${n.padEnd(10)} ${s.kind}`);
 }
 
-main().catch((e) => {
-  console.error(e.message);
-  process.exit(1);
-});
+export { ROOT, LIBRARY, UA, SOURCES, license, getJson, download, readLedger, writeLedger, upsert, args };
+
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((e) => {
+    console.error(e.message);
+    process.exit(1);
+  });
+}
