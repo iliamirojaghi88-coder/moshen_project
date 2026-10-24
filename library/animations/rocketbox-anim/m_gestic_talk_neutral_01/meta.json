@@ -1,0 +1,36 @@
+{
+  "key": "rocketbox-anim:m_gestic_talk_neutral_01",
+  "source": "rocketbox-anim",
+  "id": "m_gestic_talk_neutral_01",
+  "installedAt": "2026-10-24T20:38:57.174Z",
+  "kind": "animation",
+  "title": "m gestic talk neutral 01",
+  "category": "male",
+  "tags": [
+    "gestic",
+    "talk",
+    "neutral",
+    "01"
+  ],
+  "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Animations",
+  "rigged": true,
+  "license": {
+    "spdx": "MIT",
+    "commercial": true,
+    "attribution": true
+  },
+  "format": "GLB animation clip (Rocketbox Bip01 skeleton)",
+  "frames": 1067,
+  "fps": 30,
+  "durationS": 35.57,
+  "files": [
+    "library/animations/rocketbox-anim/m_gestic_talk_neutral_01/m_gestic_talk_neutral_01.glb"
+  ],
+  "qc": {
+    "passed": true,
+    "checks": {
+      "downloaded": true
+    }
+  },
+  "status": "ready"
+}

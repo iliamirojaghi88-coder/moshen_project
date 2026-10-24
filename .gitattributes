@@ -1,0 +1,8 @@
+# Heavy binary assets go through Git LFS (new files only; history untouched).
+library/models/**/*.glb filter=lfs diff=lfs merge=lfs -text
+library/characters/**/*.glb filter=lfs diff=lfs merge=lfs -text
+library/animations/**/*.glb filter=lfs diff=lfs merge=lfs -text
+library/icons/**/*.png filter=lfs diff=lfs merge=lfs -text
+library/hdri/**/*.hdr filter=lfs diff=lfs merge=lfs -text
+library/**/*.exr filter=lfs diff=lfs merge=lfs -text
+library/**/*.blend filter=lfs diff=lfs merge=lfs -text
