@@ -10,7 +10,10 @@
     "preview": "hyperframes preview --background",
     "render": "hyperframes render",
     "tts:fa": "bash scripts/tts-fa.sh",
-    "skills:check": "hyperframes skills check --dir .claude/skills"
+    "skills:check": "hyperframes skills check --dir .claude/skills",
+    "assets": "node tools/assets/assets.mjs",
+    "qc": "bash scripts/qc-video.sh",
+    "audio:master": "bash scripts/audio-master.sh"
   },
   "repository": {
     "type": "git",
@@ -21,10 +24,12 @@
   },
   "homepage": "https://github.com/iliamirojaghi88-coder/moshen_project#readme",
   "devDependencies": {
+    "@gltf-transform/cli": "^4.5.1",
     "hyperframes": "0.8.193"
   },
   "dependencies": {
     "@fontsource/vazirmatn": "^5.3.0",
+    "@material-symbols/svg-400": "^0.48.1",
     "gsap": "^3.15.0",
     "lucide-static": "^1.61.0",
     "three": "^0.186.1"

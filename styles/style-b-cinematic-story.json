@@ -1,0 +1,12 @@
+{
+  "id": "style-b",
+  "name": "Cinematic Storytelling",
+  "purpose": "Narrated story beats as lit collage: real photos + 3D objects floating over textured paper, hard key light with a gobo shadow.",
+  "techniquesFrom": "references/ANALYSIS.md (ref 3) — techniques only; never reuse its scenes, characters or copy",
+  "palette": { "ground": ["#140808", "#381e15", "#7b4930", "#b29273", "#d7d6c3"], "accent": "#b3121f", "success": "project-defined green" },
+  "lighting": { "key": "hard, top-right", "gobo": "leaf/window shadow sweeping 10–20% over the shot", "bounce": "warm", "contactShadows": "large soft, objects 2–4 cm off the paper" },
+  "materials": ["embossed felt/copper icons", "engraved ink", "paper with blots", "bloom on light sources only"],
+  "type": { "faFamily": "Vazirmatn", "pair": "light question + black emphasis on one line", "deboss": true },
+  "camera": { "mode": "slow dolly with parallax", "transitions": ["zoom-through match cut", "stamp", "dotted-path draw-on"] },
+  "sound": { "bed": "narration-led, soft music", "sfx": "foley-like (stamp, click, whoosh)", "loudnessLUFS": -14 }
+}

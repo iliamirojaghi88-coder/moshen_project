@@ -1,0 +1,82 @@
+{
+  "default": "vertical-1080",
+  "profiles": {
+    "vertical-1080": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "videoCodec": "h264",
+      "audioCodec": "aac",
+      "audioBitrate": "192k",
+      "audioSampleRate": 48000,
+      "container": "mp4",
+      "loudnessLUFS": -14,
+      "truePeakDBTP": -1,
+      "hyperframes": "npx hyperframes render --fps 30 --quality high --format mp4",
+      "remotion": "npx remotion render <id> --codec h264 --audio-codec aac --audio-bitrate 192k --crf 18"
+    },
+    "vertical-1080-60": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 60,
+      "videoCodec": "h264",
+      "audioCodec": "aac",
+      "audioBitrate": "192k",
+      "audioSampleRate": 48000,
+      "container": "mp4",
+      "loudnessLUFS": -14,
+      "truePeakDBTP": -1,
+      "hyperframes": "npx hyperframes render --fps 60 --quality high --format mp4",
+      "remotion": "npx remotion render <id> --codec h264 --audio-codec aac --crf 18 --fps 60"
+    },
+    "landscape-1080": {
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "videoCodec": "h264",
+      "audioCodec": "aac",
+      "audioBitrate": "192k",
+      "audioSampleRate": 48000,
+      "container": "mp4",
+      "loudnessLUFS": -14,
+      "truePeakDBTP": -1,
+      "hyperframes": "npx hyperframes render --fps 30 --quality high --format mp4",
+      "remotion": "npx remotion render <id> --codec h264 --audio-codec aac --crf 18"
+    },
+    "master-prores": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "videoCodec": "prores",
+      "audioCodec": "pcm_s16le",
+      "container": "mov",
+      "loudnessLUFS": -14,
+      "truePeakDBTP": -1,
+      "hyperframes": "npx hyperframes render --fps 30 --format mov",
+      "remotion": "npx remotion render <id> --codec prores --prores-profile hq"
+    },
+    "overlay-webm-alpha": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "videoCodec": "vp9",
+      "audioCodec": "opus",
+      "container": "webm",
+      "loudnessLUFS": -14,
+      "truePeakDBTP": -1,
+      "hyperframes": "npx hyperframes render --fps 30 --format webm (transparent background)",
+      "remotion": "npx remotion render <id> --codec vp9 --pixel-format yuva420p"
+    },
+    "png-sequence": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "videoCodec": "png",
+      "audioCodec": "none",
+      "container": "folder",
+      "loudnessLUFS": -14,
+      "truePeakDBTP": -1,
+      "remotion": "npx remotion render <id> --sequence --image-format png"
+    }
+  }
+}

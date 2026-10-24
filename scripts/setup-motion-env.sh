@@ -18,9 +18,33 @@ if [[ -f package-lock.json ]]; then npm ci --no-audit --no-fund; else npm instal
 log "Chrome Headless Shell for local rendering"
 npx hyperframes browser ensure >/dev/null
 
-log "Python audio tools (Piper fa_IR TTS, Kokoro TTS)"
-python3 -c "import piper, kokoro_onnx, soundfile" 2>/dev/null \
-  || "${PIP[@]}" piper-tts==1.8.0 kokoro-onnx soundfile
+log "Remotion workspace"
+(cd remotion-studio && if [[ -d node_modules ]]; then :; else npm ci --no-audit --no-fund; fi)
+
+log "Python tools (Piper fa_IR TTS, Kokoro TTS, OpenCV for photo rectification)"
+python3 -c "import piper, kokoro_onnx, soundfile, cv2, numpy" 2>/dev/null \
+  || "${PIP[@]}" piper-tts==1.8.0 kokoro-onnx soundfile opencv-python-headless numpy
+
+if [[ "${WITH_BLENDER:-1}" == "1" ]] && ! command -v blender >/dev/null; then
+  log "Blender ${BLENDER_VERSION:=5.2.3} LTS (official build, sha256-checked)"
+  series="${BLENDER_VERSION%.*}"
+  tmp="$(mktemp -d)"
+  curl -fsSL -o "$tmp/blender.tar.xz" "https://download.blender.org/release/Blender$series/blender-$BLENDER_VERSION-linux-x64.tar.xz"
+  curl -fsSL "https://download.blender.org/release/Blender$series/blender-$BLENDER_VERSION.sha256" \
+    | grep linux-x64.tar.xz | sed "s#blender-$BLENDER_VERSION-linux-x64.tar.xz#$tmp/blender.tar.xz#" | sha256sum -c -
+  tar xf "$tmp/blender.tar.xz" -C /opt
+  ln -sfn "/opt/blender-$BLENDER_VERSION-linux-x64" /opt/blender
+  ln -sf /opt/blender/blender /usr/local/bin/blender
+  rm -rf "$tmp"
+fi
+
+if ! command -v toktx >/dev/null; then
+  log "KTX-Software 4.4.2 (KTX2/Basis textures for gltf-transform)"
+  tmp="$(mktemp -d)"
+  curl -fsSL -o "$tmp/ktx.deb" https://github.com/KhronosGroup/KTX-Software/releases/download/v4.4.2/KTX-Software-4.4.2-Linux-x86_64.deb
+  dpkg -i "$tmp/ktx.deb" >/dev/null
+  rm -rf "$tmp"
+fi
 
 if [[ "${WITH_MUSICGEN:-0}" == "1" ]]; then
   log "MusicGen (local background music)"

@@ -1,0 +1,13 @@
+{
+  "id": "style-a",
+  "name": "Cinematic Mixed Motion Graphics",
+  "purpose": "One continuous camera over a physical tabletop world: extruded 3D objects, cut-out characters, animated icons, kinetic type.",
+  "techniquesFrom": "references/ANALYSIS.md (ref 2) — techniques only; never reuse its scenes, characters or copy",
+  "palette": { "ground": ["#1d1912", "#554635", "#8d765b", "#b8ad9c", "#eae7ce"], "spot": "one saturated accent per scene (project-defined)" },
+  "surface": { "texture": "plaster/concrete or paper PBR (polyhaven/ambientcg)", "grain": 0.06, "vignette": 0.35, "dust": true },
+  "type": { "faFamily": "Vazirmatn", "display": 900, "body": 400, "kashidaEmphasis": true, "latinAccent": "condensed serif caps" },
+  "camera": { "mode": "continuous", "moves": ["drift", "push-in", "pan-to-next-zone"], "parallaxLayers": 3, "easing": "power2.inOut", "holdS": [1.5, 3.0] },
+  "elements": { "objects": "extruded 3D with bevel, line-hatched or PBR", "icons": "Material Symbols rounded → extruded or embossed", "particles": "seeded bursts with arcs" },
+  "transitions": ["pan-through", "light-leak", "object-wipe", "shatter (seeded)"],
+  "sound": { "bed": "music-led", "sfx": "on every landing (paper, thud, glass)", "loudnessLUFS": -14 }
+}

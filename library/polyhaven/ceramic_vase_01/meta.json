@@ -1,0 +1,31 @@
+{
+  "key": "polyhaven:ceramic_vase_01",
+  "source": "polyhaven",
+  "id": "ceramic_vase_01",
+  "fetchedAt": "2026-10-24T18:53:38.241Z",
+  "status": "pending",
+  "title": "Ceramic Vase 01",
+  "type": "model",
+  "page": "https://polyhaven.com/a/ceramic_vase_01",
+  "license": {
+    "spdx": "CC0-1.0",
+    "commercial": true,
+    "attribution": false,
+    "shareAlike": false,
+    "url": ""
+  },
+  "authors": [
+    "James Ray Cock"
+  ],
+  "resolution": "1k",
+  "realWorldSize": "204.87193763256073×206.37669414281845 mm",
+  "textures": "PBR (diffuse, normal-GL, roughness, AO, displacement)",
+  "rig": false,
+  "files": [
+    "library/polyhaven/ceramic_vase_01/ceramic_vase_01_1k.gltf",
+    "library/polyhaven/ceramic_vase_01/textures/ceramic_vase_01_nor_gl_1k.jpg",
+    "library/polyhaven/ceramic_vase_01/textures/ceramic_vase_01_diff_1k.jpg",
+    "library/polyhaven/ceramic_vase_01/textures/ceramic_vase_01_arm_1k.jpg",
+    "library/polyhaven/ceramic_vase_01/ceramic_vase_01.bin"
+  ]
+}

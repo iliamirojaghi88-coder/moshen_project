@@ -1,0 +1,130 @@
+{
+  "assets": [
+    {
+      "key": "met:447244",
+      "source": "met",
+      "id": "447244",
+      "fetchedAt": "2026-10-24T18:25:41.169Z",
+      "status": "pending",
+      "title": "Tile",
+      "type": "museum photo",
+      "page": "https://www.metmuseum.org/art/collection/search/447244",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "object": {
+        "culture": "",
+        "period": "",
+        "date": "second half 17th century",
+        "country": "Iran",
+        "geographyType": "Attributed to",
+        "medium": "Stonepaste; polychrome glaze within black wax resist outlines (cuerda seca technique)",
+        "dimensions": "H. 8 5/8 in. (21.8 cm)\r\nW. 8 3/4 in. (22.2 cm)\r\nD. 7/8 in. (2.2 cm)",
+        "classification": "Ceramics-Tiles",
+        "department": "Islamic Art",
+        "creditLine": "The Grinnell Collection, Bequest of William Milne Grinnell, 1920",
+        "accession": "20.120.170"
+      },
+      "authors": [
+        "The Metropolitan Museum of Art"
+      ],
+      "files": [
+        "library/met/447244/primary.jpg",
+        "library/met/447244/additional-1.jpg"
+      ]
+    },
+    {
+      "key": "ambientcg:Plaster001",
+      "source": "ambientcg",
+      "id": "Plaster001",
+      "fetchedAt": "2026-10-24T18:10:16.190Z",
+      "status": "pending",
+      "title": "Plaster 001",
+      "type": "material",
+      "page": "https://ambientcg.com/a/Plaster001",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "resolution": "1K-JPG",
+      "textures": "PBR (color, normal-GL/DX, roughness, AO, displacement)",
+      "rig": false,
+      "files": [
+        "library/ambientcg/Plaster001/Plaster001.png",
+        "library/ambientcg/Plaster001/Plaster001_1K-JPG.blend",
+        "library/ambientcg/Plaster001/Plaster001_1K-JPG.mtlx",
+        "library/ambientcg/Plaster001/Plaster001_1K-JPG.tres",
+        "library/ambientcg/Plaster001/Plaster001_1K-JPG.usdc",
+        "library/ambientcg/Plaster001/Plaster001_1K-JPG_Color.jpg",
+        "library/ambientcg/Plaster001/Plaster001_1K-JPG_Displacement.jpg",
+        "library/ambientcg/Plaster001/Plaster001_1K-JPG_NormalDX.jpg",
+        "library/ambientcg/Plaster001/Plaster001_1K-JPG_NormalGL.jpg",
+        "library/ambientcg/Plaster001/Plaster001_1K-JPG_Roughness.jpg"
+      ]
+    },
+    {
+      "key": "polyhaven:studio_small_09",
+      "source": "polyhaven",
+      "id": "studio_small_09",
+      "fetchedAt": "2026-10-24T18:10:16.759Z",
+      "status": "pending",
+      "title": "Studio Small 09",
+      "type": "hdri",
+      "page": "https://polyhaven.com/a/studio_small_09",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Sergej Majboroda"
+      ],
+      "resolution": "2k",
+      "textures": "n/a",
+      "rig": false,
+      "files": [
+        "library/polyhaven/studio_small_09/studio_small_09_2k.hdr"
+      ]
+    },
+    {
+      "key": "polyhaven:ceramic_vase_01",
+      "source": "polyhaven",
+      "id": "ceramic_vase_01",
+      "fetchedAt": "2026-10-24T18:53:38.241Z",
+      "status": "pending",
+      "title": "Ceramic Vase 01",
+      "type": "model",
+      "page": "https://polyhaven.com/a/ceramic_vase_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "James Ray Cock"
+      ],
+      "resolution": "1k",
+      "realWorldSize": "204.87193763256073×206.37669414281845 mm",
+      "textures": "PBR (diffuse, normal-GL, roughness, AO, displacement)",
+      "rig": false,
+      "files": [
+        "library/polyhaven/ceramic_vase_01/ceramic_vase_01_1k.gltf",
+        "library/polyhaven/ceramic_vase_01/textures/ceramic_vase_01_nor_gl_1k.jpg",
+        "library/polyhaven/ceramic_vase_01/textures/ceramic_vase_01_diff_1k.jpg",
+        "library/polyhaven/ceramic_vase_01/textures/ceramic_vase_01_arm_1k.jpg",
+        "library/polyhaven/ceramic_vase_01/ceramic_vase_01.bin"
+      ]
+    }
+  ]
+}

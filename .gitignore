@@ -6,3 +6,9 @@ snapshots/
 *.mov
 *.webm
 .env
+out/
+references/analysis/*/frames/
+references/analysis/*/contact-sheet.jpg
+references/analysis/*/transcript.*
+library/**/tile.glb
+library/**/*_src.png

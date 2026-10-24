@@ -1,0 +1,32 @@
+{
+  "key": "ambientcg:Plaster001",
+  "source": "ambientcg",
+  "id": "Plaster001",
+  "fetchedAt": "2026-10-24T18:10:16.190Z",
+  "status": "pending",
+  "title": "Plaster 001",
+  "type": "material",
+  "page": "https://ambientcg.com/a/Plaster001",
+  "license": {
+    "spdx": "CC0-1.0",
+    "commercial": true,
+    "attribution": false,
+    "shareAlike": false,
+    "url": ""
+  },
+  "resolution": "1K-JPG",
+  "textures": "PBR (color, normal-GL/DX, roughness, AO, displacement)",
+  "rig": false,
+  "files": [
+    "library/ambientcg/Plaster001/Plaster001.png",
+    "library/ambientcg/Plaster001/Plaster001_1K-JPG.blend",
+    "library/ambientcg/Plaster001/Plaster001_1K-JPG.mtlx",
+    "library/ambientcg/Plaster001/Plaster001_1K-JPG.tres",
+    "library/ambientcg/Plaster001/Plaster001_1K-JPG.usdc",
+    "library/ambientcg/Plaster001/Plaster001_1K-JPG_Color.jpg",
+    "library/ambientcg/Plaster001/Plaster001_1K-JPG_Displacement.jpg",
+    "library/ambientcg/Plaster001/Plaster001_1K-JPG_NormalDX.jpg",
+    "library/ambientcg/Plaster001/Plaster001_1K-JPG_NormalGL.jpg",
+    "library/ambientcg/Plaster001/Plaster001_1K-JPG_Roughness.jpg"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "key": "polyhaven:studio_small_09",
+  "source": "polyhaven",
+  "id": "studio_small_09",
+  "fetchedAt": "2026-10-24T18:10:16.759Z",
+  "status": "pending",
+  "title": "Studio Small 09",
+  "type": "hdri",
+  "page": "https://polyhaven.com/a/studio_small_09",
+  "license": {
+    "spdx": "CC0-1.0",
+    "commercial": true,
+    "attribution": false,
+    "shareAlike": false,
+    "url": ""
+  },
+  "authors": [
+    "Sergej Majboroda"
+  ],
+  "resolution": "2k",
+  "textures": "n/a",
+  "rig": false,
+  "files": [
+    "library/polyhaven/studio_small_09/studio_small_09_2k.hdr"
+  ]
+}

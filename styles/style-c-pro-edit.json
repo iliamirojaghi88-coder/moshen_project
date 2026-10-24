@@ -1,0 +1,12 @@
+{
+  "id": "style-c",
+  "name": "Professional Video Editing",
+  "purpose": "Real footage of a presenter cut tightly, with keyword captions, B-roll cards, infographics and explanatory 3D models.",
+  "techniquesFrom": "references/ANALYSIS.md (ref 1) — techniques only; never reuse its footage, people or copy",
+  "palette": { "board": "#e3efef", "presenterGround": "#000001", "accent": "#b3121f", "secondaryHighlight": "teal" },
+  "captions": { "faFamily": "Vazirmatn", "weight": 900, "lines": 2, "position": "chest height", "highlight": "one keyword per line on a solid accent block", "entry": "scale 110%→100% in 120 ms" },
+  "sync": { "brollLeadsWordS": [0.2, 0.5], "labelTypesOnWord": true, "source": "whisper word times + scripts/captions-fa-from-script.py" },
+  "edit": { "pushIn": "100%→112% between sentences", "cards": "cursor-drag card swipe, vertical motion-blur exit 0.3 s", "letterCascade": "Latin labels fall in per letter with blur" },
+  "elements": { "3d": "glossy PBR objects on white board with soft contact shadow", "rings": "drawn arcs orbiting objects" },
+  "sound": { "voice": "dry, upfront (user file used as-is)", "sfx": "whoosh per card, pop per highlight", "loudnessLUFS": -14 }
+}
