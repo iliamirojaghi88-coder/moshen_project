@@ -12,11 +12,24 @@
 // the estimate first. Outputs land in library/ai/<name>/ with a ledger row
 // marked ai:true, status "pending" — AI imagery never stands in for a real
 // product, and only enters a video after the user approves it.
-// The key comes from GEMINI_API_KEY (or GOOGLE_API_KEY); never write it to disk.
+// Key: injected by the cloud Network secret (x-goog-api-key), or GEMINI_API_KEY
+// locally; it is never read into files, logs or output.
 import { GoogleGenAI } from "@google/genai";
+import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+
+// Node's built-in fetch (used by the SDK) ignores HTTPS_PROXY unless
+// NODE_USE_ENV_PROXY=1, and without the proxy the Network secret is never
+// injected. Re-exec once with it set; nothing is sent before this point.
+if (process.env.HTTPS_PROXY && !process.env.NODE_USE_ENV_PROXY) {
+  const r = spawnSync(process.execPath, ["--disable-warning=UNDICI-EHPA", ...process.execArgv, ...process.argv.slice(1)], {
+    stdio: "inherit",
+    env: { ...process.env, NODE_USE_ENV_PROXY: "1" },
+  });
+  process.exit(r.status ?? 1);
+}
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const LEDGER = join(ROOT, "library/ledger.json");
@@ -36,13 +49,23 @@ function args(argv) {
   return out;
 }
 
+// In cloud sessions the key lives in the environment's Network secrets: the
+// egress proxy overwrites the x-goog-api-key header on requests to
+// generativelanguage.googleapis.com, so the container never holds the key and
+// the SDK only needs a placeholder. A local GEMINI_API_KEY still wins.
+const PROXY_PLACEHOLDER = "injected-by-network-secret";
+
 function client() {
-  const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY;
-  if (!apiKey) {
-    console.error("GEMINI_API_KEY is not set. Add it as an environment secret (see docs/AI-SERVICES.md); never paste it into chat or code.");
-    process.exit(3);
-  }
+  const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY ?? PROXY_PLACEHOLDER;
   return new GoogleGenAI({ apiKey });
+}
+
+function explainAuthError(e) {
+  const msg = String(e?.message ?? e);
+  if (/API_KEY_INVALID|unregistered callers|PERMISSION_DENIED|401|403/.test(msg)) {
+    return `${msg}\n→ No valid key reached Google. Cloud: check the Network secret for generativelanguage.googleapis.com (header x-goog-api-key). Local: export GEMINI_API_KEY.`;
+  }
+  return msg;
 }
 
 function imagePart(path) {
@@ -159,6 +182,6 @@ if (!cmds[a._[0]]) {
   process.exit(a._[0] ? 2 : 0);
 }
 cmds[a._[0]](a).catch((e) => {
-  console.error(e.message ?? e);
+  console.error(explainAuthError(e));
   process.exit(1);
 });

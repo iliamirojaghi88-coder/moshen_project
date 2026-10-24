@@ -20,10 +20,15 @@ Alibaba's unrelated *Qwen Omni Flash* is a text/vision model and is not used.
 2. For image/video models, enable billing on that key's Google Cloud project
    (AI Studio → *Get API key* → *Set up billing*). Text-only planning works on
    the free tier.
-3. Store it as **`GEMINI_API_KEY`** in the cloud environment settings
-   (environment menu in the session title bar → *Edit* → Network secrets /
-   environment variables). Locally: export it in your shell. Never commit it;
-   `.env` is git-ignored.
+3. Store it in the cloud environment settings (environment menu in the session
+   title bar → *Edit*) under **Network secrets** for host
+   `generativelanguage.googleapis.com`, header `x-goog-api-key`. The egress
+   proxy injects it into each request, so the container, files, logs and git
+   never hold the key. (Fallback: an environment variable `GEMINI_API_KEY`.
+   Locally: export it in your shell.) Never commit it; `.env` is git-ignored.
+   `tools/ai/gemini.mjs` sends a placeholder header that the proxy overwrites,
+   and re-runs itself with `NODE_USE_ENV_PROXY=1` because Node's built-in
+   `fetch` otherwise bypasses the proxy (and the injection).
 4. Verify (free, lists models only): `npm run ai -- check`
 
 ## Workflow

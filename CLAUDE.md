@@ -15,7 +15,7 @@ research engine with a licence ledger, a Blender/glTF 3D pipeline, Persian
 - `videos/<name>/` — one HyperFrames project per real video (`npm run new -- videos/<name>`). `videos/starter-fa/` is the reference scaffold (RTL, Vazirmatn, local GSAP, Three.js via `hf-seek`).
 - `remotion-studio/` — Remotion 4 workspace: `src/lib/fonts.ts` (Vazirmatn subsets), `src/components/PersianCaption.tsx`, `src/components/StudioObject.tsx` (R3F studio lighting). `npm run still:test` renders one frame.
 - `tools/assets/assets.mjs` — Asset Research & Discovery engine (see below).
-- `tools/ai/gemini.mjs` — Gemini API bridge (official `@google/genai`): `check`, `plan` (free-tier text: scenario → sequences → per-asset prompts), `image` and `video` (Gemini Omni Flash). Paid calls need `--approve-cost` and the user's explicit OK per generation. Key: `GEMINI_API_KEY` env secret only. See `docs/AI-SERVICES.md`.
+- `tools/ai/gemini.mjs` — Gemini API bridge (official `@google/genai`): `check`, `plan` (free-tier text: scenario → sequences → per-asset prompts), `image` and `video` (Gemini Omni Flash). Paid calls need `--approve-cost` and the user's explicit OK per generation. Key: injected by the environment's Network secret (`x-goog-api-key`), never held in the container; local fallback `GEMINI_API_KEY`. See `docs/AI-SERVICES.md`.
 - `tools/3d/` — `rectify_photo.py` (flatten a product photo to a texture at real mm size), `pbr_from_photo.py` (basecolor/roughness/normal/height), `build_tile.py` (Blender: physically scaled slab + glaze, GLB export, Cycles still).
 - `library/` — fetched assets + `ledger.json`. `library/products/<id>/` holds built products with previews.
 - `labs/3d-product/` — technical test scene: real GLB + HDRI in Three.js inside HyperFrames.
