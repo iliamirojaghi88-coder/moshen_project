@@ -1,0 +1,8 @@
+node_modules/
+renders/
+snapshots/
+.hyperframes/
+*.mp4
+*.mov
+*.webm
+.env

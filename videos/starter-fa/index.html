@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <!-- Everything is local: renders never depend on a CDN. -->
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three.module.js" } }
+    </script>
+    <style>
+      @font-face {
+        font-family: "Vazirmatn";
+        src: url("assets/fonts/vazirmatn-arabic-400-normal.woff2") format("woff2");
+        font-weight: 400;
+        unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+      }
+      @font-face {
+        font-family: "Vazirmatn";
+        src: url("assets/fonts/vazirmatn-latin-400-normal.woff2") format("woff2");
+        font-weight: 400;
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: "Vazirmatn";
+        src: url("assets/fonts/vazirmatn-arabic-900-normal.woff2") format("woff2");
+        font-weight: 900;
+        unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+      }
+      @font-face {
+        font-family: "Vazirmatn";
+        src: url("assets/fonts/vazirmatn-latin-900-normal.woff2") format("woff2");
+        font-weight: 900;
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      :root {
+        --ground: #0e1116;
+        --ink: #f4efe6;
+        --accent: #ffb547;
+        --font-display: "Vazirmatn", sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ground);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        font-family: var(--font-display);
+        color: var(--ink);
+      }
+      #gl {
+        position: absolute;
+        left: 160px;
+        top: 240px;
+        width: 600px;
+        height: 600px;
+      }
+      #copy {
+        position: absolute;
+        right: 160px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 960px;
+        text-align: right;
+      }
+      #icon {
+        width: 96px;
+        height: 96px;
+        margin-bottom: 32px;
+      }
+      #title {
+        font-size: 128px;
+        font-weight: 900;
+        line-height: 1.15;
+      }
+      #subtitle {
+        margin-top: 24px;
+        font-size: 48px;
+        font-weight: 400;
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="6"
+      data-width="1920"
+      data-height="1080"
+    >
+      <canvas id="gl" width="600" height="600"></canvas>
+      <div id="copy" class="clip" data-start="0" data-duration="6" data-track-index="0">
+        <img id="icon" src="assets/icons/sparkles.svg" alt="" style="filter: invert(1)" />
+        <h1 id="title">استودیو موشن</h1>
+        <p id="subtitle">GSAP · Three.js · فونت وزیرمتن</p>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#icon", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#title", { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.8, ease: "power4.out" }, 0.4);
+      tl.fromTo("#subtitle", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.9);
+      tl.to("#copy", { opacity: 0, duration: 0.5, ease: "power2.in" }, 5.4);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+    <script type="module">
+      import * as THREE from "three";
+
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+      renderer.setSize(600, 600, false);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+      camera.position.set(0, 0, 6);
+      const mesh = new THREE.Mesh(
+        new THREE.TorusKnotGeometry(1.2, 0.38, 200, 32),
+        new THREE.MeshStandardMaterial({ color: 0xffb547, roughness: 0.35, metalness: 0.4 }),
+      );
+      scene.add(mesh);
+      scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+      const key = new THREE.DirectionalLight(0xffffff, 2.2);
+      key.position.set(3, 4, 5);
+      scene.add(key);
+
+      // Frame state is derived from time alone, so every seek renders the same pixels.
+      function renderAt(t) {
+        mesh.rotation.set(t * 0.6, t * 0.9, 0);
+        mesh.scale.setScalar(Math.min(1, t / 0.8));
+        renderer.render(scene, camera);
+      }
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      renderAt(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ \"$CLAUDE_CODE_REMOTE\" = \"true\" ]; then bash \"$CLAUDE_PROJECT_DIR/scripts/setup-motion-env.sh\" >/tmp/motion-env-setup.log 2>&1 || echo 'motion env setup failed; see /tmp/motion-env-setup.log'; fi",
+            "timeout": 900
+          }
+        ]
+      }
+    ]
+  }
+}
