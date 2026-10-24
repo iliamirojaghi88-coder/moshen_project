@@ -17,19 +17,20 @@ research engine with a licence ledger, a Blender/glTF 3D pipeline, Persian
 - `tools/assets/assets.mjs` — Asset Research & Discovery engine (see below).
 - `tools/ai/gemini.mjs` — Gemini API bridge (official `@google/genai`): `check`, `plan` (free-tier text: scenario → sequences → per-asset prompts), `image` and `video` (Gemini Omni Flash). Paid calls need `--approve-cost` and the user's explicit OK per generation. Key: injected by the environment's Network secret (`x-goog-api-key`), never held in the container; local fallback `GEMINI_API_KEY`. See `docs/AI-SERVICES.md`.
 - `tools/3d/` — `rectify_photo.py` (flatten a product photo to a texture at real mm size), `pbr_from_photo.py` (basecolor/roughness/normal/height), `build_tile.py` (Blender: physically scaled slab + glaze, GLB export, Cycles still).
-- `library/` — fetched assets + `ledger.json`. `library/products/<id>/` holds built products with previews.
+- `library/` — `catalog/` (offline metadata), `ledger.json` (provenance, licence, QC, usage), `LICENSES/`, built products in `products/`, a few committed characters/clips (LFS); downloads live in git-ignored `.cache/`.
 - `labs/3d-product/` — technical test scene: real GLB + HDRI in Three.js inside HyperFrames.
 - `styles/` — three reusable style systems (tokens + motion grammar). Techniques only.
 - `references/ANALYSIS.md` — technique breakdown of the user's reference videos. The videos are style references only: never rebuild their scenes, people, characters or copy.
 - `render-profiles.json` — output presets (default 1080×1920, 30 fps, H.264 + AAC, −14 LUFS / −1 dBTP).
 - `scripts/` — `setup-motion-env.sh` (idempotent setup, SessionStart hook), `tts-fa.sh` (Piper), `captions-fa-from-script.py`, `audio-master.sh` (denoise, duck, SFX, loudness, AAC), `qc-video.sh` (spec, black/frozen frames, loudness, sync), `analyze-reference.sh`.
 
-## Assets: rules
+## Assets: rules (on-demand, per scenario — see docs/ASSET-LIBRARY.md)
 
-1. Search before making anything: `node tools/assets/assets.mjs search "<subject>" [--commercial]`. Sources: `met`, `cleveland` (real museum objects, CC0, measured dimensions), `openverse` (real CC photos), `polyhaven`, `ambientcg` (CC0 PBR textures, HDRIs, scanned models), `khronos` (reference glTF), `sketchfab` (scans; download needs `SKETCHFAB_API_TOKEN`), `material`, `lucide` (icons).
-2. `fetch <source>:<id>` writes the file + a ledger row (source URL, licence, commercial use, attribution, resolution). Every asset starts `pending`; only `status … approved` assets go into a real video.
-3. Priority: user's own product files → manufacturer model → licensed 3D model → real photo → custom model built from real references (label it as such) → AI imagery only with the user's explicit OK.
-4. Never present a different or generic object as the user's product. No cartoon/placeholder assets in real output. Respect NC / SA / attribution flags from the ledger.
+1. For every shot need: `npm run assets -- find "<need>" [--kind model|character|animation|icon|texture|hdri|element]`. Order: library ledger → offline catalogues (`library/catalog/`: Poly Haven, Rocketbox characters + 471 clips, Khronos, 3dicons, HyperFrames blocks) → local SVG packs → online (`--online`: Sketchfab, Openverse, Met, ambientCG).
+2. `npm run assets -- install <key> --project videos/<name>`: downloads into the git-ignored `library/.cache/`, converts/optimises to GLB, renders a preview, runs QC, records a ledger row, and copies only what the project uses into `videos/<name>/assets/`. No bulk downloads; nothing heavy enters git unless a project needs it (Git LFS).
+3. Fit to the scenario: compare candidates visually (`tools/assets/contact_sheet.py`), adapt with `tools/3d/customize.py` (colour, finish, real size), make consistent 3D icons with `tools/3d/icon3d.py` (SVG → bevelled 3D, ceramic/glass/metal), or build custom in Blender (`tools/3d/`). Line icons only for UI/HUD; no cartoon/placeholder/vintage assets in modern scenarios.
+4. Status: `ready` = automatic QC passed and preview reviewed; `approved` = user approved; `pending`; `rejected` (kept so it is never re-downloaded).
+5. Priority: user's own product files → manufacturer model → licensed 3D model → real photo → custom build from real references (label it) → AI imagery only with the user's explicit OK. Never present a generic object as the user's product. Respect NC / SA / attribution flags; keep `library/LICENSES/` notices with MIT assets.
 
 ## Rendering rules
 
