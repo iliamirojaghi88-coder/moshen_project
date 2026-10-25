@@ -48,11 +48,12 @@ const DOF_FS = /* glsl */ `
 precision highp float;
 in vec2 vUv; out vec4 o;
 uniform sampler2D tColor; uniform sampler2D tDepth;
-uniform float near, far, focus, aperture, maxR; uniform vec2 px;
+uniform float near, far, focus, aperture, maxR, nearOnly; uniform vec2 px;
 float lin(float d){ float z = d * 2.0 - 1.0; return 2.0 * near * far / (far + near - z * (far - near)); }
 float coc(vec2 uv){ float z = lin(texture(tDepth, uv).r); return clamp(abs(z - focus) / max(z, 1e-4) * aperture, 0.0, maxR); }
 void main(){
   float c0 = coc(vUv);
+  float z0 = lin(texture(tDepth, vUv).r);
   vec3 acc = texture(tColor, vUv).rgb; float wsum = 1.0;
   const int N = 28;
   for (int i = 0; i < N; i++) {
@@ -62,7 +63,9 @@ void main(){
     vec2 uv = vUv + off * px;
     float cs = coc(uv);
     float w = smoothstep(r - 1.5, r + 0.5, min(cs, c0 + 2.0) );
-    w = max(w, smoothstep(r - 1.5, r + 0.5, cs) * step(c0, cs));
+    // nearOnly: a blurrier sample may spill onto this pixel only if it is in front of it
+    float front = mix(1.0, step(lin(texture(tDepth, uv).r), z0), nearOnly);
+    w = max(w, smoothstep(r - 1.5, r + 0.5, cs) * step(c0, cs) * front);
     acc += texture(tColor, uv).rgb * w; wsum += w;
   }
   o = vec4(acc / wsum, c0);
@@ -219,7 +222,7 @@ export class Engine {
       fragmentShader: DOF_FS,
       uniforms: {
         tColor: { value: null }, tDepth: { value: null }, near: { value: 0.1 }, far: { value: 100 },
-        focus: { value: 1 }, aperture: { value: 0 }, maxR: { value: 12 }, px: { value: new THREE.Vector2(1 / W, 1 / H) },
+        focus: { value: 1 }, aperture: { value: 0 }, maxR: { value: 12 }, nearOnly: { value: 0 }, px: { value: new THREE.Vector2(1 / W, 1 / H) },
       },
       depthTest: false, depthWrite: false,
     });
@@ -355,6 +358,7 @@ export class Engine {
       u.focus.value = post.dof.focus;
       u.aperture.value = post.dof.aperture;
       u.maxR.value = post.dof.maxR ?? 10;
+      u.nearOnly.value = post.dof.nearOnly ?? 0;
       u.px.value.set(1 / W, 1 / H);
       this.r.setRenderTarget(dofRt);
       this.r.render(this.dofScene, this.quadCam);

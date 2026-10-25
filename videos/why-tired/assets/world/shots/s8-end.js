@@ -57,7 +57,12 @@ export default async function build({ E, M, G }) {
     ["نور طبیعی", "#ffe0a8", -0.047, -0.078],
   ].map(([txt, col, x, y], i) => {
     const l = E.label(txt, { height: 0.0135, intensity: 1.35, color: col, weight: 700 });
-    l.userData = { x, y, i };
+    // depth for the glyphs only, so depth of field keeps the words on their own plane
+    // instead of treating them as the far backdrop behind them
+    const depth = new THREE.Mesh(l.geometry, new THREE.MeshBasicMaterial({ map: l.material.map, alphaTest: 0.1, colorWrite: false, side: THREE.DoubleSide }));
+    depth.renderOrder = 9;
+    l.add(depth);
+    l.userData = { x, y, i, depth };
     scene.add(l);
     return l;
   });
@@ -117,6 +122,7 @@ export default async function build({ E, M, G }) {
       l.position.set(cc.x + Math.sin(th) * R, cc.y + Math.cos(th) * R * 0.95, 0.03);
       l.quaternion.copy(camera.quaternion).multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), -th * 0.55));
       l.material.opacity = a;
+      l.userData.depth.material.opacity = a;
       l.visible = a > 0.01;
     }
     // a soft glint across the crystal on the last word «نیست»
@@ -131,7 +137,7 @@ export default async function build({ E, M, G }) {
       contrast: 1.08,
       vig: 0.6,
       bloom: { strength: 0.42, radius: 0.55, threshold: 1.5 },
-      dof: { focus: camera.position.distanceTo(clock.position), aperture: 7, maxR: 10 },
+      dof: { focus: camera.position.distanceTo(clock.position), aperture: 7, maxR: 10, nearOnly: seg(t, 67.6, 68.0) },
     };
   }
   return { id: "s8b", t0: 65.1, t1: 69.6, scene, camera, update, transition: { mode: 2, zoomA: 1.6, zoomB: 0.85, blur: 6, ease: ease.inOut } };
