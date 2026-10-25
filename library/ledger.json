@@ -115,7 +115,7 @@
         "James Ray Cock"
       ],
       "resolution": "1k",
-      "realWorldSize": "204.87193763256073\u00d7206.37669414281845 mm",
+      "realWorldSize": "204.87193763256073×206.37669414281845 mm",
       "textures": "PBR (diffuse, normal-GL, roughness, AO, displacement)",
       "rig": false,
       "files": [
@@ -152,7 +152,7 @@
         "spdx": "MIT",
         "commercial": true,
         "attribution": true,
-        "note": "Microsoft Rocketbox Avatar Library \u2014 keep MIT notice (library/LICENSES/rocketbox-MIT.txt)"
+        "note": "Microsoft Rocketbox Avatar Library — keep MIT notice (library/LICENSES/rocketbox-MIT.txt)"
       },
       "authors": [
         "Microsoft / Rocketbox"
@@ -287,7 +287,7 @@
         "spdx": "MIT",
         "commercial": true,
         "attribution": true,
-        "note": "Microsoft Rocketbox Avatar Library \u2014 keep MIT notice (library/LICENSES/rocketbox-MIT.txt)"
+        "note": "Microsoft Rocketbox Avatar Library — keep MIT notice (library/LICENSES/rocketbox-MIT.txt)"
       },
       "authors": [
         "Microsoft / Rocketbox"
@@ -533,7 +533,7 @@
         "url": ""
       },
       "authors": [
-        "Gabriel Radi\u0107"
+        "Gabriel Radić"
       ],
       "rigged": false,
       "dimensionsMm": [
@@ -1914,7 +1914,7 @@
         "url": ""
       },
       "authors": [
-        "Luis Jos\u00e9 Fern\u00e1ndez Rodr\u00edguez"
+        "Luis José Fernández Rodríguez"
       ],
       "rigged": false,
       "dimensionsMm": [
@@ -3144,7 +3144,7 @@
         "url": ""
       },
       "authors": [
-        "Konrad Sza\u0142ankiewicz"
+        "Konrad Szałankiewicz"
       ],
       "rigged": false,
       "dimensionsMm": [
@@ -3740,7 +3740,7 @@
         "url": ""
       },
       "authors": [
-        "Gon\u00e7alo Fel\u00edcio"
+        "Gonçalo Felício"
       ],
       "rigged": false,
       "dimensionsMm": [
@@ -4011,7 +4011,7 @@
       "key": "polyhaven:potted_plant_04",
       "source": "polyhaven",
       "id": "potted_plant_04",
-      "installedAt": "2026-10-24T20:43:26.517Z",
+      "installedAt": "2026-10-25T03:20:08.134Z",
       "kind": "model",
       "title": "Potted Plant 04",
       "category": "Nature/Plants/Potted Plants",
@@ -5470,6 +5470,1010 @@
           1.789,
           1.411,
           4.38
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "rocketbox:Male_Adult_02",
+      "source": "rocketbox",
+      "id": "Male_Adult_02",
+      "installedAt": "2026-10-25T03:17:53.967Z",
+      "kind": "character",
+      "title": "Male Adult 02",
+      "category": "adults",
+      "tags": [
+        "male",
+        "man",
+        "adult",
+        "adult",
+        "realistic",
+        "rigged",
+        "arkit",
+        "visemes",
+        "human",
+        "person"
+      ],
+      "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Avatars/Adults/Male_Adult_02",
+      "rigged": true,
+      "license": {
+        "spdx": "MIT",
+        "commercial": true,
+        "attribution": true,
+        "note": "Microsoft Rocketbox Avatar Library — keep MIT notice (library/LICENSES/rocketbox-MIT.txt)"
+      },
+      "authors": [
+        "Microsoft / Rocketbox"
+      ],
+      "format": "GLB (WebP textures, 80-bone Biped, 52 ARKit + 15 viseme morphs)",
+      "files": [
+        "library/.cache/characters/rocketbox/Male_Adult_02/Male_Adult_02.glb"
+      ],
+      "sha256": "cd1deab6c6d9179fdbbc2b5bc287692f646d89379997d7b74ea9248f885c1983",
+      "sizeBytes": 4989164,
+      "preview": "library/.cache/characters/rocketbox/Male_Adult_02/preview.jpg",
+      "stats": {
+        "tris": 7312,
+        "meshes": 3,
+        "materials": 3,
+        "textures": 7,
+        "bones": 80,
+        "morphTargets": 67,
+        "morphNames": [
+          "viseme_Sil",
+          "viseme_PP",
+          "viseme_FF",
+          "viseme_TH",
+          "viseme_DD",
+          "viseme_KK",
+          "viseme_CH",
+          "viseme_SS",
+          "viseme_nn",
+          "viseme_RR",
+          "viseme_aa",
+          "viseme_E",
+          "viseme_I",
+          "viseme_O",
+          "viseme_U",
+          "browDownLeft",
+          "browDownRight",
+          "browInnerUp",
+          "browOuterUpLeft",
+          "browOuterUpRight",
+          "cheekPuff",
+          "cheekSquintLeft",
+          "cheekSquintRight",
+          "eyeBlinkLeft",
+          "eyeBlinkRight",
+          "eyeLookDownLeft",
+          "eyeLookDownRight",
+          "eyeLookInLeft",
+          "eyeLookInRight",
+          "eyeLookOutLeft",
+          "eyeLookOutRight",
+          "eyeLookUpLeft",
+          "eyeLookUpRight",
+          "eyeSquintLeft",
+          "eyeSquintRight",
+          "eyeWideLeft",
+          "eyeWideRight",
+          "jawForward",
+          "jawLeft",
+          "jawOpen",
+          "jawRight",
+          "mouthClose",
+          "mouthDimpleLeft",
+          "mouthDimpleRight",
+          "mouthFrownLeft",
+          "mouthFrownRight",
+          "mouthFunnel",
+          "mouthLeft",
+          "mouthLowerDownLeft",
+          "mouthLowerDownRight",
+          "mouthPressLeft",
+          "mouthPressRight",
+          "mouthPucker",
+          "mouthRight",
+          "mouthRollLower",
+          "mouthRollUpper",
+          "mouthShrugLower",
+          "mouthShrugUpper",
+          "mouthSmileLeft",
+          "mouthSmileRight",
+          "mouthStretchLeft",
+          "mouthStretchRight",
+          "mouthUpperUpLeft",
+          "mouthUpperUpRight",
+          "noseSneerLeft",
+          "noseSneerRight",
+          "tongueOut"
+        ],
+        "animations": [],
+        "sizeM": [
+          1.348,
+          1.823,
+          0.34
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true,
+          "rigged": true,
+          "faceShapes": true,
+          "humanHeight": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "rocketbox-anim:m_idle_yawn_01",
+      "source": "rocketbox-anim",
+      "id": "m_idle_yawn_01",
+      "installedAt": "2026-10-25T03:17:59.046Z",
+      "kind": "animation",
+      "title": "m idle yawn 01",
+      "category": "male",
+      "tags": [
+        "idle",
+        "yawn",
+        "01"
+      ],
+      "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Animations",
+      "rigged": true,
+      "license": {
+        "spdx": "MIT",
+        "commercial": true,
+        "attribution": true
+      },
+      "format": "GLB animation clip (Rocketbox Bip01 skeleton)",
+      "frames": 277,
+      "fps": 30,
+      "durationS": 9.23,
+      "files": [
+        "library/.cache/animations/rocketbox-anim/m_idle_yawn_01/m_idle_yawn_01.glb"
+      ],
+      "qc": {
+        "passed": true,
+        "checks": {
+          "downloaded": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "rocketbox-anim:m_sit_chair_idle_yawn",
+      "source": "rocketbox-anim",
+      "id": "m_sit_chair_idle_yawn",
+      "installedAt": "2026-10-25T03:18:10.026Z",
+      "kind": "animation",
+      "title": "m sit chair idle yawn",
+      "category": "male",
+      "tags": [
+        "sit",
+        "chair",
+        "idle",
+        "yawn"
+      ],
+      "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Animations",
+      "rigged": true,
+      "license": {
+        "spdx": "MIT",
+        "commercial": true,
+        "attribution": true
+      },
+      "format": "GLB animation clip (Rocketbox Bip01 skeleton)",
+      "frames": 230,
+      "fps": 30,
+      "durationS": 7.67,
+      "files": [
+        "library/.cache/animations/rocketbox-anim/m_sit_chair_idle_yawn/m_sit_chair_idle_yawn.glb"
+      ],
+      "qc": {
+        "passed": true,
+        "checks": {
+          "downloaded": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "rocketbox-anim:m_sit_chair_idle_touch_face",
+      "source": "rocketbox-anim",
+      "id": "m_sit_chair_idle_touch_face",
+      "installedAt": "2026-10-25T03:18:13.887Z",
+      "kind": "animation",
+      "title": "m sit chair idle touch face",
+      "category": "male",
+      "tags": [
+        "sit",
+        "chair",
+        "idle",
+        "touch",
+        "face"
+      ],
+      "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Animations",
+      "rigged": true,
+      "license": {
+        "spdx": "MIT",
+        "commercial": true,
+        "attribution": true
+      },
+      "format": "GLB animation clip (Rocketbox Bip01 skeleton)",
+      "frames": 216,
+      "fps": 30,
+      "durationS": 7.2,
+      "files": [
+        "library/.cache/animations/rocketbox-anim/m_sit_chair_idle_touch_face/m_sit_chair_idle_touch_face.glb"
+      ],
+      "qc": {
+        "passed": true,
+        "checks": {
+          "downloaded": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "rocketbox-anim:m_idle_touch_face_01",
+      "source": "rocketbox-anim",
+      "id": "m_idle_touch_face_01",
+      "installedAt": "2026-10-25T03:18:17.405Z",
+      "kind": "animation",
+      "title": "m idle touch face 01",
+      "category": "male",
+      "tags": [
+        "idle",
+        "touch",
+        "face",
+        "01"
+      ],
+      "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Animations",
+      "rigged": true,
+      "license": {
+        "spdx": "MIT",
+        "commercial": true,
+        "attribution": true
+      },
+      "format": "GLB animation clip (Rocketbox Bip01 skeleton)",
+      "frames": 179,
+      "fps": 30,
+      "durationS": 5.97,
+      "files": [
+        "library/.cache/animations/rocketbox-anim/m_idle_touch_face_01/m_idle_touch_face_01.glb"
+      ],
+      "qc": {
+        "passed": true,
+        "checks": {
+          "downloaded": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "rocketbox-anim:m_idle_touch_face_02",
+      "source": "rocketbox-anim",
+      "id": "m_idle_touch_face_02",
+      "installedAt": "2026-10-25T03:18:21.687Z",
+      "kind": "animation",
+      "title": "m idle touch face 02",
+      "category": "male",
+      "tags": [
+        "idle",
+        "touch",
+        "face",
+        "02"
+      ],
+      "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Animations",
+      "rigged": true,
+      "license": {
+        "spdx": "MIT",
+        "commercial": true,
+        "attribution": true
+      },
+      "format": "GLB animation clip (Rocketbox Bip01 skeleton)",
+      "frames": 289,
+      "fps": 30,
+      "durationS": 9.63,
+      "files": [
+        "library/.cache/animations/rocketbox-anim/m_idle_touch_face_02/m_idle_touch_face_02.glb"
+      ],
+      "qc": {
+        "passed": true,
+        "checks": {
+          "downloaded": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "rocketbox-anim:m_sit_chair_breathe_01",
+      "source": "rocketbox-anim",
+      "id": "m_sit_chair_breathe_01",
+      "installedAt": "2026-10-25T03:18:26.758Z",
+      "kind": "animation",
+      "title": "m sit chair breathe 01",
+      "category": "male",
+      "tags": [
+        "sit",
+        "chair",
+        "breathe",
+        "01"
+      ],
+      "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Animations",
+      "rigged": true,
+      "license": {
+        "spdx": "MIT",
+        "commercial": true,
+        "attribution": true
+      },
+      "format": "GLB animation clip (Rocketbox Bip01 skeleton)",
+      "frames": 381,
+      "fps": 30,
+      "durationS": 12.7,
+      "files": [
+        "library/.cache/animations/rocketbox-anim/m_sit_chair_breathe_01/m_sit_chair_breathe_01.glb"
+      ],
+      "qc": {
+        "passed": true,
+        "checks": {
+          "downloaded": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "rocketbox-anim:m_idle_breathe_01",
+      "source": "rocketbox-anim",
+      "id": "m_idle_breathe_01",
+      "installedAt": "2026-10-25T03:18:29.077Z",
+      "kind": "animation",
+      "title": "m idle breathe 01",
+      "category": "male",
+      "tags": [
+        "idle",
+        "breathe",
+        "01"
+      ],
+      "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Animations",
+      "rigged": true,
+      "license": {
+        "spdx": "MIT",
+        "commercial": true,
+        "attribution": true
+      },
+      "format": "GLB animation clip (Rocketbox Bip01 skeleton)",
+      "frames": 82,
+      "fps": 30,
+      "durationS": 2.73,
+      "files": [
+        "library/.cache/animations/rocketbox-anim/m_idle_breathe_01/m_idle_breathe_01.glb"
+      ],
+      "qc": {
+        "passed": true,
+        "checks": {
+          "downloaded": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "rocketbox-anim:m_idle_stretch_arms_01",
+      "source": "rocketbox-anim",
+      "id": "m_idle_stretch_arms_01",
+      "installedAt": "2026-10-25T03:18:32.887Z",
+      "kind": "animation",
+      "title": "m idle stretch arms 01",
+      "category": "male",
+      "tags": [
+        "idle",
+        "stretch",
+        "arms",
+        "01"
+      ],
+      "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Animations",
+      "rigged": true,
+      "license": {
+        "spdx": "MIT",
+        "commercial": true,
+        "attribution": true
+      },
+      "format": "GLB animation clip (Rocketbox Bip01 skeleton)",
+      "frames": 199,
+      "fps": 30,
+      "durationS": 6.63,
+      "files": [
+        "library/.cache/animations/rocketbox-anim/m_idle_stretch_arms_01/m_idle_stretch_arms_01.glb"
+      ],
+      "qc": {
+        "passed": true,
+        "checks": {
+          "downloaded": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "rocketbox-anim:m_sit_chair_idle_scratch_head",
+      "source": "rocketbox-anim",
+      "id": "m_sit_chair_idle_scratch_head",
+      "installedAt": "2026-10-25T03:18:36.537Z",
+      "kind": "animation",
+      "title": "m sit chair idle scratch head",
+      "category": "male",
+      "tags": [
+        "sit",
+        "chair",
+        "idle",
+        "scratch",
+        "head"
+      ],
+      "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Animations",
+      "rigged": true,
+      "license": {
+        "spdx": "MIT",
+        "commercial": true,
+        "attribution": true
+      },
+      "format": "GLB animation clip (Rocketbox Bip01 skeleton)",
+      "frames": 193,
+      "fps": 30,
+      "durationS": 6.43,
+      "files": [
+        "library/.cache/animations/rocketbox-anim/m_sit_chair_idle_scratch_head/m_sit_chair_idle_scratch_head.glb"
+      ],
+      "qc": {
+        "passed": true,
+        "checks": {
+          "downloaded": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "rocketbox-anim:m_idle_scratch_head_01",
+      "source": "rocketbox-anim",
+      "id": "m_idle_scratch_head_01",
+      "installedAt": "2026-10-25T03:18:39.545Z",
+      "kind": "animation",
+      "title": "m idle scratch head 01",
+      "category": "male",
+      "tags": [
+        "idle",
+        "scratch",
+        "head",
+        "01"
+      ],
+      "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Animations",
+      "rigged": true,
+      "license": {
+        "spdx": "MIT",
+        "commercial": true,
+        "attribution": true
+      },
+      "format": "GLB animation clip (Rocketbox Bip01 skeleton)",
+      "frames": 149,
+      "fps": 30,
+      "durationS": 4.97,
+      "files": [
+        "library/.cache/animations/rocketbox-anim/m_idle_scratch_head_01/m_idle_scratch_head_01.glb"
+      ],
+      "qc": {
+        "passed": true,
+        "checks": {
+          "downloaded": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "rocketbox-anim:m_idle_neutral_01",
+      "source": "rocketbox-anim",
+      "id": "m_idle_neutral_01",
+      "installedAt": "2026-10-25T03:18:44.532Z",
+      "kind": "animation",
+      "title": "m idle neutral 01",
+      "category": "male",
+      "tags": [
+        "idle",
+        "neutral",
+        "01"
+      ],
+      "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Animations",
+      "rigged": true,
+      "license": {
+        "spdx": "MIT",
+        "commercial": true,
+        "attribution": true
+      },
+      "format": "GLB animation clip (Rocketbox Bip01 skeleton)",
+      "frames": 350,
+      "fps": 30,
+      "durationS": 11.67,
+      "files": [
+        "library/.cache/animations/rocketbox-anim/m_idle_neutral_01/m_idle_neutral_01.glb"
+      ],
+      "qc": {
+        "passed": true,
+        "checks": {
+          "downloaded": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "rocketbox-anim:m_sit_chair_idle_relaxed_01",
+      "source": "rocketbox-anim",
+      "id": "m_sit_chair_idle_relaxed_01",
+      "installedAt": "2026-10-25T03:18:56.800Z",
+      "kind": "animation",
+      "title": "m sit chair idle relaxed 01",
+      "category": "male",
+      "tags": [
+        "sit",
+        "chair",
+        "idle",
+        "relaxed",
+        "01"
+      ],
+      "page": "https://github.com/microsoft/Microsoft-Rocketbox/tree/master/Assets/Animations",
+      "rigged": true,
+      "license": {
+        "spdx": "MIT",
+        "commercial": true,
+        "attribution": true
+      },
+      "format": "GLB animation clip (Rocketbox Bip01 skeleton)",
+      "frames": 1092,
+      "fps": 30,
+      "durationS": 36.4,
+      "files": [
+        "library/.cache/animations/rocketbox-anim/m_sit_chair_idle_relaxed_01/m_sit_chair_idle_relaxed_01.glb"
+      ],
+      "qc": {
+        "passed": true,
+        "checks": {
+          "downloaded": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:throw_pillows_01",
+      "source": "polyhaven",
+      "id": "throw_pillows_01",
+      "installedAt": "2026-10-25T03:19:17.123Z",
+      "kind": "model",
+      "title": "Throw Pillows 01",
+      "category": "Decor & Art/Ornaments/Cushions & Pillows",
+      "tags": [
+        "decorative",
+        "decorative",
+        "pillow",
+        "throw",
+        "pattern",
+        "african",
+        "red",
+        "triangle",
+        "orange"
+      ],
+      "page": "https://polyhaven.com/a/throw_pillows_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Serhii Khromov"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1022,
+        627,
+        450
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/throw_pillows_01/throw_pillows_01.glb"
+      ],
+      "sha256": "9bbcfa376222eb37391e74de283ab21b170e346f94c6e64bc02f144fb252f544",
+      "sizeBytes": 988920,
+      "preview": "library/.cache/models/polyhaven/throw_pillows_01/preview.jpg",
+      "stats": {
+        "tris": 6362,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.94,
+          0.45,
+          0.452
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:side_table_01",
+      "source": "polyhaven",
+      "id": "side_table_01",
+      "installedAt": "2026-10-25T03:19:24.903Z",
+      "kind": "model",
+      "title": "Side Table 01",
+      "category": "Furniture/Tables/Side & End Tables",
+      "tags": [
+        "furniture",
+        "table",
+        "table",
+        "wood",
+        "minimalist",
+        "modern",
+        "decor",
+        "living room",
+        "bedroom",
+        "shelf",
+        "contemporary",
+        "interior",
+        "home",
+        "wooden"
+      ],
+      "page": "https://polyhaven.com/a/side_table_01",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "James Ray Cock"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        550,
+        450,
+        551
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/side_table_01/side_table_01.glb"
+      ],
+      "sha256": "cebe3112868c0053ee03fc841124895dee2de668c5de77d014acd5012ae58eec",
+      "sizeBytes": 278448,
+      "preview": "library/.cache/models/polyhaven/side_table_01/preview.jpg",
+      "stats": {
+        "tris": 2756,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.55,
+          0.551,
+          0.45
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:rough_linen",
+      "source": "polyhaven",
+      "id": "rough_linen",
+      "installedAt": "2026-10-25T03:19:36.823Z",
+      "kind": "model",
+      "title": "Rough Linen",
+      "category": "Textiles & Leather/Woven/Linen & Hessian-weave",
+      "tags": [
+        "fabric",
+        "cotton",
+        "hessian",
+        "blue",
+        "fine",
+        "textile ",
+        "fabric",
+        "woven",
+        "linen",
+        "weave",
+        "crosshatch"
+      ],
+      "page": "https://polyhaven.com/a/rough_linen",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "colormass",
+        "Rico Cilliers"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        271,
+        271
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/rough_linen/rough_linen.glb"
+      ],
+      "sha256": "2078c3404ee12c51685acc0a0d27401e55857d4ed880bc7cf326fa3d42eea020",
+      "sizeBytes": 3473956,
+      "preview": "library/.cache/models/polyhaven/rough_linen/preview.jpg",
+      "stats": {
+        "tris": 107390,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 4,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.271,
+          0.271,
+          0.271
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:wood_floor",
+      "source": "polyhaven",
+      "id": "wood_floor",
+      "installedAt": "2026-10-25T03:19:46.653Z",
+      "kind": "model",
+      "title": "Wood Floor",
+      "category": "Wood/Boards & Planks/Finished & Varnished",
+      "tags": [
+        "floor",
+        "wood",
+        "man made",
+        "clean",
+        "wood",
+        "floor",
+        "wooden",
+        "wooden flooring ",
+        "grain",
+        "wood grain",
+        "interior design",
+        "interior",
+        "flooring"
+      ],
+      "page": "https://polyhaven.com/a/wood_floor",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Dimitrios Savva"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1700,
+        1700
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/wood_floor/wood_floor.glb"
+      ],
+      "sha256": "f89a67e6e09666bdf1351f26be17a845b66724d6635c1381f9bd771f812b7c22",
+      "sizeBytes": 2507604,
+      "preview": "library/.cache/models/polyhaven/wood_floor/preview.jpg",
+      "stats": {
+        "tris": 107390,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          1.7,
+          1.7,
+          1.7
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:white_plaster_02",
+      "source": "polyhaven",
+      "id": "white_plaster_02",
+      "installedAt": "2026-10-25T03:19:54.157Z",
+      "kind": "model",
+      "title": "White Plaster 02",
+      "category": "Concrete/Plaster & Stucco/Bare Plaster",
+      "tags": [
+        "plaster-concrete",
+        "wall",
+        "man made",
+        "outdoor",
+        "indoor",
+        "clean",
+        "floor",
+        "smooth",
+        "flat",
+        "even"
+      ],
+      "page": "https://polyhaven.com/a/white_plaster_02",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "Rob Tuytel"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        1000,
+        1000
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/white_plaster_02/white_plaster_02.glb"
+      ],
+      "sha256": "d5ce01493438666e245fbf6d6890093f2b4696f053f63786e8c545d719c5f858",
+      "sizeBytes": 2751692,
+      "preview": "library/.cache/models/polyhaven/white_plaster_02/preview.jpg",
+      "stats": {
+        "tris": 107390,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 3,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.999,
+          1.003,
+          1.001
+        ]
+      },
+      "qc": {
+        "passed": true,
+        "checks": {
+          "loads": true,
+          "textured": true,
+          "geometry": true,
+          "plausibleSize": true
+        }
+      },
+      "status": "ready"
+    },
+    {
+      "key": "polyhaven:knitted_fleece",
+      "source": "polyhaven",
+      "id": "knitted_fleece",
+      "installedAt": "2026-10-25T03:20:01.997Z",
+      "kind": "model",
+      "title": "Knitted Fleece",
+      "category": "Textiles & Leather/Knit/Fleece & Napped",
+      "tags": [
+        "fabric",
+        "knitted",
+        "fleece",
+        "wool",
+        "brown",
+        "jersey",
+        "warm",
+        "knitted",
+        "fleece",
+        "textile ",
+        "knit",
+        "dense weave",
+        "woven",
+        "soft",
+        "insulating",
+        "winter wear"
+      ],
+      "page": "https://polyhaven.com/a/knitted_fleece",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": ""
+      },
+      "authors": [
+        "colormass",
+        "Rico Cilliers"
+      ],
+      "rigged": false,
+      "dimensionsMm": [
+        266,
+        270
+      ],
+      "format": "GLB (WebP textures)",
+      "textureRes": "1k",
+      "files": [
+        "library/.cache/models/polyhaven/knitted_fleece/knitted_fleece.glb"
+      ],
+      "sha256": "ca32b51d61a3789985ef1984dc488c00d5ae7dd20dad19b8083043be824e9644",
+      "sizeBytes": 3542512,
+      "preview": "library/.cache/models/polyhaven/knitted_fleece/preview.jpg",
+      "stats": {
+        "tris": 107390,
+        "meshes": 1,
+        "materials": 1,
+        "textures": 4,
+        "bones": 0,
+        "morphTargets": 0,
+        "morphNames": [],
+        "animations": [],
+        "sizeM": [
+          0.271,
+          0.271,
+          0.271
         ]
       },
       "qc": {

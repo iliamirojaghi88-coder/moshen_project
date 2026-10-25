@@ -6,3 +6,6 @@ library/icons/**/*.png filter=lfs diff=lfs merge=lfs -text
 library/hdri/**/*.hdr filter=lfs diff=lfs merge=lfs -text
 library/**/*.exr filter=lfs diff=lfs merge=lfs -text
 library/**/*.blend filter=lfs diff=lfs merge=lfs -text
+remotion-studio/public/**/*.glb filter=lfs diff=lfs merge=lfs -text
+remotion-studio/public/**/*.wav filter=lfs diff=lfs merge=lfs -text
+remotion-studio/public/**/*.mp3 filter=lfs diff=lfs merge=lfs -text

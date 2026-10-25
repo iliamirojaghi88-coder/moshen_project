@@ -33,6 +33,16 @@ function sparseRepo(url, dir, paths) {
     mkdirSync(dirname(dir), { recursive: true });
     sh("git", ["clone", "-q", "--depth", "1", "--filter=blob:none", "--sparse", url, dir], { env: { ...process.env, GIT_LFS_SKIP_SMUDGE: "1" } });
   }
+  // `clone --sparse` starts in cone mode, but callers pass file patterns: switch to non-cone once.
+  let cone = "";
+  try {
+    cone = sh("git", ["-C", dir, "config", "--get", "core.sparseCheckoutCone"]).trim();
+  } catch {
+    // unset: git's default for `sparse-checkout add` is cone mode
+  }
+  if (cone !== "false") {
+    sh("git", ["-C", dir, "sparse-checkout", "set", "--no-cone", "/*", "!/*/"]);
+  }
   if (paths?.length) sh("git", ["-C", dir, "sparse-checkout", "add", "--skip-checks", ...paths]);
   return dir;
 }

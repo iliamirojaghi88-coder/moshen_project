@@ -18,3 +18,8 @@ library/.cache/
 library/index.html
 __pycache__/
 *.pyc
+
+# sleep explainer: intermediate stems (re-created by src/sleep/audio/build_mix.py)
+remotion-studio/public/sleep/premix.wav
+remotion-studio/public/sleep/music.wav
+remotion-studio/public/sleep/sfx.wav
