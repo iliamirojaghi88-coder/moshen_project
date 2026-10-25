@@ -1,0 +1,88 @@
+<template>
+  <style>
+    @font-face { font-family: "Vazirmatn"; font-weight: 200; src: url("assets/fonts/vazirmatn-arabic-200-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 200; src: url("assets/fonts/vazirmatn-latin-200-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 400; src: url("assets/fonts/vazirmatn-arabic-400-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 400; src: url("assets/fonts/vazirmatn-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 500; src: url("assets/fonts/vazirmatn-arabic-500-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 500; src: url("assets/fonts/vazirmatn-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 600; src: url("assets/fonts/vazirmatn-arabic-600-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 600; src: url("assets/fonts/vazirmatn-latin-600-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 700; src: url("assets/fonts/vazirmatn-arabic-700-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 700; src: url("assets/fonts/vazirmatn-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 800; src: url("assets/fonts/vazirmatn-arabic-800-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 800; src: url("assets/fonts/vazirmatn-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 900; src: url("assets/fonts/vazirmatn-arabic-900-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 900; src: url("assets/fonts/vazirmatn-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    #root { position: absolute; inset: 0; font-family: "Vazirmatn", sans-serif; color: #f3efe7; direction: rtl; }
+    .t7-ln { position: absolute; left: 0; width: 1080px; text-align: center; white-space: nowrap; line-height: 1.2; text-shadow: 0 4px 34px rgba(1, 3, 10, 0.85), 0 1px 3px rgba(0, 0, 0, 0.5); }
+    .t7-w { display: inline-block; position: relative; }
+    .t7-idx { display: block; font-size: 40px; font-weight: 700; color: #e9b75e; letter-spacing: 0; margin-bottom: 6px; }
+    #t7-now { top: 760px; font-size: 128px; font-weight: 900; }
+    #t7-r1 { top: 196px; font-size: 62px; font-weight: 600; }
+    #t7-reg { display: inline-block; font-size: 132px; font-weight: 900; color: #6fe6da; }
+    #t7-r2 { top: 196px; font-size: 62px; font-weight: 600; }
+    #t7-dark { display: inline-block; font-size: 124px; font-weight: 900; }
+    #t7-calm { display: inline-block; font-size: 124px; font-weight: 200; color: #cfdaf2; }
+    #t7-r3 { top: 1112px; font-size: 62px; font-weight: 600; }
+    #t7-light { display: inline-block; font-size: 128px; font-weight: 900; background: linear-gradient(180deg, #fff1cf 0%, #f4c06a 55%, #e39a43 100%); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; filter: drop-shadow(0 4px 22px rgba(80, 40, 0, 0.55)); }
+  </style>
+  <div id="root" data-composition-id="t7" data-width="1080" data-height="1920">
+    <div id="t7-now" class="t7-ln clip" data-start="0.1" data-duration="1.25">
+      <span id="t7-n1" class="t7-w">حالا</span>
+      <span id="t7-n2" class="t7-w">چیکار کنی؟</span>
+    </div>
+    <div id="t7-r1" class="t7-ln clip" data-start="1.4" data-duration="3.4">
+      <span id="t7-i1" class="t7-idx">۰۱</span>
+      <span id="t7-a1" class="t7-w">ساعت خواب</span>
+      <span id="t7-a2" class="t7-w">و بیدارشدنت</span><br />
+      <span id="t7-reg">منظم</span>
+    </div>
+    <div id="t7-r2" class="t7-ln clip" data-start="4.9" data-duration="2.6">
+      <span id="t7-i2" class="t7-idx">۰۲</span>
+      <span id="t7-b1" class="t7-w">محیط خوابت</span><br />
+      <span id="t7-dark">تاریک</span>
+      <span id="t7-o" class="t7-w" style="font-size: 80px">و</span>
+      <span id="t7-calm">آروم</span>
+    </div>
+    <div id="t7-r3" class="t7-ln clip" data-start="7.45" data-duration="2.5">
+      <span id="t7-i3" class="t7-idx">۰۳</span>
+      <span id="t7-c1" class="t7-w">و صبح</span><br />
+      <span id="t7-light">نور طبیعی</span>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const T0 = 48.45, at = (g) => g - T0;
+      const tl = gsap.timeline({ paused: true });
+      const rise = (sel, g, y = 24, d = 0.32) => tl.fromTo(sel, { opacity: 0, y }, { opacity: 1, y: 0, duration: d, ease: "power3.out" }, at(g));
+      const out = (sel, g, d = 0.25) => tl.to(sel, { opacity: 0, duration: d, ease: "power2.in" }, at(g));
+      // «حالا چیکار کنی؟»
+      tl.fromTo("#t7-n1", { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.35, ease: "power4.out" }, at(48.6));
+      tl.fromTo("#t7-n2", { opacity: 0, scale: 1.2 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power4.out" }, at(48.88));
+      out("#t7-now", 49.55, 0.2);
+      // ۰۱ — regularity: every piece lands with the same motion, on an even beat
+      const beat = (sel, g) => tl.fromTo(sel, { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.24, ease: "power2.out" }, at(g));
+      beat("#t7-i1", 49.9);
+      beat("#t7-a1", 50.3);
+      beat("#t7-a2", 51.12);
+      tl.fromTo("#t7-reg", { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.24, ease: "power2.out" }, at(52.12));
+      tl.fromTo("#t7-reg", { scale: 1 }, { scale: 1.04, duration: 0.12, ease: "power1.out", yoyo: true, repeat: 3 }, at(52.4));
+      out("#t7-r1", 53.18);
+      // ۰۲ — dark & calm: «تاریک» dims itself, «آروم» arrives in the lightest weight
+      rise("#t7-i2", 53.4, 14);
+      rise("#t7-b1", 53.42);
+      tl.fromTo("#t7-dark", { opacity: 0, color: "#f3efe7" }, { opacity: 1, duration: 0.3, ease: "power2.out" }, at(54.25));
+      tl.to("#t7-dark", { color: "#4a5875", duration: 0.7, ease: "power1.inOut" }, at(54.5));
+      rise("#t7-o", 54.8, 12);
+      tl.fromTo("#t7-calm", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.9, ease: "sine.out" }, at(54.92));
+      out("#t7-r2", 55.85, 0.3);
+      // ۰۳ — morning light, warm gold, low in frame under the bright window
+      rise("#t7-i3", 55.98, 14);
+      rise("#t7-c1", 56.0);
+      tl.fromTo("#t7-light", { opacity: 0, y: 30, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power3.out" }, at(56.28));
+      out("#t7-r3", 58.15, 0.3);
+      window.__timelines["t7"] = tl;
+    })();
+  </script>
+</template>

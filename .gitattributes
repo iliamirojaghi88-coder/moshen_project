@@ -6,3 +6,8 @@ library/icons/**/*.png filter=lfs diff=lfs merge=lfs -text
 library/hdri/**/*.hdr filter=lfs diff=lfs merge=lfs -text
 library/**/*.exr filter=lfs diff=lfs merge=lfs -text
 library/**/*.blend filter=lfs diff=lfs merge=lfs -text
+# Per-video heavy assets (project-local copies used by a render)
+videos/**/assets/models/*.glb filter=lfs diff=lfs merge=lfs -text
+videos/**/assets/tex/*.png filter=lfs diff=lfs merge=lfs -text
+videos/**/assets/video/*.mp4 filter=lfs diff=lfs merge=lfs -text
+videos/**/deliver/*.mp4 filter=lfs diff=lfs merge=lfs -text

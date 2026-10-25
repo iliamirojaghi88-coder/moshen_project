@@ -63,7 +63,7 @@ PY
 fi
 
 count=$(grep -o '\[' <<< "$mix_inputs" | wc -l)
-graph+="${mix_inputs}amix=inputs=${count}:duration=first:normalize=0,loudnorm=I=${TARGET}:TP=-1:LRA=9,aresample=48000[out]"
+graph+="${mix_inputs}amix=inputs=${count}:duration=longest:normalize=0,loudnorm=I=${TARGET}:TP=-1:LRA=9,aresample=48000[out]"
 
 ffmpeg -hide_banner -loglevel error -y "${inputs[@]}" -filter_complex "$graph" -map "[out]" \
   -c:a aac -b:a 192k -ar 48000 -ac 2 -t "$dur" "$OUT"

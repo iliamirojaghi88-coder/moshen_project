@@ -1,0 +1,109 @@
+<template>
+  <style>
+    @font-face { font-family: "Vazirmatn"; font-weight: 200; src: url("assets/fonts/vazirmatn-arabic-200-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 200; src: url("assets/fonts/vazirmatn-latin-200-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 400; src: url("assets/fonts/vazirmatn-arabic-400-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 400; src: url("assets/fonts/vazirmatn-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 500; src: url("assets/fonts/vazirmatn-arabic-500-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 500; src: url("assets/fonts/vazirmatn-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 600; src: url("assets/fonts/vazirmatn-arabic-600-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 600; src: url("assets/fonts/vazirmatn-latin-600-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 700; src: url("assets/fonts/vazirmatn-arabic-700-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 700; src: url("assets/fonts/vazirmatn-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 800; src: url("assets/fonts/vazirmatn-arabic-800-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 800; src: url("assets/fonts/vazirmatn-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 900; src: url("assets/fonts/vazirmatn-arabic-900-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 900; src: url("assets/fonts/vazirmatn-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    #root { position: absolute; inset: 0; font-family: "Vazirmatn", sans-serif; color: #f3efe7; direction: rtl; }
+    .t5-ln { position: absolute; left: 0; width: 1080px; text-align: center; white-space: nowrap; line-height: 1.2; text-shadow: 0 4px 34px rgba(1, 3, 10, 0.85), 0 1px 3px rgba(0, 0, 0, 0.5); }
+    .t5-w { display: inline-block; position: relative; }
+    #t5-rz { position: absolute; top: 214px; right: 92px; text-align: right; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7); }
+    #t5-rz-k { display: block; font-size: 46px; font-weight: 400; color: #a9bde6; }
+    #t5-rz-o { display: block; font-size: 140px; font-weight: 900; line-height: 1.02; overflow: visible; }
+    #t5-rz-top, #t5-rz-bot { display: block; }
+    #t5-rz-bot { position: absolute; inset: 0; clip-path: inset(50% 0 0 0); color: #e9c27a; }
+    #t5-rz-top { clip-path: inset(0 0 50% 0); color: #b9c9ef; }
+    #t5-rz-wrap { position: relative; display: block; height: 143px; font-size: 140px; font-weight: 900; line-height: 1.02; }
+    #t5-rz-rule { height: 4px; width: 250px; margin-top: 14px; margin-right: auto; background: linear-gradient(to left, #e9b75e, rgba(233, 183, 94, 0)); transform-origin: 100% 50%; }
+    #t5-irr { top: 214px; font-size: 64px; font-weight: 600; }
+    #t5-irr-w { display: inline-block; font-size: 128px; font-weight: 900; color: #a9bde6; }
+    #t5-each { top: 214px; font-size: 54px; font-weight: 400; color: rgba(243, 239, 231, 0.85); }
+    .t5-day { position: absolute; left: 0; width: 1080px; top: 840px; text-align: center; white-space: nowrap; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8); }
+    .t5-day b { display: block; font-size: 84px; font-weight: 800; }
+    .t5-day i { display: block; font-style: normal; font-size: 52px; font-weight: 400; color: #a9bde6; margin-top: 4px; }
+    #t5-bio { top: 210px; font-size: 118px; font-weight: 900; color: #f0be6a; }
+    #t5-mess { top: 372px; font-size: 70px; font-weight: 700; }
+    .t5-mw { display: inline-block; }
+  </style>
+  <div id="root" data-composition-id="t5" data-width="1080" data-height="1920">
+    <div id="t5-rz" class="clip" data-start="0.08" data-duration="1.35">
+      <span id="t5-rz-k">دلیل</span>
+      <span id="t5-rz-wrap"><span id="t5-rz-top">دوم</span><span id="t5-rz-bot">دوم</span></span>
+      <div id="t5-rz-rule"></div>
+    </div>
+    <div id="t5-irr" class="t5-ln clip" data-start="1.4" data-duration="1.95">
+      <span id="t5-i1" class="t5-w">ساعت خواب</span><br />
+      <span id="t5-irr-w">نامنظم</span>
+    </div>
+    <div id="t5-each" class="t5-ln clip" data-start="3.55" data-duration="2.75">
+      <span id="t5-e1" class="t5-w">هر شب</span>
+      <span id="t5-e2" class="t5-w">یه ساعت متفاوت</span>
+    </div>
+    <div id="t5-d1" class="t5-day clip" data-start="3.55" data-duration="0.66"><b>شنبه</b><i>۲۳:۰۰</i></div>
+    <div id="t5-d2" class="t5-day clip" data-start="4.2" data-duration="0.62"><b>یکشنبه</b><i>۰۱:۳۰</i></div>
+    <div id="t5-d3" class="t5-day clip" data-start="4.82" data-duration="0.6"><b>دوشنبه</b><i>۲۲:۱۰</i></div>
+    <div id="t5-d4" class="t5-day clip" data-start="5.42" data-duration="0.85"><b>سه&zwnj;شنبه</b><i>۰۲:۴۵</i></div>
+    <div id="t5-bio" class="t5-ln clip" data-start="6.35" data-duration="3.25">
+      <span id="t5-b1" class="t5-w">ساعت زیستی</span>
+    </div>
+    <div id="t5-mess" class="t5-ln clip" data-start="7.35" data-duration="2.25" data-layout-allow-overlap>
+      <span id="t5-m1" class="t5-mw">بدنت</span>
+      <span id="t5-m2" class="t5-mw">ممکنه</span>
+      <span id="t5-m3" class="t5-mw">به</span>
+      <span id="t5-m4" class="t5-mw">هم</span>
+      <span id="t5-m5" class="t5-mw">بریزه</span>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const T0 = 29.1, at = (g) => g - T0;
+      const tl = gsap.timeline({ paused: true });
+      const rise = (sel, g, y = 24, d = 0.32) => tl.fromTo(sel, { opacity: 0, y }, { opacity: 1, y: 0, duration: d, ease: "power3.out" }, at(g));
+      const out = (sel, g, d = 0.22) => tl.to(sel, { opacity: 0, duration: d, ease: "power2.in" }, at(g));
+      // «دلیل دوم» — the ordinal arrives in two halves, night over day, like the two-tone ۲
+      tl.fromTo("#t5-rz-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.inOut" }, at(29.2));
+      rise("#t5-rz-k", 29.24, 14);
+      tl.fromTo("#t5-rz-top", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.42, ease: "power4.out" }, at(29.82));
+      tl.fromTo("#t5-rz-bot", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.42, ease: "power4.out" }, at(29.86));
+      out("#t5-rz", 30.42);
+      // «ساعت خواب نامنظم» — «نامنظم» lands, then stutters off-beat
+      rise("#t5-i1", 30.54);
+      tl.fromTo("#t5-irr-w", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.24, ease: "power4.out" }, at(31.5));
+      const jit = [[-14, 9, -3], [11, -6, 2.5], [-6, -12, -1.5], [16, 5, 3], [-10, 3, -2.5], [4, -8, 1.5], [0, 0, 0]];
+      jit.forEach(([x, y, r], i) => tl.to("#t5-irr-w", { x, y, rotation: r, duration: 0.05, ease: "steps(1)" }, at(31.78 + i * 0.09 + (i % 2) * 0.035)));
+      out("#t5-irr", 32.4);
+      // «وقتی هر شب یه ساعت متفاوت می‌خوابی» — one card per night
+      rise("#t5-e1", 32.92, 14);
+      rise("#t5-e2", 33.32, 14);
+      const card = (sel, g0, g1) => {
+        tl.fromTo(sel, { opacity: 0, y: 26, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.2, ease: "power3.out" }, at(g0));
+        tl.to(sel, { opacity: 0, y: -18, duration: 0.14, ease: "power2.in" }, at(g1 - 0.14));
+      };
+      card("#t5-d1", 32.66, 33.3);
+      card("#t5-d2", 33.3, 33.92);
+      card("#t5-d3", 33.92, 34.52);
+      card("#t5-d4", 34.52, 35.35);
+      out("#t5-each", 35.2);
+      // «ساعت زیستی بدنت ممکنه به هم بریزه» — the words fall out of line on «بریزه»
+      tl.fromTo("#t5-b1", { opacity: 0, y: 40, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, at(35.48));
+      ["#t5-m1", "#t5-m2", "#t5-m3", "#t5-m4", "#t5-m5"].forEach((s, i) => rise(s, [36.46, 36.95, 37.42, 37.66, 37.9][i], 18, 0.26));
+      const mess = [[4, -10, -4], [-6, 9, 3], [8, 4, -5], [-4, -7, 4], [6, 14, -6]];
+      ["#t5-m1", "#t5-m2", "#t5-m3", "#t5-m4", "#t5-m5"].forEach((s, i) =>
+        tl.to(s, { x: mess[i][0], y: mess[i][1], rotation: mess[i][2], duration: 0.45, ease: "back.out(2)" }, at(37.98 + i * 0.03)),
+      );
+      tl.to("#t5-b1", { rotation: -2.5, y: 8, duration: 0.45, ease: "back.out(2)" }, at(38.0));
+      out(["#t5-bio", "#t5-mess"], 38.5, 0.2);
+      window.__timelines["t5"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,95 @@
+<template>
+  <style>
+    @font-face { font-family: "Vazirmatn"; font-weight: 200; src: url("assets/fonts/vazirmatn-arabic-200-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 200; src: url("assets/fonts/vazirmatn-latin-200-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 400; src: url("assets/fonts/vazirmatn-arabic-400-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 400; src: url("assets/fonts/vazirmatn-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 500; src: url("assets/fonts/vazirmatn-arabic-500-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 500; src: url("assets/fonts/vazirmatn-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 600; src: url("assets/fonts/vazirmatn-arabic-600-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 600; src: url("assets/fonts/vazirmatn-latin-600-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 700; src: url("assets/fonts/vazirmatn-arabic-700-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 700; src: url("assets/fonts/vazirmatn-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 800; src: url("assets/fonts/vazirmatn-arabic-800-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 800; src: url("assets/fonts/vazirmatn-latin-800-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 900; src: url("assets/fonts/vazirmatn-arabic-900-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+    @font-face { font-family: "Vazirmatn"; font-weight: 900; src: url("assets/fonts/vazirmatn-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    #root { position: absolute; inset: 0; font-family: "Vazirmatn", sans-serif; color: #f3efe7; direction: rtl; }
+    .t8-ln { position: absolute; left: 0; width: 1080px; text-align: center; white-space: nowrap; line-height: 1.2; }
+    .t8-w { display: inline-block; position: relative; }
+    .t8-dk { color: #14213a; text-shadow: 0 2px 22px rgba(255, 255, 255, 0.5); }
+    #t8-rem { top: 196px; font-size: 52px; font-weight: 400; }
+    #t8-if { top: 270px; font-size: 64px; font-weight: 600; }
+    #t8-tired { top: 360px; font-size: 118px; font-weight: 900; }
+    #t8-doc { top: 214px; font-size: 64px; font-weight: 600; }
+    #t8-dr { display: inline-block; font-size: 128px; font-weight: 900; color: #0d7d72; }
+    #t8-dr-ul { position: absolute; right: 0; bottom: 6px; height: 6px; width: 100%; background: #0d7d72; border-radius: 3px; transform-origin: 100% 50%; }
+    .t8-lt { color: #f3efe7; text-shadow: 0 4px 34px rgba(1, 3, 10, 0.85), 0 1px 3px rgba(0, 0, 0, 0.5); }
+    #t8-good { top: 212px; font-size: 112px; font-weight: 900; }
+    #t8-only { top: 350px; font-size: 72px; font-weight: 700; }
+    #t8-8 { color: #f0be6a; font-weight: 900; }
+    #t8-not { display: inline-block; font-weight: 900; }
+    #t8-not-ul { position: absolute; right: 0; bottom: 2px; height: 5px; width: 100%; background: #f0be6a; border-radius: 3px; transform-origin: 100% 50%; }
+  </style>
+  <div id="root" data-composition-id="t8" data-width="1080" data-height="1920">
+    <!-- 8a — the medical note, dark ink on the white studio -->
+    <div id="t8-rem" class="t8-ln t8-dk clip" data-start="0.05" data-duration="4.2">
+      <span id="t8-r1" class="t8-w">و یادت باشه</span>
+    </div>
+    <div id="t8-if" class="t8-ln t8-dk clip" data-start="1.2" data-duration="3.1">
+      <span id="t8-i1" class="t8-w">اگه با وجود</span>
+      <span id="t8-i2" class="t8-w">خواب کافی</span>
+    </div>
+    <div id="t8-tired" class="t8-ln t8-dk clip" data-start="3.05" data-duration="1.25">
+      <span id="t8-t1" class="t8-w">مرتب</span>
+      <span id="t8-t2" class="t8-w">خسته&zwnj;ای</span>
+    </div>
+    <div id="t8-doc" class="t8-ln t8-dk clip" data-start="4.3" data-duration="2.95">
+      <span id="t8-d1" class="t8-w">بهتره علتش رو</span><br />
+      <span id="t8-d2" class="t8-w">با</span>
+      <span id="t8-dr">پزشک<i id="t8-dr-ul"></i></span>
+      <span id="t8-d4" class="t8-w">بررسی کنی</span>
+    </div>
+    <!-- 8b — the closing line -->
+    <div id="t8-good" class="t8-ln t8-lt clip" data-start="7.15" data-duration="3.94">
+      <span id="t8-g1" class="t8-w">چون</span>
+      <span id="t8-g2" class="t8-w">خواب خوب،</span>
+    </div>
+    <div id="t8-only" class="t8-ln t8-lt clip" data-start="8.25" data-duration="2.84">
+      <span id="t8-o1" class="t8-w">فقط</span>
+      <span id="t8-8" class="t8-w">۸ ساعت</span>
+      <span id="t8-o3" class="t8-w">چشم&zwnj;بستن</span>
+      <span id="t8-not">نیست.<i id="t8-not-ul"></i></span>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const T0 = 58.4, at = (g) => g - T0;
+      const tl = gsap.timeline({ paused: true });
+      const rise = (sel, g, y = 24, d = 0.34) => tl.fromTo(sel, { opacity: 0, y }, { opacity: 1, y: 0, duration: d, ease: "power3.out" }, at(g));
+      const out = (sel, g, d = 0.25) => tl.to(sel, { opacity: 0, duration: d, ease: "power2.in" }, at(g));
+      rise("#t8-r1", 58.48, 14);
+      rise("#t8-i1", 59.66);
+      rise("#t8-i2", 60.58);
+      rise("#t8-t1", 61.5, 30);
+      tl.fromTo("#t8-t2", { opacity: 0, y: -24 }, { opacity: 1, y: 0, duration: 0.42, ease: "power3.out" }, at(61.96));
+      tl.to("#t8-t2", { y: 10, duration: 0.5, ease: "sine.inOut" }, at(62.3));
+      out(["#t8-rem", "#t8-if", "#t8-tired"], 62.62, 0.2);
+      rise("#t8-d1", 62.76);
+      rise("#t8-d2", 63.56, 16);
+      tl.fromTo("#t8-dr", { opacity: 0, scale: 1.15 }, { opacity: 1, scale: 1, duration: 0.38, ease: "power4.out" }, at(63.99));
+      tl.fromTo("#t8-dr-ul", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.inOut" }, at(64.2));
+      rise("#t8-d4", 64.45, 16);
+      out("#t8-doc", 65.3, 0.22);
+      // «چون خواب خوب، فقط ۸ ساعت چشم‌بستن نیست.»
+      tl.fromTo("#t8-g1", { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, at(65.56));
+      tl.fromTo("#t8-g2", { opacity: 0, y: 36, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, at(65.82));
+      rise("#t8-o1", 66.66, 18);
+      tl.fromTo("#t8-8", { opacity: 0, scale: 1.5 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power4.out" }, at(67.06));
+      rise("#t8-o3", 67.94, 18);
+      tl.fromTo("#t8-not", { opacity: 0, scale: 1.3 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power4.out" }, at(68.88));
+      tl.fromTo("#t8-not-ul", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.inOut" }, at(69.0));
+      window.__timelines["t8"] = tl;
+    })();
+  </script>
+</template>

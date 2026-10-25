@@ -1,0 +1,287 @@
+[
+ {
+  "file": "assets/sfx/whoosh-short.mp3",
+  "at": 3.053,
+  "gain_db": -15
+ },
+ {
+  "file": "assets/sfx/ticks_sweep.wav",
+  "at": 3.353,
+  "gain_db": -9
+ },
+ {
+  "file": "assets/sfx/alarm_ring.wav",
+  "at": 4.893,
+  "gain_db": -17
+ },
+ {
+  "file": "assets/sfx/impact-bass-1.mp3",
+  "at": 8.313,
+  "gain_db": -15
+ },
+ {
+  "file": "assets/sfx/whoosh-short.mp3",
+  "at": 9.173,
+  "gain_db": -18
+ },
+ {
+  "file": "assets/sfx/whoosh-cinematic.mp3",
+  "at": 9.853,
+  "gain_db": -17
+ },
+ {
+  "file": "assets/sfx/pop.mp3",
+  "at": 13.843,
+  "gain_db": -22
+ },
+ {
+  "file": "assets/sfx/click-soft.mp3",
+  "at": 15.253,
+  "gain_db": -18
+ },
+ {
+  "file": "assets/sfx/sparkle.mp3",
+  "at": 15.983,
+  "gain_db": -24
+ },
+ {
+  "file": "assets/sfx/pop.mp3",
+  "at": 16.553,
+  "gain_db": -22
+ },
+ {
+  "file": "assets/sfx/whoosh.mp3",
+  "at": 18.923,
+  "gain_db": -18
+ },
+ {
+  "file": "assets/sfx/impact-bass-2.mp3",
+  "at": 17.953,
+  "gain_db": -16
+ },
+ {
+  "file": "assets/sfx/glitch-3.mp3",
+  "at": 19.363,
+  "gain_db": -20
+ },
+ {
+  "file": "assets/sfx/glitch-1.mp3",
+  "at": 20.703,
+  "gain_db": -24
+ },
+ {
+  "file": "assets/sfx/glitch-3.mp3",
+  "at": 20.493,
+  "gain_db": -20
+ },
+ {
+  "file": "assets/sfx/whoosh_rev.wav",
+  "at": 24.613,
+  "gain_db": -20
+ },
+ {
+  "file": "assets/sfx/fall.wav",
+  "at": 26.833,
+  "gain_db": -22
+ },
+ {
+  "file": "assets/sfx/whoosh.mp3",
+  "at": 28.893,
+  "gain_db": -18
+ },
+ {
+  "file": "assets/sfx/impact-bass-2.mp3",
+  "at": 27.813,
+  "gain_db": -16
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 31.808,
+  "gain_db": -14
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 31.933,
+  "gain_db": -15
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 31.988,
+  "gain_db": -14
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 32.113,
+  "gain_db": -15
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 32.168,
+  "gain_db": -14
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 32.293,
+  "gain_db": -15
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 32.698,
+  "gain_db": -12
+ },
+ {
+  "file": "assets/sfx/whoosh-short.mp3",
+  "at": 32.533,
+  "gain_db": -22
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 33.338,
+  "gain_db": -12
+ },
+ {
+  "file": "assets/sfx/whoosh-short.mp3",
+  "at": 33.173,
+  "gain_db": -22
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 33.958,
+  "gain_db": -12
+ },
+ {
+  "file": "assets/sfx/whoosh-short.mp3",
+  "at": 33.793,
+  "gain_db": -22
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 34.558,
+  "gain_db": -12
+ },
+ {
+  "file": "assets/sfx/whoosh-short.mp3",
+  "at": 34.393,
+  "gain_db": -22
+ },
+ {
+  "file": "assets/sfx/sparkle.mp3",
+  "at": 35.503,
+  "gain_db": -22
+ },
+ {
+  "file": "assets/sfx/glitch-1.mp3",
+  "at": 37.163,
+  "gain_db": -22
+ },
+ {
+  "file": "assets/sfx/whoosh-cinematic.mp3",
+  "at": 36.283,
+  "gain_db": -18
+ },
+ {
+  "file": "assets/sfx/impact-bass-2.mp3",
+  "at": 37.263,
+  "gain_db": -16
+ },
+ {
+  "file": "assets/sfx/impact-bass-1.mp3",
+  "at": 40.153,
+  "gain_db": -17
+ },
+ {
+  "file": "assets/sfx/impact-bass-1.mp3",
+  "at": 40.873,
+  "gain_db": -19
+ },
+ {
+  "file": "assets/sfx/whoosh.mp3",
+  "at": 41.773,
+  "gain_db": -18
+ },
+ {
+  "file": "assets/sfx/whoosh-cinematic.mp3",
+  "at": 45.833,
+  "gain_db": -19
+ },
+ {
+  "file": "assets/sfx/pop.mp3",
+  "at": 48.813,
+  "gain_db": -20
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 50.028,
+  "gain_db": -12
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 51.028,
+  "gain_db": -12
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 52.028,
+  "gain_db": -12
+ },
+ {
+  "file": "assets/sfx/tick.wav",
+  "at": 53.028,
+  "gain_db": -12
+ },
+ {
+  "file": "assets/sfx/phone_buzz.wav",
+  "at": 53.083,
+  "gain_db": -20
+ },
+ {
+  "file": "assets/sfx/click.mp3",
+  "at": 53.713,
+  "gain_db": -14
+ },
+ {
+  "file": "assets/sfx/click.mp3",
+  "at": 54.263,
+  "gain_db": -14
+ },
+ {
+  "file": "assets/sfx/click.mp3",
+  "at": 54.843,
+  "gain_db": -15
+ },
+ {
+  "file": "assets/sfx/birds.wav",
+  "at": 55.983,
+  "gain_db": -12
+ },
+ {
+  "file": "assets/sfx/whoosh.mp3",
+  "at": 58.123,
+  "gain_db": -18
+ },
+ {
+  "file": "assets/sfx/pop.mp3",
+  "at": 63.913,
+  "gain_db": -22
+ },
+ {
+  "file": "assets/sfx/whoosh-cinematic.mp3",
+  "at": 62.833,
+  "gain_db": -18
+ },
+ {
+  "file": "assets/sfx/whoosh-short.mp3",
+  "at": 66.973,
+  "gain_db": -18
+ },
+ {
+  "file": "assets/sfx/click-soft.mp3",
+  "at": 67.743,
+  "gain_db": -14
+ },
+ {
+  "file": "assets/sfx/impact-bass-2.mp3",
+  "at": 66.863,
+  "gain_db": -15
+ }
+]

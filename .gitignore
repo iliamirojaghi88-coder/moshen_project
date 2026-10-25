@@ -3,6 +3,9 @@ renders/
 snapshots/
 .hyperframes/
 *.mp4
+# source footage a project renders from, and delivered masters (both via LFS)
+!videos/*/assets/video/*.mp4
+!videos/*/deliver/*.mp4
 *.mov
 *.webm
 .env

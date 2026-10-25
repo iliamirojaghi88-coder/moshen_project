@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./assets/vendor/three.module.js",
+          "three/addons/": "./assets/vendor/addons/"
+        }
+      }
+    </script>
+    <style>
+      @font-face { font-family: "Vazirmatn"; font-weight: 200; src: url("assets/fonts/vazirmatn-arabic-200-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+      @font-face { font-family: "Vazirmatn"; font-weight: 300; src: url("assets/fonts/vazirmatn-arabic-300-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+      @font-face { font-family: "Vazirmatn"; font-weight: 400; src: url("assets/fonts/vazirmatn-arabic-400-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+      @font-face { font-family: "Vazirmatn"; font-weight: 500; src: url("assets/fonts/vazirmatn-arabic-500-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+      @font-face { font-family: "Vazirmatn"; font-weight: 600; src: url("assets/fonts/vazirmatn-arabic-600-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+      @font-face { font-family: "Vazirmatn"; font-weight: 700; src: url("assets/fonts/vazirmatn-arabic-700-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+      @font-face { font-family: "Vazirmatn"; font-weight: 800; src: url("assets/fonts/vazirmatn-arabic-800-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+      @font-face { font-family: "Vazirmatn"; font-weight: 900; src: url("assets/fonts/vazirmatn-arabic-900-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+      @font-face { font-family: "Vazirmatn"; font-weight: 400; src: url("assets/fonts/vazirmatn-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+      @font-face { font-family: "Vazirmatn"; font-weight: 700; src: url("assets/fonts/vazirmatn-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+      @font-face { font-family: "Vazirmatn"; font-weight: 900; src: url("assets/fonts/vazirmatn-latin-900-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+      :root {
+        --ground: #020306;
+        --ink: #f3efe7;
+        --cold: #a9bde6;
+        --steel: #c9d2de;
+        --alarm: #e2593b;
+        --teal: #46cfc4;
+        --amber: #e9b75e;
+        --font-fa: "Vazirmatn", sans-serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: var(--font-fa); color: var(--ink); }
+      #bg { position: absolute; inset: 0; background: var(--ground); z-index: 0; }
+      #world { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 1; }
+      #arman-wrap {
+        position: absolute; inset: 0; z-index: 3; transform-origin: 583px 690px;
+        --hole: 0px;
+        -webkit-mask-image: radial-gradient(circle at 583px 690px, transparent calc(var(--hole) - 60px), #000 var(--hole));
+        mask-image: radial-gradient(circle at 583px 690px, transparent calc(var(--hole) - 60px), #000 var(--hole));
+      }
+      .type-layer { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
+      #arman { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="69.49" data-width="1080" data-height="1920" data-fps="30">
+      <div id="bg"></div>
+      <canvas id="world" width="1080" height="1920"></canvas>
+      <div id="arman-wrap">
+        <video id="arman" class="clip" src="assets/video/arman-wake.mp4" data-start="0" data-duration="3.7" data-media-start="1.4" data-track-index="1" muted playsinline></video>
+      </div>
+      <div id="t1" class="type-layer" data-composition-id="t1" data-composition-src="compositions/t1.html" data-start="0" data-duration="3.4" data-track-index="5" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="t2" class="type-layer" data-composition-id="t2" data-composition-src="compositions/t2.html" data-start="3.3" data-duration="9.0" data-track-index="6" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="t3" class="type-layer" data-composition-id="t3" data-composition-src="compositions/t3.html" data-start="12.3" data-duration="7.0" data-track-index="7" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="t4" class="type-layer" data-composition-id="t4" data-composition-src="compositions/t4.html" data-start="19.3" data-duration="9.8" data-track-index="8" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="t5" class="type-layer" data-composition-id="t5" data-composition-src="compositions/t5.html" data-start="29.1" data-duration="9.6" data-track-index="9" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="t6" class="type-layer" data-composition-id="t6" data-composition-src="compositions/t6.html" data-start="38.7" data-duration="9.75" data-track-index="10" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="t7" class="type-layer" data-composition-id="t7" data-composition-src="compositions/t7.html" data-start="48.45" data-duration="9.95" data-track-index="11" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="t8" class="type-layer" data-composition-id="t8" data-composition-src="compositions/t8.html" data-start="58.4" data-duration="11.09" data-track-index="12" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <!-- the user's voiceover (assets/audio/voice.mp3, unchanged timing) mastered with the music bed and SFX: build/sfx.py + scripts/audio-master.sh -->
+      <audio id="mix" class="clip" src="assets/audio/master.m4a" data-start="0" data-duration="69.49" data-track-index="20" data-volume="1"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      // Hook: a barely-there push on Arman while the question lands, then a
+      // push into his opening eye; the iris opens onto the clock dial below.
+      tl.fromTo("#arman-wrap", { scale: 1 }, { scale: 1.07, duration: 3.0, ease: "sine.inOut" }, 0);
+      tl.to("#arman-wrap", { scale: 2.6, duration: 0.6, ease: "power3.in" }, 3.0);
+      tl.fromTo("#arman-wrap", { "--hole": "0px" }, { "--hole": "1500px", duration: 0.55, ease: "power2.in" }, 3.1);
+      window.__timelines["main"] = tl;
+    </script>
+    <script type="module" src="assets/world/main.js"></script>
+  </body>
+</html>
