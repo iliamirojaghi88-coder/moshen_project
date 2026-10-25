@@ -27,7 +27,11 @@
   sparse red (interruptions) → navy night / gold day (body clock) → cold fog warming (inertia) →
   natural warm morning (remedies) → clean white (doctor) → navy + gold balance (end).
 - Every object is built for the film (`build/`): the clock (lathe-turned steel, navy sunray
-  dial with Persian numerals, domed crystal), the anatomical brain (reaction–diffusion gyri),
+  dial with Persian numerals, domed crystal), the anatomical brain (named primary sulci —
+  Sylvian, central, pre/postcentral, frontal, temporal, intraparietal — plus Gray–Scott
+  secondary sulci, geodesic rounded gyri, tertiary dimples, foliated cerebellum; flesh-pink
+  vertex colour with deep red sulcal floors and a vessel network; real-time tissue material
+  with wet clearcoat and a red light-wrap standing in for subsurface scattering),
   the bedroom (cloth-simulated duvet, baked AO), extruded Persian numerals/words, the moon and
   sun maps, the glass vial, hypnogram, orrery and medical cross. No library models, no icons.
 
