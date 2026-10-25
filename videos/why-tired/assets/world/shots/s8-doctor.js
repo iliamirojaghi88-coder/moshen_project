@@ -33,9 +33,9 @@ export function crossGeometry(a = 0.085, b = 0.03, depth = 0.034, bevel = 0.007)
 
 export default async function build({ E, M }) {
   const scene = new THREE.Scene();
-  const bgCol = new THREE.Color(0xd9dee4);
+  const bgCol = new THREE.Color(0x9ea8b4);
   scene.background = bgCol;
-  scene.fog = new THREE.Fog(0xaab1ba, 1.0, 3.2);
+  scene.fog = new THREE.Fog(0x8f99a6, 1.2, 3.4);
   scene.environment = E.studioEnv({
     ambient: 0x8a9098,
     panels: [
@@ -46,14 +46,19 @@ export default async function build({ E, M }) {
     ],
   });
   scene.environmentIntensity = 0.85;
-  const bd = backdrop(0xc7cdd5, 0x7d8692, 0.25, [8, 6], { cy: 0.6 });
+  const bd = backdrop(0xd4dbe3, 0x5d6774, 0.35, [8, 6], { cy: 0.66 });
   bd.material.fog = false;
   bd.position.set(0, 0.8, -2.6);
   scene.add(bd);
-  const floor = new THREE.Mesh(new THREE.CircleGeometry(8, 96), new THREE.MeshPhysicalMaterial({ color: 0xb7bec7, roughness: 0.45, clearcoat: 0.4, clearcoatRoughness: 0.3 }));
+  // dark glass floor: translucent, with a mirrored copy of the set beneath it as the reflection
+  const floor = new THREE.Mesh(new THREE.CircleGeometry(8, 96), new THREE.MeshPhysicalMaterial({ color: 0x2b323b, roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.08, transparent: true, opacity: 0.86, envMapIntensity: 0.6 }));
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
+  floor.renderOrder = 2;
   scene.add(floor);
+  const mirror = new THREE.Group();
+  mirror.scale.y = -1;
+  scene.add(mirror);
 
   // ceramic pedestal
   const ped = new THREE.Mesh(
@@ -62,6 +67,7 @@ export default async function build({ E, M }) {
   );
   ped.castShadow = ped.receiveShadow = true;
   scene.add(ped);
+  mirror.add(ped.clone());
 
   // frosted glass cross with a luminous core
   const cross = new THREE.Group();
@@ -74,6 +80,9 @@ export default async function build({ E, M }) {
   cross.add(core);
   const coreLight = new THREE.PointLight(0x9ff5e6, 0, 0.6, 2);
   cross.add(coreLight);
+  const crossM = cross.clone();
+  crossM.traverse((o) => o.isLight && (o.intensity = 0));
+  mirror.add(crossM);
 
   const key = setShadow(new THREE.DirectionalLight(0xffffff, 2.2), 2048, 0.4, 0.1, 6, 10, -0.0004);
   key.position.set(-1.0, 2.2, 1.4);
@@ -99,15 +108,17 @@ export default async function build({ E, M }) {
     const rise = seg(t, 58.35, 59.6, ease.expoOut);
     cross.position.set(0, lerp(0.1, 0.165, rise) + 0.004 * Math.sin(t * 1.1), 0);
     cross.rotation.set(0.04 * wobble(t * 0.4, 1), lerp(-1.4, -0.35, rise) + 0.11 * (t - 59), 0);
+    crossM.position.copy(cross.position);
+    crossM.rotation.copy(cross.rotation);
     const doc = seg(t, 63.95, 64.4, ease.out) * (1 - 0.4 * seg(t, 64.9, 65.6));
     coreMat.emissiveIntensity = 0.7 + 1.1 * doc;
     coreLight.intensity = 0.15 + 0.35 * doc;
     return {
-      exposure: 0.82,
-      wb: [0.99, 1.0, 1.03],
-      sat: 1.0,
-      contrast: 1.14,
-      punch: 0.5,
+      exposure: 0.92,
+      wb: [0.98, 1.0, 1.04],
+      sat: 1.05,
+      contrast: 1.16,
+      punch: 0.6,
       vig: 0.32,
       grain: 0.025,
       bloom: { strength: 0.3, radius: 0.45, threshold: 2.2 },

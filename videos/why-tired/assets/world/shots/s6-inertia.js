@@ -6,7 +6,7 @@
 // It dollies out while the fog thins, focus sharpens and the light warms:
 // the state is temporary.
 import { THREE, seg, ease, lerp, clamp, track, lookFrom, setShadow, smooth, wobble, hash } from "../engine.js";
-import { makeBrain, backdrop } from "../brain.js";
+import { makeBrain, backdrop, tissueMaterial } from "../brain.js";
 import { dust } from "../fx.js";
 
 function mistTexture() {
@@ -53,7 +53,7 @@ export default async function build({ E, M, G }) {
   scene.add(bd);
 
   const brain = await makeBrain(E);
-  brain.tissue = brain.tissue.clone();
+  brain.tissue = tissueMaterial(); // its own instance: this shot animates colour and roughness
   brain.pivot.traverse((o) => o.isMesh && (o.material = brain.tissue));
   scene.add(brain.pivot);
 

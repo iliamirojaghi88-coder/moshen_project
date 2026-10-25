@@ -241,8 +241,9 @@ duvet.name = "duvet"
 duvet.scale = (2.05, 1.62, 1)
 bpy.ops.object.transform_apply(scale=True)
 Vd = np.array([v.co[:] for v in duvet.data.vertices])
-Vd[:, 2] += 0.05 * NZ(Vd * np.array([1.6, 1.6, 0]) + 3) + 0.03 * NZ(Vd * 4 + 9)
-Vd[:, 0] += 0.04 * NZ(Vd * 1.2 + 21)
+Vd[:, 2] += 0.09 * NZ(Vd * np.array([1.8, 1.8, 0]) + 3) + 0.035 * NZ(Vd * 5 + 9) + 0.012 * NZ(Vd * 11 + 4)
+Vd[:, 0] += 0.05 * NZ(Vd * 1.2 + 21)
+Vd[:, 1] += 0.04 * NZ(Vd * 1.4 + 33)
 for v, p in zip(duvet.data.vertices, Vd):
     v.co = p
 link(duvet, M["duvet"])
@@ -254,9 +255,9 @@ cl = duvet.modifiers.new("cloth", "CLOTH")
 st = cl.settings
 st.quality = 7
 st.mass = 0.35
-st.tension_stiffness = st.compression_stiffness = 12
+st.tension_stiffness = st.compression_stiffness = 9
 st.shear_stiffness = 6
-st.bending_stiffness = 0.25
+st.bending_stiffness = 0.06
 st.air_damping = 1.5
 cl.collision_settings.distance_min = 0.006
 cl.collision_settings.use_self_collision = False

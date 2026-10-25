@@ -22,7 +22,7 @@ export async function materials(E) {
   return {
     tex: { brushedN, linenN, woolN, plasterN, walnutA, walnutN, oakA, oakN, oakR },
     steel: P({ color: 0xc9ccd1, metalness: 1, roughness: 0.3, normalMap: brushedN, normalScale: new THREE.Vector2(0.25, 0.25), anisotropy: 0.7 }),
-    polished: P({ color: 0xe4e6ea, metalness: 1, roughness: 0.1 }),
+    polished: P({ color: 0xe4e6ea, metalness: 1, roughness: 0.14, envMapIntensity: 0.7 }),
     graphite: P({ color: 0x3a3e45, metalness: 1, roughness: 0.38, normalMap: brushedN, normalScale: new THREE.Vector2(0.2, 0.2), anisotropy: 0.6 }),
     rubber: P({ color: 0x111214, roughness: 0.75 }),
     // crystal = reflections only, added on top (everything behind stays visible, incl. transparent parts)

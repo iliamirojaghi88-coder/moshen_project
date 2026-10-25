@@ -5,16 +5,7 @@ import { THREE } from "./engine.js";
 export async function makeBrain(E) {
   const gltf = await E.load("assets/models/brain.glb");
   const root = gltf.scene.clone(true);
-  const tissue = new THREE.MeshPhysicalMaterial({
-    vertexColors: true,
-    color: 0xe9c6bb,
-    roughness: 0.5,
-    sheen: 0.7,
-    sheenRoughness: 0.45,
-    sheenColor: new THREE.Color(0xffd9cf),
-    clearcoat: 0.28,
-    clearcoatRoughness: 0.32,
-  });
+  const tissue = tissueMaterial();
   const meshes = [];
   root.traverse((o) => {
     if (!o.isMesh) return;
@@ -31,6 +22,39 @@ export async function makeBrain(E) {
   root.position.sub(c);
   pivot.add(root);
   return { pivot, tissue, size: box.getSize(new THREE.Vector3()) };
+}
+
+// Living tissue: vertex-coloured (crowns, sulcal floors, vessels), a wet clearcoat, and a
+// red-tinted light wrap around the terminator that stands in for subsurface scattering.
+export function tissueMaterial() {
+  const m = new THREE.MeshPhysicalMaterial({
+    vertexColors: true,
+    color: 0xffffff,
+    roughness: 0.42,
+    sheen: 0.35,
+    sheenRoughness: 0.5,
+    sheenColor: new THREE.Color(0xffc9bd),
+    clearcoat: 0.55,
+    clearcoatRoughness: 0.24,
+    specularIntensity: 0.6,
+  });
+  m.userData.sss = { value: new THREE.Color(0.75, 0.16, 0.1) };
+  m.onBeforeCompile = (shader) => {
+    shader.uniforms.sssColor = m.userData.sss;
+    const chunk = THREE.ShaderChunk.lights_physical_pars_fragment
+      .replace(
+        "float dotNL = saturate( dot( geometryNormal, directLight.direction ) );",
+        "float dotNL = saturate( dot( geometryNormal, directLight.direction ) );\n\tfloat wrapNL = saturate( ( dot( geometryNormal, directLight.direction ) + 0.5 ) / 1.5 );\n\tvec3 sssLight = directLight.color * max( wrapNL * wrapNL - dotNL * 0.6, 0.0 ) * sssColor;",
+      )
+      .replace(
+        "reflectedLight.directDiffuse += irradiance * BRDF_Lambert( material.diffuseColor );",
+        "reflectedLight.directDiffuse += irradiance * BRDF_Lambert( material.diffuseColor );\n\treflectedLight.directDiffuse += sssLight * BRDF_Lambert( material.diffuseColor );",
+      );
+    shader.fragmentShader = shader.fragmentShader
+      .replace("#include <lights_physical_pars_fragment>", "uniform vec3 sssColor;\n" + chunk);
+  };
+  m.customProgramCacheKey = () => "tissue-sss";
+  return m;
 }
 
 const BACKDROP_FS = `

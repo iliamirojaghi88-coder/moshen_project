@@ -62,6 +62,11 @@ export default async function build({ E, M, G }) {
   scene.add(moon, moon.target);
   const fill = new THREE.HemisphereLight(0x2a3b5c, 0x07080b, 0.5);
   scene.add(fill);
+  // soft overhead bounce so the far half of the bed reads in the top-down opening
+  const over = new THREE.SpotLight(0x8ea4d6, 0, 6, 0.55, 0.9, 2);
+  over.position.set(0.4, 2.7, -0.6);
+  over.target.position.set(0.2, 0.5, -0.9);
+  scene.add(over, over.target);
 
   // the ۱ — brushed steel, lying flat above the bed
   const oneMat = new THREE.MeshPhysicalMaterial({ color: 0xd5d9df, metalness: 1, roughness: 0.27, normalMap: M.tex.brushedN, normalScale: new THREE.Vector2(0.15, 0.15), envMapIntensity: 2.2 });
@@ -180,6 +185,7 @@ export default async function build({ E, M, G }) {
     onePivot.rotation.set(-Math.PI / 2, 0, lerp(-0.5, 0, oIn) + 0.04 * (t - 19.4));
     one.scale.setScalar(0.8 * lerp(0.7, 1, oIn));
     oneKey.intensity = 9 * oIn;
+    over.intensity = 2.2 * (1 - seg(t, 20.6, 21.6));
 
     // hypnogram drawing
     const p = clamp((t - DRAW0) / (DRAW1 - DRAW0));
