@@ -117,8 +117,8 @@ export default async function build({ E, M, G }) {
     [38.7, -0.16, 0.05, -0.62, -0.03, 0.03, -0.22],
     [40.0, -0.12, 0.05, -0.58, -0.03, 0.02, -0.2],
     [41.25, -0.09, 0.03, -0.5, -0.02, 0.012, -0.18],
-    [42.1, -0.075, 0.03, -0.155, 0.0, 0.01, 0.0],
-    [43.4, -0.15, 0.06, -0.22, 0.0, 0.0, 0.0],
+    [42.1, -0.13, 0.05, -0.2, 0.0, 0.01, 0.0],
+    [43.4, -0.18, 0.07, -0.26, 0.0, 0.0, 0.0],
     [45.8, -0.3, 0.1, -0.4, 0.0, 0.0, 0.0],
     [48.7, -0.42, 0.16, -0.52, 0.0, 0.0, 0.0],
   ];
@@ -157,7 +157,7 @@ export default async function build({ E, M, G }) {
     wordRim.intensity = 5.0 * Math.max(aIn, bIn);
 
     // tissue reads cold and dull while drowsy, warmer and livelier as it clears
-    brain.tissue.color.setRGB(lerp(0.62, 0.92, wake), lerp(0.62, 0.78, wake), lerp(0.7, 0.72, wake));
+    brain.tissue.color.setRGB(lerp(0.9, 1.0, wake), lerp(0.86, 0.96, wake), lerp(0.92, 0.94, wake));
     brain.tissue.roughness = lerp(0.62, 0.48, wake);
     key.intensity = lerp(0.9, 2.6, wake);
     key.color.setRGB(lerp(0.78, 1.0, wake), lerp(0.83, 0.94, wake), 1.0 - 0.1 * wake);
@@ -178,7 +178,7 @@ export default async function build({ E, M, G }) {
     return {
       exposure: lerp(1.0, 1.15, wake),
       wb: [lerp(0.9, 1.04, wake), lerp(0.96, 1.0, wake), lerp(1.12, 0.94, wake)],
-      sat: lerp(0.62, 1.0, wake),
+      sat: lerp(0.82, 1.02, wake),
       contrast: lerp(1.04, 1.1, wake),
       vig: lerp(0.75, 0.55, wake),
       blur: 3.2 * drowsy,

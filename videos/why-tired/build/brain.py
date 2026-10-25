@@ -32,9 +32,10 @@ PREVIEW = argv[1] if len(argv) > 1 else None
 bpy.ops.wm.read_factory_settings(use_empty=True)
 N1, N2, N3, NW = Perlin3(11), Perlin3(23), Perlin3(37), Perlin3(53)
 
-CROWN = np.array([0.80, 0.60, 0.56])
-DEEP = np.array([0.36, 0.11, 0.12])
-VESSEL = np.array([0.42, 0.07, 0.11])
+# natural flesh pink (linear RGB): crowns ≈ sRGB #D99A93, sulcal floors deep wine red, vessels blood red
+CROWN = np.array([0.69, 0.32, 0.30])
+DEEP = np.array([0.15, 0.017, 0.022])
+VESSEL = np.array([0.25, 0.013, 0.024])
 
 
 def ico(subdiv):
@@ -224,16 +225,20 @@ def hemisphere(side):
     medial = smoothstep(-0.05, -0.35, x)
     # sulcus set = thin low channels of the labyrinth ∪ primary sulci
     pd, pdep = primary_field(side, P)
-    thr = np.percentile(vd, 13)
+    thr = np.percentile(vd, 20)
     sulc = (vd < thr) | (pd < 0.07)
     d = dijkstra(P, E, sulc)
     d = smooth_field(d, nb, 2)
-    W = 0.48  # half gyrus width, cm
+    W = 0.42  # half gyrus width, cm
     s = np.clip(d / W, 0, 1)
     crown = np.sqrt(1 - (1 - s) ** 2)
-    depth = 0.72 * (1 - 0.45 * medial)
+    depth = 0.85 * (1 - 0.45 * medial)
     prim = np.exp(-(pd / 0.16) ** 2) * (x > 0.15)
     disp = depth * (crown - 1) - pdep * prim * 0.85
+    # tertiary sulci: short shallow meanders across the gyral crowns
+    qt = P * 1.15 + 0.5 * np.stack([NW(P * 0.9 + 4), NW(P * 0.9 + 8.2), NW(P * 0.9 + 1.7)], 1)
+    tert = (1 - smoothstep(0.0, 0.05, np.abs(N3(qt + seed)))) * smoothstep(0.35, 0.8, crown) * smoothstep(-0.1, 0.35, N1(P * 0.5 + 21 + seed))
+    disp -= 0.24 * tert
     disp += 0.035 * N2(P * 2.2 + seed) * crown  # fine undulation on the crowns
     disp -= 0.22 * smoothstep(-0.05, -0.25, x) * smoothstep(0.2, 0.9, U[:, 2])
     disp = smooth_field(disp, nb, 1)
@@ -241,9 +246,12 @@ def hemisphere(side):
     P[:, 0] = side * (P[:, 0] + 1.47)
     set_coords(bm, P)
     # colour: crowns pink-beige, sulcal floors dark red, a fine vessel network
-    cav = crown ** 0.8 * (1 - 0.7 * prim)
+    cav = crown ** 0.8 * (1 - 0.7 * prim) * (1 - 0.45 * tert)
     col = DEEP[None] + (CROWN - DEEP)[None] * cav[:, None]
     col *= (0.93 + 0.07 * N3(P * 0.9 + seed))[:, None]
+    # subtle patches: some areas a touch redder, some a touch more beige
+    tint = N2(P * 0.35 + 40 + seed)[:, None]
+    col *= 1 + 0.06 * tint * np.array([[0.2, -1.0, -0.6]])
     q = P * 0.55 + 0.6 * np.stack([NW(P * 0.4), NW(P * 0.4 + 9.1), NW(P * 0.4 + 3.3)], 1)
     ves = (1 - smoothstep(0.0, 0.022, np.abs(N1(q + seed)))) * (0.35 + 0.65 * smoothstep(-0.2, 0.4, N2(P * 0.3 + 5)))
     ves = np.maximum(ves, 0.75 * (1 - smoothstep(0.0, 0.012, np.abs(N3(P * 1.3 + 17 + seed)))) * smoothstep(0.1, 0.5, N1(P * 0.25 + 2)))
@@ -261,15 +269,17 @@ def cerebellum():
     set_coords(bm, P)
     Nn = normals(bm)
     phi = np.arctan2(U[:, 2], -U[:, 1])
-    g = np.abs(np.sin(phi * 19 + 0.6 * N3(U * 2.2) + 0.3 * np.abs(U[:, 0]) * 3))
-    fol = smoothstep(0.0, 0.3, g)
+    warp = 0.9 * N3(U * 2.2) + 0.35 * N1(U * 5.0) + 0.3 * np.abs(U[:, 0]) * 3
+    g = np.abs(np.sin(phi * (20 + 3 * N2(U * 1.5)) + warp))
+    lob = np.abs(np.sin(phi * 4.2 + 0.5 * N1(U * 1.7 + 3)))
+    fol = smoothstep(0.0, 0.3, g) * (0.55 + 0.45 * smoothstep(0.0, 0.18, lob))
     vermis = np.exp(-(U[:, 0] / 0.12) ** 2) * smoothstep(0.1, -0.6, U[:, 1])
     disp = 0.24 * (np.sqrt(np.clip(1 - (1 - fol) ** 2, 0, 1)) - 1) - 0.5 * vermis
     P = P + Nn * disp[:, None]
     P += np.array([0.0, -5.45, -3.05])
     set_coords(bm, P)
     cav = fol ** 0.8 * (1 - 0.5 * vermis)
-    col = DEEP[None] + (CROWN * 0.95 - DEEP)[None] * cav[:, None]
+    col = DEEP[None] + (CROWN * 0.92 - DEEP)[None] * cav[:, None]
     return to_object(bm, "cerebellum", col)
 
 

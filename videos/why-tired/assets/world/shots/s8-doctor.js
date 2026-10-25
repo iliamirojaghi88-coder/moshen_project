@@ -33,25 +33,25 @@ export function crossGeometry(a = 0.085, b = 0.03, depth = 0.034, bevel = 0.007)
 
 export default async function build({ E, M }) {
   const scene = new THREE.Scene();
-  const bgCol = new THREE.Color(0x9ea8b4);
+  const bgCol = new THREE.Color(0x03080b);
   scene.background = bgCol;
-  scene.fog = new THREE.Fog(0x8f99a6, 1.2, 3.4);
+  scene.fog = new THREE.Fog(0x041015, 1.4, 3.6);
   scene.environment = E.studioEnv({
-    ambient: 0x8a9098,
+    ambient: 0x04080b,
     panels: [
-      { pos: [-3, 4, 3], size: [5, 4], color: 0xffffff, intensity: 3.2 },
-      { pos: [4, 2, 2], size: [3, 5], color: 0xeaf6ff, intensity: 2.0 },
-      { pos: [0, 2, -5], size: [8, 3], color: 0xffffff, intensity: 1.6 },
-      { pos: [0, -3, 2], size: [6, 2], color: 0xb9c2cc, intensity: 0.8 },
+      { pos: [-3, 4, 3], size: [4, 3], color: 0xffffff, intensity: 3.6 },
+      { pos: [4, 1.5, 1], size: [1.5, 5], color: 0xbff7ee, intensity: 2.2 },
+      { pos: [-4, 1.5, -2], size: [1.5, 5], color: 0xdbe8ff, intensity: 1.8 },
+      { pos: [0, 5, -3], size: [6, 1], color: 0xffffff, intensity: 1.0 },
     ],
   });
-  scene.environmentIntensity = 0.85;
-  const bd = backdrop(0xd4dbe3, 0x5d6774, 0.35, [8, 6], { cy: 0.66 });
+  scene.environmentIntensity = 0.75;
+  const bd = backdrop(0x123038, 0x020507, 0.6, [8, 6], { cy: 0.62, floorFade: 1 });
   bd.material.fog = false;
   bd.position.set(0, 0.8, -2.6);
   scene.add(bd);
   // dark glass floor: translucent, with a mirrored copy of the set beneath it as the reflection
-  const floor = new THREE.Mesh(new THREE.CircleGeometry(8, 96), new THREE.MeshPhysicalMaterial({ color: 0x2b323b, roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.08, transparent: true, opacity: 0.86, envMapIntensity: 0.6 }));
+  const floor = new THREE.Mesh(new THREE.CircleGeometry(8, 96), new THREE.MeshPhysicalMaterial({ color: 0x05090b, roughness: 0.1, clearcoat: 1, clearcoatRoughness: 0.06, transparent: true, opacity: 0.8, envMapIntensity: 0.5 }));
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   floor.renderOrder = 2;
@@ -63,7 +63,7 @@ export default async function build({ E, M }) {
   // ceramic pedestal
   const ped = new THREE.Mesh(
     new THREE.LatheGeometry([[0, 0], [0.12, 0], [0.126, 0.004], [0.128, 0.012], [0.126, 0.026], [0.12, 0.03], [0, 0.03]].map(([r, y]) => new THREE.Vector2(r, y)), 160),
-    new THREE.MeshPhysicalMaterial({ color: 0xe2e2df, roughness: 0.22, clearcoat: 1, clearcoatRoughness: 0.08 }),
+    new THREE.MeshPhysicalMaterial({ color: 0x1c2125, roughness: 0.28, metalness: 0.2, clearcoat: 1, clearcoatRoughness: 0.06 }),
   );
   ped.castShadow = ped.receiveShadow = true;
   scene.add(ped);
@@ -72,7 +72,7 @@ export default async function build({ E, M }) {
   // frosted glass cross with a luminous core
   const cross = new THREE.Group();
   scene.add(cross);
-  const glass = new THREE.Mesh(crossGeometry(), new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.28, transmission: 1, thickness: 0.05, ior: 1.45, attenuationColor: new THREE.Color(0xa9e3dc), attenuationDistance: 0.12, clearcoat: 1, clearcoatRoughness: 0.05, envMapIntensity: 1.6 }));
+  const glass = new THREE.Mesh(crossGeometry(), new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.32, transmission: 1, thickness: 0.05, ior: 1.45, attenuationColor: new THREE.Color(0xc4efe9), attenuationDistance: 0.3, clearcoat: 1, clearcoatRoughness: 0.04, envMapIntensity: 2.4, specularIntensity: 1 }));
   glass.castShadow = true;
   cross.add(glass);
   const coreMat = new THREE.MeshStandardMaterial({ color: 0x0a1f1d, emissive: new THREE.Color(0.55, 1.0, 0.92), emissiveIntensity: 1.2 });
@@ -84,14 +84,18 @@ export default async function build({ E, M }) {
   crossM.traverse((o) => o.isLight && (o.intensity = 0));
   mirror.add(crossM);
 
-  const key = setShadow(new THREE.DirectionalLight(0xffffff, 2.2), 2048, 0.4, 0.1, 6, 10, -0.0004);
+  const key = setShadow(new THREE.DirectionalLight(0xffffff, 2.6), 2048, 0.4, 0.1, 6, 10, -0.0004);
   key.position.set(-1.0, 2.2, 1.4);
   scene.add(key, key.target);
-  const rim = new THREE.SpotLight(0xdff4ff, 3, 4, 0.5, 0.7, 2);
+  const rim = new THREE.SpotLight(0xbff7ee, 6, 4, 0.5, 0.7, 2);
   rim.position.set(0.6, 0.6, -0.9);
+  const rim2 = new THREE.SpotLight(0xdbe8ff, 4, 4, 0.5, 0.7, 2);
+  rim2.position.set(-0.7, 0.45, -0.7);
+  rim2.target = cross;
+  scene.add(rim2);
   rim.target = cross;
   scene.add(rim);
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xbfc6ce, 0.6));
+  scene.add(new THREE.HemisphereLight(0x8fb3bd, 0x020406, 0.35));
 
   const camera = new THREE.PerspectiveCamera(34, 1080 / 1920, 0.01, 20);
   const keys = [
@@ -111,17 +115,17 @@ export default async function build({ E, M }) {
     crossM.position.copy(cross.position);
     crossM.rotation.copy(cross.rotation);
     const doc = seg(t, 63.95, 64.4, ease.out) * (1 - 0.4 * seg(t, 64.9, 65.6));
-    coreMat.emissiveIntensity = 0.7 + 1.1 * doc;
-    coreLight.intensity = 0.15 + 0.35 * doc;
+    coreMat.emissiveIntensity = 0.9 + 0.9 * doc;
+    coreLight.intensity = 0.08 + 0.18 * doc;
     return {
-      exposure: 0.92,
-      wb: [0.98, 1.0, 1.04],
+      exposure: 1.0,
+      wb: [0.96, 1.0, 1.02],
       sat: 1.05,
-      contrast: 1.16,
+      contrast: 1.12,
       punch: 0.6,
-      vig: 0.32,
-      grain: 0.025,
-      bloom: { strength: 0.3, radius: 0.45, threshold: 2.2 },
+      vig: 0.55,
+      grain: 0.03,
+      bloom: { strength: 0.32, radius: 0.4, threshold: 2.2 },
       dof: { focus: camera.position.distanceTo(cross.position), aperture: 6, maxR: 10 },
     };
   }

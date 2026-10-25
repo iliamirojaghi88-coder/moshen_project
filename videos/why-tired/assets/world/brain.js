@@ -33,12 +33,12 @@ export function tissueMaterial() {
     roughness: 0.42,
     sheen: 0.35,
     sheenRoughness: 0.5,
-    sheenColor: new THREE.Color(0xffc9bd),
+    sheenColor: new THREE.Color(0xe8a39a),
     clearcoat: 0.55,
     clearcoatRoughness: 0.24,
     specularIntensity: 0.6,
   });
-  m.userData.sss = { value: new THREE.Color(0.75, 0.16, 0.1) };
+  m.userData.sss = { value: new THREE.Color(0.5, 0.11, 0.07) }; // controlled scattering: warm, never glowing
   m.onBeforeCompile = (shader) => {
     shader.uniforms.sssColor = m.userData.sss;
     const chunk = THREE.ShaderChunk.lights_physical_pars_fragment
