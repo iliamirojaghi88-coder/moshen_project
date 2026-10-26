@@ -1,0 +1,36 @@
+<template>
+  <style>
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-500.ttf") format("truetype"); font-weight: 500; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-600.ttf") format("truetype"); font-weight: 600; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-700.ttf") format("truetype"); font-weight: 700; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-800.ttf") format("truetype"); font-weight: 800; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-900.ttf") format("truetype"); font-weight: 900; }
+    #root { position: absolute; inset: 0; font-family: "Peyda", sans-serif; direction: rtl; pointer-events: none; }
+    #s4-card { position: absolute; left: 240px; width: 600px; top: 470px; }
+    #s4-card img { display: block; width: 600px; height: auto; filter: drop-shadow(0 30px 60px rgba(7, 24, 39, 0.28)); }
+    #s4-kick-t { display: inline-block; }
+    #s4-kick { position: absolute; top: 330px; left: 90px; right: 90px; text-align: center; font-weight: 700; font-size: 50px; color: #8a6a35; }
+    #s4-sub { position: absolute; top: 1030px; left: 90px; right: 90px; text-align: center; }
+    #s4-sub .t { display: inline-block; font-weight: 800; font-size: 70px; color: #071827; }
+    #s4-sub .rule { display: block; margin: 22px auto 0; width: 380px; height: 4px; background: linear-gradient(90deg, rgba(226,174,92,0), #e2ae5c, rgba(226,174,92,0)); transform-origin: center; }
+  </style>
+  <div id="root" data-composition-id="s4-reveal" data-width="1080" data-height="1920">
+    <div id="s4-card" class="clip" data-start="0.8" data-duration="5.1" data-track-index="1"><img id="s4-logo" src="assets/brand/metrica-logo-rounded-1300.png" alt="METRICA متریکا" /></div>
+    <div id="s4-kick" class="clip" data-start="2.55" data-duration="3.3" data-track-index="2"><span id="s4-kick-t">پلتفرم هوشمند</span></div>
+    <div id="s4-sub" class="clip" data-start="3.75" data-duration="2.1" data-track-index="3"><span class="t" id="s4-sub-t">تحلیل اقتصادی ساخت‌وساز</span><span class="rule" id="s4-rule"></span></div>
+  </div>
+  <script>
+    (function () {
+      // local time: 0 = 25.1 s in the film; the mark lands on "مِتریکا" (25.89)
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#s4-logo", { opacity: 0, scale: 0.86, filter: "blur(18px)", y: 30 }, { opacity: 1, scale: 1, filter: "blur(0px)", y: 0, duration: 0.7, ease: "expo.out" }, 0.82);
+      tl.fromTo("#s4-kick-t", { opacity: 0, scale: 1.12, filter: "blur(6px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 2.6);
+      tl.fromTo("#s4-sub-t", { opacity: 0, filter: "blur(10px)", y: 18 }, { opacity: 1, filter: "blur(0px)", y: 0, duration: 0.3, ease: "power4.out" }, 3.79);
+      tl.fromTo("#s4-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 3.95);
+      // hand over to the product scene: the card lifts away
+      tl.to(["#s4-kick-t", "#s4-sub-t", "#s4-rule"], { opacity: 0, filter: "blur(6px)", duration: 0.2, ease: "power2.in" }, 5.45);
+      tl.to("#s4-logo", { opacity: 0, scale: 0.7, y: -260, filter: "blur(8px)", duration: 0.35, ease: "power3.in" }, 5.5);
+      window.__timelines["s4-reveal"] = tl;
+    })();
+  </script>
+</template>

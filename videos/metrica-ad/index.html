@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./assets/vendor/three.module.js",
+          "three/addons/": "./assets/vendor/addons/"
+        }
+      }
+    </script>
+    <style>
+      @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-400.ttf") format("truetype"); font-weight: 400; }
+      @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-500.ttf") format("truetype"); font-weight: 500; }
+      @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-600.ttf") format("truetype"); font-weight: 600; }
+      @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-700.ttf") format("truetype"); font-weight: 700; }
+      @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-800.ttf") format("truetype"); font-weight: 800; }
+      @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-900.ttf") format("truetype"); font-weight: 900; }
+      :root {
+        --navy: #071827;
+        --ink: #f6f2ea;
+        --gold: #e2ae5c;
+        --teal: #34d3c9;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--navy); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Peyda", sans-serif; color: var(--ink); background: var(--navy); }
+      #gl { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+      /* labels pinned to 3D objects by the world script */
+      .tag3d {
+        position: absolute; left: 0; top: 0; opacity: 0; white-space: nowrap;
+        font-weight: 700; font-size: 46px; letter-spacing: 0; color: var(--ink);
+        padding: 12px 26px 14px; border-radius: 999px;
+        background: rgba(7, 24, 39, 0.62); border: 1.5px solid rgba(226, 174, 92, 0.75);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(6px);
+      }
+      .tag3d b { color: var(--gold); font-weight: 800; }
+      .tag3d.dim { font-size: 38px; font-weight: 600; padding: 8px 20px 10px; background: rgba(4, 12, 22, 0.55); border-color: rgba(52, 211, 201, 0.7); }
+      .tag3d.device { font-size: 44px; font-weight: 800; color: var(--navy); background: rgba(255, 255, 255, 0.82); border: 1.5px solid rgba(226, 174, 92, 0.9); box-shadow: 0 12px 30px rgba(7, 24, 39, 0.18); }
+      .tap { position: absolute; left: 0; top: 0; width: 64px; height: 64px; border-radius: 50%; opacity: 0;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.35) 45%, rgba(255, 255, 255, 0) 72%); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="67" data-width="1080" data-height="1920">
+      <canvas id="gl" width="1080" height="1920"></canvas>
+      <div class="tag3d" id="tag-cost" data-anchor="cost">هزینه ساخت</div>
+      <div class="tag3d" id="tag-capital" data-anchor="capital">سرمایه موردنیاز</div>
+      <div class="tag3d" id="tag-profit" data-anchor="profit">سود احتمالی</div>
+      <div class="tag3d dim" id="tag-dimw" data-anchor="dimW">۲۰ متر</div>
+      <div class="tag3d dim" id="tag-dimh" data-anchor="dimH">۷ تراز</div>
+      <div class="tap" id="tap" data-anchor="tap"></div>
+      <div class="tag3d device" id="tag-phone" data-anchor="lblPhone">موبایل</div>
+      <div class="tag3d device" id="tag-web" data-anchor="lblWeb">وب‌سایت</div>
+      <div id="s1-hook" data-composition-id="s1-hook" data-composition-src="compositions/s1-hook.html" data-start="0" data-duration="6.45" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="position:absolute;inset:0;z-index:5"></div>
+      <div id="s2-challenge" data-composition-id="s2-challenge" data-composition-src="compositions/s2-challenge.html" data-start="6.45" data-duration="10.35" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="position:absolute;inset:0;z-index:5"></div>
+      <div id="s3-questions" data-composition-id="s3-questions" data-composition-src="compositions/s3-questions.html" data-start="16.8" data-duration="8.3" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="position:absolute;inset:0;z-index:5"></div>
+      <div id="s4-reveal" data-composition-id="s4-reveal" data-composition-src="compositions/s4-reveal.html" data-start="25.1" data-duration="5.9" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="position:absolute;inset:0;z-index:5"></div>
+      <div id="s5-inputs" data-composition-id="s5-inputs" data-composition-src="compositions/s5-inputs.html" data-start="31.0" data-duration="7.4" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="position:absolute;inset:0;z-index:5"></div>
+      <div id="s7-clarity" data-composition-id="s7-clarity" data-composition-src="compositions/s7-clarity.html" data-start="47.45" data-duration="9.65" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="position:absolute;inset:0;z-index:5"></div>
+      <div id="s8-end" data-composition-id="s8-end" data-composition-src="compositions/s8-end.html" data-start="57.1" data-duration="9.9" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="position:absolute;inset:0;z-index:5"></div>
+      <audio id="voice" class="clip" src="assets/audio/voice.mp3" data-start="0" data-duration="64.99" data-track-index="10" data-volume="1"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+    </script>
+    <script type="module" src="assets/world/main.js"></script>
+  </body>
+</html>

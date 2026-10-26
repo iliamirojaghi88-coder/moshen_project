@@ -6,3 +6,10 @@ library/icons/**/*.png filter=lfs diff=lfs merge=lfs -text
 library/hdri/**/*.hdr filter=lfs diff=lfs merge=lfs -text
 library/**/*.exr filter=lfs diff=lfs merge=lfs -text
 library/**/*.blend filter=lfs diff=lfs merge=lfs -text
+# per-video heavy assets (screens, fonts, logo masters, music stems)
+videos/*/assets/screens/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+videos/*/assets/brand/*.png filter=lfs diff=lfs merge=lfs -text
+videos/*/assets/fonts/*.ttf filter=lfs diff=lfs merge=lfs -text
+videos/*/assets/audio/**/*.wav filter=lfs diff=lfs merge=lfs -text
+videos/*/assets/audio/**/*.m4a filter=lfs diff=lfs merge=lfs -text
+videos/*/assets/audio/**/*.mp3 filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,30 @@
+<template>
+  <style>
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-500.ttf") format("truetype"); font-weight: 500; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-600.ttf") format("truetype"); font-weight: 600; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-700.ttf") format("truetype"); font-weight: 700; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-800.ttf") format("truetype"); font-weight: 800; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-900.ttf") format("truetype"); font-weight: 900; }
+    #root { position: absolute; inset: 0; font-family: "Peyda", sans-serif; direction: rtl; pointer-events: none; }
+    .s5-chip { position: absolute; top: 200px; left: 0; right: 0; text-align: center; }
+    .s5-chip span { display: inline-block; font-weight: 800; font-size: 50px; color: #071827; background: rgba(255, 255, 255, 0.86); padding: 14px 34px 18px; border-radius: 999px; border: 2px solid rgba(226, 174, 92, 0.9); box-shadow: 0 16px 40px rgba(7, 24, 39, 0.16); }
+    .s5-chip b { color: #b07a2a; font-weight: 900; margin-left: 14px; }
+  </style>
+  <div id="root" data-composition-id="s5-inputs" data-width="1080" data-height="1920">
+    <div id="s5-c1" class="s5-chip clip" data-start="0.75" data-duration="1.15" data-track-index="1"><span><b>۱</b>مشخصات زمین</span></div>
+    <div id="s5-c2" class="s5-chip clip" data-start="1.9" data-duration="1.3" data-track-index="2"><span><b>۲</b>اطلاعات پروژه</span></div>
+    <div id="s5-c3" class="s5-chip clip" data-start="3.25" data-duration="2.0" data-track-index="3"><span><b>۳</b>محاسبات مهم</span></div>
+  </div>
+  <script>
+    (function () {
+      // local time: 0 = 31.0 s in the film
+      const tl = gsap.timeline({ paused: true });
+      // the chip morphs its label at each step instead of re-entering
+      tl.fromTo("#s5-c1 span", { opacity: 0, y: -24, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "expo.out" }, 0.8);
+      tl.fromTo("#s5-c2 span", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power3.out" }, 1.9);
+      tl.fromTo("#s5-c3 span", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power3.out" }, 3.26);
+      tl.to("#s5-c3 span", { opacity: 0, y: -20, duration: 0.2, ease: "power2.in" }, 5.0);
+      window.__timelines["s5-inputs"] = tl;
+    })();
+  </script>
+</template>

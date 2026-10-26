@@ -1,0 +1,34 @@
+<template>
+  <style>
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-500.ttf") format("truetype"); font-weight: 500; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-600.ttf") format("truetype"); font-weight: 600; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-700.ttf") format("truetype"); font-weight: 700; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-800.ttf") format("truetype"); font-weight: 800; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-900.ttf") format("truetype"); font-weight: 900; }
+    #root { position: absolute; inset: 0; font-family: "Peyda", sans-serif; direction: rtl; pointer-events: none; }
+    #s7-t { position: absolute; top: 250px; left: 90px; right: 90px; text-align: center; }
+    #s7-t .a { display: block; font-weight: 900; font-size: 120px; line-height: 1.15; color: #071827; text-shadow: 0 6px 30px rgba(255, 255, 255, 0.55); }
+    #s7-t .b { display: block; font-weight: 800; font-size: 96px; line-height: 1.2; color: #0d3b5c; text-shadow: 0 6px 30px rgba(255, 255, 255, 0.55); }
+    #s7-t .g { color: #b5822f; }
+    #s7-scrim { position: absolute; left: 0; right: 0; top: 0; height: 820px; background: radial-gradient(ellipse 70% 55% at 50% 30%, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 100%); }
+  </style>
+  <div id="root" data-composition-id="s7-clarity" data-width="1080" data-height="1920">
+    <div id="s7-scrim" class="clip" data-start="6.35" data-duration="3.3" data-track-index="0"></div>
+    <div id="s7-t" class="clip" data-start="6.35" data-duration="3.3" data-track-index="1">
+      <span class="a" id="s7-a">دید <span class="g">روشن‌تر</span>،</span>
+      <span class="b" id="s7-b">تصمیم آگاهانه‌تر</span>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // local time: 0 = 47.45 s; "دید روشن‌تری" at 53.87
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#s7-a", { opacity: 0, filter: "blur(12px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 6.42);
+      tl.fromTo("#s7-b", { opacity: 0, y: 24, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 7.0);
+      tl.to(["#s7-a", "#s7-b"], { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in", stagger: 0.06 }, 9.35);
+      tl.fromTo("#s7-scrim", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.35);
+      tl.to("#s7-scrim", { opacity: 0, duration: 0.25 }, 9.35);
+      window.__timelines["s7-clarity"] = tl;
+    })();
+  </script>
+</template>

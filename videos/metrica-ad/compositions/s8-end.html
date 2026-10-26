@@ -1,0 +1,32 @@
+<template>
+  <style>
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-500.ttf") format("truetype"); font-weight: 500; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-600.ttf") format("truetype"); font-weight: 600; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-700.ttf") format("truetype"); font-weight: 700; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-800.ttf") format("truetype"); font-weight: 800; }
+    @font-face { font-family: "Peyda"; src: url("assets/fonts/Peyda-900.ttf") format("truetype"); font-weight: 900; }
+    #root { position: absolute; inset: 0; font-family: "Peyda", sans-serif; direction: rtl; pointer-events: none; }
+    #s8-card { position: absolute; left: 300px; width: 480px; top: 200px; }
+    #s8-card img { display: block; width: 480px; height: auto; filter: drop-shadow(0 26px 50px rgba(7, 24, 39, 0.25)); }
+    #s8-slogan { position: absolute; top: 640px; left: 90px; right: 90px; text-align: center; }
+    #s8-slogan .l { display: block; font-weight: 900; font-size: 104px; line-height: 1.18; color: #071827; }
+    #s8-slogan .l2 { color: #a8731f; }
+  </style>
+  <div id="root" data-composition-id="s8-end" data-width="1080" data-height="1920" data-composition-variables='[{"id":"slogan1","type":"string","label":"Slogan, beat 1","default":"دقیق حساب کن"},{"id":"slogan2","type":"string","label":"Slogan, beat 2","default":"مطمئن انتخاب کن"}]'>
+    <div id="s8-card" class="clip" data-start="0.0" data-duration="9.9" data-track-index="1"><img id="s8-logo" src="assets/brand/metrica-logo-rounded-1300.png" alt="METRICA متریکا" /></div>
+    <div id="s8-slogan" class="clip" data-start="2.1" data-duration="7.8" data-track-index="2">
+      <span class="l" id="s8-l1" data-var-text="slogan1">دقیق حساب کن</span>
+      <span class="l l2" id="s8-l2" data-var-text="slogan2">مطمئن انتخاب کن</span>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // local time: 0 = 57.1 s; mark on "مِتریکا" (57.15), beats on 59.26 and 60.54
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#s8-logo", { opacity: 0, scale: 0.9, y: -30, filter: "blur(14px)" }, { opacity: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 0.05);
+      tl.fromTo("#s8-l1", { opacity: 0, scale: 1.18, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 2.16);
+      tl.fromTo("#s8-l2", { opacity: 0, scale: 1.18, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 3.44);
+      window.__timelines["s8-end"] = tl;
+    })();
+  </script>
+</template>
