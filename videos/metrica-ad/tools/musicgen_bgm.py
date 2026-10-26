@@ -18,7 +18,7 @@ from transformers import AutoProcessor, MusicgenForConditionalGeneration
 OUT = sys.argv[1] if len(sys.argv) > 1 else "assets/audio/music"
 MODEL = os.environ.get("MUSICGEN_MODEL", "facebook/musicgen-stereo-small")
 os.makedirs(OUT, exist_ok=True)
-torch.set_num_threads(4)
+torch.set_num_threads(int(os.environ.get("MUSICGEN_THREADS", "4")))
 
 SECTIONS = {
     "tension": (
@@ -36,7 +36,7 @@ SECTIONS = {
 }
 
 proc = AutoProcessor.from_pretrained(MODEL)
-model = MusicgenForConditionalGeneration.from_pretrained(MODEL)
+model = MusicgenForConditionalGeneration.from_pretrained(MODEL, dtype=torch.float32)
 model.eval()
 sr = model.config.audio_encoder.sampling_rate
 
@@ -58,9 +58,11 @@ for name, (prompt, secs, seed) in SECTIONS.items():
     if os.path.exists(path):
         print("skip", path)
         continue
+    import time
+    t0 = time.time()
     a = gen(prompt, secs, seed)
     sf.write(path, a.T, sr)
-    print("wrote", path, a.shape)
+    print("wrote", path, a.shape, f"{time.time() - t0:.0f}s", flush=True)
 
 # extend the bright bed: continue from its last 10 s for 22 s more
 ext = os.path.join(OUT, "bright_ext.wav")

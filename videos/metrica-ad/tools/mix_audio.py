@@ -84,30 +84,37 @@ def main():
     N = int(DUR * SR)
     voice = load(os.path.join(A, "voice.mp3"))
     music_dir = os.path.join(A, "music")
-    tension = load(os.path.join(music_dir, "tension.wav"))
-    bright = load(os.path.join(music_dir, "bright_ext.wav"))
-
-    # ---- music bed: tension until the reveal, then the bright bed
+    lyria = os.path.join(music_dir, "lyria.mp3")
     REVEAL = 25.93
-    t_off = strongest_offset(tension, 8, 6)
-    b_off = strongest_offset(bright, 4, 3)
     bed = np.zeros((N, 2), np.float32)
-    seg = tension[int(t_off * SR) : int(t_off * SR) + int(REVEAL * SR)]
-    seg = seg * np.minimum(1, np.arange(len(seg)) / (0.03 * SR))[:, None]
-    bed[: len(seg)] += seg
+    if os.path.exists(lyria):
+        # one through-composed song: the score already turns at the reveal
+        song = load(lyria)
+        t_off = b_off = 0.0
+        bed[: min(N, len(song))] += song[:N]
+    else:
+        # two MusicGen beds: tension until the reveal, then the bright bed
+        tension = load(os.path.join(music_dir, "tension.wav"))
+        bright = load(os.path.join(music_dir, "bright_ext.wav"))
+        t_off = strongest_offset(tension, 8, 6)
+        b_off = strongest_offset(bright, 4, 3)
+        seg = tension[int(t_off * SR) : int(t_off * SR) + int(REVEAL * SR)]
+        seg = seg * np.minimum(1, np.arange(len(seg)) / (0.03 * SR))[:, None]
+        bed[: len(seg)] += seg
     # the hook's freeze: tape-stop into silence, back on the next beat
     bed = tape_stop(bed, 4.36, 0.28)
     i0, i1 = int(4.64 * SR), int(5.22 * SR)
     bed[i0:i1] = 0
     ramp = int(0.12 * SR)
     bed[i1 : i1 + ramp] *= np.linspace(0, 1, ramp)[:, None]
-    # short fade at the reveal seam, under the riser and impact
-    k = int(0.08 * SR)
-    e = int(REVEAL * SR)
-    bed[e - k : e] *= np.linspace(1, 0, k)[:, None]
-    seg = bright[int(b_off * SR) :]
-    seg = seg[: N - e]
-    bed[e : e + len(seg)] += seg
+    if not os.path.exists(lyria):
+        # short fade at the reveal seam, under the riser and impact
+        k = int(0.08 * SR)
+        e = int(REVEAL * SR)
+        bed[e - k : e] *= np.linspace(1, 0, k)[:, None]
+        seg = bright[int(b_off * SR) :]
+        seg = seg[: N - e]
+        bed[e : e + len(seg)] += seg
     # final bars: ride out after the last word, end on the closing hit
     END_HIT = 65.05
     fo0, fo1 = int(END_HIT * SR), int((END_HIT + 1.9) * SR)
@@ -133,7 +140,7 @@ def main():
         return clips[name]
 
     cues = [
-        ("impact-bass-1", 0.0, -3), ("whoosh-cinematic", 0.0, -6),
+        ("impact-bass-1", 0.0, -7), ("whoosh-cinematic", 0.0, -9),
         ("glitch-3", 2.3, -14), ("whoosh", 2.85, -12), ("whoosh-short", 3.6, -12),
         ("impact-bass-2", 4.42, -4),  # the freeze lands at 4.62 (swell before the hit)
         ("whoosh", 6.45, -10),
@@ -141,7 +148,7 @@ def main():
         ("pop", 12.1, -10), ("click", 12.94, -10), ("pop", 14.53, -11),
         ("whoosh-cinematic", 15.2, -12), ("sparkle", 17.0, -12),
         ("whoosh-short", 19.72, -9), ("whoosh", 21.97, -11),
-        ("riser", 25.93 - 10.03, -8), ("impact-bass-2", 25.93 - 0.35, -2), ("sparkle", 25.95, -9),
+        ("riser", 25.93 - 10.03, -11), ("impact-bass-2", 25.93 - 0.35, -8), ("sparkle", 25.95, -12),
         ("whoosh-short", 30.8, -10),
         ("whoosh-short", 32.88, -12), ("click", 34.6, -8),
         ("whoosh-cinematic", 36.9, -11),
