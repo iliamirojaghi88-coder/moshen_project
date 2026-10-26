@@ -1,0 +1,280 @@
+<template>
+  <style>
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Medium.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Bold.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-ExtraBold.woff2") format("woff2"); font-weight: 800; }
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Black.woff2") format("woff2"); font-weight: 900; }
+    #root {
+      position: absolute;
+      inset: 0;
+      direction: rtl;
+      font-family: "Estedad", sans-serif;
+      --ink: #f4f1ea;
+      --ink-dark: #0e1726;
+      --blue: #7cc8ff;
+      --orange: #ff9446;
+      --gold: #ffc870;
+    }
+    .cap-frame { position: absolute; inset: 0; pointer-events: none; }
+    .cap { position: absolute; line-height: 1.22; isolation: isolate; }
+    .ln { display: block; position: relative; z-index: 1; margin: 4px 0; white-space: nowrap; word-spacing: 0.06em; }
+    .w {
+      display: inline-block;
+      font-weight: 700;
+      font-size: 74px;
+      letter-spacing: 0;
+      color: var(--ink);
+      text-shadow: 0 3px 24px rgba(0, 0, 0, 0.62), 0 0 3px rgba(0, 0, 0, 0.4);
+    }
+    .t-dark .w { color: var(--ink-dark); text-shadow: 0 1px 16px rgba(255, 255, 255, 0.7); }
+    .t-dusk .w { color: var(--ink-dark); }
+    .s-big { font-size: 112px; font-weight: 900; line-height: 1.12; }
+    .s-huge { font-size: 176px; font-weight: 900; line-height: 1.05; }
+    .s-blue { color: var(--blue) !important; }
+    .s-orange { color: var(--orange) !important; }
+    .s-gold { color: var(--gold) !important; }
+    .t-dark .s-blue { color: #1d63d6 !important; }
+    .t-dark .s-orange { color: #d9581a !important; }
+    .s-glow {
+      font-size: 176px;
+      font-weight: 900;
+      line-height: 1.05;
+      color: #d6efff;
+      text-shadow: 0 0 14px rgba(110, 190, 255, 0.95), 0 0 46px rgba(60, 150, 255, 0.85), 0 0 110px rgba(40, 120, 255, 0.6);
+    }
+    .has-scrim::before {
+      content: "";
+      position: absolute;
+      inset: -40px -60px;
+      background: radial-gradient(closest-side, rgba(3, 6, 12, 0.5), rgba(3, 6, 12, 0));
+      z-index: 0;
+    }
+    .w svg { width: 66px; height: 66px; vertical-align: -10px; }
+  </style>
+  <div id="root" data-composition-id="captions" data-width="1080" data-height="1920">
+    <div id="c1" class="clip cap-frame" data-start="0.06" data-duration="2.06" data-track-index="1">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c1-w0-0" class="w">کل</span> <span id="c1-w0-1" class="w">روز</span></div>
+      <div class="ln"><span id="c1-w1-0" class="w">از</span> <span id="c1-w1-1" class="w">خستگی</span> <span id="c1-w1-2" class="w s-huge">هلاکی،</span></div>
+     </div>
+    </div>
+    <div id="c2" class="clip cap-frame" data-start="2.28" data-duration="2.18" data-track-index="2">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c2-w0-0" class="w">ولی</span> <span id="c2-w0-1" class="w">همین</span> <span id="c2-w0-2" class="w">که</span></div>
+      <div class="ln"><span id="c2-w1-0" class="w">سرت</span> <span id="c2-w1-1" class="w">به</span> <span id="c2-w1-2" class="w">بالش</span> <span id="c2-w1-3" class="w">می‌رسه،</span></div>
+     </div>
+    </div>
+    <div id="c3" class="clip cap-frame" data-start="4.49" data-duration="1.81" data-track-index="1">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c3-w0-0" class="w">مغزت</span> <span id="c3-w0-1" class="w">تازه</span></div>
+      <div class="ln"><span id="c3-w1-0" class="w s-glow">روشن</span> <span id="c3-w1-1" class="w">می‌شه!</span></div>
+     </div>
+    </div>
+    <div id="c4" class="clip cap-frame" data-start="6.86" data-duration="1.54" data-track-index="2">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c4-w0-0" class="w s-orange">اشتباهات</span></div>
+      <div class="ln"><span id="c4-w1-0" class="w">چند</span> <span id="c4-w1-1" class="w">سال</span> <span id="c4-w1-2" class="w">پیش،</span></div>
+     </div>
+    </div>
+    <div id="c5" class="clip cap-frame" data-start="8.43" data-duration="1.52" data-track-index="1">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c5-w0-0" class="w">نگرانی‌های</span></div>
+      <div class="ln"><span id="c5-w1-0" class="w s-blue">فردا</span></div>
+     </div>
+    </div>
+    <div id="c6" class="clip cap-frame" data-start="9.93" data-duration="2.87" data-track-index="2">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c6-w0-0" class="w">و</span> <span id="c6-w0-1" class="w">فکرهایی</span> <span id="c6-w0-2" class="w">که</span> <span id="c6-w0-3" class="w">انگار</span></div>
+      <div class="ln"><span id="c6-w1-0" class="w s-orange">هیچ‌وقت</span></div>
+      <div class="ln"><span id="c6-w2-0" class="w">تمومی</span> <span id="c6-w2-1" class="w">ندارن!</span></div>
+     </div>
+    </div>
+    <div id="c7" class="clip cap-frame" data-start="13.12" data-duration="1.08" data-track-index="1">
+     <div class="cap t-dark" style="top: 300px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c7-w0-0" class="w s-huge">دلیلش</span></div>
+      <div class="ln"><span id="c7-w1-0" class="w s-huge">چیه؟</span></div>
+     </div>
+    </div>
+    <div id="c8" class="clip cap-frame" data-start="14.6" data-duration="1.48" data-track-index="2">
+     <div class="cap t-dark" style="top: 200px;left: 70px; right: 470px;text-align: right;" data-layout-allow-overflow>
+      <div class="ln"><span id="c8-w0-0" class="w s-big">روزها</span></div>
+      <div class="ln"><span id="c8-w1-0" class="w">توجه</span> <span id="c8-w1-1" class="w">مغزت</span></div>
+     </div>
+    </div>
+    <div id="c9" class="clip cap-frame" data-start="16.02" data-duration="1.38" data-track-index="1">
+     <div class="cap t-light" style="top: 1135px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c9-w0-0" class="w">درگیر</span></div>
+      <div class="ln"><span id="c9-w1-0" class="w s-blue">کارها،</span></div>
+     </div>
+    </div>
+    <div id="c10" class="clip cap-frame" data-start="17.37" data-duration="0.6" data-track-index="2">
+     <div class="cap t-dark" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c10-w0-0" class="w s-big">صداها</span></div>
+     </div>
+    </div>
+    <div id="c11" class="clip cap-frame" data-start="17.97" data-duration="1.78" data-track-index="1">
+     <div class="cap t-dark" style="top: 200px;left: 70px; right: 470px;text-align: right;" data-layout-allow-overflow>
+      <div class="ln"><span id="c11-w0-0" class="w">و</span> <span id="c11-w0-1" class="w">اتفاقات</span></div>
+      <div class="ln"><span id="c11-w1-0" class="w s-orange">اطرافته.</span></div>
+     </div>
+    </div>
+    <div id="c12" class="clip cap-frame" data-start="20.04" data-duration="2.51" data-track-index="2">
+     <div class="cap t-dusk" style="top: 200px;left: 70px; right: 470px;text-align: right;" data-layout-allow-overflow>
+      <div class="ln"><span id="c12-w0-0" class="w">اما</span> <span id="c12-w0-1" class="w s-big">شب،</span></div>
+      <div class="ln"><span id="c12-w1-0" class="w">وقتی</span> <span id="c12-w1-1" class="w">محیط</span> <span id="c12-w1-2" class="w">آروم</span> <span id="c12-w1-3" class="w">می‌شه،</span></div>
+     </div>
+    </div>
+    <div id="c13" class="clip cap-frame" data-start="22.62" data-duration="1.42" data-track-index="1">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c13-w0-0" class="w">افکار</span> <span id="c13-w0-1" class="w">و</span> <span id="c13-w0-2" class="w">نگرانی‌هات</span></div>
+     </div>
+    </div>
+    <div id="c14" class="clip cap-frame" data-start="24.02" data-duration="1.06" data-track-index="2">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c14-w0-0" class="w">فرصت</span> <span id="c14-w0-1" class="w s-big">بیشتری</span></div>
+     </div>
+    </div>
+    <div id="c15" class="clip cap-frame" data-start="25.06" data-duration="1.89" data-track-index="1">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c15-w0-0" class="w">برای</span> <span id="c15-w0-1" class="w s-orange">جلب</span> <span id="c15-w0-2" class="w s-orange">توجه</span></div>
+      <div class="ln"><span id="c15-w1-0" class="w">پیدا</span> <span id="c15-w1-1" class="w">می‌کنن.</span></div>
+     </div>
+    </div>
+    <div id="c16" class="clip cap-frame" data-start="27.28" data-duration="2.82" data-track-index="2">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c16-w0-0" class="w">تازه</span> <span id="c16-w0-1" class="w">وقتی</span> <span id="c16-w0-2" class="w">نگران</span> <span id="c16-w0-3" class="w">می‌شی</span></div>
+      <div class="ln"><span id="c16-w1-0" class="w">که</span> <span id="c16-w1-1" class="w">چرا</span> <span id="c16-w1-2" class="w s-blue">خوابت</span> <span id="c16-w1-3" class="w s-blue">نمی‌بره،</span></div>
+     </div>
+    </div>
+    <div id="c17" class="clip cap-frame" data-start="30.24" data-duration="3.38" data-track-index="1">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c17-w0-0" class="w">همین</span> <span id="c17-w0-1" class="w">نگرانی</span> <span id="c17-w0-2" class="w">می‌تونه</span> <span id="c17-w0-3" class="w">بدنت</span> <span id="c17-w0-4" class="w">رو</span></div>
+     </div>
+    </div>
+    <div id="c18" class="clip cap-frame" data-start="31.97" data-duration="1.65" data-track-index="2">
+     <div class="cap t-light" style="top: 1135px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c18-w0-0" class="w s-huge s-orange">هوشیارتر</span> <span id="c18-w0-1" class="w">نگه</span> <span id="c18-w0-2" class="w">داره!</span></div>
+     </div>
+    </div>
+    <div id="c19" class="clip cap-frame" data-start="34.05" data-duration="1.25" data-track-index="1">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c19-w0-0" class="w s-huge s-gold">راهکار</span></div>
+      <div class="ln"><span id="c19-w1-0" class="w s-huge s-gold">چیه؟</span></div>
+     </div>
+    </div>
+    <div id="c20" class="clip cap-frame" data-start="35.5" data-duration="1.62" data-track-index="2">
+     <div class="cap t-light has-scrim" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c20-w0-0" class="w">قبل</span> <span id="c20-w0-1" class="w">خواب،</span></div>
+      <div class="ln"><span id="c20-w1-0" class="w">چند</span> <span id="c20-w1-1" class="w">دقیقه</span></div>
+     </div>
+    </div>
+    <div id="c21" class="clip cap-frame" data-start="37.1" data-duration="2.07" data-track-index="1">
+     <div class="cap t-light has-scrim" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c21-w0-0" class="w">نگرانی‌ها</span> <span id="c21-w0-1" class="w">و</span></div>
+      <div class="ln"><span id="c21-w1-0" class="w">کارهای</span> <span id="c21-w1-1" class="w">فردات</span> <span id="c21-w1-2" class="w">رو</span></div>
+     </div>
+    </div>
+    <div id="c22" class="clip cap-frame" data-start="39.15" data-duration="1.45" data-track-index="2">
+     <div class="cap t-light has-scrim" style="top: 1110px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c22-w0-0" class="w">روی</span> <span id="c22-w0-1" class="w">کاغذ</span></div>
+      <div class="ln"><span id="c22-w1-0" class="w s-big s-gold">بنویس.</span></div>
+     </div>
+    </div>
+    <div id="c23" class="clip cap-frame" data-start="40.9" data-duration="1.4" data-track-index="1">
+     <div class="cap t-light" style="top: 200px;left: 470px; right: 70px;text-align: right;" data-layout-allow-overflow>
+      <div class="ln"><span id="c23-w0-0" class="w">نور</span> <span id="c23-w0-1" class="w">محیط</span> <span id="c23-w0-2" class="w">رو</span></div>
+      <div class="ln"><span id="c23-w1-0" class="w s-gold">کم</span> <span id="c23-w1-1" class="w s-gold">کن</span></div>
+     </div>
+    </div>
+    <div id="c24" class="clip cap-frame" data-start="42.43" data-duration="2.52" data-track-index="2">
+     <div class="cap t-light has-scrim" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c24-w0-0" class="w">و</span> <span id="c24-w0-1" class="w">به‌جای</span> <span id="c24-w0-2" class="w">تلاش</span></div>
+      <div class="ln"><span id="c24-w1-0" class="w">اجباری</span> <span id="c24-w1-1" class="w">برای</span> <span id="c24-w1-2" class="w">خوابیدن،</span></div>
+     </div>
+    </div>
+    <div id="c25" class="clip cap-frame" data-start="45.07" data-duration="1.63" data-track-index="1">
+     <div class="cap t-light has-scrim" style="top: 1110px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c25-w0-0" class="w">چند</span> <span id="c25-w0-1" class="w">دقیقه</span></div>
+      <div class="ln"><span id="c25-w1-0" class="w s-big s-gold">آروم</span> <span id="c25-w1-1" class="w s-big s-gold">باش.</span></div>
+     </div>
+    </div>
+    <div id="c26" class="clip cap-frame" data-start="47.0" data-duration="0.8" data-track-index="2">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c26-w0-0" class="w">یادت</span> <span id="c26-w0-1" class="w">باشه،</span></div>
+     </div>
+    </div>
+    <div id="c27" class="clip cap-frame" data-start="47.97" data-duration="1.96" data-track-index="1">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c27-w0-0" class="w">گاهی</span> <span id="c27-w0-1" class="w">چیزی</span> <span id="c27-w0-2" class="w">که</span></div>
+      <div class="ln"><span id="c27-w1-0" class="w">نمی‌ذاره</span> <span id="c27-w1-1" class="w">بخوابی،</span></div>
+     </div>
+    </div>
+    <div id="c28" class="clip cap-frame" data-start="49.9" data-duration="1.7" data-track-index="2">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c28-w0-0" class="w">خستگی</span> <span id="c28-w0-1" class="w">بدنت</span></div>
+      <div class="ln"><span id="c28-w1-0" class="w s-big s-blue">نیست؛</span></div>
+     </div>
+    </div>
+    <div id="c29" class="clip cap-frame" data-start="51.74" data-duration="1.76" data-track-index="1">
+     <div class="cap t-light" style="top: 200px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c29-w0-0" class="w s-huge s-orange">شلوغی</span></div>
+      <div class="ln"><span id="c29-w1-0" class="w s-big">ذهنته.</span></div>
+     </div>
+    </div>
+    <div id="c30" class="clip cap-frame" data-start="53.72" data-duration="5.88" data-track-index="2">
+     <div class="cap t-light" style="top: 960px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c30-w0-0" class="w">تو</span> <span id="c30-w0-1" class="w">هم</span> <span id="c30-w0-2" class="w">شب‌ها</span></div>
+      <div class="ln"><span id="c30-w1-0" class="w s-big">ذهنت</span> <span id="c30-w1-1" class="w s-big s-orange">شلوغ</span> <span id="c30-w1-2" class="w s-big">می‌شه؟</span></div>
+     </div>
+    </div>
+    <div id="c31" class="clip cap-frame" data-start="55.74" data-duration="3.86" data-track-index="1">
+     <div class="cap t-light" style="top: 1225px;left: 90px; right: 90px;text-align: center;" data-layout-allow-overflow>
+      <div class="ln"><span id="c31-w0-0" class="w">تو</span> <span id="c31-w0-1" class="w">کامنت‌ها</span> <span id="c31-w0-2" class="w s-gold">بگو!</span> <span id="c31-icon" class="w"><svg   xmlns="http://www.w3.org/2000/svg"   width="24"   height="24"   viewBox="0 0 24 24"   fill="none"   stroke="#ffc870"   stroke-width="2"   stroke-linecap="round"   stroke-linejoin="round"   class="icon icon-tabler icons-tabler-outline icon-tabler-message-circle" >   <path stroke="none" d="M0 0h24v24H0z" fill="none" />   <path d="M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1" /> </svg></span></div>
+     </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const TIMING = {"c1": {"at": [0.06, 2.12], "words": [["c1-w0-0", 0.07, ""], ["c1-w0-1", 0.313, ""], ["c1-w1-0", 0.636, ""], ["c1-w1-1", 0.879, ""], ["c1-w1-2", 1.364, "huge"]]}, "c2": {"at": [2.28, 4.46], "words": [["c2-w0-0", 2.32, ""], ["c2-w0-1", 2.594, ""], ["c2-w0-2", 2.935, ""], ["c2-w1-0", 3.141, ""], ["c2-w1-1", 3.414, ""], ["c2-w1-2", 3.619, ""], ["c2-w1-3", 3.961, ""]]}, "c3": {"at": [4.49, 6.3], "words": [["c3-w0-0", 4.51, ""], ["c3-w0-1", 4.88, ""], ["c3-w1-0", 5.33, "glow"], ["c3-w1-1", 5.77, ""]]}, "c4": {"at": [6.86, 8.4], "words": [["c4-w0-0", 6.79, "orange"], ["c4-w1-0", 7.416, ""], ["c4-w1-1", 7.694, ""], ["c4-w1-2", 7.972, ""]]}, "c5": {"at": [8.43, 9.95], "words": [["c5-w0-0", 8.46, ""], ["c5-w1-0", 9.43, "blue"]]}, "c6": {"at": [9.93, 12.8], "words": [["c6-w0-0", 9.92, ""], ["c6-w0-1", 10.059, ""], ["c6-w0-2", 10.615, ""], ["c6-w0-3", 10.823, ""], ["c6-w1-0", 11.24, "orange"], ["c6-w2-0", 11.727, ""], ["c6-w2-1", 12.144, ""]]}, "c7": {"at": [13.12, 14.2], "words": [["c7-w0-0", 13.15, "huge"], ["c7-w1-0", 13.53, "huge"]]}, "c8": {"at": [14.6, 16.08], "words": [["c8-w0-0", 14.63, "big"], ["c8-w1-0", 15.0, ""], ["c8-w1-1", 15.43, ""]]}, "c9": {"at": [16.02, 17.4], "words": [["c9-w0-0", 16.04, ""], ["c9-w1-0", 16.71, "blue"]]}, "c10": {"at": [17.37, 17.97], "words": [["c10-w0-0", 17.39, "big"]]}, "c11": {"at": [17.97, 19.75], "words": [["c11-w0-0", 17.89, ""], ["c11-w0-1", 18.0, ""], ["c11-w1-0", 18.78, "orange"]]}, "c12": {"at": [20.04, 22.55], "words": [["c12-w0-0", 20.07, ""], ["c12-w0-1", 20.3, "big"], ["c12-w1-0", 20.718, ""], ["c12-w1-1", 21.123, ""], ["c12-w1-2", 21.529, ""], ["c12-w1-3", 21.934, ""]]}, "c13": {"at": [22.62, 24.04], "words": [["c13-w0-0", 22.67, ""], ["c13-w0-1", 23.12, ""], ["c13-w0-2", 23.27, ""]]}, "c14": {"at": [24.02, 25.08], "words": [["c14-w0-0", 24.02, ""], ["c14-w0-1", 24.445, "big"]]}, "c15": {"at": [25.06, 26.95], "words": [["c15-w0-0", 25.11, ""], ["c15-w0-1", 25.433, "orange"], ["c15-w0-2", 25.692, "orange"], ["c15-w1-0", 26.015, ""], ["c15-w1-1", 26.338, ""]]}, "c16": {"at": [27.28, 30.1], "words": [["c16-w0-0", 27.31, ""], ["c16-w0-1", 27.628, ""], ["c16-w0-2", 27.946, ""], ["c16-w0-3", 28.327, ""], ["c16-w1-0", 28.645, ""], ["c16-w1-1", 28.836, ""], ["c16-w1-2", 29.09, "blue"], ["c16-w1-3", 29.471, "blue"]]}, "c17": {"at": [30.24, 33.62], "words": [["c17-w0-0", 30.27, ""], ["c17-w0-1", 30.59, ""], ["c17-w0-2", 31.039, ""], ["c17-w0-3", 31.487, ""], ["c17-w0-4", 31.808, ""]]}, "c18": {"at": [31.97, 33.62], "words": [["c18-w0-0", 32.0, "huge-orange"], ["c18-w0-1", 32.8, ""], ["c18-w0-2", 33.07, ""]]}, "c19": {"at": [34.05, 35.3], "words": [["c19-w0-0", 34.08, "huge-gold"], ["c19-w1-0", 34.4, "huge-gold"]]}, "c20": {"at": [35.5, 37.12], "words": [["c20-w0-0", 35.52, ""], ["c20-w0-1", 35.62, ""], ["c20-w1-0", 36.42, ""], ["c20-w1-1", 36.61, ""]]}, "c21": {"at": [37.1, 39.17], "words": [["c21-w0-0", 37.12, ""], ["c21-w0-1", 37.807, ""], ["c21-w1-0", 37.959, ""], ["c21-w1-1", 38.493, ""], ["c21-w1-2", 38.951, ""]]}, "c22": {"at": [39.15, 40.6], "words": [["c22-w0-0", 39.18, ""], ["c22-w0-1", 39.45, ""], ["c22-w1-0", 39.89, "big-gold"]]}, "c23": {"at": [40.9, 42.3], "words": [["c23-w0-0", 40.95, ""], ["c23-w0-1", 41.232, ""], ["c23-w0-2", 41.585, ""], ["c23-w1-0", 41.797, "gold"], ["c23-w1-1", 42.008, "gold"]]}, "c24": {"at": [42.43, 44.95], "words": [["c24-w0-0", 42.46, ""], ["c24-w0-1", 42.6, ""], ["c24-w0-2", 43.02, ""], ["c24-w1-0", 43.37, ""], ["c24-w1-1", 43.86, ""], ["c24-w1-2", 44.21, ""]]}, "c25": {"at": [45.07, 46.7], "words": [["c25-w0-0", 45.1, ""], ["c25-w0-1", 45.382, ""], ["c25-w1-0", 45.805, "big-gold"], ["c25-w1-1", 46.157, "big-gold"]]}, "c26": {"at": [47.0, 47.8], "words": [["c26-w0-0", 47.04, ""], ["c26-w0-1", 47.331, ""]]}, "c27": {"at": [47.97, 49.93], "words": [["c27-w0-0", 48.01, ""], ["c27-w0-1", 48.336, ""], ["c27-w0-2", 48.662, ""], ["c27-w1-0", 48.857, ""], ["c27-w1-1", 49.379, ""]]}, "c28": {"at": [49.9, 51.6], "words": [["c28-w0-0", 49.95, ""], ["c28-w0-1", 50.479, ""], ["c28-w1-0", 50.921, "big-blue"]]}, "c29": {"at": [51.74, 53.5], "words": [["c29-w0-0", 51.77, "huge-orange"], ["c29-w1-0", 52.4, "big"]]}, "c30": {"at": [53.72, 59.6], "words": [["c30-w0-0", 53.76, ""], ["c30-w0-1", 53.943, ""], ["c30-w0-2", 54.127, ""], ["c30-w1-0", 54.432, "big"], ["c30-w1-1", 54.738, "big-orange"], ["c30-w1-2", 55.043, "big"]]}, "c31": {"at": [55.74, 59.6], "words": [["c31-w0-0", 55.77, ""], ["c31-w0-1", 55.92, ""], ["c31-w0-2", 56.32, "gold"]]}};
+      const BEATS = [32.93, 33.21]; // heartbeat onsets under "هوشیارتر", after its entrance
+      const tl = gsap.timeline({ paused: true });
+      for (const [gid, g] of Object.entries(TIMING)) {
+        const [a, b] = g.at;
+        const block = document.querySelector("#" + gid + " .cap");
+        for (const [wid, t, style] of g.words) {
+          const el = document.getElementById(wid);
+          const st = Math.max(a, t - 0.06);
+          if (style === "glow") {
+            // a light switching on: two quick flickers, then steady
+            tl.fromTo(el, { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 0.5, ease: "expo.out" }, st);
+            tl.set(el, { opacity: 0.25 }, st + 0.07);
+            tl.set(el, { opacity: 1 }, st + 0.11);
+            tl.set(el, { opacity: 0.45 }, st + 0.17);
+            tl.set(el, { opacity: 1 }, st + 0.22);
+          } else if (/huge|big/.test(style)) {
+            tl.fromTo(el, { opacity: 0, scale: 1.28, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "expo.out" }, st);
+          } else {
+            tl.fromTo(el, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.36, ease: "power3.out" }, st);
+          }
+        }
+        const out = gid === "c30" || gid === "c31" ? 0.45 : 0.18;
+        tl.fromTo(block, { opacity: 1, y: 0 }, { opacity: 0, y: -14, duration: out, ease: "power2.in", immediateRender: false }, b - out - 0.02);
+      }
+      // night falls under "اما شب": ink turns from day-dark to night-light
+      tl.fromTo(
+        "#c12 .w",
+        { color: "#0e1726", textShadow: "0 1px 16px rgba(255,255,255,0.7)" },
+        { color: "#eef4ff", textShadow: "0 3px 24px rgba(0,0,0,0.62)", duration: 1.5, ease: "sine.inOut", immediateRender: false },
+        20.5,
+      );
+      tl.fromTo("#c12-w0-1", { color: "#0e1726" }, { color: "#8fd0ff", duration: 1.5, ease: "sine.inOut", immediateRender: false }, 20.5);
+      // the body stays alert: the word beats with the heart
+      const alert = document.getElementById("c18-w0-0");
+      BEATS.forEach((bt) => {
+        tl.fromTo(alert, { scale: 1 }, { scale: 1.07, duration: 0.07, ease: "power2.out", immediateRender: false }, bt);
+        tl.fromTo(alert, { scale: 1.07 }, { scale: 1, duration: 0.18, ease: "power2.in", immediateRender: false }, bt + 0.07);
+      });
+      window.__timelines["captions"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8">
+<script type="importmap">{"imports":{"three":"../assets/vendor/three.module.js","three/addons/":"../assets/vendor/addons/"}}</script>
+<style>html,body{margin:0;background:#000}canvas{display:block}</style></head><body>
+<canvas id="gl" width="1080" height="1920"></canvas>
+<script type="module">
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { HDRLoader } from "three/addons/loaders/HDRLoader.js";
+const renderer = new THREE.WebGLRenderer({canvas:document.getElementById('gl'), antialias:true, preserveDrawingBuffer:true});
+renderer.setSize(1080,1920,false); renderer.toneMapping=THREE.AgXToneMapping; renderer.outputColorSpace=THREE.SRGBColorSpace;
+const scene=new THREE.Scene(); scene.background=new THREE.Color(0x05070c);
+const cam=new THREE.PerspectiveCamera(30,1080/1920,0.01,10);
+const hdr=await new HDRLoader().loadAsync('../assets/hdri/studio_small_09_1k.hdr'); hdr.mapping=THREE.EquirectangularReflectionMapping;
+const pm=new THREE.PMREMGenerator(renderer); scene.environment=pm.fromEquirectangular(hdr).texture; scene.environmentIntensity=0.35;
+const key=new THREE.DirectionalLight(0x9cc4ff,2.2); key.position.set(-1,1.2,1); scene.add(key);
+const rim=new THREE.DirectionalLight(0xff9a4a,3.0); rim.position.set(1.2,0.4,-1); scene.add(rim);
+const g=await new GLTFLoader().loadAsync('../assets/models/brain.glb');
+const mat=new THREE.MeshPhysicalMaterial({vertexColors:true,roughness:0.5,clearcoat:0.3,clearcoatRoughness:0.3,sheen:0.25,sheenRoughness:0.45,sheenColor:new THREE.Color(0xffc0b0)});
+g.scene.traverse(o=>{if(o.isMesh){o.material=mat;}});
+scene.add(g.scene);
+window.shot=(az,el,r)=>{ const t0=performance.now();
+ cam.position.set(Math.sin(az)*Math.cos(el)*r, Math.sin(el)*r+0.01, Math.cos(az)*Math.cos(el)*r); cam.lookAt(0,0.01,-0.015);
+ renderer.render(scene,cam); renderer.getContext().finish(); return performance.now()-t0;};
+window.ready=true;
+</script></body></html>

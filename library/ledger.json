@@ -93,6 +93,9 @@
       "rig": false,
       "files": [
         "library/polyhaven/studio_small_09/studio_small_09_2k.hdr"
+      ],
+      "usage": [
+        "videos/night-brain/"
       ]
     },
     {
@@ -5482,6 +5485,154 @@
         }
       },
       "status": "ready"
+    },
+    {
+      "key": "custom:brain-fsaverage-mni152",
+      "source": "custom",
+      "id": "brain-fsaverage-mni152",
+      "fetchedAt": "2026-10-26T13:00:00Z",
+      "status": "ready",
+      "title": "Human brain \u2014 fsaverage cortex + MNI ICBM152 hindbrain",
+      "type": "model",
+      "kind": "model",
+      "page": "https://osf.io/svf8k",
+      "license": {
+        "spdx": "LicenseRef-FreeSurfer+MNI-ICBM152",
+        "commercial": true,
+        "attribution": true,
+        "shareAlike": false,
+        "url": "https://surfer.nmr.mgh.harvard.edu/fswiki/FreeSurferSoftwareLicense"
+      },
+      "notes": "Built by tools/3d/brain_from_templates.py (200k-face cortex coloured by sulcal depth, 90k-face cerebellum+brainstem with carved folia). Units metres, +Y up, +Z anterior.",
+      "files": [
+        "videos/night-brain/assets/models/brain.glb"
+      ],
+      "usage": [
+        "videos/night-brain/"
+      ]
+    },
+    {
+      "key": "polyhaven:walnut_veneer",
+      "source": "polyhaven",
+      "id": "walnut_veneer",
+      "fetchedAt": "2026-10-26T13:00:00Z",
+      "status": "ready",
+      "title": "Walnut Veneer",
+      "type": "texture",
+      "kind": "texture",
+      "page": "https://polyhaven.com/a/walnut_veneer",
+      "license": {
+        "spdx": "CC0-1.0",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": "https://polyhaven.com/license"
+      },
+      "files": [
+        "videos/night-brain/assets/tex/walnut_veneer_diff_1k.jpg",
+        "videos/night-brain/assets/tex/walnut_veneer_nor_gl_1k.jpg",
+        "videos/night-brain/assets/tex/walnut_veneer_rough_1k.jpg"
+      ],
+      "usage": [
+        "videos/night-brain/"
+      ]
+    },
+    {
+      "key": "jamendo:1196239",
+      "source": "jamendo",
+      "id": "1196239",
+      "fetchedAt": "2026-10-26T13:00:00Z",
+      "status": "ready",
+      "title": "DreamDance 32 [ambient] \u2014 Hardcore Scm",
+      "type": "music",
+      "kind": "music",
+      "page": "https://www.jamendo.com/track/1196239",
+      "license": {
+        "spdx": "CC-BY-3.0",
+        "commercial": true,
+        "attribution": true,
+        "shareAlike": false,
+        "url": "https://creativecommons.org/licenses/by/3.0/"
+      },
+      "notes": "First 64 s, loudness-normalised to -16 LUFS. Credit required where published.",
+      "files": [
+        "videos/night-brain/assets/audio/music-bed.mp3"
+      ],
+      "usage": [
+        "videos/night-brain/"
+      ]
+    },
+    {
+      "key": "wikimedia:wws-alarmclockticking",
+      "source": "wikimedia",
+      "id": "WWS Alarmclockticking",
+      "fetchedAt": "2026-10-26T13:00:00Z",
+      "status": "ready",
+      "title": "WWS Alarmclockticking \u2014 Work With Sounds / Technical Museum of Slovenia",
+      "type": "sfx",
+      "kind": "sfx",
+      "page": "https://commons.wikimedia.org/wiki/File:WWS_Alarmclockticking.ogg",
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "commercial": true,
+        "attribution": true,
+        "shareAlike": false,
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "files": [
+        "videos/night-brain/assets/sfx/clock-ticking.mp3"
+      ],
+      "usage": [
+        "videos/night-brain/"
+      ]
+    },
+    {
+      "key": "wikimedia:heartbeat-speedsup",
+      "source": "wikimedia",
+      "id": "Heartbeat speedsup",
+      "fetchedAt": "2026-10-26T13:00:00Z",
+      "status": "ready",
+      "title": "Heartbeat speedsup \u2014 Bob Smaude",
+      "type": "sfx",
+      "kind": "sfx",
+      "page": "https://commons.wikimedia.org/wiki/File:Heartbeat_speedsup.ogg",
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "commercial": true,
+        "attribution": true,
+        "shareAlike": false,
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "files": [
+        "videos/night-brain/assets/sfx/heartbeat.mp3"
+      ],
+      "usage": [
+        "videos/night-brain/"
+      ]
+    },
+    {
+      "key": "font:estedad",
+      "source": "github",
+      "id": "aminabedi68/Estedad",
+      "fetchedAt": "2026-10-26T13:00:00Z",
+      "status": "ready",
+      "title": "Estedad (Persian/Latin, 6 weights)",
+      "type": "font",
+      "kind": "element",
+      "page": "https://github.com/aminabedi68/Estedad",
+      "license": {
+        "spdx": "OFL-1.1",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": "https://openfontlicense.org"
+      },
+      "files": [
+        "videos/night-brain/assets/fonts/"
+      ],
+      "usage": [
+        "videos/night-brain/"
+      ]
     }
   ]
 }

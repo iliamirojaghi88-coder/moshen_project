@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <!-- Everything is local: renders never depend on a CDN. -->
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "./assets/vendor/three.module.js", "three/addons/": "./assets/vendor/addons/" } }
+    </script>
+    <style>
+      /* Estedad (OFL) — also used by the 3D layer's canvas-painted screens. */
+      @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Light.woff2") format("woff2"); font-weight: 300; }
+      @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Regular.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Medium.woff2") format("woff2"); font-weight: 500 600; }
+      @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Bold.woff2") format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-ExtraBold.woff2") format("woff2"); font-weight: 800; }
+      @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Black.woff2") format("woff2"); font-weight: 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; font-family: "Estedad", sans-serif; }
+      .layer { position: absolute; inset: 0; overflow: hidden; }
+      .layer video, .layer img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      #hook-a-wrap, #hook-b-wrap, #hook-c-wrap, #hook-d-wrap { z-index: 2; }
+      /* The 3D mind opens inside the pupil: a feathered circle that grows to the frame. */
+      #world-wrap {
+        z-index: 3;
+        --mx: 502px;
+        --my: 716px;
+        --mr: 0px;
+        -webkit-mask-image: radial-gradient(circle at var(--mx) var(--my), #000 calc(var(--mr) - 70px), transparent var(--mr));
+        mask-image: radial-gradient(circle at var(--mx) var(--my), #000 calc(var(--mr) - 70px), transparent var(--mr));
+      }
+      #gl { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+      #ja-wrap, #jb-wrap { z-index: 4; }
+      #captions { z-index: 10; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="60" data-fps="30" data-width="1080" data-height="1920">
+      <!-- 1 · Hook (OmniFlash clip 1): exhausted walk-in, head on the pillow, eyes snap open, dive into the pupil -->
+      <div id="hook-a-wrap" class="layer">
+        <video id="hook-a" class="clip" src="assets/video/hook.mp4" data-start="0" data-duration="2.0" data-media-start="0" data-track-index="1" data-has-audio="true" data-volume="1.4" playsinline></video>
+      </div>
+      <div id="hook-b-wrap" class="layer">
+        <img id="hook-b" class="clip" src="assets/video/hook-eyes-closed.jpg" data-start="2.0" data-duration="2.48" data-track-index="1" alt="" />
+      </div>
+      <div id="hook-c-wrap" class="layer">
+        <video id="hook-c" class="clip" src="assets/video/hook.mp4" data-start="4.48" data-duration="0.85" data-media-start="2.13" data-track-index="1" muted playsinline></video>
+      </div>
+      <div id="hook-d-wrap" class="layer">
+        <video id="hook-d" class="clip" src="assets/video/hook.mp4" data-start="5.33" data-duration="1.465" data-media-start="4.4" data-playback-rate="2.45" data-track-index="1" muted playsinline></video>
+      </div>
+
+      <!-- 2–5, 7–9 · The 3D mind (assets/world/world.js draws every frame from timeline time) -->
+      <div id="world-wrap" class="layer"><canvas id="gl" width="1080" height="1920"></canvas></div>
+
+      <!-- 6 · Write it down (OmniFlash clip 2), then 7 · calm, eyes closed -->
+      <div id="ja-wrap" class="layer">
+        <video id="journal-a" class="clip" src="assets/video/journal.mp4" data-start="35.35" data-duration="5.4" data-media-start="0" data-track-index="2" data-has-audio="true" data-volume="2.6" playsinline></video>
+      </div>
+      <div id="jb-wrap" class="layer">
+        <video id="journal-b" class="clip" src="assets/video/journal.mp4" data-start="44.05" data-duration="2.7" data-media-start="5.3" data-track-index="2" data-has-audio="true" data-volume="2.6" playsinline></video>
+      </div>
+
+      <!-- Typography and captions -->
+      <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="60" data-track-index="5" data-track-kind="captions" data-width="1080" data-height="1920"></div>
+
+      <!-- Voice (the clock of the film), music bed, sound effects -->
+      <audio id="voiceover" class="clip" src="assets/audio/voiceover.mp3" data-start="0" data-duration="56.76" data-track-index="10" data-volume="1"></audio>
+      <audio
+        id="music"
+        class="clip"
+        src="assets/audio/music-bed.mp3"
+        data-start="0"
+        data-duration="60"
+        data-track-index="11"
+        data-volume="1"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":1.6,"v":0.13},{"t":56.6,"v":0.13},{"t":57.4,"v":0.24},{"t":58.4,"v":0.24},{"t":60,"v":0}]}]}'
+      ></audio>
+      <audio id="sfx-riser" class="clip" src="assets/sfx/riser.mp3" data-start="1.0" data-duration="4.6" data-track-index="12" data-volume="0.2" data-fade-in="1.0" data-fade-out="0.8"></audio>
+      <audio id="sfx-snap" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="4.37" data-duration="2.0" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="sfx-dive" class="clip" src="assets/sfx/whoosh-cinematic.mp3" data-start="3.85" data-duration="4.2" data-track-index="14" data-volume="0.32" data-fade-out="0.6"></audio>
+      <audio id="sfx-swing" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="8.26" data-duration="0.57" data-track-index="12" data-volume="0.18"></audio>
+      <audio id="sfx-tick" class="clip" src="assets/sfx/click-soft.mp3" data-start="9.9" data-duration="0.37" data-track-index="13" data-volume="0.22"></audio>
+      <audio id="sfx-flash-air" class="clip" src="assets/sfx/whoosh.mp3" data-start="12.98" data-duration="0.57" data-track-index="12" data-volume="0.28"></audio>
+      <audio id="sfx-flash" class="clip" src="assets/sfx/sparkle.mp3" data-start="13.14" data-duration="1.8" data-track-index="13" data-volume="0.16"></audio>
+      <audio id="sfx-typing" class="clip" src="assets/sfx/typing.mp3" data-start="16.15" data-duration="1.2" data-track-index="14" data-volume="0.2" data-fade-out="0.3"></audio>
+      <audio id="sfx-notify" class="clip" src="assets/sfx/notification.mp3" data-start="17.17" data-duration="1.5" data-track-index="12" data-volume="0.32"></audio>
+      <audio id="sfx-pop1" class="clip" src="assets/sfx/pop.mp3" data-start="18.1" data-duration="0.72" data-track-index="13" data-volume="0.14"></audio>
+      <audio id="sfx-pop2" class="clip" src="assets/sfx/click-soft.mp3" data-start="18.36" data-duration="0.37" data-track-index="14" data-volume="0.16"></audio>
+      <audio id="sfx-lid" class="clip" src="assets/sfx/click.mp3" data-start="21.3" data-duration="0.37" data-track-index="12" data-volume="0.25"></audio>
+      <audio id="sfx-rise" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="22.55" data-duration="0.57" data-track-index="13" data-volume="0.14"></audio>
+      <audio id="sfx-clock" class="clip" src="assets/sfx/clock-ticking.mp3" data-start="27.15" data-duration="3.35" data-media-start="1.3" data-track-index="14" data-volume="0.42" data-fade-in="0.25" data-fade-out="0.4"></audio>
+      <audio id="sfx-heart" class="clip" src="assets/sfx/heartbeat.mp3" data-start="30.3" data-duration="4.0" data-media-start="8.2" data-track-index="12" data-volume="0.75" data-fade-out="0.35"></audio>
+      <audio id="sfx-stop" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="33.95" data-duration="2.0" data-track-index="13" data-volume="0.22"></audio>
+      <audio id="sfx-switch" class="clip" src="assets/sfx/click-soft.mp3" data-start="40.88" data-duration="0.37" data-track-index="14" data-volume="0.3"></audio>
+      <audio id="sfx-calm" class="clip" src="assets/sfx/sparkle.mp3" data-start="47.97" data-duration="1.8" data-track-index="12" data-volume="0.1"></audio>
+      <audio id="sfx-busy" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="51.66" data-duration="2.0" data-track-index="13" data-volume="0.2"></audio>
+      <audio id="sfx-end" class="clip" src="assets/sfx/whoosh-cinematic.mp3" data-start="51.15" data-duration="3.6" data-track-index="14" data-volume="0.22" data-fade-in="1.5" data-fade-out="0.8"></audio>
+      <audio id="sfx-cta" class="clip" src="assets/sfx/pop.mp3" data-start="56.17" data-duration="0.72" data-track-index="12" data-volume="0.18"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      // hook: a slow push on the walk-in, a held push on the closed eyes, a punch on the snap
+      tl.fromTo("#hook-a-wrap", { scale: 1.0 }, { scale: 1.07, duration: 2.0, ease: "none" }, 0);
+      tl.fromTo("#hook-b-wrap", { scale: 1.06 }, { scale: 1.2, duration: 2.48, ease: "sine.inOut" }, 2.0);
+      tl.fromTo("#hook-c-wrap", { scale: 1.1 }, { scale: 1.0, duration: 0.5, ease: "expo.out" }, 4.48);
+      // the pupil opens onto the mind (centre and radius follow the measured pupil)
+      tl.fromTo("#world-wrap", { "--mx": "502px", "--my": "716px", "--mr": "0px" }, { "--mr": "230px", duration: 0.05, ease: "none" }, 6.3);
+      tl.fromTo("#world-wrap", { "--mx": "502px", "--my": "716px", "--mr": "230px" }, { "--mx": "523px", "--my": "685px", "--mr": "360px", duration: 0.12, ease: "none", immediateRender: false }, 6.35);
+      tl.fromTo("#world-wrap", { "--mx": "523px", "--my": "685px", "--mr": "360px" }, { "--mx": "551px", "--my": "650px", "--mr": "520px", duration: 0.13, ease: "none", immediateRender: false }, 6.47);
+      tl.fromTo("#world-wrap", { "--mx": "551px", "--my": "650px", "--mr": "520px" }, { "--mx": "560px", "--my": "760px", "--mr": "700px", duration: 0.1, ease: "none", immediateRender: false }, 6.6);
+      tl.fromTo("#world-wrap", { "--mx": "560px", "--my": "760px", "--mr": "700px" }, { "--mx": "540px", "--my": "900px", "--mr": "2400px", duration: 0.08, ease: "power2.in", immediateRender: false }, 6.7);
+      // journal: dissolve in from the gold mind, slow push, dissolve out to the lamp
+      tl.fromTo("#ja-wrap", { opacity: 0, scale: 1.0 }, { opacity: 1, scale: 1.035, duration: 0.45, ease: "sine.out" }, 35.35);
+      tl.fromTo("#ja-wrap", { scale: 1.035 }, { scale: 1.07, duration: 4.95, ease: "none", immediateRender: false }, 35.8);
+      tl.fromTo("#ja-wrap", { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "sine.in", immediateRender: false }, 40.45);
+      tl.fromTo("#jb-wrap", { opacity: 0, scale: 1.0 }, { opacity: 1, scale: 1.02, duration: 0.35, ease: "sine.out" }, 44.05);
+      tl.fromTo("#jb-wrap", { scale: 1.02 }, { scale: 1.06, duration: 2.35, ease: "none", immediateRender: false }, 44.4);
+      tl.fromTo("#jb-wrap", { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "sine.in", immediateRender: false }, 46.4);
+      window.__timelines["main"] = tl;
+    </script>
+    <script type="module">
+      import { createWorld } from "./assets/world/world.js";
+      let world = null;
+      const ready = createWorld(document.getElementById("gl")).then((w) => (world = w));
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      window.__hf.buildReady["world"] = ready;
+      window.addEventListener("hf-seek", (e) => {
+        const t = e.detail.time;
+        if (world) world.renderAt(t);
+        else e.detail.waitUntil?.(ready.then((w) => w.renderAt(t)));
+      });
+    </script>
+  </body>
+</html>

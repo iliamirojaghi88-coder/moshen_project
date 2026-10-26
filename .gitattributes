@@ -6,3 +6,8 @@ library/icons/**/*.png filter=lfs diff=lfs merge=lfs -text
 library/hdri/**/*.hdr filter=lfs diff=lfs merge=lfs -text
 library/**/*.exr filter=lfs diff=lfs merge=lfs -text
 library/**/*.blend filter=lfs diff=lfs merge=lfs -text
+videos/**/assets/**/*.glb filter=lfs diff=lfs merge=lfs -text
+videos/**/assets/**/*.hdr filter=lfs diff=lfs merge=lfs -text
+videos/**/assets/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
+videos/**/assets/**/*.mp3 filter=lfs diff=lfs merge=lfs -text
+videos/**/delivery/*.mp4 filter=lfs diff=lfs merge=lfs -text

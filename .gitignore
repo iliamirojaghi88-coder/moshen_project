@@ -18,3 +18,6 @@ library/.cache/
 library/index.html
 __pycache__/
 *.pyc
+# a project's own source footage is needed to re-render it (stored via LFS)
+!videos/*/assets/video/*.mp4
+!videos/*/delivery/*.mp4

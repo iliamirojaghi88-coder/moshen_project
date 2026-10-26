@@ -1,0 +1,101 @@
+<template>
+  <style>
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Medium.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Bold.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-ExtraBold.woff2") format("woff2"); font-weight: 800; }
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Black.woff2") format("woff2"); font-weight: 900; }
+    #root {
+      position: absolute;
+      inset: 0;
+      direction: rtl;
+      font-family: "Estedad", sans-serif;
+      --ink: #f4f1ea;
+      --ink-dark: #0e1726;
+      --blue: #7cc8ff;
+      --orange: #ff9446;
+      --gold: #ffc870;
+    }
+    .cap-frame { position: absolute; inset: 0; pointer-events: none; }
+    .cap { position: absolute; line-height: 1.22; isolation: isolate; }
+    .ln { display: block; position: relative; z-index: 1; margin: 4px 0; white-space: nowrap; word-spacing: 0.06em; }
+    .w {
+      display: inline-block;
+      font-weight: 700;
+      font-size: 74px;
+      letter-spacing: 0;
+      color: var(--ink);
+      text-shadow: 0 3px 24px rgba(0, 0, 0, 0.62), 0 0 3px rgba(0, 0, 0, 0.4);
+    }
+    .t-dark .w { color: var(--ink-dark); text-shadow: 0 1px 16px rgba(255, 255, 255, 0.7); }
+    .t-dusk .w { color: var(--ink-dark); }
+    .s-big { font-size: 112px; font-weight: 900; line-height: 1.12; }
+    .s-huge { font-size: 176px; font-weight: 900; line-height: 1.05; }
+    .s-blue { color: var(--blue) !important; }
+    .s-orange { color: var(--orange) !important; }
+    .s-gold { color: var(--gold) !important; }
+    .t-dark .s-blue { color: #1d63d6 !important; }
+    .t-dark .s-orange { color: #d9581a !important; }
+    .s-glow {
+      font-size: 176px;
+      font-weight: 900;
+      line-height: 1.05;
+      color: #d6efff;
+      text-shadow: 0 0 14px rgba(110, 190, 255, 0.95), 0 0 46px rgba(60, 150, 255, 0.85), 0 0 110px rgba(40, 120, 255, 0.6);
+    }
+    .has-scrim::before {
+      content: "";
+      position: absolute;
+      inset: -40px -60px;
+      background: radial-gradient(closest-side, rgba(3, 6, 12, 0.5), rgba(3, 6, 12, 0));
+      z-index: 0;
+    }
+    .w svg { width: 66px; height: 66px; vertical-align: -10px; }
+  </style>
+  <div id="root" data-composition-id="captions" data-width="1080" data-height="1920">
+<!--GROUPS-->
+  </div>
+  <script>
+    (function () {
+      const TIMING = /*TIMING*/;
+      const BEATS = [32.93, 33.21]; // heartbeat onsets under "هوشیارتر", after its entrance
+      const tl = gsap.timeline({ paused: true });
+      for (const [gid, g] of Object.entries(TIMING)) {
+        const [a, b] = g.at;
+        const block = document.querySelector("#" + gid + " .cap");
+        for (const [wid, t, style] of g.words) {
+          const el = document.getElementById(wid);
+          const st = Math.max(a, t - 0.06);
+          if (style === "glow") {
+            // a light switching on: two quick flickers, then steady
+            tl.fromTo(el, { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 0.5, ease: "expo.out" }, st);
+            tl.set(el, { opacity: 0.25 }, st + 0.07);
+            tl.set(el, { opacity: 1 }, st + 0.11);
+            tl.set(el, { opacity: 0.45 }, st + 0.17);
+            tl.set(el, { opacity: 1 }, st + 0.22);
+          } else if (/huge|big/.test(style)) {
+            tl.fromTo(el, { opacity: 0, scale: 1.28, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "expo.out" }, st);
+          } else {
+            tl.fromTo(el, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.36, ease: "power3.out" }, st);
+          }
+        }
+        const out = gid === "c30" || gid === "c31" ? 0.45 : 0.18;
+        tl.fromTo(block, { opacity: 1, y: 0 }, { opacity: 0, y: -14, duration: out, ease: "power2.in", immediateRender: false }, b - out - 0.02);
+      }
+      // night falls under "اما شب": ink turns from day-dark to night-light
+      tl.fromTo(
+        "#c12 .w",
+        { color: "#0e1726", textShadow: "0 1px 16px rgba(255,255,255,0.7)" },
+        { color: "#eef4ff", textShadow: "0 3px 24px rgba(0,0,0,0.62)", duration: 1.5, ease: "sine.inOut", immediateRender: false },
+        20.5,
+      );
+      tl.fromTo("#c12-w0-1", { color: "#0e1726" }, { color: "#8fd0ff", duration: 1.5, ease: "sine.inOut", immediateRender: false }, 20.5);
+      // the body stays alert: the word beats with the heart
+      const alert = document.getElementById("c18-w0-0");
+      BEATS.forEach((bt) => {
+        tl.fromTo(alert, { scale: 1 }, { scale: 1.07, duration: 0.07, ease: "power2.out", immediateRender: false }, bt);
+        tl.fromTo(alert, { scale: 1.07 }, { scale: 1, duration: 0.18, ease: "power2.in", immediateRender: false }, bt + 0.07);
+      });
+      window.__timelines["captions"] = tl;
+    })();
+  </script>
+</template>
