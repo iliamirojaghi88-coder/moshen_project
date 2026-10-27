@@ -76,10 +76,8 @@
   <script>
     (function () {
       const tl = gsap.timeline({ paused: true });
-      // The network clip is the camera following the pulse; a 4% push adds weight.
-      tl.fromTo("#s1-net-cam", { scale: 1.0 }, { scale: 1.045, duration: 3.47, ease: "none" }, 0);
-      // Cut on «واقعاً»: the face arrives slightly large and keeps creeping in.
-      tl.fromTo("#s1-man-cam", { scale: 1.06 }, { scale: 1.12, duration: 2.28, ease: "power1.out" }, 3.47);
+      // The camera push on this footage is baked into the clip (tools/prep_footage.py,
+      // same scale/offset curves), so the browser shows it 1:1 with no resampling.
 
       // Depth arrival: each word travels from in front of the lens back to the
       // picture plane, sharpening as it lands; it lands on the spoken word.

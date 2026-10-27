@@ -107,11 +107,8 @@
   <script>
     (function () {
       const tl = gsap.timeline({ paused: true });
-      // Calm medium shot: the slowest push of the film.
-      tl.fromTo("#s2-calm-cam", { scale: 1.0 }, { scale: 1.035, duration: 2.8, ease: "none" }, 0);
-      // Uneasy: the push tightens as the nausea builds.
-      tl.fromTo("#s2-uneasy-cam", { scale: 1.02 }, { scale: 1.1, duration: 2.7, ease: "power1.in" }, 5.85);
-      tl.fromTo("#s2-pain-cam", { scale: 1.04 }, { scale: 1.1, duration: 2.0, ease: "power1.out" }, 11.25);
+      // The camera push on this footage is baked into the clip (tools/prep_footage.py,
+      // same scale/offset curves), so the browser shows it 1:1 with no resampling.
 
       // «حالت تهوع»: the word surfaces through the same rolling distortion as
       // the liquid, then settles still; it leaves on the swell.

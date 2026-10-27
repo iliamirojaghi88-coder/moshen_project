@@ -60,6 +60,7 @@ export function createLiquid(canvas, opts = {}) {
   const W = opts.width ?? 1080;
   const H = opts.height ?? 1920;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(window.devicePixelRatio || 1); // 2 for high-density stills
   renderer.setSize(W, H, false);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.0;

@@ -41,6 +41,8 @@
 
     const canvas = document.getElementById("s6-gl");
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+    const DPR = window.devicePixelRatio || 1; // 2 for high-density stills (the cover)
+    renderer.setPixelRatio(DPR);
     renderer.setSize(1080, 1920, false);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.shadowMap.enabled = true;
@@ -98,7 +100,8 @@
     scene.add(strip);
 
     const camera = new THREE.PerspectiveCamera(30, 1080 / 1920, 0.1, 60);
-    const composer = new EffectComposer(renderer);
+    // 4x MSAA in the post chain: thin fibres and letter bevels stay clean
+    const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(1080 * DPR, 1920 * DPR, { type: THREE.HalfFloatType, samples: 4 }));
     composer.addPass(new RenderPass(scene, camera));
     const bokeh = new BokehPass(scene, camera, { focus: 7, aperture: 0.004, maxblur: 0.012 });
     composer.addPass(bokeh);

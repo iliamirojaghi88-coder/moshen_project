@@ -66,10 +66,8 @@
   <script>
     (function () {
       const tl = gsap.timeline({ paused: true });
-      // The brain rises to where the man's head will be: a match cut, mind to body.
-      tl.fromTo("#s7-brain-cam", { scale: 1.0, y: 0 }, { scale: 1.32, y: -170, duration: 3.4, ease: "power1.in" }, 0);
-      // He eases back from worry to calm; the frame tilts with him to keep the face high.
-      tl.fromTo("#s7-man-cam", { scale: 1.2, y: -170 }, { scale: 1.08, y: -70, duration: 4.6, ease: "power1.inOut" }, 3.4);
+      // The camera push on this footage is baked into the clip (tools/prep_footage.py,
+      // same scale/offset curves), so the browser shows it 1:1 with no resampling.
 
       // «یک فکر»: each word sharpens in, 0.067 s apart.
       ["#s7-t1", "#s7-t2"].forEach((id, i) => {

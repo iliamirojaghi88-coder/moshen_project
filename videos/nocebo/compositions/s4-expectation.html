@@ -91,12 +91,8 @@
   <script>
     (function () {
       const tl = gsap.timeline({ paused: true });
-      // From the zoom-through: the lab arrives a touch large and settles.
-      tl.fromTo("#s4-lab-cam", { scale: 1.1 }, { scale: 1.0, duration: 0.9, ease: "expo.out" }, 0);
-      tl.to("#s4-lab-cam", { scale: 1.05, duration: 5.6, ease: "none" }, 0.9);
-      tl.fromTo("#s4-axon-cam", { scale: 1.0, y: 0 }, { scale: 1.06, y: -30, duration: 5.2, ease: "none" }, 6.5);
-      tl.fromTo("#s4-dark1-cam", { scale: 1.02 }, { scale: 1.09, duration: 3.2, ease: "none" }, 11.7);
-      tl.fromTo("#s4-dark2-cam", { scale: 1.05 }, { scale: 1.12, duration: 2.6, ease: "none" }, 14.9);
+      // The camera push on this footage is baked into the clip (tools/prep_footage.py,
+      // same scale/offset curves), so the browser shows it 1:1 with no resampling.
 
       // «انتظار ذهنی»: imagined, so it condenses out of soft focus, light and cold.
       tl.fromTo("#s4-expect-in", { opacity: 0, filter: "blur(22px)", y: -10 }, { opacity: 0.95, filter: "blur(0px)", y: 0, duration: 1.0, ease: "power2.out" }, 11.98);
@@ -117,6 +113,8 @@
     const S4_START = 22.6;
     const canvas = document.getElementById("s4-fx");
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true, premultipliedAlpha: false });
+    const DPR = window.devicePixelRatio || 1; // 2 for high-density stills (the cover)
+    renderer.setPixelRatio(DPR);
     renderer.setSize(1080, 1920, false);
     renderer.setClearColor(0x000000, 0);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
