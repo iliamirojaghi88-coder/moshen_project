@@ -6,3 +6,7 @@ library/icons/**/*.png filter=lfs diff=lfs merge=lfs -text
 library/hdri/**/*.hdr filter=lfs diff=lfs merge=lfs -text
 library/**/*.exr filter=lfs diff=lfs merge=lfs -text
 library/**/*.blend filter=lfs diff=lfs merge=lfs -text
+# Video projects: the user's source media and the project's audio go through LFS.
+videos/*/source/** filter=lfs diff=lfs merge=lfs -text
+videos/*/assets/audio/*.wav filter=lfs diff=lfs merge=lfs -text
+videos/*/assets/audio/*.mp3 filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,162 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Estedad";
+      src: url("assets/fonts/estedad-arabic.woff2") format("woff2");
+      font-weight: 100 900;
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #060a12;
+      font-family: "Estedad", sans-serif;
+    }
+    #s8-gl {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+    #s8-q {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 640px;
+      direction: rtl;
+      text-align: center;
+      color: #f3f1ec;
+      z-index: 3;
+    }
+    .s8-line {
+      display: block;
+      white-space: nowrap;
+      line-height: 1.3;
+    }
+    #s8-l1 {
+      font-size: 92px;
+      font-weight: 420;
+      color: #dfe7f2;
+    }
+    #s8-l2 {
+      margin-top: 18px;
+      font-size: 100px;
+      font-weight: 860;
+    }
+    .s8-mask {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+      padding: 34px 10px 26px;
+      margin: -34px 0 -26px;
+    }
+    .s8-mask .w {
+      display: inline-block;
+      text-shadow: 0 14px 40px rgba(2, 6, 14, 0.8);
+    }
+    #s8-feel {
+      color: #f2b36b;
+    }
+  </style>
+  <div id="root" data-composition-id="s8" data-width="1080" data-height="1920">
+    <canvas id="s8-gl" class="clip" width="1080" height="1920" data-start="0" data-duration="12" data-track-index="0"></canvas>
+    <div id="s8-q" class="clip" data-start="2.3" data-duration="9.7" data-track-index="1" data-layout-allow-overflow>
+      <span class="s8-line" id="s8-l1"
+        ><span class="s8-mask"><span class="w" id="s8-w1">چند</span></span
+        ><span class="s8-mask"><span class="w" id="s8-w2">بار</span></span
+        ><span class="s8-mask"><span class="w" id="s8-w3">فقط</span></span
+        ><span class="s8-mask"><span class="w" id="s8-w4">با</span></span
+        ><span class="s8-mask"><span class="w" id="s8-w5">انتظار،</span></span></span
+      >
+      <span class="s8-line" id="s8-l2"
+        ><span class="s8-mask"><span class="w" id="s8-w6">واقعاً</span></span
+        ><span class="s8-mask"><span class="w" id="s8-feel">احساسش</span></span
+        ><span class="s8-mask"><span class="w" id="s8-w8">کردی؟</span></span></span
+      >
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      // Each word rises out of its own mask on the spoken word, then the
+      // question holds dead still while the world behind keeps travelling.
+      [
+        ["#s8-w1", 2.5],
+        ["#s8-w2", 2.78],
+        ["#s8-w3", 4.06],
+        ["#s8-w4", 4.22],
+        ["#s8-w5", 5.78],
+        ["#s8-w6", 7.46],
+        ["#s8-feel", 8.18],
+        ["#s8-w8", 8.9],
+      ].forEach(([id, at]) => {
+        tl.fromTo(id, { yPercent: 150 }, { yPercent: 0, duration: 0.6, ease: "expo.out" }, at - 0.1);
+      });
+      tl.to("#s8-q", { opacity: 0, duration: 0.45, ease: "power2.in" }, 11.5);
+      window.__timelines["s8"] = tl;
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      window.__hf.buildReady["s8-gl"] = new Promise((resolve) => (window.__s8Ready = resolve));
+    })();
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+    import { RoomEnvironment } from "./assets/vendor/jsm/environments/RoomEnvironment.js";
+    import { EffectComposer } from "./assets/vendor/jsm/postprocessing/EffectComposer.js";
+    import { RenderPass } from "./assets/vendor/jsm/postprocessing/RenderPass.js";
+    import { BokehPass } from "./assets/vendor/jsm/postprocessing/BokehPass.js";
+    import { OutputPass } from "./assets/vendor/jsm/postprocessing/OutputPass.js";
+    import { tissueMaterial, buildPathway } from "./assets/js/neuro.js";
+    import { ease, span } from "./assets/js/type3d.js";
+
+    const S8_START = 69.0;
+    const canvas = document.getElementById("s8-gl");
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+    renderer.setSize(1080, 1920, false);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a121c);
+    scene.fog = new THREE.FogExp2(0x0e1824, 0.07);
+    const pm = new THREE.PMREMGenerator(renderer);
+    scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.environmentIntensity = 0.18;
+    const key = new THREE.DirectionalLight(0xffe2c4, 1.3);
+    key.position.set(-4, 6, 4);
+    scene.add(key);
+    const rim = new THREE.DirectionalLight(0x8fb4e3, 2.6);
+    rim.position.set(2, 3, -10);
+    scene.add(rim);
+
+    // One long pathway seen from below its axis: a single signal travels it.
+    const tissue = tissueMaterial({ speed: 1.1, color: 0x9f988d });
+    const path = buildPathway({ seed: 23, count: 6, start: new THREE.Vector3(-0.3, 2.6, -1), step: new THREE.Vector3(0.15, -0.1, -3.4), jitter: 0.9, somaR: 0.26, reach: 1.7, dendrites: 7, depth: 4 });
+    path.cells.forEach((c) => {
+      for (const g of [c.cell, c.fibre]) if (g) scene.add(new THREE.Mesh(g, tissue));
+    });
+
+    const camera = new THREE.PerspectiveCamera(34, 1080 / 1920, 0.05, 60);
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    const bokeh = new BokehPass(scene, camera, { focus: 7, aperture: 0.007, maxblur: 0.016 });
+    composer.addPass(bokeh);
+    composer.addPass(new OutputPass());
+
+    function renderAt(t) {
+      const lt = t - S8_START;
+      if (lt < -0.05 || lt > 12.05) return;
+      const d = ease.cubicInOut(span(lt, 0, 12));
+      camera.position.set(1.6 - 0.5 * d, 0.2 + 0.3 * d, 6.5 - 3.2 * d);
+      camera.lookAt(0.0, 1.2, -9);
+      bokeh.uniforms.focus.value = 9.5 - 1.5 * d;
+      tissue.userData.uniforms.uTime.value = lt;
+      tissue.userData.uniforms.uActivity.value = 0.08;
+      // out of black, and back into it on the last second
+      renderer.toneMappingExposure = 0.95 * (0.4 + 0.6 * ease.cubicInOut(span(lt, 0, 0.7))) * (1 - 0.85 * ease.cubicIn(span(lt, 11.2, 12.0)));
+      composer.render();
+    }
+    window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+    window.__s8Ready();
+  </script>
+</template>

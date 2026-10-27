@@ -1,0 +1,92 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Estedad";
+      src: url("assets/fonts/estedad-arabic.woff2") format("woff2");
+      font-weight: 100 900;
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #070c16;
+      font-family: "Estedad", sans-serif;
+    }
+    .s7-frame {
+      position: absolute;
+      inset: 0;
+    }
+    .s7-frame video {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      object-fit: cover;
+    }
+    .s7-title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      direction: rtl;
+      text-align: center;
+      white-space: nowrap;
+      z-index: 4;
+    }
+    .s7-title .w {
+      display: inline-block;
+      margin: 0 12px;
+    }
+    #s7-thought {
+      top: 1180px;
+      font-size: 150px;
+      font-weight: 600;
+      color: #f3f1ec;
+      text-shadow: 0 16px 44px rgba(2, 6, 14, 0.75);
+    }
+    #s7-feeling {
+      top: 1170px;
+      font-size: 118px;
+      font-weight: 760;
+      color: #f6f4ef;
+      text-shadow: 0 12px 36px rgba(4, 8, 16, 0.55);
+    }
+  </style>
+  <div id="root" data-composition-id="s7" data-width="1080" data-height="1920">
+    <div class="s7-frame" id="s7-brain-cam">
+      <video id="s7-brain" class="clip" src="assets/video/s7-brain.mp4" data-start="0" data-duration="3.4" data-track-index="0" muted playsinline></video>
+    </div>
+    <div class="s7-frame" id="s7-man-cam">
+      <video id="s7-man" class="clip" src="assets/video/s7-man.mp4" data-start="3.4" data-duration="4.6" data-track-index="1" muted playsinline></video>
+    </div>
+    <div id="s7-thought" class="s7-title clip" data-start="1.6" data-duration="1.8" data-track-index="2"><span class="w" id="s7-t1">یک</span><span class="w" id="s7-t2">فکر</span></div>
+    <div id="s7-feeling" class="s7-title clip" data-start="4.3" data-duration="3.7" data-track-index="3"><span class="w" id="s7-f1">یک</span><span class="w" id="s7-f2">احساس</span><span class="w" id="s7-f3">واقعی</span></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      // The brain rises to where the man's head will be: a match cut, mind to body.
+      tl.fromTo("#s7-brain-cam", { scale: 1.0, y: 0 }, { scale: 1.32, y: -170, duration: 3.4, ease: "power1.in" }, 0);
+      // He eases back from worry to calm; the frame tilts with him to keep the face high.
+      tl.fromTo("#s7-man-cam", { scale: 1.2, y: -170 }, { scale: 1.08, y: -70, duration: 4.6, ease: "power1.inOut" }, 3.4);
+
+      // «یک فکر»: each word sharpens in, 0.067 s apart.
+      ["#s7-t1", "#s7-t2"].forEach((id, i) => {
+        tl.fromTo(id, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power2.out" }, 1.66 + i * 0.12);
+      });
+      tl.to("#s7-thought", { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power3.in" }, 3.12);
+      // «یک احساس واقعی»: present from the start in grey, each word inks in as it is said.
+      tl.fromTo("#s7-feeling", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 4.32);
+      [
+        ["#s7-f1", 4.4, "#f6f4ef"],
+        ["#s7-f2", 4.62, "#f6f4ef"],
+        ["#s7-f3", 5.56, "#f2b36b"],
+      ].forEach(([id, at, ink]) => {
+        tl.fromTo(id, { color: "rgba(246,244,239,0.28)" }, { color: ink, duration: 0.22, ease: "power1.out" }, at);
+      });
+      tl.to("#s7-feeling", { opacity: 0, filter: "blur(8px)", duration: 0.22, ease: "power3.in" }, 7.72);
+      window.__timelines["s7"] = tl;
+    })();
+  </script>
+</template>

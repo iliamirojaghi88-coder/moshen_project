@@ -1,0 +1,186 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Estedad";
+      src: url("assets/fonts/estedad-arabic.woff2") format("woff2");
+      font-weight: 100 900;
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #070c16;
+      font-family: "Estedad", sans-serif;
+    }
+    .s2-frame {
+      position: absolute;
+      inset: 0;
+    }
+    .s2-frame video {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      object-fit: cover;
+    }
+    #s2-liquid {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      z-index: 1;
+    }
+    #s2-calm-cam,
+    #s2-uneasy-cam,
+    #s2-pain-cam {
+      z-index: 3;
+    }
+    .s2-title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      direction: rtl;
+      text-align: center;
+      white-space: nowrap;
+      z-index: 5;
+    }
+    #s2-nausea {
+      top: 700px;
+      font-size: 156px;
+      font-weight: 700;
+      color: #eef2f6;
+      filter: url(#s2-liquid-fx);
+      text-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    }
+    #s2-nausea .in {
+      display: inline-block;
+    }
+    #s2-pain-line {
+      top: 700px;
+      font-size: 150px;
+      line-height: 1.2;
+    }
+    #s2-expect {
+      display: inline-block;
+      font-weight: 230;
+      color: #c9d8ec;
+      margin-left: 34px;
+    }
+    #s2-hurt {
+      display: inline-block;
+      font-weight: 900;
+      color: #f2b36b;
+      text-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
+    }
+    #s2-svg {
+      position: absolute;
+      width: 0;
+      height: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="s2" data-width="1080" data-height="1920">
+    <svg id="s2-svg" aria-hidden="true">
+      <filter id="s2-liquid-fx" x="-15%" y="-60%" width="130%" height="220%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.0045 0.018" numOctaves="2" seed="7" result="s2n" />
+        <feOffset id="s2-flow" in="s2n" dx="0" dy="0" result="s2nf" />
+        <feDisplacementMap id="s2-disp" in="SourceGraphic" in2="s2nf" scale="0" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </svg>
+
+    <div class="s2-frame" id="s2-calm-cam">
+      <video id="s2-calm" class="clip" src="assets/video/s2-calm.mp4" data-start="0" data-duration="2.8" data-track-index="0" muted playsinline></video>
+    </div>
+    <canvas id="s2-liquid" class="clip" width="1080" height="1920" data-start="2.8" data-duration="8.45" data-track-index="1"></canvas>
+    <div class="s2-frame" id="s2-uneasy-cam">
+      <video id="s2-uneasy" class="clip" src="assets/video/s2-uneasy.mp4" data-start="5.85" data-duration="2.7" data-media-start="0.35" data-track-index="2" muted playsinline></video>
+    </div>
+    <div class="s2-frame" id="s2-pain-cam">
+      <video id="s2-pain" class="clip" src="assets/video/s2-pain.mp4" data-start="11.25" data-duration="2.0" data-media-start="0.8" data-track-index="3" muted playsinline></video>
+    </div>
+
+    <div id="s2-nausea" class="s2-title clip" data-start="3.85" data-duration="2.0" data-track-index="4" data-layout-allow-overflow><span class="in" id="s2-nausea-in">حالت تهوع</span></div>
+    <div id="s2-pain-line" class="s2-title clip" data-start="9.2" data-duration="2.05" data-track-index="5" data-layout-allow-overflow><span id="s2-expect">انتظار</span><span id="s2-hurt">درد</span></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      // Calm medium shot: the slowest push of the film.
+      tl.fromTo("#s2-calm-cam", { scale: 1.0 }, { scale: 1.035, duration: 2.8, ease: "none" }, 0);
+      // Uneasy: the push tightens as the nausea builds.
+      tl.fromTo("#s2-uneasy-cam", { scale: 1.02 }, { scale: 1.1, duration: 2.7, ease: "power1.in" }, 5.85);
+      tl.fromTo("#s2-pain-cam", { scale: 1.04 }, { scale: 1.1, duration: 2.0, ease: "power1.out" }, 11.25);
+
+      // «حالت تهوع»: the word surfaces through the same rolling distortion as
+      // the liquid, then settles still; it leaves on the swell.
+      tl.fromTo("#s2-nausea-in", { opacity: 0, rotation: -2.4, y: 26 }, { opacity: 1, rotation: 0, y: 0, duration: 0.9, ease: "power2.out" }, 3.9);
+      tl.fromTo("#s2-disp", { attr: { scale: 95 } }, { attr: { scale: 0 }, duration: 1.15, ease: "power2.out" }, 3.9);
+      tl.fromTo("#s2-flow", { attr: { dx: 0 } }, { attr: { dx: 260 }, duration: 1.15, ease: "power1.out" }, 3.9);
+      tl.to("#s2-disp", { attr: { scale: 70 }, duration: 0.32, ease: "power2.in" }, 5.48);
+      tl.to("#s2-nausea-in", { opacity: 0, rotation: 1.6, y: -14, duration: 0.32, ease: "power2.in" }, 5.48);
+
+      // «انتظار» waits, thin and cold, revealed in reading direction;
+      // «درد» strikes on the spoken word, heavy and amber.
+      tl.fromTo("#s2-expect", { opacity: 0, clipPath: "inset(0 0 0 100%)" }, { opacity: 1, clipPath: "inset(0 0 0 0%)", duration: 0.75, ease: "power2.out" }, 9.32);
+      tl.fromTo("#s2-hurt", { opacity: 0, scale: 1.22, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 10.08);
+      tl.to("#s2-pain-line", { opacity: 0, filter: "blur(10px)", duration: 0.2, ease: "power3.in" }, 11.04);
+      window.__timelines["s2"] = tl;
+    })();
+  </script>
+  <script>
+    window.__hf = window.__hf || {};
+    window.__hf.buildReady = window.__hf.buildReady || {};
+    window.__hf.buildReady["s2-liquid"] = new Promise((resolve) => (window.__s2LiquidReady = resolve));
+  </script>
+  <script type="module">
+    import { createLiquid } from "./assets/js/liquid.js";
+    const S2_START = 5.75;
+    const liq = createLiquid(document.getElementById("s2-liquid"));
+    const smooth = (a, b, x) => {
+      const k = Math.min(1, Math.max(0, (x - a) / (b - a)));
+      return k * k * (3 - 2 * k);
+    };
+    const mixc = (a, b, k) => a.map((v, i) => v + (b[i] - v) * k);
+    function renderAt(t) {
+      const lt = t - S2_START;
+      if (lt < 2.75 || lt > 11.3 || (lt > 5.9 && lt < 8.5)) return;
+      if (lt < 6) {
+        // Insert 1, nausea: long swells rise, the horizon rolls.
+        const k = smooth(2.8, 5.4, lt);
+        const sw = 0.18 + 0.82 * k;
+        liq.render({
+          time: lt,
+          swell: sw,
+          shiver: 0,
+          tint: mixc([1.0, 0.95, 0.86], [0.86, 0.94, 1.06], k),
+          camY: 0.95 + 0.14 * Math.sin(lt * 0.85) * sw,
+          camZ: 2.6 - 0.25 * k,
+          pitch: -0.2 + 0.03 * Math.sin(lt * 0.7) * sw,
+          roll: 0.055 * Math.sin(lt * 0.9 + 0.4) * sw,
+          exposure: 1.05,
+        });
+      } else {
+        // Insert 2, pain: the surface tenses, then rings on «درد».
+        const ring = 10.11;
+        const tense = smooth(8.55, 10.0, lt) * (lt < ring ? 1 : Math.max(0.15, 1 - (lt - ring) * 1.2));
+        liq.render({
+          time: lt,
+          swell: 0.05,
+          shiver: tense,
+          rings: [ring, ring + 0.62],
+          ringAmp: 0.075,
+          tint: [0.72, 0.86, 1.16],
+          camY: 0.8,
+          camZ: 2.7 - 0.7 * smooth(8.55, 11.25, lt),
+          pitch: -0.24,
+          roll: 0,
+          exposure: 0.95,
+        });
+      }
+    }
+    window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+    window.__s2LiquidReady();
+  </script>
+</template>

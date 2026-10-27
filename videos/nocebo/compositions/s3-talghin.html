@@ -1,0 +1,185 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #e9edf0;
+    }
+    #s3-gl {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+  </style>
+  <div id="root" data-composition-id="s3" data-width="1080" data-height="1920">
+    <canvas id="s3-gl" class="clip" width="1080" height="1920" data-start="0" data-duration="3.6" data-track-index="0"></canvas>
+  </div>
+  <script>
+    window.__timelines["s3"] = gsap.timeline({ paused: true });
+    window.__hf = window.__hf || {};
+    window.__hf.buildReady = window.__hf.buildReady || {};
+    window.__hf.buildReady["s3-gl"] = new Promise((resolve) => (window.__s3Ready = resolve));
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+    import { RoomEnvironment } from "./assets/vendor/jsm/environments/RoomEnvironment.js";
+    import { EffectComposer } from "./assets/vendor/jsm/postprocessing/EffectComposer.js";
+    import { RenderPass } from "./assets/vendor/jsm/postprocessing/RenderPass.js";
+    import { BokehPass } from "./assets/vendor/jsm/postprocessing/BokehPass.js";
+    import { OutputPass } from "./assets/vendor/jsm/postprocessing/OutputPass.js";
+    import glyphs from "./assets/data/glyphs.js";
+    import { buildWord, ease, span, clamp01 } from "./assets/js/type3d.js";
+    import { growNeuron, rng } from "./assets/js/neuro.js";
+
+    const S3_START = 19.0;
+    const LOCK = 2.11; // «تلقین» is spoken at 21.11
+
+    const canvas = document.getElementById("s3-gl");
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+    renderer.setSize(1080, 1920, false);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.VSMShadowMap;
+
+    const scene = new THREE.Scene();
+    const ground = new THREE.Color(0xe9edf0);
+    scene.background = ground;
+    scene.fog = new THREE.Fog(ground, 9, 24);
+    const pm = new THREE.PMREMGenerator(renderer);
+    scene.environment = pm.fromScene(new RoomEnvironment(), 0.03).texture;
+    scene.environmentIntensity = 0.55;
+
+    // White cove: floor curving up into the back wall.
+    function cove() {
+      const prof = [];
+      prof.push([14, 0], [-5, 0]);
+      for (let i = 1; i <= 16; i++) {
+        const a = (i / 16) * (Math.PI / 2);
+        prof.push([-5 - 4.5 * Math.sin(a), 4.5 - 4.5 * Math.cos(a)]);
+      }
+      prof.push([-9.5, 30]);
+      const xs = 2;
+      const pos = [];
+      const idx = [];
+      prof.forEach(([z, y]) => {
+        for (let j = 0; j <= xs; j++) pos.push(-40 + (80 * j) / xs, y, z);
+      });
+      for (let i = 0; i < prof.length - 1; i++)
+        for (let j = 0; j < xs; j++) {
+          const a = i * (xs + 1) + j;
+          const b = a + xs + 1;
+          idx.push(a, a + 1, b, b, a + 1, b + 1);
+        }
+      const g = new THREE.BufferGeometry();
+      g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+      g.setIndex(idx);
+      g.computeVertexNormals();
+      return g;
+    }
+    const set = new THREE.Mesh(cove(), new THREE.MeshStandardMaterial({ color: 0xf3f5f7, roughness: 0.93 }));
+    set.receiveShadow = true;
+    scene.add(set);
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0xc5ccd6, 0.9));
+    const key = new THREE.DirectionalLight(0xfff6ec, 2.6);
+    key.position.set(-5, 10, 6);
+    key.castShadow = true;
+    key.shadow.mapSize.set(2048, 2048);
+    key.shadow.radius = 14;
+    key.shadow.blurSamples = 20;
+    key.shadow.bias = -0.0004;
+    Object.assign(key.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6, near: 1, far: 30 });
+    scene.add(key);
+
+    // Porcelain neurons far behind: the "scientific detail", held soft by DOF.
+    const porcelain = new THREE.MeshPhysicalMaterial({ color: 0xf4f2ee, roughness: 0.55, clearcoat: 0.4, sheen: 0.4, sheenColor: new THREE.Color(0xdfe7f2) });
+    [
+      { seed: 301, c: [1.25, 3.05, -6.8], s: 1.1 },
+      { seed: 517, c: [-1.7, 2.2, -5.6], s: 0.8 },
+    ].forEach((n) => {
+      const cell = growNeuron({ seed: n.seed, center: new THREE.Vector3(0, 0, 0), somaR: 0.34, dendrites: 7, depth: 3, reach: 1.5 });
+      const m = new THREE.Mesh(cell.cell, porcelain);
+      m.position.set(...n.c);
+      m.scale.setScalar(n.s);
+      m.castShadow = true;
+      scene.add(m);
+    });
+
+    // The word.
+    const navy = new THREE.MeshPhysicalMaterial({ color: 0x0f1b31, roughness: 0.36, clearcoat: 0.7, clearcoatRoughness: 0.22, sheen: 0.25, sheenColor: new THREE.Color(0x5f7fb3) });
+    const amber = new THREE.MeshPhysicalMaterial({ color: 0xf2b36b, roughness: 0.3, metalness: 0.55, clearcoat: 0.6, clearcoatRoughness: 0.2 });
+    const word = buildWord(glyphs.talghin, { height: 0.8, depth: 0.2, bevel: 0.014, bodyMat: navy, dotMat: amber });
+    word.group.position.set(0, 0.7, 0);
+    scene.add(word.group);
+
+    // Thin outline of the word, drawn first: the idea before it has weight.
+    const outlineMat = new THREE.LineBasicMaterial({ color: 0x5c6f8f, transparent: true, opacity: 0.0 });
+    const outlines = [];
+    word.glyphs.forEach((g) => {
+      g.mesh.geometry.computeBoundingBox();
+      const edges = new THREE.EdgesGeometry(g.mesh.geometry, 40);
+      const line = new THREE.LineSegments(edges, outlineMat);
+      line.position.copy(g.rest).add(new THREE.Vector3(0, 0, -0.35));
+      word.group.add(line);
+      outlines.push({ line, count: edges.attributes.position.count });
+    });
+
+    // Seeded flight paths: bodies come from depth, dots fall from above.
+    const rand = rng(2111);
+    const bodies = word.glyphs.filter((g) => !g.isDot).sort((a, b) => b.rest.x - a.rest.x); // reading order
+    const dots = word.glyphs.filter((g) => g.isDot).sort((a, b) => b.rest.x - a.rest.x);
+    bodies.forEach((g, i) => {
+      g.land = LOCK - (bodies.length - 1 - i) * 0.13;
+      g.dur = 1.15 + rand() * 0.2;
+      g.from = new THREE.Vector3((rand() - 0.5) * 4.5, (rand() - 0.3) * 3.2, -7 - rand() * 7);
+      g.rot = new THREE.Euler((rand() - 0.5) * 2.2, (rand() - 0.5) * 2.8, (rand() - 0.5) * 1.1);
+    });
+    dots.forEach((g, i) => {
+      g.land = LOCK + 0.14 + i * 0.07;
+      g.dur = 0.42;
+      g.from = new THREE.Vector3((rand() - 0.5) * 0.2, 1.6 + rand() * 0.5, 0.5);
+      g.rot = new THREE.Euler(0, 0, (rand() - 0.5) * 1.2);
+    });
+
+    const camera = new THREE.PerspectiveCamera(30, 1080 / 1920, 0.1, 80);
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    const bokeh = new BokehPass(scene, camera, { focus: 8, aperture: 0.0045, maxblur: 0.013 });
+    composer.addPass(bokeh);
+    composer.addPass(new OutputPass());
+
+    const tmp = new THREE.Vector3();
+    function renderAt(t) {
+      const lt = t - S3_START;
+      if (lt < -0.05 || lt > 3.65) return;
+      // out of the white: exposure falls from bleach to normal
+      renderer.toneMappingExposure = 1.0 + 2.2 * Math.pow(1 - span(lt, 0, 0.6), 2);
+
+      for (const g of [...bodies, ...dots]) {
+        const k = span(lt, g.land - g.dur, g.land);
+        const e = g.isDot ? ease.settle(k) : ease.expoOut(k);
+        g.mesh.visible = k > 0;
+        tmp.copy(g.from).multiplyScalar(1 - e);
+        g.mesh.position.copy(g.rest).add(tmp);
+        g.mesh.rotation.set(g.rot.x * (1 - e), g.rot.y * (1 - e), g.rot.z * (1 - e));
+      }
+      const ol = span(lt, 0.35, 1.25);
+      outlineMat.opacity = 0.55 * ol * (1 - span(lt, LOCK - 0.2, LOCK + 0.3));
+      outlines.forEach((o) => o.line.geometry.setDrawRange(0, Math.floor(o.count * ol / 2) * 2));
+
+      // camera: slow dolly while the word assembles, then a zoom through it
+      const d = ease.cubicInOut(span(lt, 0, 2.6));
+      const z = 9.6 - 1.6 * d - 6.2 * ease.cubicIn(span(lt, 3.1, 3.6));
+      camera.position.set(0.7 * (1 - d), 1.25 - 0.12 * d, z);
+      camera.lookAt(0, 0.82, 0);
+      bokeh.uniforms.focus.value = z;
+      bokeh.uniforms.aperture.value = 0.0045 + 0.01 * span(lt, 3.15, 3.6);
+      composer.render();
+    }
+    window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+    window.__s3Ready();
+  </script>
+</template>

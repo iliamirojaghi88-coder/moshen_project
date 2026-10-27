@@ -1,0 +1,186 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Estedad";
+      src: url("assets/fonts/estedad-arabic.woff2") format("woff2");
+      font-weight: 100 900;
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #0b1420;
+      font-family: "Estedad", sans-serif;
+    }
+    #s5-gl {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+    }
+    .s5-title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      direction: rtl;
+      text-align: center;
+      white-space: nowrap;
+      color: #f3f1ec;
+      text-shadow: 0 16px 46px rgba(2, 6, 14, 0.7);
+    }
+    #s5-attention {
+      top: 330px;
+      font-size: 138px;
+      font-weight: 640;
+    }
+    #s5-intense {
+      top: 1150px;
+      font-size: 148px;
+    }
+    #s5-intense .in {
+      display: inline-block;
+    }
+    #s5-strong {
+      display: inline-block;
+      margin-right: 30px;
+    }
+  </style>
+  <div id="root" data-composition-id="s5" data-width="1080" data-height="1920">
+    <canvas id="s5-gl" class="clip" width="1080" height="1920" data-start="0" data-duration="13.6" data-track-index="0"></canvas>
+    <div id="s5-attention" class="s5-title clip" data-start="4.3" data-duration="3.95" data-track-index="1"><span id="s5-attention-in">توجه بیشتر</span></div>
+    <div id="s5-intense" class="s5-title clip" data-start="8.4" data-duration="4.85" data-track-index="2" data-layout-allow-overflow>
+      <span class="in" id="s5-intense-in"><span id="s5-feel">احساس</span><span id="s5-strong">شدیدتر</span></span>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      // «توجه بیشتر» comes into focus with the lens: same 1.4 s rack, same curve.
+      tl.fromTo("#s5-attention-in", { opacity: 0, filter: "blur(26px)" }, { opacity: 1, filter: "blur(0px)", duration: 1.4, ease: "power2.inOut" }, 4.32);
+      tl.to("#s5-attention-in", { opacity: 0, filter: "blur(12px)", duration: 0.28, ease: "power3.in" }, 7.9);
+      // «احساس شدیدتر» gains weight and size as the network's activity rises.
+      tl.fromTo("#s5-intense-in", { opacity: 0, scale: 0.93 }, { opacity: 1, scale: 1.0, duration: 0.5, ease: "power2.out" }, 8.42);
+      tl.fromTo("#s5-feel", { fontWeight: 240 }, { fontWeight: 560, duration: 3.3, ease: "power1.inOut" }, 8.5);
+      tl.fromTo("#s5-strong", { fontWeight: 240, color: "#f3f1ec" }, { fontWeight: 900, color: "#f2b36b", duration: 3.3, ease: "power1.inOut" }, 8.5);
+      tl.to("#s5-intense-in", { scale: 1.05, duration: 3.3, ease: "power1.inOut" }, 8.92);
+      tl.to("#s5-intense-in", { opacity: 0, filter: "blur(10px)", duration: 0.25, ease: "power3.in" }, 13.0);
+      window.__timelines["s5"] = tl;
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      window.__hf.buildReady["s5-gl"] = new Promise((resolve) => (window.__s5Ready = resolve));
+    })();
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+    import { RoomEnvironment } from "./assets/vendor/jsm/environments/RoomEnvironment.js";
+    import { EffectComposer } from "./assets/vendor/jsm/postprocessing/EffectComposer.js";
+    import { RenderPass } from "./assets/vendor/jsm/postprocessing/RenderPass.js";
+    import { BokehPass } from "./assets/vendor/jsm/postprocessing/BokehPass.js";
+    import { OutputPass } from "./assets/vendor/jsm/postprocessing/OutputPass.js";
+    import { growNeuron, tissueMaterial, buildPathway, rng } from "./assets/js/neuro.js";
+    import { ease, span } from "./assets/js/type3d.js";
+
+    const S5_START = 40.1;
+    const canvas = document.getElementById("s5-gl");
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+    renderer.setSize(1080, 1920, false);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x1c2a39);
+    scene.fog = new THREE.FogExp2(0x1c2a39, 0.085);
+    const pm = new THREE.PMREMGenerator(renderer);
+    scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.environmentIntensity = 0.3;
+
+    const key = new THREE.DirectionalLight(0xffe4c8, 2.2);
+    key.position.set(-5, 7, 6);
+    key.castShadow = true;
+    key.shadow.mapSize.set(2048, 2048);
+    key.shadow.bias = -0.0005;
+    Object.assign(key.shadow.camera, { left: -7, right: 7, top: 9, bottom: -9, near: 1, far: 40 });
+    scene.add(key);
+    const rim = new THREE.DirectionalLight(0xa7bfe2, 2.4);
+    rim.position.set(3, 2, -12);
+    scene.add(rim);
+    scene.add(new THREE.HemisphereLight(0x33465f, 0x0a0f18, 0.35));
+
+    const tissue = tissueMaterial({ speed: 2.0 });
+    const far = tissueMaterial({ speed: 1.6, phase: 2.3 });
+    const add = (geo, mat, shadow = true) => {
+      if (!geo) return;
+      const m = new THREE.Mesh(geo, mat);
+      m.castShadow = shadow;
+      m.receiveShadow = shadow;
+      scene.add(m);
+    };
+
+    // The pathway the camera follows.
+    const path = buildPathway({ seed: 7, count: 7, start: new THREE.Vector3(0.5, -0.4, 1.0), step: new THREE.Vector3(-0.2, 0.18, -3.1), jitter: 1.3, somaR: 0.26, reach: 1.6, dendrites: 7, depth: 4 });
+    path.cells.forEach((c) => {
+      add(c.cell, tissue);
+      add(c.fibre, tissue);
+    });
+    // Surrounding tissue, thinning into the haze, and two cells near the lens.
+    const rand = rng(911);
+    for (let i = 0; i < 9; i++) {
+      const c = new THREE.Vector3((rand() - 0.5) * 10, (rand() - 0.5) * 12, -4 - rand() * 20);
+      if (Math.abs(c.x) < 1.8 && Math.abs(c.y) < 2.0) c.x += Math.sign(c.x || 1) * 2.6;
+      const n = growNeuron({ seed: 400 + i * 13, center: c, somaR: 0.26 + rand() * 0.1, dendrites: 6, depth: 3, reach: 1.8 });
+      add(n.cell, far, false);
+    }
+    [
+      [-2.3, 1.8, 3.0],
+      [2.1, -2.4, 1.2],
+    ].forEach((p, i) => add(growNeuron({ seed: 77 + i * 5, center: new THREE.Vector3(...p), somaR: 0.28, dendrites: 5, depth: 3, reach: 1.4 }).cell, far, false));
+
+    const camera = new THREE.PerspectiveCamera(36, 1080 / 1920, 0.05, 80);
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    const bokeh = new BokehPass(scene, camera, { focus: 10, aperture: 0.008, maxblur: 0.02 });
+    composer.addPass(bokeh);
+    composer.addPass(new OutputPass());
+
+    const attnCell = path.centers[3];
+    const feelCell = path.centers[4];
+    const look = new THREE.Vector3();
+    function renderAt(t) {
+      const lt = t - S5_START;
+      if (lt < -0.05 || lt > 13.65) return;
+      // Dolly along the pathway: travels, slows for attention, pushes in on the cell that feels.
+      const travel = ease.cubicInOut(span(lt, 0, 6.0));
+      const push = ease.cubicInOut(span(lt, 8.0, 13.2));
+      const a = new THREE.Vector3(1.3, 0.9, 7.6);
+      const b = attnCell.clone().add(new THREE.Vector3(1.4, 0.6, 4.8));
+      const c = feelCell.clone().add(new THREE.Vector3(3.0, 1.2, 2.3));
+      const pos = a.clone().lerp(b, travel).lerp(c, push);
+      pos.x += 0.12 * Math.sin(lt * 0.4);
+      pos.y += 0.08 * Math.sin(lt * 0.31 + 1.0);
+      camera.position.copy(pos);
+      look.copy(attnCell).lerp(feelCell, push);
+      camera.lookAt(look);
+      camera.rotation.z += 0.03 * Math.sin(lt * 0.25);
+
+      // Focus: on the far haze, then racked onto the cell on «توجه».
+      const rack = ease.cubicInOut(span(lt, 4.32, 5.72));
+      const dTarget = camera.position.distanceTo(look);
+      bokeh.uniforms.focus.value = THREE.MathUtils.lerp(16, dTarget, rack);
+      bokeh.uniforms.aperture.value = THREE.MathUtils.lerp(0.007, 0.01, rack);
+
+      // Activity: sparse signals, rising from «شدت».
+      const act = 0.14 + 0.12 * span(lt, 0, 7) + 0.74 * ease.cubicInOut(span(lt, 8.4, 12.2));
+      for (const m of [tissue, far]) {
+        m.userData.uniforms.uTime.value = lt;
+        m.userData.uniforms.uActivity.value = m === far ? act * 0.7 : act;
+      }
+      renderer.toneMappingExposure = 1.05 * (1 - 0.82 * ease.cubicIn(span(lt, 13.1, 13.6)));
+      composer.render();
+    }
+    window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+    window.__s5Ready();
+  </script>
+</template>

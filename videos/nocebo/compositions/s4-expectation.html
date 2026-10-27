@@ -1,0 +1,195 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Estedad";
+      src: url("assets/fonts/estedad-arabic.woff2") format("woff2");
+      font-weight: 100 900;
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #0b1420;
+      font-family: "Estedad", sans-serif;
+    }
+    .s4-frame {
+      position: absolute;
+      inset: 0;
+    }
+    .s4-frame video {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      object-fit: cover;
+    }
+    #s4-fx {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      z-index: 5;
+    }
+    .s4-title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      direction: rtl;
+      text-align: center;
+      white-space: nowrap;
+      z-index: 6;
+      perspective: 900px;
+    }
+    #s4-expect {
+      top: 455px;
+      font-size: 132px;
+      font-weight: 380;
+      color: #d6e5f7;
+      text-shadow:
+        0 0 26px rgba(4, 9, 18, 0.85),
+        0 14px 40px rgba(2, 6, 14, 0.8);
+    }
+    #s4-react {
+      top: 1225px;
+      font-size: 140px;
+      font-weight: 820;
+      color: #f3f1ec;
+      text-shadow:
+        0 2px 0 #1a2740,
+        0 4px 0 #121d31,
+        0 0 30px rgba(4, 9, 18, 0.8),
+        0 18px 44px rgba(2, 6, 14, 0.75);
+    }
+    #s4-react .in {
+      display: inline-block;
+      transform-origin: 50% 100%;
+    }
+    #s4-real {
+      color: #f2b36b;
+    }
+  </style>
+  <div id="root" data-composition-id="s4" data-width="1080" data-height="1920">
+    <div class="s4-frame" id="s4-lab-cam">
+      <video id="s4-lab" class="clip" src="assets/video/s4-lab.mp4" data-start="0" data-duration="6.5" data-track-index="0" muted playsinline></video>
+    </div>
+    <div class="s4-frame" id="s4-axon-cam">
+      <video id="s4-axon" class="clip" src="assets/video/s4-axon.mp4" data-start="6.5" data-duration="5.2" data-track-index="1" muted playsinline></video>
+    </div>
+    <div class="s4-frame" id="s4-dark1-cam">
+      <video id="s4-dark1" class="clip" src="assets/video/s4-dark1.mp4" data-start="11.7" data-duration="3.2" data-track-index="2" muted playsinline></video>
+    </div>
+    <div class="s4-frame" id="s4-dark2-cam">
+      <video id="s4-dark2" class="clip" src="assets/video/s4-dark2.mp4" data-start="14.9" data-duration="2.6" data-track-index="3" muted playsinline></video>
+    </div>
+    <canvas id="s4-fx" class="clip" width="1080" height="1920" data-start="11.7" data-duration="5.8" data-track-index="4"></canvas>
+    <div id="s4-expect" class="s4-title clip" data-start="11.95" data-duration="5.5" data-track-index="5"><span id="s4-expect-in">انتظار ذهنی</span></div>
+    <div id="s4-react" class="s4-title clip" data-start="14.9" data-duration="2.55" data-track-index="6" data-layout-allow-overflow><span class="in" id="s4-react-in">واکنش <span id="s4-real">واقعی</span></span></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      // From the zoom-through: the lab arrives a touch large and settles.
+      tl.fromTo("#s4-lab-cam", { scale: 1.1 }, { scale: 1.0, duration: 0.9, ease: "expo.out" }, 0);
+      tl.to("#s4-lab-cam", { scale: 1.05, duration: 5.6, ease: "none" }, 0.9);
+      tl.fromTo("#s4-axon-cam", { scale: 1.0, y: 0 }, { scale: 1.06, y: -30, duration: 5.2, ease: "none" }, 6.5);
+      tl.fromTo("#s4-dark1-cam", { scale: 1.02 }, { scale: 1.09, duration: 3.2, ease: "none" }, 11.7);
+      tl.fromTo("#s4-dark2-cam", { scale: 1.05 }, { scale: 1.12, duration: 2.6, ease: "none" }, 14.9);
+
+      // «انتظار ذهنی»: imagined, so it condenses out of soft focus, light and cold.
+      tl.fromTo("#s4-expect-in", { opacity: 0, filter: "blur(22px)", y: -10 }, { opacity: 0.95, filter: "blur(0px)", y: 0, duration: 1.0, ease: "power2.out" }, 11.98);
+      // «واکنش واقعی»: physical, so it stands up from the floor plane with weight.
+      tl.fromTo("#s4-react-in", { opacity: 0, rotationX: 78, y: 40 }, { opacity: 1, rotationX: 0, y: 0, duration: 0.75, ease: "expo.out" }, 14.95);
+      tl.to(["#s4-expect-in", "#s4-react-in"], { opacity: 0, filter: "blur(10px)", duration: 0.25, ease: "power3.in", stagger: 0.06 }, 17.15);
+      window.__timelines["s4"] = tl;
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      window.__hf.buildReady["s4-fx"] = new Promise((resolve) => (window.__s4Ready = resolve));
+    })();
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+    import { RoomEnvironment } from "./assets/vendor/jsm/environments/RoomEnvironment.js";
+    import { ease, span } from "./assets/js/type3d.js";
+
+    const S4_START = 22.6;
+    const canvas = document.getElementById("s4-fx");
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true, premultipliedAlpha: false });
+    renderer.setSize(1080, 1920, false);
+    renderer.setClearColor(0x000000, 0);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    const scene = new THREE.Scene();
+    const pm = new THREE.PMREMGenerator(renderer);
+    scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.environmentIntensity = 0.7;
+    const key = new THREE.DirectionalLight(0xffffff, 1.6);
+    key.position.set(-2, 3, 4);
+    scene.add(key);
+
+    // One fibre from the expectation to the reaction, bowing back into depth.
+    const curve = new THREE.CatmullRomCurve3(
+      [
+        new THREE.Vector3(0.0, 0.56, 0),
+        new THREE.Vector3(0.42, 0.32, -1.1),
+        new THREE.Vector3(-0.3, 0.02, -1.7),
+        new THREE.Vector3(0.28, -0.26, -0.9),
+        new THREE.Vector3(0.0, -0.44, 0),
+      ],
+      false,
+      "centripetal",
+    );
+    const STEPS = 400;
+    const geo = new THREE.TubeGeometry(curve, STEPS, 0.0105, 10, false);
+    const arc = new Float32Array(geo.attributes.position.count);
+    for (let i = 0; i < arc.length; i++) arc[i] = Math.floor(i / 11) / STEPS;
+    geo.setAttribute("arc", new THREE.BufferAttribute(arc, 1));
+    const u = { uDraw: { value: 0 }, uPulse: { value: -1 } };
+    const mat = new THREE.MeshPhysicalMaterial({ color: 0xe8edf5, roughness: 0.3, clearcoat: 0.6, emissive: 0x6d7f9c, emissiveIntensity: 0.35 });
+    mat.onBeforeCompile = (sh) => {
+      Object.assign(sh.uniforms, u);
+      sh.vertexShader = sh.vertexShader
+        .replace("#include <common>", "#include <common>\nattribute float arc;\nvarying float vArc;")
+        .replace("#include <begin_vertex>", "#include <begin_vertex>\nvArc = arc;");
+      sh.fragmentShader = sh.fragmentShader
+        .replace("#include <common>", "#include <common>\nvarying float vArc;\nuniform float uDraw, uPulse;")
+        .replace("#include <clipping_planes_fragment>", "#include <clipping_planes_fragment>\nif (vArc > uDraw) discard;")
+        .replace(
+          "#include <emissivemap_fragment>",
+          "#include <emissivemap_fragment>\nfloat pd = vArc - uPulse;\ntotalEmissiveRadiance += vec3(1.0, 0.62, 0.28) * 1.4 * exp(-pd * pd / 0.0012);",
+        );
+    };
+    scene.add(new THREE.Mesh(geo, mat));
+    // End nodes: small satin beads where the words sit.
+    const beadMat = new THREE.MeshPhysicalMaterial({ color: 0xf3f1ec, roughness: 0.25, clearcoat: 1, emissive: 0xf2b36b, emissiveIntensity: 0 });
+    const topBead = new THREE.Mesh(new THREE.SphereGeometry(0.03, 32, 16), new THREE.MeshPhysicalMaterial({ color: 0xcfe0f5, roughness: 0.25, clearcoat: 1 }));
+    const botBead = new THREE.Mesh(new THREE.SphereGeometry(0.036, 32, 16), beadMat);
+    topBead.position.copy(curve.getPoint(0));
+    botBead.position.copy(curve.getPoint(1));
+    scene.add(topBead, botBead);
+
+    const camera = new THREE.PerspectiveCamera(36, 1080 / 1920, 0.05, 50);
+    function renderAt(t) {
+      const lt = t - S4_START;
+      if (lt < 11.65 || lt > 17.55) return;
+      const draw = ease.cubicInOut(span(lt, 12.9, 15.0));
+      u.uDraw.value = draw;
+      topBead.scale.setScalar(ease.expoOut(span(lt, 12.4, 13.0)) + 1e-3);
+      botBead.scale.setScalar(ease.expoOut(span(lt, 14.9, 15.4)) + 1e-3);
+      // the pulse leaves the expectation and arrives as the reaction («تغییر بده»)
+      u.uPulse.value = lt < 15.15 ? -1 : THREE.MathUtils.lerp(0, 1.02, ease.cubicInOut(span(lt, 15.15, 16.4)));
+      beadMat.emissiveIntensity = 1.6 * Math.exp(-Math.pow((lt - 16.45) / 0.22, 2));
+      const fade = 1 - span(lt, 17.15, 17.45);
+      mat.opacity = beadMat.opacity = fade;
+      mat.transparent = beadMat.transparent = fade < 1;
+      // a slow orbit, so the bow reads as depth
+      const a = -0.18 + 0.32 * ease.cubicInOut(span(lt, 11.7, 17.5));
+      camera.position.set(5 * Math.sin(a), 0.04, 5 * Math.cos(a));
+      camera.lookAt(0, 0.04, -0.4);
+      renderer.render(scene, camera);
+    }
+    window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+    window.__s4Ready();
+  </script>
+</template>

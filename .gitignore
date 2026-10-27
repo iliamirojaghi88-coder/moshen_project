@@ -18,3 +18,5 @@ library/.cache/
 library/index.html
 __pycache__/
 *.pyc
+# keep each project's own source clips (LFS); processed shots are rebuilt by its tools
+!videos/*/source/*.mp4
