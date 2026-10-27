@@ -1,0 +1,86 @@
+{
+  "probes": [
+    {
+      "t": 1.9,
+      "what": "hook type + network",
+      "acuity_before": 312.5,
+      "acuity_after": 328.8,
+      "gain_pct": 5.2
+    },
+    {
+      "t": 4.6,
+      "what": "face, hook",
+      "acuity_before": 51.3,
+      "acuity_after": 50.2,
+      "gain_pct": -2.1
+    },
+    {
+      "t": 10.6,
+      "what": "liquid + «حالت تهوع»",
+      "acuity_before": 466.7,
+      "acuity_after": 482.4,
+      "gain_pct": 3.4
+    },
+    {
+      "t": 21.4,
+      "what": "3D «تلقین»",
+      "acuity_before": 239.9,
+      "acuity_after": 223.2,
+      "gain_pct": -7.0
+    },
+    {
+      "t": 27.5,
+      "what": "lab brain",
+      "acuity_before": 233.3,
+      "acuity_after": 282.4,
+      "gain_pct": 21.0
+    },
+    {
+      "t": 36.0,
+      "what": "neurons + «انتظار ذهنی»",
+      "acuity_before": 367.0,
+      "acuity_after": 425.8,
+      "gain_pct": 16.0
+    },
+    {
+      "t": 45.8,
+      "what": "3D network + «توجه بیشتر»",
+      "acuity_before": 180.6,
+      "acuity_after": 173.2,
+      "gain_pct": -4.1
+    },
+    {
+      "t": 59.6,
+      "what": "3D «اثر نوسیبو»",
+      "acuity_before": 189.8,
+      "acuity_after": 187.0,
+      "gain_pct": -1.4
+    },
+    {
+      "t": 63.8,
+      "what": "brain + «یک فکر»",
+      "acuity_before": 204.0,
+      "acuity_after": 225.2,
+      "gain_pct": 10.4
+    },
+    {
+      "t": 66.8,
+      "what": "face + «یک احساس واقعی»",
+      "acuity_before": 308.9,
+      "acuity_after": 320.8,
+      "gain_pct": 3.9
+    },
+    {
+      "t": 78.5,
+      "what": "final question",
+      "acuity_before": 544.8,
+      "acuity_after": 549.8,
+      "gain_pct": 0.9
+    }
+  ],
+  "encode_vs_master": {
+    "ssim_all": 0.994937,
+    "ssim_db": 22.956061,
+    "psnr_avg_db": "51.357997"
+  }
+}
