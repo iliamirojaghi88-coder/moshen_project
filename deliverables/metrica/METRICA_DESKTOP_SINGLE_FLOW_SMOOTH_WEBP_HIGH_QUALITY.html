@@ -865,6 +865,8 @@ if(demo){
 #demo-dialog .md-note::after{content:"";position:absolute;top:0;bottom:0;left:-8px;width:1px;background:#ebe2d2}
 /* Desktop: frames hang into the gutter so grouped fields share the outer two-column lines. */
 @media(min-width:900px){#demo-dialog .md-group{margin-inline:-17px}#demo-dialog .md-note::after{left:-12px}}
+/* Desktop: a lone last box keeps the standard column width and sits on the grid's centre line. */
+@media(min-width:900px){#demo-dialog .md-grid>.md-field:nth-child(odd of :not([hidden])):nth-last-child(1 of :not([hidden])){grid-column:1/-1;justify-self:center;width:calc((100% - 24px)/2)}}
 @media(max-width:620px){#demo-dialog .md-group{margin-top:18px;padding:14px 12px 16px}#demo-dialog .md-group+.md-grid{margin-top:18px}#demo-dialog .md-note{padding-bottom:14px;border-bottom:1px solid #ebe2d2}#demo-dialog .md-note::before,#demo-dialog .md-note::after{display:none}}
 /* Mini-panel: the form behind it softly blurs and dims; the panel stays anchored to its field. */
 #demo-dialog .md-picker-scrim{position:absolute;inset:0;z-index:60;background:rgba(6,42,67,.16);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);opacity:0;transition:opacity .18s ease}
