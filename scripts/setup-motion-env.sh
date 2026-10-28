@@ -87,5 +87,32 @@ if command -v dockerd >/dev/null && ! docker info >/dev/null 2>&1; then
   for _ in $(seq 1 15); do docker info >/dev/null 2>&1 && break; sleep 1; done
 fi
 
+log "Global agent skills & tools (Playwright, unslop, strix, skillui, context7)"
+# skillui — design-system extractor from live URLs / repos (npm global).
+command -v skillui >/dev/null || npm install -g skillui --no-audit --no-fund >/dev/null 2>&1 || true
+# strix — authorized security auditing CLI (needs Docker + a user-supplied LLM key at run time).
+command -v strix >/dev/null || "${PIP[@]}" strix-agent || true
+# Playwright CLI + library come from npm deps; Chromium ships with the image (no `playwright install`).
+
+# Register MCP servers at user scope so the agent can use them in every chat (idempotent).
+if command -v claude >/dev/null; then
+  grep -q '"context7"' "$HOME/.claude.json" 2>/dev/null \
+    || claude mcp add context7 --scope user -- npx -y @upstash/context7-mcp >/dev/null 2>&1 || true
+  grep -q '"playwright"' "$HOME/.claude.json" 2>/dev/null \
+    || claude mcp add playwright --scope user -- npx -y @playwright/mcp@latest >/dev/null 2>&1 || true
+fi
+
+# Mirror the committed skills into the user-global skills dir so they load in any
+# project opened in this environment, not only this repo.
+if [[ -d "$ROOT/.claude/skills" ]]; then
+  mkdir -p "$HOME/.claude/skills"
+  for s in playwright unslop strix-security skillui context7; do
+    [[ -d "$ROOT/.claude/skills/$s" ]] && cp -a "$ROOT/.claude/skills/$s" "$HOME/.claude/skills/" 2>/dev/null || true
+  done
+fi
+
 log "Health check"
 npx hyperframes doctor 2>&1 | grep -E "✓|✗" || true
+command -v skillui >/dev/null && echo "✓ skillui $(skillui --version 2>/dev/null)" || echo "✗ skillui"
+command -v strix   >/dev/null && echo "✓ strix $(strix --version 2>/dev/null | head -1)" || echo "✗ strix"
+command -v claude  >/dev/null && { echo "MCP servers:"; claude mcp list 2>/dev/null | grep -E 'context7|playwright' || true; }
