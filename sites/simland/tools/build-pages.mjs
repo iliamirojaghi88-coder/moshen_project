@@ -9,6 +9,7 @@
 //   python3 tools/build-hero-layers.py   (when the hero picture changes)
 //   node tools/build-pages.mjs
 import { build, transform } from 'esbuild';
+import sharp from 'sharp';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -42,6 +43,39 @@ async function heroStill(single) {
     }
   }
   return `    <div class="scene-still" aria-hidden="true">\n${layers.join('\n')}\n    </div>`;
+}
+
+// The product cards, in page order (right to left, top to bottom), from
+// source/mapping.json: the client's photo, name, short text, icon and tone.
+async function productCards(single) {
+  const { products } = JSON.parse(await readFile(at('source/mapping.json'), 'utf8'));
+  const cards = [];
+  for (const p of products) {
+    const file = at('assets/images/products', `${p.slug}.webp`);
+    const { width, height } = await sharp(file).metadata();
+    const src = single ? await dataUri(file) : `assets/images/products/${p.slug}.webp`;
+    cards.push(`        <li class="pcard" data-tone="${p.tone}">
+          <article class="pcard-in" aria-labelledby="prod-${p.slug}">
+            <div class="pcard-media" aria-hidden="true">
+              <svg class="pcard-mark"><use href="#p-${p.icon}"/></svg>
+              <img src="${src}" alt="" width="${width}" height="${height}" loading="lazy" decoding="async" draggable="false">
+            </div>
+            <div class="pcard-body">
+              <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-${p.icon}"/></svg></span>
+              <span class="pcard-dash" aria-hidden="true"></span>
+              <h3 class="pcard-title" id="prod-${p.slug}">${p.name}</h3>
+              <p class="pcard-text">${p.text}</p>
+              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
+                <span>مشاهده محصولات</span>
+                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+              </a>
+            </div>
+          </article>
+        </li>`);
+  }
+  return `      <ul class="pgrid" role="list">
+${cards.join('\n')}
+      </ul>`;
 }
 
 async function heroData(single) {
@@ -88,6 +122,7 @@ async function page(single) {
     '<!-- head-assets -->': headAssets,
     '<!-- hero-still -->': await heroStill(single),
     '<!-- hero-data -->': await heroData(single),
+    '<!-- products -->': await productCards(single),
     '<!-- body-scripts -->': bodyScripts,
   };
   // function replacements: the inlined code may contain "$&"-style sequences

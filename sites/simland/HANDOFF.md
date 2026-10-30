@@ -4,13 +4,14 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-10-30, hero refinement delivered, waiting for the user's approval)
+## Exact stop point (2026-10-30, products section delivered, waiting for the user's approval)
 
-- Branch for this step: `ccr-2cd3266d-qpjs3p` (fast-forwarded from `claude/simland-3d-website-vbz3vl` at `0bf8134`).
-- The user's prompt «SIMLAND — ادامه پروژه و تکمیل نهایی هیروسکشن» (sharpness, natural smoke, a breeze every
-  2–3 s, real responsive layout) is implemented and tested; see «Hero refinement 2» below.
-- **Next action:** wait for the user's verdict on the hero. Fix what they point out, otherwise start the rest of
-  the home page (section «After the user approves the hero»).
+- Branch: `ccr-2cd3266d-qpjs3p`.
+- Done in this step (prompt «SIMLAND — طراحی ریسپانسیو سکشن محصولات و اصلاح نهایی هیرو»), see «Products section»:
+  hero order title → text → picture → buttons; the products section after the hero; the transition.
+- The hero animation (`live-hero.js`) was not touched in this step.
+- **Next action:** wait for the user's verdict. Then «چرا سیم‌لند؟» and the contact section (see below);
+  the «دریافت مشاوره» button already points to `#contact`.
 
 ### Approved — do not change
 
@@ -113,6 +114,25 @@ Its requirements (all must hold):
 - Known limits (tell the user): tests run in headless software WebGL; the source is 1774×887, so very large
   screens are a little soft; plant motion stays small because the picture is flat; the new smoke and filter
   cost ~1.3–1.5× the previous frame in software rendering (small areas; 30 fps pacing on slow devices).
+
+### Products section (done, tested)
+
+- The client's reference (2 images): image 1 = the ten cables at one size; image 2 = card style (text right:
+  icon chip, short accent line, title, text, blue-circle arrow + «مشاهده محصولات»; cable left over a soft
+  green/blue glow, its base running into the card edge). Card copy, icon and tone per product are taken from
+  that reference and live in `source/mapping.json` (`text`, `icon`, `tone`).
+- `tools/build-images.mjs` now writes `assets/images/products/<slug>.webp`: trimmed, all 640 px tall (one
+  size); the old 4:5 440/660/880 sets were removed.
+- `build-pages.mjs` renders the cards (`<!-- products -->`); icons are symbols `p-*` in `src/index.html`.
+- CSS: 2 columns below 1200 px (grid max 940 px so a card stays ≤ ~460 px); from 1200 px the `pgrid`
+  container picks 3 / 4 (≥1100) / 5 (≥1380) columns; unfinished last rows centred (6/8-track grids);
+  `grid-auto-rows: 1fr`. Card layout by its own width (`pcard` container): ≥300 side by side, <300 stacked,
+  <170 compact. Cable height `min(96%, 64cqi)` side by side so the widest one never leaves its column.
+- Hero: DOM order copy, scene, actions. Desktop grid areas `copy scene / actions scene`; buttons end level
+  with the picture; hero height from the picture (`--scene-h`), no min-height: gap to products 55–71 px.
+- QA: `tools/qa/products.cjs` (12 widths 320–1920): columns, rows, equal gaps and heights, order, every
+  cable whole and at one size, no clipped/overlapping text, buttons below the picture; `interact.cjs` checks
+  the scroll to the products (title clear of the header) and that card buttons are locked.
 
 ## After the user approves the hero: the rest of the home page
 

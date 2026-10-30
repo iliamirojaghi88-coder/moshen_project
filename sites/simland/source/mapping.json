@@ -1,65 +1,95 @@
 {
-  "_note": "Which source photo (in the order they were sent) belongs to which product. Edit, then run: node tools/build-images.mjs",
+  "_note": "Which source photo (in the order they were sent) belongs to which product, and the card copy (text from the client's reference design), icon and tone. Order = order on the page (right to left). Images: node tools/build-images.mjs; page: node tools/build-pages.mjs",
   "products": [
     {
       "slug": "building",
       "name": "کابل ساختمانی",
       "photo": "photo-02.jpg",
-      "category": "building"
+      "category": "building",
+      "text": "مناسب برای ساختمان‌های مسکونی و تجاری",
+      "icon": "house",
+      "tone": "green"
     },
     {
       "slug": "fire-resistant",
       "name": "کابل نسوز",
       "photo": "photo-04.jpg",
-      "category": "building"
+      "category": "building",
+      "text": "مقاوم در برابر حرارت و شرایط سخت محیطی",
+      "icon": "flame",
+      "tone": "blue"
     },
     {
       "slug": "power",
       "name": "کابل قدرت",
       "photo": "photo-09.jpg",
-      "category": "industrial"
+      "category": "industrial",
+      "text": "انتقال مطمئن انرژی در پروژه‌های صنعتی و نیروگاهی",
+      "icon": "bolt",
+      "tone": "green"
     },
     {
       "slug": "aluminium",
       "name": "کابل آلومینیومی",
       "photo": "photo-07.jpg",
-      "category": "industrial"
+      "category": "industrial",
+      "text": "سبک، اقتصادی و مناسب برای خطوط انتقال و توزیع",
+      "icon": "leaf",
+      "tone": "blue"
     },
     {
       "slug": "flexible-control",
       "name": "کابل کنترل افشان",
       "photo": "photo-10.jpg",
-      "category": "special"
+      "category": "special",
+      "text": "انعطاف‌پذیر و مناسب برای سیستم‌های کنترل و فرمان",
+      "icon": "gear",
+      "tone": "blue"
     },
     {
       "slug": "armoured",
       "name": "کابل آرمودار",
       "photo": "photo-06.jpg",
-      "category": "industrial"
+      "category": "industrial",
+      "text": "مقاوم در برابر ضربه و شرایط مکانیکی سخت",
+      "icon": "shield",
+      "tone": "green"
     },
     {
       "slug": "instrumentation",
       "name": "کابل ابزار دقیق",
       "photo": "photo-05.jpg",
-      "category": "special"
+      "category": "special",
+      "text": "انتقال دقیق سیگنال‌ها در سیستم‌های اندازه‌گیری و کنترل",
+      "icon": "bars",
+      "tone": "green"
     },
     {
       "slug": "solar",
       "name": "کابل سولار",
       "photo": "photo-01.jpg",
-      "category": "special"
+      "category": "special",
+      "text": "ویژه سیستم‌های خورشیدی با مقاومت بالا در برابر UV",
+      "icon": "sun",
+      "tone": "blue"
     },
     {
       "slug": "low-voltage",
       "name": "کابل فشار ضعیف",
       "photo": "photo-08.jpg",
-      "category": "building"
+      "category": "building",
+      "text": "مناسب برای توزیع انرژی در شبکه‌های فشار ضعیف",
+      "icon": "network",
+      "tone": "blue"
     },
     {
       "slug": "welding",
       "name": "کابل جوش",
       "photo": "photo-03.jpg",
-      "category": "industrial"
+      "category": "industrial",
+      "text": "مخصوص دستگاه‌های جوشکاری با انعطاف و تحمل جریان بالا",
+      "icon": "spark",
+      "tone": "green"
     }
   ],
   "categories": [

@@ -59,6 +59,8 @@ body {
 }
 
 h1,
+h2,
+h3,
 p {
   margin: 0;
 }
@@ -186,11 +188,14 @@ svg {
   text-wrap: balance;
 }
 
+/* the buttons come after the picture: title, text, picture, buttons */
 .hero-actions {
+  position: relative;
+  z-index: 2;
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 18px;
+  margin-top: 20px;
 }
 
 .btn {
@@ -311,7 +316,7 @@ svg {
 }
 
 .js .hero-actions {
-  animation-delay: 0.16s;
+  animation: rise 0.9s var(--ease) 0.24s both;
 }
 
 .js .scene {
@@ -367,19 +372,31 @@ svg {
     width: min(100%, max(480px, (100svh - 380px) * 2));
     margin: 22px auto 0;
   }
+  .hero-actions {
+    margin-top: 22px;
+  }
 }
 
-/* laptops and desktops: copy on the right, the picture in the left column */
+/* laptops and desktops: the picture in the left column; on the right the title
+   and text, and the buttons below them at the foot of the picture */
 @media (min-width: 1200px) {
   .hero {
     display: grid;
     grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
-    align-items: center;
-    column-gap: clamp(16px, 2.5vw, 40px);
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      'copy scene'
+      'actions scene';
+    align-content: start;
+    --hero-gap: clamp(16px, 2.5vw, 40px);
+    /* the picture's height (half its column width): above it, the header and the
+       room its smoke rises into; below it a standard gap to the products */
+    --scene-h: calc((min(100vw, 1680px) - 2 * var(--gutter) - var(--hero-gap)) * 0.32);
+    column-gap: var(--hero-gap);
     max-width: 1680px;
-    min-height: min(100vh, 900px);
     margin-inline: auto;
-    padding-bottom: 40px;
+    padding-top: calc(var(--bar-top) + var(--bar-h) + 20px + var(--scene-h) * 0.27);
+    padding-bottom: clamp(48px, 4.6vw, 72px);
     text-align: start;
   }
   .hero-title {
@@ -392,11 +409,21 @@ svg {
     margin-inline: 0;
     font-size: 1.06rem;
   }
+  /* the picture is taller than the copy: the spare height goes half above the
+     title, half between the text and the buttons, which end level with the picture */
+  .hero-copy {
+    grid-area: copy;
+    align-self: end;
+  }
   .hero-actions {
+    grid-area: actions;
+    align-self: end;
     justify-content: flex-start;
     margin-top: 26px;
   }
   .scene {
+    grid-area: scene;
+    align-self: center;
     margin: 0;
   }
 }
@@ -406,7 +433,467 @@ svg {
     scroll-behavior: auto;
   }
   .js .hero-copy > *,
+  .js .hero-actions,
   .js .scene {
     animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------- products */
+
+/* A white sheet with a very shallow arc rises from the end of the hero: the hero
+   clearly ends, and the two still read as one calm page. */
+.products {
+  position: relative;
+  z-index: 3;
+  padding: clamp(40px, 6vw, 76px) var(--gutter) clamp(48px, 7vw, 96px);
+  background:
+    radial-gradient(60% 420px at 85% 0, rgba(55, 182, 255, 0.07), transparent 70%),
+    radial-gradient(50% 380px at 10% 100%, rgba(43, 196, 138, 0.06), transparent 70%),
+    linear-gradient(180deg, #fff 0, var(--pearl) 320px, #f5fbfa 100%);
+  border-radius: 50% 50% 0 0 / clamp(16px, 2.4vw, 38px) clamp(16px, 2.4vw, 38px) 0 0;
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.95), 0 -26px 48px -36px rgba(7, 28, 75, 0.26);
+  scroll-margin-top: 36px;
+}
+
+.section-head {
+  margin: 0 auto clamp(22px, 4vw, 42px);
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 5px 14px 5px 12px;
+  border-radius: 999px;
+  background: rgba(8, 120, 249, 0.07);
+  color: var(--brand);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2bc48a, var(--sky));
+}
+
+.section-title {
+  font-size: clamp(1.45rem, 5.4vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1.45;
+}
+
+.section-title .accent {
+  color: var(--brand);
+  background: linear-gradient(100deg, #0a6cf0 0%, var(--brand) 40%, #2aa6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Columns follow the real width: two on phones and tablets; from 1200 px the
+   container's own width decides 3, 4 or 5 (a card stays at least ~260 px).
+   An unfinished last row is centred. */
+.pgrid-wrap {
+  container: pgrid / inline-size;
+  max-width: 1440px;
+  margin-inline: auto;
+}
+
+.pgrid {
+  --gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr; /* every card as tall as the tallest: one cable size everywhere */
+  gap: var(--gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 600px) {
+  .pgrid {
+    --gap: 16px;
+  }
+  /* two columns on tablets, but a card never wider than ~460 px */
+  .pgrid-wrap {
+    max-width: 940px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .pgrid-wrap {
+    max-width: 1440px;
+  }
+  .pgrid {
+    --gap: 20px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .pcard {
+    grid-column: span 2;
+  }
+  .pcard:nth-child(10) {
+    grid-column: 3 / span 2;
+  }
+  @container pgrid (min-width: 1100px) {
+    .pgrid {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+    .pcard:nth-child(9) {
+      grid-column: 3 / span 2;
+    }
+    .pcard:nth-child(10) {
+      grid-column: span 2;
+    }
+  }
+  @container pgrid (min-width: 1380px) {
+    .pgrid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+    .pcard,
+    .pcard:nth-child(9),
+    .pcard:nth-child(10) {
+      grid-column: auto;
+    }
+  }
+}
+
+/* ---- the card: its own width picks the layout (stacked, compact or side by side) */
+
+.pcard {
+  container: pcard / inline-size;
+  --tone: #18a56c;
+  --tone-bg: #e6f7ee;
+  --tone-glow: rgba(43, 196, 138, 0.2);
+}
+
+.pcard[data-tone='blue'] {
+  --tone: var(--brand);
+  --tone-bg: #e7f2ff;
+  --tone-glow: rgba(55, 182, 255, 0.22);
+}
+
+.pcard-in {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(220, 234, 248, 0.9), 0 2px 6px -4px rgba(7, 28, 75, 0.12), 0 14px 30px -22px rgba(7, 28, 75, 0.34);
+  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+}
+
+/* the picture: the cable stands in a soft light, its base running into the edge */
+.pcard-media {
+  position: relative;
+  overflow: hidden;
+  margin: 6px 6px 0;
+  aspect-ratio: 1 / 0.9;
+  border-radius: 13px;
+  background: linear-gradient(180deg, #f4f9ff 0%, #eef6fe 100%);
+}
+
+.pcard-media::before {
+  content: '';
+  position: absolute;
+  inset: 18% 6% -24%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--tone-glow), transparent);
+}
+
+.pcard-mark {
+  position: absolute;
+  top: 12%;
+  left: 6%;
+  width: 46%;
+  height: 46%;
+  color: var(--tone);
+  opacity: 0.09;
+}
+
+.pcard-media img {
+  position: absolute;
+  bottom: -9%;
+  left: 50%;
+  z-index: 1;
+  display: block;
+  width: auto;
+  height: 99%;
+  max-width: none;
+  transform: translateX(-50%);
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.pcard-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px 12px 12px;
+}
+
+/* stacked cards: the icon sits in the corner of the picture */
+.pcard-icon {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--tone-bg);
+  color: var(--tone);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.7);
+}
+
+.pcard-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.pcard-dash {
+  width: 20px;
+  height: 3px;
+  margin: 2px 0 7px;
+  border-radius: 3px;
+  background: var(--tone);
+}
+
+.pcard-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.pcard-text {
+  display: -webkit-box;
+  margin-top: 3px;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.8;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.pcard-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  padding-top: 12px;
+  color: var(--navy);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pcard-go {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2fa8ff 0%, #0866ef 100%);
+  color: #fff;
+  box-shadow: 0 6px 14px -8px rgba(8, 120, 249, 0.9);
+  transition: transform 0.4s var(--ease);
+}
+
+.pcard-go svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* narrow phones: the same card, tighter */
+@container pcard (max-width: 169px) {
+  .pcard-media {
+    margin: 5px 5px 0;
+    border-radius: 12px;
+  }
+  .pcard-icon {
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+  }
+  .pcard-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+  .pcard-body {
+    padding: 8px 9px 10px;
+  }
+  .pcard-dash {
+    width: 16px;
+    margin-bottom: 5px;
+  }
+  .pcard-title {
+    font-size: 0.84rem;
+  }
+  .pcard-text {
+    font-size: 0.69rem;
+    line-height: 1.75;
+  }
+  .pcard-cta {
+    gap: 5px;
+    padding-top: 10px;
+    font-size: 0.7rem;
+  }
+  .pcard-go {
+    width: 23px;
+    height: 23px;
+  }
+  .pcard-go svg {
+    width: 13px;
+    height: 13px;
+  }
+}
+
+/* wider stacked cards (desktop rows of 4 or 5) */
+@container pcard (min-width: 230px) {
+  .pcard-in {
+    border-radius: 20px;
+  }
+  .pcard-media {
+    margin: 8px 8px 0;
+    aspect-ratio: 1 / 0.82;
+    border-radius: 15px;
+  }
+  .pcard-icon {
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+  }
+  .pcard-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  .pcard-body {
+    padding: 14px 18px 18px;
+  }
+  .pcard-title {
+    font-size: 1.08rem;
+  }
+  .pcard-text {
+    font-size: 0.84rem;
+  }
+  .pcard-cta {
+    padding-top: 14px;
+    font-size: 0.86rem;
+  }
+  .pcard-go {
+    width: 32px;
+    height: 32px;
+  }
+  .pcard-go svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* side by side (tablets, and rows of 3): text on the right, the cable on the
+   left over a soft glow, as in the reference */
+@container pcard (min-width: 300px) {
+  .pcard-in {
+    flex-direction: row-reverse;
+    min-height: 196px;
+  }
+  .pcard-media {
+    flex: 0 0 44%;
+    margin: 0;
+    aspect-ratio: auto;
+    border-radius: 0;
+    background: linear-gradient(270deg, rgba(234, 246, 255, 0) 0%, #f1f8ff 55%, #eaf4fd 100%);
+  }
+  .pcard-media::before {
+    inset: 10% -8% -18% 4%;
+  }
+  .pcard-mark {
+    top: 10%;
+    left: 8%;
+    width: 58%;
+    height: 58%;
+  }
+  /* one size for every cable: by the card's height, but never so tall that the
+     widest one (0.63 as wide as tall) leaves its 44% column */
+  .pcard-media img {
+    bottom: -8%;
+    height: min(96%, 64cqi);
+  }
+  .pcard-body {
+    padding: 18px 20px 18px 6px;
+  }
+  .pcard-icon {
+    position: static;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 12px;
+    box-shadow: none;
+  }
+  .pcard-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+  .pcard-dash {
+    width: 22px;
+    margin: 0 0 9px;
+  }
+  .pcard-title {
+    font-size: 1.12rem;
+  }
+  .pcard-text {
+    font-size: 0.85rem;
+  }
+  .pcard-cta {
+    padding-top: 14px;
+  }
+}
+
+@container pcard (min-width: 400px) {
+  .pcard-in {
+    min-height: 232px;
+  }
+  .pcard-body {
+    padding: 22px 26px 22px 8px;
+  }
+  .pcard-title {
+    font-size: 1.22rem;
+  }
+  .pcard-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pcard-in:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 0 1px rgba(205, 225, 246, 0.95), 0 3px 8px -4px rgba(7, 28, 75, 0.14), 0 22px 38px -24px rgba(7, 28, 75, 0.42);
+  }
+  .pcard-in:hover .pcard-go {
+    transform: translateX(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pcard-in,
+  .pcard-go {
+    transition: none;
   }
 }

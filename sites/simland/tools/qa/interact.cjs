@@ -15,8 +15,20 @@ const path = require('path');
     await p.waitForTimeout(300);
   }
   const navOk = p.url() === before;
-  await p.getByText('مشاهده محصولات').click();
-  await p.getByText('دریافت مشاوره').click();
+  // the hero button scrolls to the products; the title ends up below the fixed header
+  await p.locator('.hero-actions .btn-primary').click();
+  await p.waitForTimeout(1500);
+  const toProducts = await p.evaluate(() => {
+    const t = document.getElementById('products-title').getBoundingClientRect();
+    const bar = document.querySelector('.topbar').getBoundingClientRect();
+    return { titleTop: Math.round(t.top), clearOfHeader: t.top >= bar.bottom, inView: t.bottom <= innerHeight };
+  });
+  // the product buttons are locked for now (no product pages yet): no navigation
+  await p.locator('.pcard-cta').first().click({ force: true });
+  await p.waitForTimeout(300);
+  const cardsLocked = p.url() === before;
+  await p.evaluate(() => scrollTo(0, 0));
+  await p.locator('.hero-actions .btn-soft').click();
   await p.waitForTimeout(300);
   const r = await p.evaluate(() => ({
     url: location.href.split('/').pop(),
@@ -25,6 +37,6 @@ const path = require('path');
     locked: [...document.querySelectorAll('[aria-disabled="true"]')].map((a) => a.textContent + ':' + (a.hasAttribute('href') ? 'href' : 'no-href')),
     focusables: [...document.querySelectorAll('a[href], button')].map((a) => a.textContent.trim()),
   }));
-  console.log(JSON.stringify({ navOk, ...r }), errors.join(' | ') || 'no errors');
+  console.log(JSON.stringify({ navOk, toProducts, cardsLocked, ...r, locked: `${r.locked.length} locked` }), errors.join(' | ') || 'no errors');
   await b.close();
 })();

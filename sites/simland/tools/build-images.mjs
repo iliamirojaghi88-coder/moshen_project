@@ -1,12 +1,11 @@
-// Builds the product images used by the site from the standardised masters
-// (source/standardized/<slug>.png, made by tools/standardize-products.py).
+// Builds the product images used by the product cards from the standardised
+// masters (source/standardized/<slug>.png, made by tools/standardize-products.py).
 //
-// One layout rule for all ten products, so they read as one studio set:
-//   · canvas 880 × 1100 (4:5), transparent: the card supplies the lit stage
-//   · every product is scaled to the same height (80% of the canvas), unless
-//     it would get wider than 80% of the canvas, then it is fitted by width
-//   · centred, so the top and bottom margins are the same on every card
-// Proportions are never changed: thick cables stay thick, thin ones thin.
+// One rule for all ten products, so they read as one studio set: every cable
+// is trimmed to itself and scaled to the same height (HEIGHT px). The card
+// shows every image at the same share of its picture area, so all ten stand at
+// one size; thick cables stay thick, thin ones thin. No sharpening: a Lanczos
+// downscale of the lossless master is as crisp as the photo allows.
 //
 //   node tools/build-images.mjs
 import sharp from 'sharp';
@@ -19,33 +18,20 @@ const masterDir = path.join(root, 'source/standardized');
 const outDir = path.join(root, 'assets/images/products');
 const { products } = JSON.parse(await readFile(path.join(root, 'source/mapping.json'), 'utf8'));
 
-const CANVAS_W = 880;
-const CANVAS_H = 1100;
-const PRODUCT_H = 0.8 * CANVAS_H;
-const PRODUCT_MAX_W = 0.8 * CANVAS_W;
-const WIDTHS = [440, 660, 880];
+// enough for the largest card picture on a 3x phone or a 2x tablet
+const HEIGHT = 640;
 
 await mkdir(outDir, { recursive: true });
 
 for (const p of products) {
   const master = path.join(masterDir, `${p.slug}.png`);
-  const { width, height } = await sharp(master).metadata();
-  const scale = Math.min(PRODUCT_H / height, PRODUCT_MAX_W / width);
-  const w = Math.round(width * scale);
-  const h = Math.round(height * scale);
-  const product = await sharp(master).resize(w, h, { kernel: 'lanczos3' }).toBuffer();
-
-  const canvas = await sharp({
-    create: { width: CANVAS_W, height: CANVAS_H, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
-  })
-    .composite([{ input: product, left: Math.round((CANVAS_W - w) / 2), top: Math.round((CANVAS_H - h) / 2) }])
-    .png()
-    .toBuffer();
-
-  for (const width of WIDTHS) {
-    let img = sharp(canvas).resize(width, Math.round((width / CANVAS_W) * CANVAS_H), { kernel: 'lanczos3' });
-    if (width < CANVAS_W) img = img.sharpen({ sigma: 0.45 });
-    await img.webp({ quality: 86, alphaQuality: 92, smartSubsample: true, effort: 6 }).toFile(path.join(outDir, `${p.slug}-${width}.webp`));
-  }
-  console.log(`${p.slug.padEnd(17)} ${w}×${h}  scale ${scale.toFixed(2)}`);
+  const trimmed = await sharp(master).trim({ threshold: 1 }).png().toBuffer({ resolveWithObject: true });
+  const { width, height } = trimmed.info;
+  const w = Math.round((width * HEIGHT) / height);
+  const out = path.join(outDir, `${p.slug}.webp`);
+  await sharp(trimmed.data)
+    .resize(w, HEIGHT, { kernel: 'lanczos3' })
+    .webp({ quality: 90, alphaQuality: 95, smartSubsample: true, effort: 6 })
+    .toFile(out);
+  console.log(`${p.slug.padEnd(17)} ${width}×${height} -> ${w}×${HEIGHT}`);
 }
