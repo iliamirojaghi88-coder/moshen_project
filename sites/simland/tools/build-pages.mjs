@@ -31,13 +31,13 @@ async function heroStill(single) {
   const src = async (f) => (single ? dataUri(at('assets/hero', f)) : `assets/hero/${f}`);
   const { width: W, height: H } = scene;
   const layers = [
-    `      <img data-layer="base" src="${await src('base.webp')}" alt="" width="${W}" height="${H}" fetchpriority="high" decoding="async" style="left:0;top:0;width:100%;height:100%">`,
+    `      <img data-layer="base" src="${await src('base.webp')}" alt="" width="${W}" height="${H}" fetchpriority="high" decoding="async" draggable="false" style="left:0;top:0;width:100%;height:100%">`,
   ];
   for (const kind of ['blades', 'caps']) {
     for (const t of scene.turbines) {
       const [x, y, w, h] = t[kind === 'blades' ? 'blades' : 'cap'];
       layers.push(
-        `      <img data-layer="${kind}-${t.id}" src="${await src(`${kind}-${t.id}.webp`)}" alt="" width="${w}" height="${h}" decoding="async" style="left:${pct(x, W)};top:${pct(y, H)};width:${pct(w, W)};height:${pct(h, H)}">`,
+        `      <img data-layer="${kind}-${t.id}" src="${await src(`${kind}-${t.id}.webp`)}" alt="" width="${w}" height="${h}" decoding="async" draggable="false" style="left:${pct(x, W)};top:${pct(y, H)};width:${pct(w, W)};height:${pct(h, H)}">`,
       );
     }
   }

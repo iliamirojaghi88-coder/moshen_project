@@ -24,10 +24,21 @@ gl.linkProgram(p); gl.useProgram(p);
 gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
 gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-gl.uniform3fv(gl.getUniformLocation(p, 'uChimney'), [498, 103, 24, 583, 145, 21]);
+const U = (n) => gl.getUniformLocation(p, n);
+const TAU = Math.PI * 2;
+const wrap = (x, q) => x - q * Math.floor(x / q);
+gl.uniform4fv(U('uChimney'), [498, 101, 25, 1.0, 584, 141, 22, 0.88]);
+gl.uniform2f(U('uSize'), 1774, 887);
+gl.uniform4f(U('uView'), 640, 1.6, 1.6, 400);
+// same clock-driven uniforms as live-hero.js
 window.renderAt = (t) => {
-  gl.uniform1f(gl.getUniformLocation(p, 'uTime'), t + 40);
-  gl.uniform1f(gl.getUniformLocation(p, 'uSmokeAge'), t);
+  const T = t + 40;
+  gl.uniform4f(U('uGustPh'), wrap(0.31 * T, TAU), wrap(0.73 * T + 1.1, TAU), wrap(1.37 * T + 2.3, TAU), wrap(0.42 * T, TAU));
+  gl.uniform4f(U('uAdv'), wrap(0.9 * T, 289), wrap(0.6 * T, 289), wrap(0.3 * T, 289), wrap(24 * 0.011 * T, 289));
+  const c0 = T / 4, c1 = T / 4 + 0.5;
+  gl.uniform4f(U('uCyc'), c0 - Math.floor(c0), Math.floor(c0) % 1000, c1 - Math.floor(c1), Math.floor(c1) % 1000);
+  gl.uniform1f(U('uEvolve'), wrap(0.03 * T, 289));
+  gl.uniform1f(U('uSmokeAge'), Math.min(t, 100));
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 };
 renderAt(12);

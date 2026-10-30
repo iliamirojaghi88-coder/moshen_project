@@ -1,18 +1,20 @@
 // The hero image, alive. The client's picture stays exactly where it is and
-// keeps its size and framing; one WebGL pass redraws it each frame with only
-// these parts moving:
+// keeps its size, angle and framing (no zoom, no camera, no parallax); one
+// WebGL pass redraws it each frame with only these parts moving:
 //
 //   turbines  the blades cut from the picture turn inside each rotor's own
 //             plane (an affine map fitted to the three blade tips), so the
 //             two turbines seen at an angle turn in correct perspective
-//   smoke     a soft white-grey plume from each chimney, rising and leaning
-//             with the wind; continuous noise, no particles
-//   plants    tree crowns sway a pixel or two above their ground line, leaves,
-//             bushes and grass flutter less; buildings, cable, text, panels
-//             and pylon have zero weight and never move
+//   smoke     white-grey steam from each chimney mouth: a dense column that
+//             breaks into soft billows, spreads, leans with the wind, thins out
+//   plants    crowns sway from their trunks, leaves flutter, thin branches,
+//             bushes, flowers and grass move slightly; trunks, buildings,
+//             cable, text, panels, pylon and wires never move
 //
 // One wind drives everything: gusts travel from right to left (the turbines
-// face right-front), speed the rotors up, bend the plumes and the crowns.
+// face right-front), speed the rotors up a little, bend the plumes and the
+// crowns. Moving parts are sampled with clamped Catmull-Rom filtering so they
+// stay as crisp as the still picture.
 //
 // Without WebGL, or with reduced motion, the still layers stay on screen and
 // show the picture exactly as supplied.
@@ -28,16 +30,25 @@ uniform sampler2D uBase;
 uniform sampler2D uAtlas;
 uniform sampler2D uMasks;
 uniform vec2 uSize;
-uniform float uTime;
+uniform vec2 uBaseSize;
+uniform vec2 uAtlasSize;
 uniform float uEase;
 uniform float uSmokeAge;
+uniform float uAmp;
+// every clock-driven value arrives already wrapped (phases mod 2 pi, noise offsets
+// mod 289, the noise's own period), so precision never degrades in a long run
+uniform vec4 uGustPh;
+uniform vec4 uSwayPh;
+uniform vec4 uAdv;
+uniform vec4 uCyc;
+uniform float uEvolve;
 uniform vec2 uHub[3];
 uniform mat2 uK[3];
 uniform vec4 uBladeRect[3];
 uniform vec4 uBladeUV[3];
 uniform vec4 uCapRect[3];
 uniform vec4 uCapUV[3];
-uniform vec3 uChimney[2];
+uniform vec4 uChimney[2];
 
 // 2D simplex noise: Ian McEwan, Ashima Arts, and Stefan Gustavson (webgl-noise), MIT License
 vec3 permute(vec3 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }
@@ -63,92 +74,102 @@ float snoise(vec2 v) {
   g.yz = a0.yz * x12.xz + h.yz * x12.yw;
   return 130.0 * dot(m, g);
 }
-float fbm(vec2 p) {
-  float f = 0.0;
-  float a = 0.5;
-  mat2 r = mat2(0.8, -0.6, 0.6, 0.8);
-  for (int i = 0; i < 5; i++) {
-    f += a * snoise(p);
-    p = r * p * 2.03 + 17.1;
-    a *= 0.5;
-  }
-  return f;
-}
-
-// gust strength 0..1 at time t (same formula as gust() in JS)
-float gust(float t) {
-  return 0.5 + 0.5 * (0.55 * sin(0.31 * t) + 0.3 * sin(0.73 * t + 1.1) + 0.15 * sin(1.37 * t + 2.3));
-}
-
-vec4 over(vec4 top, vec4 under) { return top + under * (1.0 - top.a); }
-
-vec4 sampleRect(vec2 q, vec4 rect, vec4 uv) {
-  vec2 f = (q - rect.xy) / rect.zw;
-  if (f.x < 0.0 || f.y < 0.0 || f.x > 1.0 || f.y > 1.0) return vec4(0.0);
-  return texture2D(uAtlas, uv.xy + f * uv.zw);
-}
-
-float fbm4(vec2 p) {
-  float f = 0.0;
-  float a = 0.5;
-  mat2 r = mat2(0.8, -0.6, 0.6, 0.8);
-  for (int i = 0; i < 4; i++) {
-    f += a * snoise(p);
-    p = r * p * 2.02 + 11.3;
-    a *= 0.5;
-  }
-  return f;
-}
 
 float fbm3(vec2 p) {
   return 0.57 * snoise(p) + 0.29 * snoise(mat2(0.8, -0.6, 0.6, 0.8) * p * 2.02 + 11.3)
     + 0.14 * snoise(mat2(-0.28, -0.96, 0.96, -0.28) * p * 4.07 + 3.7);
 }
 
-// A plume of white-grey steam: round billows that swell as they rise, swirl
-// slowly, lean with the wind they left the chimney in, and thin out. Lit from
-// the sun side (upper left), softly grey on the other.
-//
-// The billows scroll upward with a scale that grows with height. Scrolling
-// such a pattern for ever would compress it, so two copies take turns
-// (a flow map): each scrolls for four seconds and fades out as the other,
-// half a cycle apart, fades in; a fresh pattern starts while a copy is unseen.
+// gust strength 0..1, as it was 'delay' seconds ago (same formula as gust() in JS)
+float gustAgo(float delay) {
+  return 0.5 + 0.5 * (0.55 * sin(uGustPh.x - 0.31 * delay) + 0.3 * sin(uGustPh.y - 0.73 * delay)
+    + 0.15 * sin(uGustPh.z - 1.37 * delay));
+}
+
+vec4 over(vec4 top, vec4 under) { return top + under * (1.0 - top.a); }
+
+// Catmull-Rom sampling clamped to the four nearest texels: as crisp as the
+// picture itself where it moves or turns, and it cannot ring or form halos.
+vec4 sampleSharp(sampler2D tex, vec2 uv, vec2 size) {
+  vec2 pos = uv * size;
+  vec2 tc = floor(pos - 0.5) + 0.5;
+  vec2 f = pos - tc;
+  vec2 w0 = f * (-0.5 + f * (1.0 - 0.5 * f));
+  vec2 w1 = 1.0 + f * f * (-2.5 + 1.5 * f);
+  vec2 w2 = f * (0.5 + f * (2.0 - 1.5 * f));
+  vec2 w3 = f * f * (-0.5 + 0.5 * f);
+  vec2 w12 = w1 + w2;
+  vec2 t0 = (tc - 1.0) / size;
+  vec2 t3 = (tc + 2.0) / size;
+  vec2 t12 = (tc + w2 / w12) / size;
+  vec4 r = (texture2D(tex, vec2(t0.x, t0.y)) * w0.x + texture2D(tex, vec2(t12.x, t0.y)) * w12.x + texture2D(tex, vec2(t3.x, t0.y)) * w3.x) * w0.y
+    + (texture2D(tex, vec2(t0.x, t12.y)) * w0.x + texture2D(tex, vec2(t12.x, t12.y)) * w12.x + texture2D(tex, vec2(t3.x, t12.y)) * w3.x) * w12.y
+    + (texture2D(tex, vec2(t0.x, t3.y)) * w0.x + texture2D(tex, vec2(t12.x, t3.y)) * w12.x + texture2D(tex, vec2(t3.x, t3.y)) * w3.x) * w3.y;
+  vec4 a = texture2D(tex, tc / size);
+  vec4 b = texture2D(tex, (tc + vec2(1.0, 0.0)) / size);
+  vec4 c = texture2D(tex, (tc + vec2(0.0, 1.0)) / size);
+  vec4 d = texture2D(tex, (tc + vec2(1.0, 1.0)) / size);
+  return clamp(r, min(min(a, b), min(c, d)), max(max(a, b), max(c, d)));
+}
+
+vec4 sampleRect(vec2 q, vec4 rect, vec4 uv) {
+  vec2 f = (q - rect.xy) / rect.zw;
+  if (f.x < -0.02 || f.y < -0.02 || f.x > 1.02 || f.y > 1.02) return vec4(0.0);
+  return sampleSharp(uAtlas, uv.xy + f * uv.zw, uAtlasSize);
+}
+
+// Smoke detail: billows that scroll up with the smoke while their size grows
+// with height. Scrolling such a pattern for ever would compress it, so two
+// copies take turns (a flow map): each scrolls for four seconds and fades out
+// as the other, half a cycle apart, fades in; a fresh pattern starts while a
+// copy is unseen.
 vec2 billow(float dx, float h, float sc, float rise, float seed) {
   vec2 n = vec2(0.0);
   float wsum = 0.0;
   for (int k = 0; k < 2; k++) {
-    float cyc = uTime / 4.0 + 0.5 * float(k);
-    float ph = fract(cyc);
-    float id = floor(cyc) + seed * 7.0 + float(k) * 3.0;
+    float ph = k == 0 ? uCyc.x : uCyc.z;
+    float id = (k == 0 ? uCyc.y : uCyc.w) + seed * 7.0 + float(k) * 3.0;
     vec2 off = vec2(fract(sin(id * 12.9898) * 43758.5453), fract(sin(id * 78.233) * 12543.1)) * 37.0;
     vec2 q = vec2(dx / sc, (h - ph * 4.0 * rise) / sc) + off;
-    vec2 wq = q + vec2(fbm3(q * 0.45), fbm3(q * 0.45 + vec2(4.7, 2.1))) * 0.75;
+    vec2 wq = q + vec2(fbm3(q * 0.45 + vec2(0.0, uEvolve)), fbm3(q * 0.45 + vec2(4.7, 2.1 - uEvolve))) * 0.8;
     float w = 1.0 - abs(2.0 * ph - 1.0);
-    n += vec2(fbm3(wq), fbm3(wq + vec2(-0.22, 0.26))) * w;
+    // second value: density a little towards the sun (upper left), for broad, soft shading
+    n += vec2(fbm3(wq), fbm3(wq + vec2(-0.55, 0.6))) * w;
     wsum += w * w;
   }
   return n / sqrt(wsum);  // keeps the contrast steady through the crossfade
 }
 
-vec4 plume(vec2 P, vec3 ch, float seed) {
+// Steam from one chimney: a dense column leaves the mouth, breaks into soft
+// billows within a few mouth widths, spreads, leans with the wind it left the
+// chimney in and thins out. White-grey, lit from the sun side (upper left).
+vec4 plume(vec2 P, vec4 ch, float seed) {
   float h = ch.y - P.y;
-  if (h < -1.0 || h > 380.0) return vec4(0.0);
-  float rise = 26.0;
-  float g = gust(uTime - h / rise);
-  float lean = (0.011 + 0.011 * g) * pow(max(h, 0.0), 1.3);
-  float dx = P.x - (ch.x - lean);
-  float w = ch.z * 0.7 + h * 0.33;
+  if (h < -2.0 || h > 400.0) return vec4(0.0);
+  float rise = 24.0;
+  float hp = max(h, 0.0);
+  float g = gustAgo((uSize.x - ch.x) / 520.0 + hp / rise);
+  float lean = (0.010 + 0.014 * g) * pow(hp, 1.32);
+  // slow meander carried up with the smoke (parcel coordinates: no compression)
+  float meander = 7.0 * snoise(vec2(hp * 0.011 - uAdv.w, seed)) * smoothstep(10.0, 140.0, hp);
+  float dx = P.x - (ch.x - lean + meander);
+  float w = ch.z * 0.72 + hp * 0.3;
   float u = dx / w;
-  if (abs(u) > 2.1) return vec4(0.0);
-  vec2 n = billow(dx, h, 21.0 + h * 0.19, rise, seed);
-  float core = exp(-u * u * 1.3);
-  float d = smoothstep(0.04, 0.78, core * (0.7 + 0.62 * n.x) - h / 1100.0);
-  float puff = 0.9 + 0.1 * sin(uTime * 0.42 + seed * 1.7);
-  float grown = clamp((uSmokeAge * rise - h) / 30.0, 0.0, 1.0);  // only smoke made since the page opened
-  float a = d * smoothstep(0.0, 7.0, h) * exp(-h / 230.0) * puff * grown * 0.86;
+  if (abs(u) > 2.2) return vec4(0.0);
+  vec2 n = billow(dx, hp, 24.0 + hp * 0.16, rise, seed);
+  float core = exp(-u * u * 1.25);
+  float dens = mix(0.97, 0.66 + 0.7 * n.x, smoothstep(4.0, 75.0, hp));
+  float d = smoothstep(0.05, 0.75, core * dens - hp / 1050.0);
+  float puff = 0.9 + 0.1 * sin(uGustPh.w + seed * 1.7);
+  float grown = clamp((uSmokeAge * rise - hp) / 30.0, 0.0, 1.0);  // only smoke made since the page opened
+  float a = d * smoothstep(-1.5, 5.0, h) * exp(-hp / 240.0) * puff * grown * 0.84 * ch.w;
   a *= smoothstep(-uView.w, -uView.w + 80.0, P.y);  // always gone before the canvas edge
-  float lit = clamp(0.5 - (n.y - n.x) * 2.2 - 0.14 * u + 0.2 * n.x, 0.0, 1.0);
-  vec3 c = mix(vec3(0.73, 0.75, 0.79), vec3(0.975, 0.978, 0.985), lit);
+  // light: the side facing the sun and the billow tops are bright, folds and the
+  // shaded side soft grey; fresh steam at the mouth is bright and smooth
+  float relief = smoothstep(0.0, 90.0, hp);
+  float lit = 0.62 - (n.y - n.x) * 1.1 * relief - 0.16 * u + 0.12 * n.x - 0.18 * d * relief;
+  lit = clamp(mix(lit, 0.9, 1.0 - relief), 0.0, 1.0);
+  vec3 c = mix(vec3(0.71, 0.735, 0.775), vec3(0.98, 0.982, 0.988), lit);
   return vec4(c * a, a);
 }
 
@@ -160,16 +181,25 @@ void main() {
     vec3 m = texture2D(uMasks, P / uSize).rgb;
     vec2 d = vec2(0.0);
     if (m.r + m.g > 0.004 && uEase > 0.0) {
-      // wind from the right: a gust reaches the left side later
-      float g = gust(uTime - (uSize.x - P.x) / 520.0);
-      float osc = 0.6 * sin(uTime * 2.3 + P.x * 0.017 + P.y * 0.009) + 0.4 * sin(uTime * 1.45 + P.x * 0.011 + 1.7);
-      vec2 sway = vec2(-1.0, 0.12) * m.r * (0.62 * g + 0.38 * osc * (0.35 + 0.65 * g)) * 2.3;
-      vec2 leaf = vec2(snoise(P * 0.07 + vec2(uTime * 1.2, 0.0)), snoise(P * 0.07 + vec2(13.7, -uTime * 1.05)));
-      leaf *= m.g * 0.6 * (0.45 + 0.55 * g);
+      // the wind blows from the right: a gust reaches the left side later, and
+      // stronger patches of it travel across the scene with it
+      float G = gustAgo((uSize.x - P.x) / 520.0) * (0.82 + 0.18 * snoise(P * 0.0035 + vec2(uAdv.z, 0.0)));
+      // every tree has its own rhythm (phases vary slowly across the scene)
+      vec3 ph = 3.1416 * vec3(snoise(P * 0.0045 + 3.1), snoise(P * 0.0045 + 17.3), snoise(P * 0.0045 + 41.7));
+      float osc = 0.5 * sin(uSwayPh.x + ph.x) + 0.32 * sin(uSwayPh.y + ph.y) + 0.18 * sin(uSwayPh.z + ph.z);
+      float bend = m.r * uAmp * 3.4 * (0.5 * G + 0.5 * osc * (0.35 + 0.65 * G));
+      vec2 sway = vec2(-bend, 0.18 * abs(bend));
+      // leaves: small irregular flutter carried by the wind
+      float l1 = snoise(P * 0.036 + vec2(uAdv.x, 0.0));
+      float l2 = snoise(P * 0.049 + vec2(23.1, -uAdv.y));
+      float l3 = snoise(P * 0.026 + vec2(-0.7 * uAdv.y, 51.3));
+      vec2 leaf = vec2(l1 + 0.5 * l2, 0.8 * l3 + 0.3 * l2) * m.g * uAmp * 0.75 * (0.35 + 0.65 * G);
       d = (sway + leaf) * uEase;
     }
     vec2 s = P - d;
-    if (s.x >= 0.0 && s.y >= 0.0 && s.x <= uSize.x && s.y <= uSize.y) col = texture2D(uBase, s / uSize);
+    if (s.x >= 0.0 && s.y >= 0.0 && s.x <= uSize.x && s.y <= uSize.y) {
+      col = dot(d, d) > 1e-6 ? sampleSharp(uBase, s / uSize, uBaseSize) : texture2D(uBase, s / uSize);
+    }
 
     // rotors, back to front; trees (and for the first turbine the factory) stand in front of them
     for (int i = 0; i < 3; i++) {
@@ -193,6 +223,8 @@ export function gust(t) {
 }
 
 const smooth = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x));
+const TAU = Math.PI * 2;
+const wrap = (x, p) => x - p * Math.floor(x / p);
 
 export async function createLiveHero({ host, scene, images, reducedMotion = false, onLive = () => {} }) {
   if (reducedMotion) return null;
@@ -223,13 +255,18 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
   gl.uniform2fv(loc('uHub'), turbines.flatMap((t) => t.hub));
   gl.uniform4fv(loc('uBladeRect'), turbines.flatMap((t) => t.blades));
   gl.uniform4fv(loc('uCapRect'), turbines.flatMap((t) => t.cap));
-  gl.uniform3fv(loc('uChimney'), scene.chimneys.flatMap((c) => [c.x, c.y, c.r]));
+  gl.uniform4fv(loc('uChimney'), scene.chimneys.flatMap((c) => [c.x, c.y, c.r, c.d ?? 1]));
   gl.uniform1i(loc('uBase'), 0);
   gl.uniform1i(loc('uAtlas'), 1);
   gl.uniform1i(loc('uMasks'), 2);
-  const uTime = loc('uTime');
   const uEase = loc('uEase');
   const uSmokeAge = loc('uSmokeAge');
+  const uAmp = loc('uAmp');
+  const uGustPh = loc('uGustPh');
+  const uSwayPh = loc('uSwayPh');
+  const uAdv = loc('uAdv');
+  const uCyc = loc('uCyc');
+  const uEvolve = loc('uEvolve');
   const uK = loc('uK');
 
   const textures = [gl.createTexture(), gl.createTexture(), gl.createTexture()];
@@ -262,7 +299,9 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
   }
 
   function buildTextures(s) {
-    upload(0, s >= 0.999 ? images.base : resampled(images.base, W * s, Math.round(H * s)), true);
+    const baseTex = s >= 0.999 ? images.base : resampled(images.base, W * s, Math.round(H * s));
+    upload(0, baseTex, true);
+    gl.uniform2f(loc('uBaseSize'), baseTex.width || W, baseTex.height || H);
     // blades and caps in one atlas, one row, 4 px apart
     const parts = [
       ...turbines.map((t) => ({ img: images[`blades-${t.id}`], rect: t.blades })),
@@ -286,6 +325,7 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
     g.imageSmoothingQuality = 'high';
     for (const p of parts) g.drawImage(p.img, p.x, pad, p.w, p.h);
     upload(1, atlas, true);
+    gl.uniform2f(loc('uAtlasSize'), atlas.width, atlas.height);
     const uv = (p) => [p.x / atlas.width, pad / atlas.height, (p.rect[2] * ps) / atlas.width, (p.rect[3] * ps) / atlas.height];
     gl.uniform4fv(loc('uBladeUV'), parts.slice(0, 3).flatMap(uv));
     gl.uniform4fv(loc('uCapUV'), parts.slice(3).flatMap(uv));
@@ -323,6 +363,8 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
     Object.assign(canvas.style, { left: `${x0}px`, top: `${y0 - extPx / dpr}px`, width: `${w}px`, height: `${(picH + extPx) / dpr}px` });
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.uniform4f(uView, canvas.height, s, picH / H, extPx / (picH / H));
+    // on small screens the same breeze gets a little more room, so it is still felt
+    gl.uniform1f(uAmp, Math.min(1.6, Math.max(1, Math.sqrt(0.5 / (w / W)))));
     if (Math.abs(s - scale) > 1e-3 || w !== cssW) {
       scale = s;
       cssW = w;
@@ -348,7 +390,7 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
     const ease = smooth(clock / 2.8);
     turbines.forEach((tb, i) => {
       // spin up gently, then follow the gusts (they reach the left turbines later)
-      const g = gust(clock - (W - tb.hub[0]) / 520);
+      const g = gust(clock + 40 - (W - tb.hub[0]) / 520);
       angle[i] += BASE_SPEED * tb.speed * (0.82 + 0.36 * g) * ease * dt;
     });
   }
@@ -369,9 +411,16 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
       kBuf.set([k[0], k[1], k[2], k[3]], i * 4);
     });
     gl.uniformMatrix2fv(uK, false, kBuf);
-    gl.uniform1f(uTime, t + 40);
+    const T = t + 40;
+    gl.uniform4f(uGustPh, wrap(0.31 * T, TAU), wrap(0.73 * T + 1.1, TAU), wrap(1.37 * T + 2.3, TAU), wrap(0.42 * T, TAU));
+    gl.uniform4f(uSwayPh, wrap(1.9 * T, TAU), wrap(2.7 * T + 0.7, TAU), wrap(1.3 * T + 2.1, TAU), 0);
+    gl.uniform4f(uAdv, wrap(0.9 * T, 289), wrap(0.6 * T, 289), wrap(0.3 * T, 289), wrap(24 * 0.011 * T, 289));
+    const c0 = T / 4;
+    const c1 = T / 4 + 0.5;
+    gl.uniform4f(uCyc, c0 - Math.floor(c0), Math.floor(c0) % 1000, c1 - Math.floor(c1), Math.floor(c1) % 1000);
+    gl.uniform1f(uEvolve, wrap(0.03 * T, 289));
     gl.uniform1f(uEase, ease);
-    gl.uniform1f(uSmokeAge, t);
+    gl.uniform1f(uSmokeAge, Math.min(t, 100));
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
@@ -380,8 +429,23 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
   let raf = 0;
   let visible = true;
   let first = true;
+  // A device that cannot keep up draws every other display frame (30 fps)
+  // instead of dropping frames unevenly; resolution and detail stay the same.
+  let pace = 0;
+  let lastDraw = 0;
+  const intervals = [];
   function frame(now) {
     raf = 0;
+    if (pace && now - lastDraw < pace) {
+      loop();
+      return;
+    }
+    if (lastDraw) {
+      intervals.push(now - lastDraw);
+      if (intervals.length > 90) intervals.shift();
+      if (!pace && intervals.length === 90 && intervals.reduce((a, b) => a + b, 0) / 90 > 26) pace = 30;
+    }
+    lastDraw = now;
     draw(now);
     if (first) {
       first = false;
@@ -396,11 +460,13 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
     visible = entries.some((e) => e.isIntersecting);
     if (visible) {
       last = performance.now();
+      lastDraw = 0;
       loop();
     }
   }).observe(host);
   document.addEventListener('visibilitychange', () => {
     last = performance.now();
+    lastDraw = 0;
     loop();
   });
   new ResizeObserver(() => {

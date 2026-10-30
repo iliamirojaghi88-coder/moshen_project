@@ -266,9 +266,19 @@ svg {
   aspect-ratio: 1774 / 887;
 }
 
+/* The picture is not an interactive image: no pinch or double-tap zoom on it,
+   no long-press preview, no selection or dragging. Page scrolling is untouched. */
+.scene {
+  touch-action: pan-x pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
 .scene-still,
 .scene-still img {
   position: absolute;
+  pointer-events: none;
 }
 
 .scene-still {

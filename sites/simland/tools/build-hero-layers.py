@@ -77,8 +77,16 @@ REBUILD = [
     dict(box=(784, 330, 808, 352), shift=(-5, 1)),  # tree crown under c's left tip
 ]
 
-# chimney mouths: centre of the opening and its half width
-CHIMNEYS = [dict(x=498.0, y=103.0, r=24.0), dict(x=583.0, y=145.0, r=21.0)]
+# chimney mouths: centre of the top edge, half width, and how dense each plume is
+CHIMNEYS = [dict(x=498.0, y=101.0, r=25.0, d=1.0), dict(x=584.0, y=141.0, r=22.0, d=0.88)]
+CHIMNEY_BOXES = [(468, 95, 528, 238), (555, 136, 610, 262)]
+# never part of a crown: factory, house, copper ends (polygons in source pixels)
+STATIC_SHAPES = [
+    [(300, 90), (690, 90), (690, 300), (640, 336), (300, 336)],
+    [(1104, 300), (1160, 228), (1214, 204), (1290, 202), (1395, 266), (1433, 291), (1424, 300), (1420, 402),
+     (1104, 402)],
+    [(120, 600), (720, 600), (720, 875), (120, 875)],
+]
 
 # ground lines the trees stand on: (x, y) polylines, left hill, right hill, flower bed
 GROUND = {
@@ -227,6 +235,76 @@ def bilinear(img, x, y):
     return a * (1 - fy) + b * fy
 
 
+def clamped_unsharp(img, radius, amount):
+    """Unsharp mask that cannot overshoot: every pixel stays within the range of its
+    3x3 neighbours, so edges get crisper without halos, rings or noise."""
+    a = img[..., 3:4] / 255
+    pm = img[..., :3] * a
+    sharp = pm + amount * (pm - cv2.GaussianBlur(pm, (0, 0), radius))
+    k = np.ones((3, 3), np.uint8)
+    sharp = np.clip(sharp, cv2.erode(pm, k), cv2.dilate(pm, k))
+    out = img.copy()
+    out[..., :3] = np.where(a > 0.004, sharp / np.maximum(a, 1e-4), img[..., :3])
+    return np.clip(out, 0, 255)
+
+
+def sharpen_machines(src):
+    """Crisper turbines (blades, hubs, towers) and chimneys; nothing else is touched."""
+    H, W = src.shape[:2]
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    hue, sat, val = hsv(src[..., :3] / 255)
+    plants = (hue > 46) & (hue < 175) & (sat > 0.25)
+    region = np.zeros((H, W), bool)
+    for t in TURBINES.values():
+        m, _ = fit_rotor(t['hub'], t['tips'])
+        minv = np.linalg.inv(m)
+        px, py = xx - t['hub'][0], yy - t['hub'][1]
+        rr = np.hypot(minv[0, 0] * px + minv[0, 1] * py, minv[1, 0] * px + minv[1, 1] * py)
+        x0, x1, y0, y1 = t['tower']
+        machine = (rr < 1.12) | ((xx >= x0 - 2) & (xx <= x1 + 2) & (yy >= y0 - 30) & (yy <= y1 + 160))
+        region |= machine & ((sat < 0.38) | ((hue < 40) & (sat > 0.3)))
+    for x0, y0, x1, y1 in CHIMNEY_BOXES:
+        region |= (xx >= x0) & (xx <= x1) & (yy >= y0) & (yy <= y1)
+    region &= ~plants
+    weight = np.clip(cv2.GaussianBlur(region.astype(np.float32), (0, 0), 1.2) * 1.25, 0, 1)[..., None]
+    sharp = clamped_unsharp(src, 0.9, 1.0)
+    out = src.copy()
+    out[..., :3] = src[..., :3] + weight * (sharp[..., :3] - src[..., :3])
+    return out, int((weight[..., 0] > 0.5).sum())
+
+
+def classify_trees(src, leaves, xx, yy):
+    """Splits the vegetation into moving foliage, thin branches and locked trunks.
+
+    Leaf shadows inside a crown are almost black and fail a colour test, so the
+    crown is found as the closed area around the leaves; inside it, thick brown
+    structures are trunks (locked), thin brown ones branches (move a little),
+    everything else foliage. White, grey, blue and copper never count: the cable,
+    wires, pylon and buildings stay locked even where a crown touches them.
+    """
+    alpha = src[..., 3] / 255
+    hue, sat, val = hsv(src[..., :3] / 255)
+    disk = lambda r: cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (r, r))
+    crown = cv2.morphologyEx(leaves.astype(np.uint8), cv2.MORPH_CLOSE, disk(11)) > 0
+    for shape in STATIC_SHAPES:
+        crown &= polygon_mask(crown.shape, shape) < 0.5
+    dark = val < 0.16
+    warm = (hue > 8) & (hue < 52) & (sat > 0.15) & (val < 0.62)
+    greenish = (hue >= 52) & (hue < 175) & (sat > 0.2) & (val < 0.7)
+    candidate = crown & (alpha > 0.3) & ~leaves & (dark | warm | greenish)
+    # trunks: thick parts that are mostly brown
+    thick = cv2.morphologyEx((candidate & (warm | dark)).astype(np.uint8), cv2.MORPH_OPEN, disk(5))
+    n, lab, stats, _ = cv2.connectedComponentsWithStats(thick, connectivity=8)
+    brown_share = np.bincount(lab[(thick > 0) & warm].ravel(), minlength=n) / np.maximum(stats[:, cv2.CC_STAT_AREA], 1)
+    trunk_ids = brown_share > 0.45
+    trunk_ids[0] = False
+    trunks = cv2.dilate((trunk_ids[lab] & (thick > 0)).astype(np.uint8), disk(3)) > 0
+    trunks &= candidate | (alpha > 0.3) & warm
+    branches = candidate & warm & ~trunks
+    foliage = (leaves | (candidate & ~warm)) & ~trunks
+    return foliage, branches, trunks
+
+
 def fit_rotor(hub, tips):
     """Affine image of the rotor plane: tip_k = hub + M (cos a_k, sin a_k), a_k 120 degrees apart.
 
@@ -247,6 +325,8 @@ def main():
     original = np.asarray(Image.open(SRC).convert('RGBA')).astype(np.float32)
     src, report = clean_matte(original)
     print('matte cleanup (pixels):', report)
+    src, sharpened = sharpen_machines(src)
+    print('sharpened turbine and chimney pixels:', sharpened)
     H, W = src.shape[:2]
     rgb, alpha = src[..., :3] / 255, src[..., 3] / 255
     hue, sat, val = hsv(rgb)
@@ -474,12 +554,16 @@ def main():
         base[keep, 3] = (a_r * 255)[keep]
 
     # ---------------------------------------------------------------- plant motion weights
-    # everything visible that is not a plant is locked, down to the thinnest wire
-    protect = ((alpha > 0.02) & ~plants & ~blade_all).astype(np.float32)
+    foliage, branches, trunks = classify_trees(src, plants, xx, yy)
+    # everything visible that is not foliage or a thin branch is locked, down to the thinnest wire
+    locked = (alpha > 0.02) & ~foliage & ~branches & ~blade_all
+    protect = locked.astype(np.float32)
+    plants = foliage
+    # distance to the nearest locked pixel: crowns sway less where they touch a trunk or a wall
+    dist = cv2.distanceTransform((protect < 0.5).astype(np.uint8), cv2.DIST_L2, 5)
     protect_near = cv2.dilate(protect, np.ones((5, 5), np.uint8))
-    # a wide, soft hand-over next to locked pixels: no visible stretching where a crown meets a wall
     protect_soft = np.clip(blur(cv2.dilate(protect, np.ones((3, 3), np.uint8)), 2.2) * 1.5, 0, 1)
-    plants_f = plants.astype(np.float32)
+    plants_f = np.maximum(plants.astype(np.float32), branches * 0.55)
     # weights reach a few pixels into empty sky (never next to a locked pixel) so crowns can move into it
     reach = cv2.dilate(plants_f, np.ones((7, 7), np.uint8)) * (alpha < 0.02) * (1 - protect_near)
     area = np.clip(blur(np.maximum(plants_f, reach * 0.9), 1.0), 0, 1) * (1 - protect_soft)
@@ -496,11 +580,13 @@ def main():
     ground = np.where(np.isfinite(lower) & (yy > 560), lower, ground)
     height = np.where(np.isfinite(ground), ground - yy, 0)
     sway = np.clip(height / 110.0, 0, 1) ** 1.25 * area
+    sway *= np.clip((dist - 1.5) / 10, 0, 1) ** 1.3
     flutter = area * np.where(height > 0, 1.0, 0.55)  # grass and slope bushes flutter less
+    flutter *= np.clip((dist - 0.5) / 3, 0, 1)
 
     masks = np.stack([sway, flutter, occluder], axis=2)
     masks = np.clip(masks * 255 + 0.5, 0, 255).astype(np.uint8)
-    Image.fromarray(masks).resize((W // 2, H // 2), Image.BOX).save(OUT / 'masks.png', optimize=True)
+    Image.fromarray(masks).save(OUT / 'masks.png', optimize=True)  # full size: no weight bleeds onto a wire
 
     # ---------------------------------------------------------------- base and checks
     Image.fromarray(base.astype(np.uint8)).save(OUT / 'base.webp', lossless=True, quality=100, method=6)
