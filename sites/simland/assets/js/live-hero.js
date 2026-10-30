@@ -146,6 +146,7 @@ vec4 plume(vec2 P, vec3 ch, float seed) {
   float puff = 0.9 + 0.1 * sin(uTime * 0.42 + seed * 1.7);
   float grown = clamp((uSmokeAge * rise - h) / 30.0, 0.0, 1.0);  // only smoke made since the page opened
   float a = d * smoothstep(0.0, 7.0, h) * exp(-h / 230.0) * puff * grown * 0.86;
+  a *= smoothstep(-uView.w, -uView.w + 80.0, P.y);  // always gone before the canvas edge
   float lit = clamp(0.5 - (n.y - n.x) * 2.2 - 0.14 * u + 0.2 * n.x, 0.0, 1.0);
   vec3 c = mix(vec3(0.73, 0.75, 0.79), vec3(0.975, 0.978, 0.985), lit);
   return vec4(c * a, a);
