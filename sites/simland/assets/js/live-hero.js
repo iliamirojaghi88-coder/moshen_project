@@ -153,7 +153,7 @@ vec4 plume(vec2 P, vec4 ch, float seed) {
   // slow meander carried up with the smoke (parcel coordinates: no compression)
   float meander = 7.0 * snoise(vec2(hp * 0.011 - uAdv.w, seed)) * smoothstep(10.0, 140.0, hp);
   float dx = P.x - (ch.x - lean + meander);
-  float w = ch.z * 0.72 + hp * 0.3;
+  float w = ch.z * 0.66 + hp * 0.24;
   float u = dx / w;
   if (abs(u) > 2.2) return vec4(0.0);
   vec2 n = billow(dx, hp, 24.0 + hp * 0.16, rise, seed);
@@ -167,9 +167,11 @@ vec4 plume(vec2 P, vec4 ch, float seed) {
   // light: the side facing the sun and the billow tops are bright, folds and the
   // shaded side soft grey; fresh steam at the mouth is bright and smooth
   float relief = smoothstep(0.0, 90.0, hp);
-  float lit = 0.62 - (n.y - n.x) * 1.1 * relief - 0.16 * u + 0.12 * n.x - 0.18 * d * relief;
-  lit = clamp(mix(lit, 0.9, 1.0 - relief), 0.0, 1.0);
-  vec3 c = mix(vec3(0.71, 0.735, 0.775), vec3(0.98, 0.982, 0.988), lit);
+  float lit = 0.6 - (n.y - n.x) * 1.1 * relief - 0.2 * u + 0.12 * n.x - 0.16 * d * relief;
+  // the fresh column at the mouth: round, lit from the left, a soft grey on its shaded side
+  float column = 0.8 - 0.32 * u - 0.12 * u * u;
+  lit = clamp(mix(lit, column, 1.0 - relief), 0.0, 1.0);
+  vec3 c = mix(vec3(0.68, 0.705, 0.75), vec3(0.975, 0.978, 0.985), lit);
   return vec4(c * a, a);
 }
 
@@ -198,7 +200,9 @@ void main() {
     }
     vec2 s = P - d;
     if (s.x >= 0.0 && s.y >= 0.0 && s.x <= uSize.x && s.y <= uSize.y) {
-      col = dot(d, d) > 1e-6 ? sampleSharp(uBase, s / uSize, uBaseSize) : texture2D(uBase, s / uSize);
+      // texel for pixel where nothing moves; crisp filtering where it moves or the picture is enlarged
+      bool exact = dot(d, d) < 1e-6 && uBaseSize.x > uSize.x * uView.y - 0.5;
+      col = exact ? texture2D(uBase, s / uSize) : sampleSharp(uBase, s / uSize, uBaseSize);
     }
 
     // rotors, back to front; trees (and for the first turbine the factory) stand in front of them
@@ -213,6 +217,50 @@ void main() {
   col = over(plume(P, uChimney[0], 0.0), col);
   col = over(plume(P, uChimney[1], 7.3), col);
   gl_FragColor = col;
+}`;
+
+// One pass of a separable Lanczos-3 downscale (premultiplied colour). The
+// result is clamped to the texels under the kernel's main lobe, so edges come
+// out as crisp as the browser's best image scaling but cannot ring or halo.
+const DOWN = `
+precision highp float;
+uniform sampler2D uSrc;
+uniform vec2 uSrcSize;
+uniform vec2 uDir;      // (1, 0) horizontal pass, (0, 1) vertical pass
+uniform float uScale;   // destination / source along the pass, <= 1
+float lanczos3(float x) {
+  x = abs(x);
+  if (x < 1e-4) return 1.0;
+  if (x >= 3.0) return 0.0;
+  float px = 3.14159265 * x;
+  return 3.0 * sin(px) * sin(px / 3.0) / (px * px);
+}
+void main() {
+  vec2 o = gl_FragCoord.xy;
+  float along = dot(o, uDir);
+  float c = along / uScale;                 // centre in source pixels (pixel centres at +0.5)
+  vec2 other = o * (vec2(1.0) - uDir);
+  vec4 acc = vec4(0.0);
+  float wsum = 0.0;
+  vec4 lo = vec4(1.0);
+  vec4 hi = vec4(0.0);
+  float base = floor(c);
+  for (int k = -20; k <= 20; k++) {
+    float xi = base + float(k) + 0.5;       // source pixel centre
+    float x = (xi - c) * uScale;
+    if (abs(x) >= 3.0) continue;
+    if (xi < 0.0 || xi > dot(uSrcSize, uDir)) continue;
+    vec2 pos = uDir * xi + other;
+    vec4 t = texture2D(uSrc, pos / (uDir * uSrcSize + (vec2(1.0) - uDir) * uSrcSize));
+    float w = lanczos3(x);
+    acc += t * w;
+    wsum += w;
+    if (abs(x) < 1.0) {
+      lo = min(lo, t);
+      hi = max(hi, t);
+    }
+  }
+  gl_FragColor = clamp(acc / wsum, lo, hi);
 }`;
 
 const EXT = 0.27; // canvas reaches this share of the picture height above it, for the smoke
@@ -269,71 +317,109 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
   const uEvolve = loc('uEvolve');
   const uK = loc('uK');
 
-  const textures = [gl.createTexture(), gl.createTexture(), gl.createTexture()];
   const minv = turbines.map((t) => invert(t.m));
 
   // ---------------------------------------------------------------- textures at screen resolution
-  // The picture is resampled once by the browser (same quality as an <img>)
-  // to the exact pixel size of the canvas, so the static parts are drawn 1:1.
+  // The picture is brought to the exact pixel size of the canvas once, on the
+  // GPU, with a Lanczos-3 filter: the static parts are then drawn texel for
+  // pixel, as sharp as the picture allows.
+  const down = link(gl, VERT, DOWN);
+  if (down && gl.getAttribLocation(down, 'aPos') !== aPos) {
+    gl.enableVertexAttribArray(gl.getAttribLocation(down, 'aPos'));
+    gl.vertexAttribPointer(gl.getAttribLocation(down, 'aPos'), 2, gl.FLOAT, false, 0, 0);
+  }
+  const fbo = gl.createFramebuffer();
   let scale = 0;
-  function upload(unit, source, premultiply) {
+
+  function texture(unit, source, w, h, premultiply) {
+    const tex = gl.createTexture();
     gl.activeTexture(gl.TEXTURE0 + unit);
-    gl.bindTexture(gl.TEXTURE_2D, textures[unit]);
-    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, premultiply);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+    gl.bindTexture(gl.TEXTURE_2D, tex);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    if (source) {
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, premultiply);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+    } else {
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    }
+    return tex;
   }
 
-  function resampled(img, w, h) {
-    const c = document.createElement('canvas');
-    c.width = Math.max(1, Math.round(w));
-    c.height = Math.max(1, Math.round(h));
-    const g = c.getContext('2d');
-    g.imageSmoothingEnabled = true;
-    g.imageSmoothingQuality = 'high';
-    g.drawImage(img, 0, 0, c.width, c.height);
-    return c;
+  function pass(src, srcW, srcH, dst, dstW, dstH, dir, sc) {
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, dst, 0);
+    gl.viewport(0, 0, dstW, dstH);
+    gl.activeTexture(gl.TEXTURE3);
+    gl.bindTexture(gl.TEXTURE_2D, src);
+    gl.uniform1i(gl.getUniformLocation(down, 'uSrc'), 3);
+    gl.uniform2f(gl.getUniformLocation(down, 'uSrcSize'), srcW, srcH);
+    gl.uniform2f(gl.getUniformLocation(down, 'uDir'), dir[0], dir[1]);
+    gl.uniform1f(gl.getUniformLocation(down, 'uScale'), sc);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 
-  function buildTextures(s) {
-    const baseTex = s >= 0.999 ? images.base : resampled(images.base, W * s, Math.round(H * s));
-    upload(0, baseTex, true);
-    gl.uniform2f(loc('uBaseSize'), baseTex.width || W, baseTex.height || H);
-    // blades and caps in one atlas, one row, 4 px apart
+  // source image (any size) -> texture of exactly dstW x dstH, premultiplied
+  function scaled(source, srcW, srcH, dstW, dstH, unit) {
+    if (!down || (dstW >= srcW && dstH >= srcH)) return { tex: texture(unit, source, srcW, srcH, true), w: srcW, h: srcH };
+    const full = texture(3, source, srcW, srcH, true);
+    const tmp = texture(3, null, dstW, srcH);
+    const out = texture(3, null, dstW, dstH);
+    gl.useProgram(down);
+    pass(full, srcW, srcH, tmp, dstW, srcH, [1, 0], dstW / srcW);
+    pass(tmp, dstW, srcH, out, dstW, dstH, [0, 1], dstH / srcH);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.deleteTexture(full);
+    gl.deleteTexture(tmp);
+    gl.useProgram(program);
+    gl.activeTexture(gl.TEXTURE0 + unit);
+    gl.bindTexture(gl.TEXTURE_2D, out);
+    return { tex: out, w: dstW, h: dstH };
+  }
+
+  let maskTex = null;
+  const live = [];
+  function buildTextures(sx, picW, picH) {
+    while (live.length) gl.deleteTexture(live.pop());
+    const base = scaled(images.base, W, H, picW, picH, 0);
+    live.push(base.tex);
+    gl.uniform2f(loc('uBaseSize'), base.w, base.h);
+    // blades and caps in one atlas at full resolution, 6 px apart, then scaled like the picture
     const parts = [
       ...turbines.map((t) => ({ img: images[`blades-${t.id}`], rect: t.blades })),
       ...turbines.map((t) => ({ img: images[`caps-${t.id}`], rect: t.cap })),
     ];
-    const ps = Math.min(1, s);
-    const pad = 4;
+    const pad = 6;
     let x = pad;
     let hMax = 0;
     for (const p of parts) {
-      p.w = Math.ceil(p.rect[2] * ps);
-      p.h = Math.ceil(p.rect[3] * ps);
       p.x = x;
-      x += p.w + pad;
-      hMax = Math.max(hMax, p.h);
+      x += p.rect[2] + pad;
+      hMax = Math.max(hMax, p.rect[3]);
     }
-    const atlas = document.createElement('canvas');
-    atlas.width = x;
-    atlas.height = hMax + pad * 2;
-    const g = atlas.getContext('2d');
-    g.imageSmoothingQuality = 'high';
-    for (const p of parts) g.drawImage(p.img, p.x, pad, p.w, p.h);
-    upload(1, atlas, true);
-    gl.uniform2f(loc('uAtlasSize'), atlas.width, atlas.height);
-    const uv = (p) => [p.x / atlas.width, pad / atlas.height, (p.rect[2] * ps) / atlas.width, (p.rect[3] * ps) / atlas.height];
+    const full = document.createElement('canvas');
+    full.width = x;
+    full.height = hMax + pad * 2;
+    const g = full.getContext('2d');
+    for (const p of parts) g.drawImage(p.img, p.x, pad, p.rect[2], p.rect[3]);
+    const ps = Math.min(1, sx);
+    const aw = Math.max(1, Math.round(full.width * ps));
+    const ah = Math.max(1, Math.round(full.height * ps));
+    const atlas = scaled(full, full.width, full.height, aw, ah, 1);
+    live.push(atlas.tex);
+    gl.uniform2f(loc('uAtlasSize'), atlas.w, atlas.h);
+    const uv = (p) => [p.x / full.width, pad / full.height, p.rect[2] / full.width, p.rect[3] / full.height];
     gl.uniform4fv(loc('uBladeUV'), parts.slice(0, 3).flatMap(uv));
     gl.uniform4fv(loc('uCapUV'), parts.slice(3).flatMap(uv));
-    upload(2, images.masks, false);
-    for (let i = 0; i < 3; i++) {
-      gl.activeTexture(gl.TEXTURE0 + i);
-      gl.bindTexture(gl.TEXTURE_2D, textures[i]);
-    }
+    if (!maskTex) maskTex = texture(2, images.masks, W, H, false);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, base.tex);
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, atlas.tex);
+    gl.activeTexture(gl.TEXTURE2);
+    gl.bindTexture(gl.TEXTURE_2D, maskTex);
   }
 
   // ---------------------------------------------------------------- size
@@ -344,6 +430,7 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
   // device pixels, so both show the picture texel for pixel and the switch from
   // one to the other cannot shift anything.
   const still = host.querySelector('.scene-still');
+  let device = null; // the canvas' real size in device pixels, when the browser reports it
   function resize() {
     const r = host.getBoundingClientRect();
     if (!r.width) return;
@@ -353,23 +440,32 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
     const x0 = Math.ceil(left * dpr - 1e-4) / dpr - left;
     const y0 = Math.ceil(top * dpr - 1e-4) / dpr - top;
     const pxW = Math.floor((r.width - x0) * dpr + 1e-4);
-    const s = pxW / W;
-    const picH = Math.round(H * s);
-    const extPx = Math.round(H * EXT * s);
+    const sx0 = pxW / W;
+    const extPx = Math.round(H * EXT * sx0);
+    const picH0 = Math.round(H * sx0);
     const w = pxW / dpr;
-    if (still) Object.assign(still.style, { left: `${x0}px`, top: `${y0}px`, width: `${w}px`, height: `${picH / dpr}px`, right: 'auto', bottom: 'auto' });
-    canvas.width = pxW;
-    canvas.height = picH + extPx;
-    Object.assign(canvas.style, { left: `${x0}px`, top: `${y0 - extPx / dpr}px`, width: `${w}px`, height: `${(picH + extPx) / dpr}px` });
-    gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.uniform4f(uView, canvas.height, s, picH / H, extPx / (picH / H));
+    if (still) Object.assign(still.style, { left: `${x0}px`, top: `${y0}px`, width: `${w}px`, height: `${picH0 / dpr}px`, right: 'auto', bottom: 'auto' });
+    Object.assign(canvas.style, { left: `${x0}px`, top: `${y0 - extPx / dpr}px`, width: `${w}px`, height: `${(picH0 + extPx) / dpr}px` });
+    // the backing store matches the device pixels the canvas really covers, so
+    // the browser shows it 1:1 and never resamples it
+    const cw = device && Math.abs(device[0] - pxW) <= 1 ? device[0] : pxW;
+    const ch = device && Math.abs(device[1] - picH0 - extPx) <= 1 ? device[1] : picH0 + extPx;
+    const picH = ch - extPx;
+    const sx = cw / W;
+    const sy = picH / H;
+    if (canvas.width !== cw) canvas.width = cw;
+    if (canvas.height !== ch) canvas.height = ch;
+    gl.useProgram(program);
+    gl.uniform4f(uView, ch, sx, sy, extPx / sy);
     // on small screens the same breeze gets a little more room, so it is still felt
     gl.uniform1f(uAmp, Math.min(1.6, Math.max(1, Math.sqrt(0.5 / (w / W)))));
-    if (Math.abs(s - scale) > 1e-3 || w !== cssW) {
-      scale = s;
-      cssW = w;
-      buildTextures(s);
+    if (Math.abs(sx - scale) > 1e-6 || picH !== cssW) {
+      scale = sx;
+      cssW = picH;
+      buildTextures(sx, cw, picH);
     }
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.viewport(0, 0, canvas.width, canvas.height);
     draw(performance.now());
   }
 
@@ -473,6 +569,19 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(resize, 120);
   }).observe(host);
+  try {
+    new ResizeObserver((entries) => {
+      const box = entries[0].devicePixelContentBoxSize?.[0];
+      if (!box) return;
+      const next = [box.inlineSize, box.blockSize];
+      if (!device || next[0] !== device[0] || next[1] !== device[1]) {
+        device = next;
+        if (next[0] !== canvas.width || next[1] !== canvas.height) resize();
+      }
+    }).observe(canvas, { box: 'device-pixel-content-box' });
+  } catch {
+    /* older browsers: the computed size is used */
+  }
   canvas.addEventListener('webglcontextlost', (e) => {
     e.preventDefault();
     cancelAnimationFrame(raf);
