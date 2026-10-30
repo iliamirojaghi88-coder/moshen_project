@@ -87,7 +87,7 @@ if command -v dockerd >/dev/null && ! docker info >/dev/null 2>&1; then
   for _ in $(seq 1 15); do docker info >/dev/null 2>&1 && break; sleep 1; done
 fi
 
-log "Global agent skills & tools (Playwright, unslop, strix, skillui, context7)"
+log "Global agent skills & tools (Playwright, unslop, strix, skillui, context7, llm-council)"
 # skillui — design-system extractor from live URLs / repos (npm global).
 command -v skillui >/dev/null || npm install -g skillui --no-audit --no-fund >/dev/null 2>&1 || true
 # strix — authorized security auditing CLI (needs Docker + a user-supplied LLM key at run time).
@@ -106,7 +106,7 @@ fi
 # project opened in this environment, not only this repo.
 if [[ -d "$ROOT/.claude/skills" ]]; then
   mkdir -p "$HOME/.claude/skills"
-  for s in playwright unslop strix-security skillui context7; do
+  for s in playwright unslop strix-security skillui context7 llm-council; do
     [[ -d "$ROOT/.claude/skills/$s" ]] && cp -a "$ROOT/.claude/skills/$s" "$HOME/.claude/skills/" 2>/dev/null || true
   done
 fi
