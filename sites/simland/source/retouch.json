@@ -1,0 +1,13 @@
+{
+  "_note": "Per-photo retouch for tools/standardize-products.py. Photos listed under 'ends' get a rebuilt elliptical bottom end; every other photo keeps its own end untouched.",
+  "endEllipse": 0.48,
+  "_endEllipse": "Height/width ratio of the bottom ellipse. Measured on the five photos that already show a natural end (01, 02, 04, 06, 09): 0.507, 0.502, 0.445, 0.495, 0.455.",
+  "ends": {
+    "photo-03.jpg": { "rimY": 700, "length": 1.0, "why": "runs off the bottom of the frame" },
+    "photo-05.jpg": { "rimY": 840, "length": 1.0, "why": "flat horizontal bottom, impossible for a cylinder seen from above" },
+    "photo-07.jpg": { "rimY": 950, "length": 1.0, "why": "runs off the bottom of the frame" },
+    "photo-08.jpg": { "rimY": 810, "length": 1.0, "why": "runs off the bottom of the frame" },
+    "photo-10.jpg": { "rimY": 876, "length": 1.0, "why": "runs off the bottom of the frame" }
+  },
+  "_rimY": "Row of the outer sheath's top rim (centre of its ellipse) in the source photo. The new end is placed `length` cable diameters below it, as on the reference photos, or as low as the photo allows."
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "slug": "building",
+    "photo": "photo-02.jpg",
+    "size": [
+      464,
+      904
+    ],
+    "end": "original"
+  },
+  {
+    "slug": "fire-resistant",
+    "photo": "photo-04.jpg",
+    "size": [
+      467,
+      1007
+    ],
+    "end": "original"
+  },
+  {
+    "slug": "power",
+    "photo": "photo-09.jpg",
+    "size": [
+      366,
+      855
+    ],
+    "end": "original"
+  },
+  {
+    "slug": "aluminium",
+    "photo": "photo-07.jpg",
+    "size": [
+      541,
+      1217
+    ],
+    "end": "rebuilt",
+    "xc": 604.5,
+    "a": 267.0,
+    "b": 128.16,
+    "yc": 1170.84,
+    "bottom": 1299.0,
+    "length": 0.41
+  },
+  {
+    "slug": "flexible-control",
+    "photo": "photo-10.jpg",
+    "size": [
+      720,
+      1144
+    ],
+    "end": "rebuilt",
+    "xc": 535.5,
+    "a": 154.0,
+    "b": 73.92,
+    "yc": 1184.0,
+    "bottom": 1257.92,
+    "length": 1.0
+  },
+  {
+    "slug": "armoured",
+    "photo": "photo-06.jpg",
+    "size": [
+      280,
+      882
+    ],
+    "end": "original"
+  },
+  {
+    "slug": "instrumentation",
+    "photo": "photo-05.jpg",
+    "size": [
+      432,
+      1158
+    ],
+    "end": "rebuilt",
+    "xc": 636.0,
+    "a": 157.5,
+    "b": 75.6,
+    "yc": 1140.4,
+    "bottom": 1216.0,
+    "length": 0.95
+  },
+  {
+    "slug": "solar",
+    "photo": "photo-01.jpg",
+    "size": [
+      324,
+      757
+    ],
+    "end": "original"
+  },
+  {
+    "slug": "low-voltage",
+    "photo": "photo-08.jpg",
+    "size": [
+      344,
+      1130
+    ],
+    "end": "rebuilt",
+    "xc": 547.0,
+    "a": 169.5,
+    "b": 81.36,
+    "yc": 1149.0,
+    "bottom": 1230.36,
+    "length": 1.0
+  },
+  {
+    "slug": "welding",
+    "photo": "photo-03.jpg",
+    "size": [
+      422,
+      1144
+    ],
+    "end": "rebuilt",
+    "xc": 627.0,
+    "a": 207.5,
+    "b": 99.6,
+    "yc": 1115.0,
+    "bottom": 1214.6,
+    "length": 1.0
+  }
+]
