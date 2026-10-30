@@ -1,0 +1,15 @@
+{
+  "_note": "Which source photo (in the order they were sent) belongs to which product. Edit, then run: node tools/build-images.mjs",
+  "products": [
+    { "slug": "building",         "name": "کابل ساختمانی",     "photo": "photo-02.jpg" },
+    { "slug": "fire-resistant",   "name": "کابل نسوز",         "photo": "photo-04.jpg" },
+    { "slug": "power",            "name": "کابل قدرت",         "photo": "photo-09.jpg" },
+    { "slug": "aluminium",        "name": "کابل آلومینیومی",   "photo": "photo-07.jpg" },
+    { "slug": "flexible-control", "name": "کابل کنترل افشان",  "photo": "photo-10.jpg" },
+    { "slug": "armoured",         "name": "کابل آرمودار",      "photo": "photo-06.jpg" },
+    { "slug": "instrumentation",  "name": "کابل ابزار دقیق",   "photo": "photo-05.jpg" },
+    { "slug": "solar",            "name": "کابل سولار",        "photo": "photo-01.jpg" },
+    { "slug": "low-voltage",      "name": "کابل فشار ضعیف",    "photo": "photo-08.jpg" },
+    { "slug": "welding",          "name": "کابل جوش",          "photo": "photo-03.jpg" }
+  ]
+}

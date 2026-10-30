@@ -1,0 +1,536 @@
+/* SIMLAND — layout per screen size. Mobile first; the hero switches to its
+   side-by-side composition with the same query the 3D stage uses:
+   (min-aspect-ratio: 21/20) and (min-width: 640px). */
+
+/* ---------------------------------------------------------------- Header: compact menu */
+
+@media (max-width: 860px) {
+  :root {
+    --header-h: 60px;
+    --header-top: 10px;
+  }
+
+  .header-bar {
+    padding-inline: 14px 8px;
+  }
+
+  .primary-nav {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border: 0;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 0 0 1px rgba(12, 26, 51, 0.08) inset;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .menu-toggle-lines {
+    position: relative;
+    width: 20px;
+    height: 12px;
+  }
+
+  .menu-toggle-lines span {
+    position: absolute;
+    inset-inline: 0;
+    height: 1.8px;
+    border-radius: 2px;
+    background: var(--ink);
+    transition: transform 0.55s var(--ease-out), top 0.55s var(--ease-out), width 0.55s var(--ease-out);
+  }
+
+  .menu-toggle-lines span:first-child {
+    top: 1px;
+  }
+
+  .menu-toggle-lines span:last-child {
+    top: 9px;
+    width: 70%;
+  }
+
+  .is-open .menu-toggle-lines span:first-child {
+    top: 5px;
+    transform: rotate(45deg);
+  }
+
+  .is-open .menu-toggle-lines span:last-child {
+    top: 5px;
+    width: 100%;
+    transform: rotate(-45deg);
+  }
+
+  .mobile-menu {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.6s var(--ease-out);
+  }
+
+  .is-open .mobile-menu,
+  html:not(.js) .mobile-menu {
+    grid-template-rows: 1fr;
+  }
+
+  html:not(.js) .menu-toggle {
+    display: none;
+  }
+
+  .mobile-menu-inner {
+    display: grid;
+    gap: 4px;
+    min-height: 0;
+    overflow: hidden;
+    padding-inline: 8px;
+  }
+
+  .is-open .mobile-menu-inner,
+  html:not(.js) .mobile-menu-inner {
+    padding-bottom: 8px;
+  }
+
+  .mobile-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+    padding-inline: 16px 12px;
+    border-radius: 14px;
+    color: var(--ink);
+    font-size: 1.08rem;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.35s, transform 0.55s var(--ease-out), background-color 0.3s;
+  }
+
+  .mobile-link:first-child {
+    margin-top: 2px;
+    border-top: 1px solid rgba(12, 26, 51, 0.06);
+    border-radius: 0 0 14px 14px;
+  }
+
+  .mobile-link svg {
+    width: 18px;
+    height: 18px;
+    opacity: 0.5;
+  }
+
+  .is-open .mobile-link,
+  html:not(.js) .mobile-link {
+    opacity: 1;
+    transform: none;
+  }
+
+  .is-open .mobile-link:nth-child(2) {
+    transition-delay: 0.05s;
+  }
+
+  .is-open .mobile-link:nth-child(3) {
+    transition-delay: 0.1s;
+  }
+
+  .mobile-link[aria-current='page'],
+  .mobile-link.is-active {
+    color: var(--cobalt);
+    background: rgba(23, 72, 214, 0.07);
+  }
+
+  .is-open .header-glass {
+    background: rgba(255, 255, 255, 0.86);
+  }
+}
+
+/* ---------------------------------------------------------------- Hero */
+
+/* Portrait / narrow: cable above, copy anchored to the bottom. */
+.hero-inner {
+  align-items: end;
+}
+
+.hero-copy {
+  max-width: 34rem;
+}
+
+.hero-title {
+  font-size: clamp(1.95rem, 6.6vw + 0.2rem, 3.4rem);
+}
+
+.hero-actions .btn {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-inline: 16px;
+}
+
+@media (max-width: 420px) {
+  .hero-actions {
+    gap: 10px;
+  }
+
+  .hero-actions .btn {
+    gap: 8px;
+    padding-inline: 12px;
+    font-size: 0.98rem;
+  }
+
+  .hero-actions .btn-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 369px) {
+  .hero-actions .btn {
+    flex-basis: 100%;
+  }
+}
+
+@media (min-width: 560px) {
+  .hero-actions .btn {
+    flex: 0 0 auto;
+    padding-inline: 26px;
+  }
+}
+
+@media (min-aspect-ratio: 21/20) and (min-width: 640px) {
+  .hero-inner {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    align-items: center;
+    padding-bottom: 96px;
+  }
+
+  .hero-copy {
+    grid-column: 1;
+    max-width: 600px;
+  }
+
+  .hero-title {
+    font-size: var(--fs-display);
+  }
+
+  .stage-light {
+    background: radial-gradient(42% 58% at 27% 52%, #ffffff 0%, rgba(255, 255, 255, 0.55) 45%, rgba(255, 255, 255, 0) 75%),
+      radial-gradient(50% 50% at 22% 100%, rgba(197, 212, 236, 0.55), rgba(197, 212, 236, 0) 70%);
+  }
+}
+
+@media (max-aspect-ratio: 21/20), (max-width: 639px) {
+  .stage-light {
+    background: radial-gradient(75% 36% at 56% 28%, #ffffff 0%, rgba(255, 255, 255, 0.55) 50%, rgba(255, 255, 255, 0) 82%);
+  }
+
+  .no-webgl .stage-poster--wide,
+  .poster-on .stage-poster--wide,
+  html:not(.js) .stage-poster--wide {
+    background-image: none;
+    visibility: hidden;
+  }
+
+  .no-webgl .stage-poster--tall,
+  .poster-on .stage-poster--tall,
+  html:not(.js) .stage-poster--tall {
+    background-image: url('../images/hero/cable-hero-tall.webp');
+    background-position: center top;
+    visibility: visible;
+    opacity: 1;
+    height: 56%;
+    top: 0;
+  }
+
+  .scroll-cue {
+    display: none;
+  }
+}
+
+@media (max-height: 560px) and (min-aspect-ratio: 21/20) {
+  .hero-inner {
+    padding-bottom: 40px;
+  }
+
+  .hero-title {
+    font-size: clamp(1.7rem, 3.4vw + 0.6rem, 2.6rem);
+  }
+
+  .hero-lede {
+    margin-top: 12px;
+  }
+
+  .hero-actions {
+    margin-top: 20px;
+  }
+
+  .scroll-cue {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- Products */
+
+.products-head {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* On phones the cable lands above the heading. */
+.cable-slot {
+  order: -1;
+  height: clamp(170px, 46vw, 300px);
+}
+
+@media (min-width: 900px) {
+  .products-head {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 32px;
+  }
+
+  .cable-slot {
+    order: 0;
+    height: clamp(300px, 30vw, 420px);
+  }
+}
+
+.product-grid {
+  --tracks: 4;
+  --grid-gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .product-grid {
+    --tracks: 6;
+    --grid-gap: 16px;
+  }
+
+  /* 10 = 3 + 3 + 3 + 1: centre the last card. */
+  .product-item:last-child:nth-child(3n + 1) {
+    grid-column: 3 / span 2;
+  }
+}
+
+@media (min-width: 1100px) {
+  .product-grid {
+    --tracks: 8;
+    --grid-gap: 20px;
+  }
+
+  .product-item:last-child:nth-child(3n + 1) {
+    grid-column: span 2;
+  }
+
+  /* 10 = 4 + 4 + 2: centre the last pair. */
+  .product-item:nth-last-child(2):nth-child(4n + 1) {
+    grid-column: 3 / span 2;
+  }
+}
+
+@media (min-width: 1320px) {
+  .product-grid {
+    --tracks: 10;
+    --grid-gap: 20px;
+  }
+
+  .product-item:nth-last-child(2):nth-child(4n + 1) {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 639px) {
+  .product-card {
+    padding: 7px 7px 10px;
+    gap: 8px;
+    border-radius: 22px;
+  }
+
+  .product-media {
+    border-radius: 16px;
+  }
+
+  .product-meta {
+    min-height: 36px;
+    padding-inline: 6px 2px;
+  }
+
+  .product-name {
+    font-size: 0.92rem;
+  }
+
+  .product-go {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+  }
+
+  .product-go svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .product-go {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .catalog-head {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
+  .section-drawing {
+    width: 96px;
+  }
+}
+
+/* ---------------------------------------------------------------- Why SIMLAND */
+
+.why-visual {
+  aspect-ratio: 16 / 11;
+}
+
+@media (min-width: 560px) {
+  .why-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 980px) {
+  .why-inner {
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    align-items: start;
+  }
+
+  .why-visual {
+    position: sticky;
+    top: calc(var(--header-h) + var(--header-top) + 28px);
+    aspect-ratio: 4 / 5;
+    max-height: calc(100vh - var(--header-h) - var(--header-top) - 56px);
+  }
+
+  .why-content {
+    padding-top: 12px;
+  }
+}
+
+/* ---------------------------------------------------------------- Contact */
+
+@media (min-width: 560px) {
+  .contact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1040px) {
+  .contact-inner {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+  }
+
+  .contact-intro {
+    position: sticky;
+    top: calc(var(--header-h) + var(--header-top) + 40px);
+  }
+}
+
+/* ---------------------------------------------------------------- Footer */
+
+@media (min-width: 860px) {
+  .footer-inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'brand nav'
+      'brand copy';
+    align-items: end;
+    column-gap: 48px;
+  }
+
+  .footer-brand {
+    grid-area: brand;
+  }
+
+  .footer-nav {
+    grid-area: nav;
+    justify-content: flex-end;
+  }
+
+  .footer-copy {
+    grid-area: copy;
+    text-align: left;
+  }
+}
+
+/* ---------------------------------------------------------------- Product dialog */
+
+@media (min-width: 720px) {
+  .pd-panel {
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
+  }
+
+  .pd-media {
+    aspect-ratio: auto;
+    min-height: min(640px, calc(100dvh - 32px));
+  }
+}
+
+@media (max-width: 719px) {
+  .product-dialog {
+    width: 100%;
+    max-width: 100%;
+    max-height: 94dvh;
+    margin: auto 0 0;
+    border-radius: 28px 28px 0 0;
+  }
+
+  .product-dialog[open] {
+    animation: sheet-in 0.55s var(--ease-out);
+  }
+
+  .product-dialog.is-closing {
+    animation: sheet-out 0.32s var(--ease-in-out) forwards;
+  }
+
+  .pd-media {
+    aspect-ratio: auto;
+    height: min(50dvh, 112vw);
+  }
+
+  .pd-body {
+    padding: 20px 18px calc(18px + env(safe-area-inset-bottom));
+  }
+
+  .pd-actions .btn {
+    flex: 1 1 140px;
+  }
+
+  .pd-nav {
+    padding-top: 18px;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes sheet-out {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+/* ---------------------------------------------------------------- Touch targets */
+
+@media (pointer: coarse) {
+  .brand,
+  .text-link,
+  .footer-nav a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}

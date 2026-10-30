@@ -1,0 +1,30 @@
+<a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+<header class="site-header" data-header>
+  <div class="header-glass">
+    <div class="header-bar">
+      <a class="brand" href="index.html" aria-label="سیم‌لند، صفحه اصلی">
+        <svg class="brand-mark" aria-hidden="true"><use href="#i-mark"/></svg>
+        <span class="brand-name">سیم‌لند</span>
+      </a>
+      <nav class="primary-nav" aria-label="منوی اصلی">
+        <ul class="nav-list" data-nav-list>
+          <li><a class="nav-link" href="index.html" data-nav="home"{{current:home}}>خانه</a></li>
+          <li><a class="nav-link" href="products.html" data-nav="products"{{current:products}}>محصولات</a></li>
+          <li><a class="nav-link" href="#contact" data-nav="contact">ارتباط با ما</a></li>
+        </ul>
+        <span class="nav-indicator" aria-hidden="true" data-nav-indicator></span>
+      </nav>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+        <span class="menu-toggle-lines" aria-hidden="true"><span></span><span></span></span>
+        <span class="visually-hidden" data-menu-label>باز کردن منو</span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" data-mobile-menu>
+      <nav class="mobile-menu-inner" aria-label="منوی موبایل">
+        <a class="mobile-link" href="index.html" data-nav="home"{{current:home}}><span>خانه</span><svg aria-hidden="true"><use href="#i-chevron"/></svg></a>
+        <a class="mobile-link" href="products.html" data-nav="products"{{current:products}}><span>محصولات</span><svg aria-hidden="true"><use href="#i-chevron"/></svg></a>
+        <a class="mobile-link" href="#contact" data-nav="contact"><span>ارتباط با ما</span><svg aria-hidden="true"><use href="#i-chevron"/></svg></a>
+      </nav>
+    </div>
+  </div>
+</header>

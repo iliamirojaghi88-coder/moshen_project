@@ -1,0 +1,35 @@
+<dialog class="product-dialog" aria-labelledby="pd-title" data-product-dialog>
+  <div class="pd-panel">
+    <button class="pd-close" type="button" data-pd-close aria-label="بستن">
+      <svg aria-hidden="true"><use href="#i-close"/></svg>
+    </button>
+    <div class="pd-media">
+      <img class="pd-img" alt="" width="880" height="1100" data-pd-img>
+    </div>
+    <div class="pd-body">
+      <p class="pd-count"><span data-pd-index>۱</span> از ۱۰ محصول</p>
+      <h2 class="pd-title" id="pd-title" data-pd-title>محصول</h2>
+      <p class="pd-text" data-pd-text>برای دریافت مشخصات فنی، سایزبندی و قیمت روز این محصول با کارشناسان سیم‌لند در تماس باشید.</p>
+      <div class="pd-actions">
+        <a class="btn btn-primary" href="#contact" data-pd-inquiry>
+          <span>استعلام قیمت</span>
+          <svg class="btn-icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#contact" data-pd-inquiry>
+          <svg class="btn-icon" aria-hidden="true"><use href="#i-chat"/></svg>
+          <span>دریافت مشاوره</span>
+        </a>
+      </div>
+      <div class="pd-nav">
+        <button class="pd-step" type="button" data-pd-step="-1">
+          <svg aria-hidden="true" class="flip"><use href="#i-chevron"/></svg>
+          <span>محصول قبلی</span>
+        </button>
+        <button class="pd-step" type="button" data-pd-step="1">
+          <span>محصول بعدی</span>
+          <svg aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</dialog>
