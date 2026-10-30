@@ -1,30 +1,47 @@
-// Product detail view: a native <dialog> opened from any product card.
-// The card image morphs into the dialog image with a view transition where
-// the browser supports it; the URL gets #p-<slug> so the view can be shared
-// and the back button closes it.
+// Product detail view: a native <dialog> opened from any product card, on
+// either view. The card image morphs into the dialog image with a view
+// transition where the browser supports it; the URL gets #/products/<slug>
+// (or #/product/<slug> on the home view) so the product can be shared and the
+// back button closes it.
+import { currentRoute, setUrl } from './router.js';
 import { toFa } from './util.js';
 
 const root = document.documentElement;
+const SLUG_HASH = /^#\/products?\/([\w-]+)$/;
 
 export function initProducts({ reducedMotion }) {
   const dialog = document.querySelector('[data-product-dialog]');
   const cards = [...document.querySelectorAll('.product-card')];
   if (!dialog || !cards.length) return;
 
+  // The products grid can appear on both views; an image embedded once is
+  // shared by every card that shows the same product.
+  document.querySelectorAll('img[data-src-ref]').forEach((el) => {
+    const source = document.querySelector(`.product-card[data-product="${el.dataset.srcRef}"] img[src]`);
+    if (source) el.src = source.getAttribute('src');
+  });
+
   const img = dialog.querySelector('[data-pd-img]');
   const title = dialog.querySelector('[data-pd-title]');
   const indexEl = dialog.querySelector('[data-pd-index]');
-  const products = cards.map((card) => {
+  const products = [];
+  for (const card of cards) {
+    if (products.some((p) => p.slug === card.dataset.product)) continue;
     const cardImg = card.querySelector('img');
-    return {
+    const srcset = cardImg.getAttribute('srcset');
+    products.push({
       slug: card.dataset.product,
       name: card.querySelector('.product-name').textContent.trim(),
-      srcset: cardImg.getAttribute('srcset'),
-      src: cardImg.getAttribute('src').replace('-660.', '-880.'),
-      card,
-      cardImg,
-    };
-  });
+      srcset,
+      // with a srcset the largest file is the 880px one; inlined images are already 880px
+      src: srcset ? cardImg.getAttribute('src').replace('-660.', '-880.') : cardImg.getAttribute('src'),
+    });
+  }
+  const indexOf = (slug) => products.findIndex((p) => p.slug === slug);
+  // The card for a product on the view that is showing.
+  const cardFor = (slug) =>
+    cards.find((c) => c.dataset.product === slug && c.offsetParent !== null) ?? cards.find((c) => c.dataset.product === slug);
+  const hashFor = (slug) => (currentRoute() === 'products' ? `#/products/${slug}` : `#/product/${slug}`);
 
   let current = -1;
   const canMorph = () => !reducedMotion && typeof document.startViewTransition === 'function';
@@ -32,8 +49,10 @@ export function initProducts({ reducedMotion }) {
   function fill(i, swap = false) {
     const p = products[i];
     current = i;
-    img.srcset = p.srcset;
-    img.sizes = '(min-width: 720px) 520px, 100vw';
+    if (p.srcset) {
+      img.srcset = p.srcset;
+      img.sizes = '(min-width: 720px) 520px, 100vw';
+    }
     img.src = p.src;
     img.alt = p.name;
     title.textContent = p.name;
@@ -64,8 +83,8 @@ export function initProducts({ reducedMotion }) {
 
   function open(i, { push = true } = {}) {
     const p = products[i];
-    if (push) history.pushState({ pd: p.slug }, '', `#p-${p.slug}`);
-    morph(p.cardImg, img, () => {
+    if (push) setUrl(hashFor(p.slug), { pd: p.slug, route: currentRoute() });
+    morph(cardFor(p.slug).querySelector('img'), img, () => {
       fill(i);
       dialog.showModal();
       root.classList.add('dialog-open');
@@ -74,15 +93,15 @@ export function initProducts({ reducedMotion }) {
 
   function close() {
     if (!dialog.open) return;
-    const p = products[current];
+    const card = cardFor(products[current].slug);
     const finish = () => {
       dialog.classList.remove('is-closing');
       delete dialog.dataset.morphed;
       dialog.close();
       root.classList.remove('dialog-open');
     };
-    if (canMorph() && isOnScreen(p.card)) {
-      morph(img, p.cardImg, finish);
+    if (canMorph() && isOnScreen(card)) {
+      morph(img, card.querySelector('img'), finish);
     } else if (!reducedMotion) {
       dialog.classList.add('is-closing');
       setTimeout(finish, 300);
@@ -101,14 +120,15 @@ export function initProducts({ reducedMotion }) {
   function step(delta) {
     const next = (current + delta + products.length) % products.length;
     fill(next, true);
-    history.replaceState({ pd: products[next].slug }, '', `#p-${products[next].slug}`);
+    const { landing } = history.state ?? {};
+    setUrl(hashFor(products[next].slug), { pd: products[next].slug, route: currentRoute(), landing }, true);
   }
 
-  cards.forEach((card, i) => {
+  cards.forEach((card) => {
     card.addEventListener('click', (e) => {
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
       e.preventDefault();
-      open(i);
+      open(indexOf(card.dataset.product));
     });
   });
 
@@ -134,7 +154,7 @@ export function initProducts({ reducedMotion }) {
       const target = document.getElementById('contact');
       if (!target) return;
       e.preventDefault();
-      history.replaceState(null, '', '#contact');
+      setUrl('#contact', { route: currentRoute() }, true);
       delete dialog.dataset.morphed;
       dialog.close();
       root.classList.remove('dialog-open');
@@ -146,7 +166,7 @@ export function initProducts({ reducedMotion }) {
   addEventListener('popstate', (e) => {
     const slug = e.state?.pd;
     if (slug) {
-      const i = products.findIndex((p) => p.slug === slug);
+      const i = indexOf(slug);
       if (i >= 0 && !dialog.open) open(i, { push: false });
       else if (i >= 0) fill(i, true);
     } else {
@@ -154,21 +174,21 @@ export function initProducts({ reducedMotion }) {
     }
   });
 
-  // Deep link (products.html#p-armoured) or a hash typed into the address bar.
+  // Deep link (#/products/armoured) or a product hash typed into the address bar.
   function openFromHash() {
-    const match = location.hash.match(/^#p-([\w-]+)$/);
-    const i = match ? products.findIndex((p) => p.slug === match[1]) : -1;
+    const match = location.hash.match(SLUG_HASH);
+    const i = match ? indexOf(match[1]) : -1;
     if (i < 0 || dialog.open) return;
-    history.replaceState({ pd: products[i].slug, landing: true }, '', location.hash);
+    setUrl(location.hash, { pd: products[i].slug, route: currentRoute(), landing: true }, true);
     requestAnimationFrame(() => open(i, { push: false }));
   }
   openFromHash();
   addEventListener('hashchange', openFromHash);
 
   // A deep-linked dialog has no history entry of its own to go back to,
-  // so closing it just clears the hash.
+  // so closing it just returns the address to the view it was opened on.
   dialog.addEventListener('close', () => {
-    if (history.state?.landing) history.replaceState(null, '', location.pathname + location.search);
+    if (history.state?.landing) setUrl(currentRoute() === 'products' ? '#/products' : '', { route: currentRoute() }, true);
   });
 }
 

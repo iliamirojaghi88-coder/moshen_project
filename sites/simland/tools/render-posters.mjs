@@ -52,9 +52,5 @@ const macro = await shoot({ width: 1440, height: 1000 }, 1.6, 'macro', async (pa
 });
 await sharp(macro).resize({ width: 900 }).webp({ quality: 82, effort: 6 }).toFile(out('cable-macro.webp'));
 
-// Social preview image.
-const og = await shoot({ width: 1200, height: 630 }, 1, 'hero', async (page) => page.screenshot());
-await sharp(og).jpeg({ quality: 84, mozjpeg: true }).toFile(path.join(root, 'assets/images/og-simland.jpg'));
-
 await browser.close();
 console.log('posters written');

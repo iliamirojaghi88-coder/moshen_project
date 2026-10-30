@@ -1,26 +1,50 @@
-// Assembles index.html and products.html from src/ templates.
-// Shared blocks live in src/partials; the product grid (order, names, images)
-// is generated from source/mapping.json so both pages always match.
+// Builds the site from src/ (templates + partials) and source/mapping.json.
+//
+//   dist/index.html   the deliverable: ONE self-contained file. CSS in <style>,
+//                     all JavaScript (three.js included) in one <script>, fonts
+//                     and images embedded as data URIs. Opens from disk or any
+//                     web server, no other files needed.
+//   index.html        the same page for development: links the files in
+//                     assets/ so they can be edited without rebuilding.
 //
 //   node tools/build-pages.mjs
-import { readFile, writeFile } from 'node:fs/promises';
+import { build, transform } from 'esbuild';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const src = (p) => path.join(root, 'src', p);
-const { products } = JSON.parse(await readFile(path.join(root, 'source/mapping.json'), 'utf8'));
+const at = (...p) => path.join(root, ...p);
+const { products } = JSON.parse(await readFile(at('source/mapping.json'), 'utf8'));
 
 const fa = (n) => String(n).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+const MIME = { webp: 'image/webp', svg: 'image/svg+xml', woff2: 'font/woff2', jpg: 'image/jpeg', png: 'image/png' };
 
-function productGrid(page) {
+async function dataUri(file) {
+  const ext = path.extname(file).slice(1);
+  return `data:${MIME[ext]};base64,${(await readFile(file)).toString('base64')}`;
+}
+
+// ---------------------------------------------------------------- product grids
+
+async function productGrid(view, single) {
   const sizes = '(min-width: 1320px) 250px, (min-width: 1100px) 23vw, (min-width: 640px) 30vw, 46vw';
-  const items = products.map((p, i) => {
-    const img = (w) => `assets/images/products/${p.slug}-${w}.webp`;
-    return `      <li class="product-item" style="--i:${i}">
-        <a class="product-card" id="p-${p.slug}" href="products.html#p-${p.slug}" data-product="${p.slug}" data-index="${i}">
+  const items = [];
+  for (const [i, p] of products.entries()) {
+    const file = (w) => `assets/images/products/${p.slug}-${w}.webp`;
+    let image;
+    if (!single) {
+      image = `src="${file(660)}" srcset="${file(440)} 440w, ${file(660)} 660w, ${file(880)} 880w" sizes="${sizes}"`;
+    } else if (view === 'home') {
+      image = `src="${await dataUri(at(file(880)))}"`;
+    } else {
+      // Embedded once (home grid); products.js copies it here.
+      image = `data-src-ref="${p.slug}"`;
+    }
+    items.push(`      <li class="product-item" style="--i:${i}">
+        <a class="product-card" href="#/products/${p.slug}" data-product="${p.slug}">
           <span class="product-media">
-            <img src="${img(660)}" srcset="${img(440)} 440w, ${img(660)} 660w, ${img(880)} 880w" sizes="${sizes}" width="880" height="1100" alt="" loading="lazy" decoding="async">
+            <img ${image} width="880" height="1100" alt="" loading="lazy" decoding="async">
             <span class="product-sheen" aria-hidden="true"></span>
           </span>
           <span class="product-meta">
@@ -28,21 +52,73 @@ function productGrid(page) {
             <span class="product-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
           </span>
         </a>
-      </li>`;
-  });
+      </li>`);
+  }
   return `    <ul class="product-grid" data-product-grid aria-label="${fa(products.length)} محصول">\n${items.join('\n')}\n    </ul>`;
 }
 
-for (const page of ['index', 'products']) {
-  let html = await readFile(src(`${page}.html`), 'utf8');
-  for (const m of [...html.matchAll(/<!-- include: (\w+) -->/g)]) {
-    html = html.replace(m[0], (await readFile(src(`partials/${m[1]}.html`), 'utf8')).trimEnd());
+// ---------------------------------------------------------------- inlined CSS and JS
+
+async function inlineCss() {
+  let css = (await readFile(at('assets/css/style.css'), 'utf8')) + '\n' + (await readFile(at('assets/css/responsive.css'), 'utf8'));
+  for (const m of [...css.matchAll(/url\('\.\.\/([^']+)'\)/g)]) {
+    css = css.replaceAll(m[0], `url('${await dataUri(at('assets', m[1]))}')`);
   }
-  const key = page === 'index' ? 'home' : 'products';
-  html = html
-    .replace('<!-- products -->', productGrid(key))
-    .replaceAll('{{current:home}}', key === 'home' ? ' aria-current="page"' : '')
-    .replaceAll('{{current:products}}', key === 'products' ? ' aria-current="page"' : '');
-  await writeFile(path.join(root, `${page}.html`), html);
-  console.log(`wrote ${page}.html`);
+  const { code } = await transform(css, { loader: 'css', minify: true, target: ['chrome111', 'safari16.4', 'firefox115'] });
+  return code;
 }
+
+async function inlineJs() {
+  const result = await build({
+    entryPoints: [at('assets/js/main.js')],
+    bundle: true,
+    format: 'esm',
+    minify: true,
+    target: 'es2020',
+    write: false,
+    legalComments: 'inline',
+    logLevel: 'warning',
+  });
+  // keep the bundle from ending the <script> element early
+  return result.outputFiles[0].text.replace(/<\/(script)/gi, '<\\/$1').replace(/<!--/g, '<\\!--');
+}
+
+// ---------------------------------------------------------------- page
+
+async function page(single) {
+  let html = await readFile(at('src/index.html'), 'utf8');
+  for (const m of [...html.matchAll(/<!-- include: (\w+) -->/g)]) {
+    html = html.replace(m[0], (await readFile(at(`src/partials/${m[1]}.html`), 'utf8')).trimEnd());
+  }
+  html = html
+    .replace('<!-- products: home -->', await productGrid('home', single))
+    .replace('<!-- products: catalog -->', await productGrid('products', single));
+  for (const m of [...html.matchAll(/\{\{asset:([^}]+)\}\}/g)]) {
+    html = html.replace(m[0], single ? await dataUri(at('assets', m[1])) : `assets/${m[1]}`);
+  }
+
+  const headAssets = single
+    ? `  <link rel="icon" href="${await dataUri(at('assets/images/favicon.svg'))}" type="image/svg+xml">
+  <style>${await inlineCss()}</style>`
+    : `  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/estedad-arabic-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <script type="importmap">{ "imports": { "three": "./assets/vendor/three.min.js" } }</script>
+  <link rel="modulepreload" href="assets/js/main.js">
+  <link rel="modulepreload" href="assets/vendor/three.min.js">`;
+  const bodyScripts = single
+    ? `<script type="module">${await inlineJs()}</script>`
+    : '<script type="module" src="assets/js/main.js"></script>';
+
+  // function replacements: the inlined code may contain "$&"-style sequences
+  return html.replace('<!-- head-assets -->', () => headAssets).replace('<!-- body-scripts -->', () => bodyScripts);
+}
+
+await writeFile(at('index.html'), await page(false));
+console.log('wrote index.html (development, links assets/)');
+
+await mkdir(at('dist'), { recursive: true });
+const single = await page(true);
+await writeFile(at('dist/index.html'), single);
+console.log(`wrote dist/index.html (single file, ${(Buffer.byteLength(single) / 1024 / 1024).toFixed(2)} MB)`);

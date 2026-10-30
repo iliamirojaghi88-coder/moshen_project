@@ -2,9 +2,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#F2F5F9">
   <meta name="color-scheme" content="light">
-  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/fonts/estedad-arabic-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
-  <script>document.documentElement.classList.add('js');</script>
-  <script type="importmap">{ "imports": { "three": "./assets/vendor/three.min.js" } }</script>
+  <script>
+    // Before first paint: mark JS and pick the view from the URL, so the
+    // right page shows immediately (#/products → products, anything else → home).
+    (function (d) {
+      d.classList.add('js');
+      d.dataset.route = /^#\/products(\/|$)/.test(location.hash) ? 'products' : 'home';
+    })(document.documentElement);
+  </script>

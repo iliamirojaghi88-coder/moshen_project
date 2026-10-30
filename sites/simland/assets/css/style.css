@@ -490,6 +490,16 @@ html:not(.js) .stage-poster--wide {
   z-index: 1;
 }
 
+/* One page, two views: home and products (see router.js). */
+html[data-route='products'] .view-home,
+html[data-route='products'] .stage {
+  display: none;
+}
+
+html:not([data-route='products']) .view-products {
+  display: none;
+}
+
 /* ---------------------------------------------------------------- Hero */
 
 .hero {
@@ -957,7 +967,7 @@ html:not(.js) .stage-poster--wide {
   margin-top: calc(var(--radius-sheet) * -1);
 }
 
-.page-products .contact {
+html[data-route='products'] .contact {
   margin-top: 0;
 }
 

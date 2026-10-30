@@ -1,11 +1,12 @@
 import { contact } from './site-config.js';
 import { initAnimations } from './animations.js';
 import { initProducts } from './products.js';
+import { currentRoute, initRouter } from './router.js';
 import { prefersReducedMotion, toFa } from './util.js';
 
 const root = document.documentElement;
 const reducedMotion = prefersReducedMotion();
-const page = document.body.dataset.page;
+const router = initRouter({ reducedMotion });
 
 // ---------------------------------------------------------------- Header
 
@@ -54,7 +55,7 @@ onScrollHeader();
 const navList = header.querySelector('[data-nav-list]');
 const indicator = header.querySelector('[data-nav-indicator]');
 const navLinks = [...header.querySelectorAll('[data-nav]')];
-let activeKey = page;
+let activeKey = currentRoute();
 
 function placeIndicator() {
   const link = navList.querySelector(`[data-nav="${activeKey}"]`);
@@ -69,26 +70,31 @@ function placeIndicator() {
 
 function setActive(key) {
   activeKey = key;
+  const route = currentRoute();
   for (const link of navLinks) {
-    const on = link.dataset.nav === key;
-    link.classList.toggle('is-active', on);
-    // aria-current marks the page itself; sections only get the visual state.
-    if (link.getAttribute('href').endsWith('.html')) continue;
-    if (on) link.setAttribute('aria-current', 'location');
+    const name = link.dataset.nav;
+    link.classList.toggle('is-active', name === key);
+    // "page" marks the view itself; a section in view gets "location".
+    if (name === route) link.setAttribute('aria-current', 'page');
+    else if (name === key) link.setAttribute('aria-current', 'location');
     else link.removeAttribute('aria-current');
   }
   placeIndicator();
 }
 
-const spy = [
-  ['contact', document.getElementById('contact')],
-  ['products', page === 'home' ? document.getElementById('products') : null],
-].filter(([, el]) => el);
+const sections = {
+  home: [
+    ['contact', document.getElementById('contact')],
+    ['products', document.getElementById('products')],
+  ],
+  products: [['contact', document.getElementById('contact')]],
+};
 
 function onScrollSpy() {
   const probe = innerHeight * 0.45;
-  let key = page;
-  for (const [name, el] of spy) {
+  const route = currentRoute();
+  let key = route;
+  for (const [name, el] of sections[route]) {
     const r = el.getBoundingClientRect();
     if (r.top < probe && r.bottom > probe) {
       key = name;
@@ -101,7 +107,8 @@ function onScrollSpy() {
 addEventListener('scroll', onScrollSpy, { passive: true });
 addEventListener('resize', placeIndicator);
 document.fonts?.ready.then(placeIndicator);
-setActive(page);
+router.onChange((route) => setActive(route));
+setActive(currentRoute());
 onScrollSpy();
 
 // ---------------------------------------------------------------- Contact details
@@ -160,7 +167,10 @@ if (stageHost) startStage();
 
 async function startStage() {
   const capture = new URLSearchParams(location.search).get('capture');
-  const posterTimer = setTimeout(() => root.classList.add('poster-on'), 3500);
+  // Slow device or connection: show the rendered poster until the 3D frame is ready.
+  const posterTimer = setTimeout(() => {
+    if (currentRoute() === 'home') root.classList.add('poster-on');
+  }, 3500);
   try {
     if (!hasWebGL()) throw new Error('WebGL unavailable');
     const { createCableStage } = await import('./hero3d/stage.js');

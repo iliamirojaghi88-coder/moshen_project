@@ -224,6 +224,8 @@ export async function createCableStage({ heroHost, macroHost, slot, heroCopy, he
 
   function chooseMode() {
     if (capture) return capture === 'macro' ? 'macro' : 'hero';
+    // The products view hides the hero and the "why" panel.
+    if (document.documentElement.dataset.route === 'products') return 'off';
     // With reduced motion the cable never lands, so the hero itself is the limit.
     const heroEnd = (reducedMotion ? heroSection : slot).getBoundingClientRect();
     if (heroEnd.bottom > -40) return 'hero';
@@ -314,8 +316,11 @@ export async function createCableStage({ heroHost, macroHost, slot, heroCopy, he
     }
   }
 
+  // The product dialog covers the page: no need to keep rendering under it.
+  const covered = () => document.documentElement.classList.contains('dialog-open');
+
   function wake() {
-    if (!raf && !document.hidden && mode !== 'off') raf = requestAnimationFrame(frame);
+    if (!raf && !document.hidden && mode !== 'off' && !covered()) raf = requestAnimationFrame(frame);
   }
 
   // ---------------------------------------------------------------------------
@@ -335,10 +340,12 @@ export async function createCableStage({ heroHost, macroHost, slot, heroCopy, he
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onResize);
   new ResizeObserver(onResize).observe(document.body);
-  document.addEventListener('visibilitychange', () => {
+  const resume = () => {
     last = performance.now();
     wake();
-  });
+  };
+  document.addEventListener('visibilitychange', resume);
+  new MutationObserver(resume).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
   if (!coarse && !reducedMotion) {
     addEventListener(
       'pointermove',
