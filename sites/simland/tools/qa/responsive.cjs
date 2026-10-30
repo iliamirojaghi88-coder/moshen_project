@@ -15,7 +15,8 @@ const VP = (process.env.VP ? JSON.parse(process.env.VP) : [[320, 640, 2], [360, 
     page.on('requestfailed', (r) => errors.push('requestfailed ' + r.url().slice(0, 60)));
     await page.goto('file://' + path.resolve(file), { waitUntil: 'load' });
     await page.waitForFunction(() => document.querySelector('[data-scene]').classList.contains('is-live'), null, { timeout: 120000 }).catch(() => errors.push('never went live'));
-    await page.evaluate(() => window.__hero && window.__hero.renderAt(9));
+    // one fixed frame, then the loop stops (the software renderer would otherwise keep the screenshot waiting)
+    await page.evaluate(() => { if (window.__hero) { window.__hero.pause(); window.__hero.renderAt(9); } });
     await page.waitForTimeout(400);
     const r = await page.evaluate(() => {
       const box = (s) => { const e = document.querySelector(s); const b = e.getBoundingClientRect(); return { x: +b.x.toFixed(1), y: +b.y.toFixed(1), w: +b.width.toFixed(1), h: +b.height.toFixed(1), b: +b.bottom.toFixed(1), r: +b.right.toFixed(1) }; };
@@ -33,6 +34,11 @@ const VP = (process.env.VP ? JSON.parse(process.env.VP) : [[320, 640, 2], [360, 
         scene: box('[data-scene]'),
         sceneRatio: +(document.querySelector('[data-scene]').getBoundingClientRect().width / document.querySelector('[data-scene]').getBoundingClientRect().height).toFixed(3),
         sceneInside: (() => { const b = document.querySelector('[data-scene]').getBoundingClientRect(); return b.left >= -0.5 && b.right <= innerWidth + 0.5; })(),
+        // stacked layouts: picture centred; side by side: picture left of the copy; both: whole picture in the first view
+        sceneCentreOff: (() => { const b = document.querySelector('[data-scene]').getBoundingClientRect(); return +(b.left + b.width / 2 - innerWidth / 2).toFixed(2); })(),
+        sceneLeftOfCopy: document.querySelector('[data-scene]').getBoundingClientRect().right <= document.querySelector('.hero-copy').getBoundingClientRect().left + 0.5,
+        sceneInView: document.querySelector('[data-scene]').getBoundingClientRect().bottom <= innerHeight + 0.5,
+        smokeTop: c ? +c.getBoundingClientRect().top.toFixed(1) : null,
         canvas: c ? { w: c.width, h: c.height, cssW: +c.getBoundingClientRect().width.toFixed(2) } : null,
         live: document.querySelector('[data-scene]').classList.contains('is-live'),
       };

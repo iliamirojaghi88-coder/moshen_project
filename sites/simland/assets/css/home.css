@@ -359,7 +359,18 @@ svg {
   }
 }
 
-@media (min-width: 1024px) {
+/* tablets: the same stacked layout; the picture is centred and as large as the
+   screen allows while the whole hero (copy and picture) fits in one view */
+@media (min-width: 600px) and (max-width: 1199.98px) {
+  .scene {
+    width: min(100%, max(480px, (100vh - 380px) * 2));
+    width: min(100%, max(480px, (100svh - 380px) * 2));
+    margin: 22px auto 0;
+  }
+}
+
+/* laptops and desktops: copy on the right, the picture in the left column */
+@media (min-width: 1200px) {
   .hero {
     display: grid;
     grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);

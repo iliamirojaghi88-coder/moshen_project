@@ -4,18 +4,13 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-10-30, project paused by the user)
+## Exact stop point (2026-10-30, hero refinement delivered, waiting for the user's approval)
 
-- Last commit on the branch: `96015ed`.
-- `dist/index.html` (2.06 MB, single file) and the dev `index.html` are built from the current code,
-  including the last smoke tweak, which has **not** been checked visually yet.
-- **First action after «ادامه پروژه رو برو»:**
-  1. Read this file only.
-  2. Start the dev server.
-  3. Do step 1 of «Not finished yet» below (smoke in situ).
-  4. Then steps 2–6 in order.
-- Work economically (see the last section). The project was paused to analyse limit usage; any approved
-  workflow changes from that analysis apply.
+- Branch for this step: `ccr-2cd3266d-qpjs3p` (fast-forwarded from `claude/simland-3d-website-vbz3vl` at `0bf8134`).
+- The user's prompt «SIMLAND — ادامه پروژه و تکمیل نهایی هیروسکشن» (sharpness, natural smoke, a breeze every
+  2–3 s, real responsive layout) is implemented and tested; see «Hero refinement 2» below.
+- **Next action:** wait for the user's verdict on the hero. Fix what they point out, otherwise start the rest of
+  the home page (section «After the user approves the hero»).
 
 ### Approved — do not change
 
@@ -66,24 +61,11 @@ Its requirements (all must hold):
     `python3 -I tools/qa/recomp.py` from `sites/simland`.
 - `assets/js/live-hero.js`
   - Precision-safe clock: all time inputs reach the shader pre-wrapped (phases mod 2π, noise offsets
-    mod 289); `uGustPh`, `uSwayPh`, `uAdv`, `uCyc`, `uEvolve`.
-  - Wind:
-    - gusts travel right→left;
-    - gust patches;
-    - per-tree phase field;
-    - crown sway about 3.4 source px × `uAmp` (1.0 on desktop to 1.6 on phones);
-    - leaf flutter.
-  - Smoke:
-    - flow-map billows;
-    - dense exit column;
-    - meander carried with the smoke;
-    - lean depends on the gust at emission time;
-    - fades before the top edge of the canvas.
-  - Sharpness:
-    - clamped Catmull-Rom (`sampleSharp`) for moving plants, rotated blades, caps and upscaling;
-    - GPU Lanczos-3 prefilter with anti-ringing (`DOWN` program) to device resolution for the base and the
-      full-resolution atlas. Measured: the live canvas is now as sharp as the browser's own `<img>`
-      (gradient energy 5.34 vs 5.27).
+    mod 289). Superseded in refinement 2: `uWind`, `uSway`, `uFlow`, `uSmoke`, wrapped to the noise's exact
+    periods (see below).
+  - Wind, smoke and the sampling of moving parts were reworked in refinement 2 (see below). Kept from this
+    step: the GPU Lanczos-3 prefilter with anti-ringing (`DOWN`) for static parts, texel for pixel; clamped
+    Catmull-Rom (`sampleSharp`) when the picture is enlarged.
   - The canvas backing store follows `device-pixel-content-box` (shown 1:1, never resampled).
   - Frame pacing: drops to a steady 30 fps on slow devices.
 - `assets/css/home.css`: `.scene` has `touch-action: pan-x pan-y`, `user-select:none`,
@@ -94,43 +76,43 @@ Its requirements (all must hold):
 | Script | Usage | What it does |
 | --- | --- | --- |
 | `hero-check.cjs` | `<url> <w> <h> <dpr> <outdir> [t...]` | Still vs live frames at fixed times (needs `window.__hero`) |
-| `responsive.cjs` | `<dist/index.html> <outdir>` | 11 viewports (320–1920): overflow, title lines, buttons in one row, full 2:1 scene, live, errors |
+| `responsive.cjs` | `<dist/index.html> <outdir>` | 11 viewports (320–1920; `VP='[[w,h,dpr],…]'` to choose): overflow, title lines, buttons in one row, full 2:1 scene, centring / left column, in first view, live, errors |
 | `temporal.cjs` | `<url> <outdir> <t0> <n>` | 30 fps frame sequence; then diff static regions (pylon/house/cable must stay ~0) |
-| `smoke-bench.cjs` | `<outprefix> <t...>` | Renders `tools/smoke-bench.html` (smoke alone, 1.6×) via the dev server |
+| `smoke-bench.cjs` | `<outprefix> <t...>` | Renders `tools/smoke-bench.html` (smoke alone, 1.6×, same clock via `clockUniforms`) via the dev server |
 | `fallback.cjs` | `<dist> <prefix>` | Reduced motion and no-WebGL show the still picture, no errors |
 | `interact.cjs` | `<dist>` | Locked menu items do nothing; buttons; focusables |
 | `preview-frames.cjs` | `<dist> <outdir> <t0> <seconds> <fps> <w> <h> <dpr>` | Deterministic frames; then `ffmpeg … -c:v libx264 -crf 16` for a preview MP4 |
 | `align.cjs` | `<url> <w> <h> <dpr>` | Device-pixel boxes of the canvas and the still image |
 
-### Not finished yet — exact next steps
+### Hero refinement 2 (done, tested)
 
-The last edit (narrower plumes `w = r*0.66 + h*0.24`, shaded exit column) is in `live-hero.js` and
-`dist` is rebuilt, but it has **not been looked at** yet.
-
-1. Smoke in situ:
-   - Run `hero-check.cjs` on `file://…/dist/index.html` at 1366 768 2 with t 12 16, and at 390 844 3.
-   - Crop above the chimneys: source x 380–700 and the 27% extension above the picture.
-   - Check that it starts at the mouths, the exit column is visible, both plumes are distinct, there is
-     no edge, and it is not too wide or too faint.
-   - Tune only `plume()` / `billow()`.
-2. Wind:
-   - `temporal.cjs` at 1366@1, 31 frames: static regions (house, pylon, cable text, solar panel) must stay
-     ≤ 1–2 levels.
-   - Zoomed frame pairs of the crowns (left tree x140–330 y280–440, pine x1320–1440 y160–260, flower bed)
-     must show no stretching at trunk junctions or next to walls/wires.
-   - If the sway is still hard to see on 390@3, raise the 3.4 a little (keep strain ≤ ~0.3).
-3. Masks: `source/hero/qc/weights.png` (R sway, G flutter, B occluder). Wires and pylon must have zero
-   weight; trunks zero.
-4. Long run: `renderAt(3600)` and `renderAt(36000)` must look normal (precision).
-5. Full pass:
-   - `responsive.cjs`, `fallback.cjs`, `interact.cjs`, `recomp.py`;
-   - preview MP4 (8 s, 1366×768) and `scripts/qc-video.sh` (the expected warnings are: size profile,
-     no audio, still frame).
-6. Commit, push, `SendUserFile` with `dist/index.html` and the preview, then a short Persian report of the
-   10 checks with honest limits. Limits to report:
-   - tests run in headless software WebGL;
-   - the source is 1774×887 (very large screens are a little soft);
-   - plant motion is kept small because the picture is flat.
+- **Sharpness (root cause fixed).** Static parts were already as sharp as a Lanczos downscale of the PNG.
+  Moving parts (plants, rotating blades, caps) were resampled twice (screen-size prefilter, then an
+  interpolation at a sub-pixel offset): up to ~20% detail loss at half-pixel offsets. They are now filtered
+  straight from a full-resolution layer (`uHi`, atlas at `min(1, 2.5 sx)`) with a clamped Lanczos-2
+  (`sampleFine`). Measured: blades at 1366@1 0.91 → 0.97 of the reference at rest; moving trees on 390@3
+  +2.6% vs the old filter under the same fixed shift. Static parts unchanged (bit-identical).
+- **Smoke (method replaced).** `plume()` is now a light ray march (8 steps) through a soft volume: exact
+  transport of 3D simplex noise (features rise at `V0 (1 + h/H1)` and grow as `F0 (1 + h/H1)`, no flow-map
+  crossfade), a slower warp field that keeps changing the billows, one light sample per step towards the sun
+  (billow relief), weak light extinction (multiple scattering: never dark). The axis drifts by the mean wind
+  the parcel has felt since it left the mouth (`windMean`, analytic). The far chimney's plume is drawn first.
+- **Wind.** `WIND` terms in JS and `WF`/`WA` in the shader: W0 0.5 + four sines; two close gust frequencies give
+  a gust every 2.4–3.6 s (median 2.6 s). Gusts travel right→left at 650 px/s. Rotors: speed × (0.8 + 0.4 W)
+  through a 1 s lag (±9%, ≤13%/s change). Crowns: lean with the wind through a 0.45 s lag plus their own
+  rocking; leaves flutter and grass bends with a 0.12 s lag.
+- **Precision.** Every time offset is wrapped to an exact period of the noise along the direction it moves
+  (2D simplex repeats along (1,1) every 289/√3, 3D along (1,1,1) every 144.5). Checked across every wrap
+  point and at 1 h and 10 h: no jumps.
+- **Layout.** `home.css`: tablets 600–1199 px (incl. 1024) stacked and centred, the picture sized so the whole
+  hero fits one view; side by side (picture in the left column) from 1200 px.
+- **Tests run** (all pass): `responsive.cjs` (11 widths 320–1920, now also reports centring, picture left of
+  the copy, picture in the first view, smoke top), `fallback.cjs`, `interact.cjs`, `recomp.py`, static pixels
+  bit-identical over a 30-frame sequence, plants at wind extremes (no stretching; wires/pylon/trunks still),
+  long run and wrap points, preview MP4 + `qc-video.sh`.
+- Known limits (tell the user): tests run in headless software WebGL; the source is 1774×887, so very large
+  screens are a little soft; plant motion stays small because the picture is flat; the new smoke and filter
+  cost ~1.3–1.5× the previous frame in software rendering (small areas; 30 fps pacing on slow devices).
 
 ## After the user approves the hero: the rest of the home page
 
