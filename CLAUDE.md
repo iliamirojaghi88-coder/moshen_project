@@ -19,7 +19,7 @@ research engine with a licence ledger, a Blender/glTF 3D pipeline, Persian
 - `tools/3d/` — `rectify_photo.py` (flatten a product photo to a texture at real mm size), `pbr_from_photo.py` (basecolor/roughness/normal/height), `build_tile.py` (Blender: physically scaled slab + glaze, GLB export, Cycles still).
 - `library/` — `catalog/` (offline metadata), `ledger.json` (provenance, licence, QC, usage), `LICENSES/`, built products in `products/`, a few committed characters/clips (LFS); downloads live in git-ignored `.cache/`.
 - `labs/3d-product/` — technical test scene: real GLB + HDRI in Three.js inside HyperFrames.
-- `sites/simland/` — SIMLAND website (RTL, Estedad, procedural Three.js cable hero). Deliverable is the single self-contained `dist/index.html` (home + products views, everything inlined); `tools/build-pages.mjs` builds it and the dev `index.html` from `src/` + `assets/`; see its README.
+- `sites/simland/` — SIMLAND website (RTL, Estedad; procedural Three.js infinity-cable world, studio cable shots, Blender/Cycles imagery and 3D icons from the same cable geometry). Deliverable is the single self-contained `dist/index.html` (home, products and contact pages, everything inlined); `tools/build-pages.mjs` builds it and the dev `index.html` from `src/` + `assets/`; see its README.
 - `styles/` — three reusable style systems (tokens + motion grammar). Techniques only.
 - `references/ANALYSIS.md` — technique breakdown of the user's reference videos. The videos are style references only: never rebuild their scenes, people, characters or copy.
 - `render-profiles.json` — output presets (default 1080×1920, 30 fps, H.264 + AAC, −14 LUFS / −1 dBTP).

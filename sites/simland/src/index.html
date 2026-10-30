@@ -2,12 +2,12 @@
 <html lang="fa" dir="rtl">
 <head>
 <!-- include: head -->
-  <title>سیم‌لند | سیم و کابل ساختمانی و صنعتی</title>
-  <meta name="description" content="سیم‌لند؛ تأمین انواع سیم و کابل ساختمانی، صنعتی و تخصصی با تنوع محصول، کیفیت قابل اعتماد و قیمت رقابتی.">
+  <title>سیم‌لند | سیم و کابل ساختمانی، صنعتی و تخصصی</title>
+  <meta name="description" content="سیم‌لند؛ جریان مطمئن، اتصال ماندگار. تأمین انواع سیم و کابل ساختمانی، صنعتی و تخصصی برای پروژه‌های امروز.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fa_IR">
-  <meta property="og:title" content="سیم‌لند، انتخابی مطمئن برای سیم و کابل">
-  <meta property="og:description" content="تنوع محصولات، کیفیت قابل اعتماد و قیمت رقابتی برای پروژه‌های ساختمانی و صنعتی.">
+  <meta property="og:title" content="سیم‌لند؛ جریان مطمئن، اتصال ماندگار">
+  <meta property="og:description" content="تأمین انواع سیم و کابل ساختمانی، صنعتی و تخصصی برای پروژه‌های امروز.">
 <!-- head-assets -->
 </head>
 <body>
@@ -15,115 +15,242 @@
 <!-- include: header -->
 
 <div class="stage" data-stage aria-hidden="true">
-  <div class="stage-light"></div>
-  <div class="stage-poster stage-poster--wide"></div>
-  <div class="stage-poster stage-poster--tall"></div>
+  <div class="stage-sky">
+    <svg class="streaks" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="streak-a" x1="0" x2="1">
+          <stop offset="0" stop-color="#7cc4ff" stop-opacity="0"/>
+          <stop offset=".45" stop-color="#9fd4ff" stop-opacity=".9"/>
+          <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="streak-b" x1="1" x2="0">
+          <stop offset="0" stop-color="#5aa8ff" stop-opacity="0"/>
+          <stop offset=".5" stop-color="#bfe3ff" stop-opacity=".85"/>
+          <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="streak-glow" x="-10%" y="-50%" width="120%" height="200%"><feGaussianBlur stdDeviation="3"/></filter>
+      </defs>
+      <g class="streaks-left" fill="none" stroke="url(#streak-a)" stroke-linecap="round">
+        <path d="M-60 560 C 160 470, 300 520, 470 420" stroke-width="3" filter="url(#streak-glow)"/>
+        <path d="M-60 600 C 180 520, 320 560, 520 470" stroke-width="1.4"/>
+        <path d="M-60 640 C 200 570, 330 610, 500 540" stroke-width="2" opacity=".7"/>
+        <path d="M-60 520 C 130 430, 260 470, 420 380" stroke-width="1" opacity=".6"/>
+      </g>
+      <g class="streaks-right" fill="none" stroke="url(#streak-b)" stroke-linecap="round">
+        <path d="M1660 520 C 1440 440, 1300 500, 1120 420" stroke-width="3" filter="url(#streak-glow)"/>
+        <path d="M1660 560 C 1420 490, 1290 540, 1090 470" stroke-width="1.4"/>
+        <path d="M1660 610 C 1430 540, 1300 590, 1130 530" stroke-width="2" opacity=".7"/>
+      </g>
+    </svg>
+  </div>
+  <div class="stage-poster" data-poster="home"></div>
 </div>
 
-<main id="main">
+<div class="page-wipe" aria-hidden="true"><span class="page-wipe-line"></span></div>
+
+<main id="main" tabindex="-1">
+<!-- ======================================================== HOME -->
 <div class="view view-home" data-view="home">
-  <section class="hero" id="home" aria-labelledby="hero-title">
+  <section class="hero" id="home" data-hero aria-labelledby="hero-title">
     <div class="hero-inner">
-      <div class="hero-copy" data-hero-copy>
+      <div class="hero-head">
         <h1 class="hero-title" id="hero-title">
-          <span class="line"><span>سیم‌لند،</span></span>
-          <span class="line"><span>انتخابی مطمئن برای سیم و کابل</span></span>
+          <span class="line"><span>سیم‌لند؛</span></span>
+          <span class="line"><span>جریان مطمئن، اتصال ماندگار</span></span>
         </h1>
-        <p class="hero-lede">تنوع محصولات، کیفیت قابل اعتماد و قیمت رقابتی برای پروژه‌های ساختمانی و صنعتی.</p>
+        <p class="hero-lede">تأمین انواع سیم و کابل ساختمانی، صنعتی و تخصصی برای پروژه‌های امروز.</p>
+      </div>
+      <div class="hero-scene" data-scene-slot aria-hidden="true"></div>
+      <div class="hero-foot">
         <div class="hero-actions">
           <a class="btn btn-primary btn-lg" href="#products" data-magnetic>
             <span>مشاهده محصولات</span>
             <svg class="btn-icon" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a>
-          <a class="btn btn-ghost btn-lg" href="#contact" data-magnetic>
+          <a class="btn btn-glass btn-lg" href="#/contact" data-magnetic>
             <svg class="btn-icon" aria-hidden="true"><use href="#i-chat"/></svg>
             <span>دریافت مشاوره</span>
           </a>
         </div>
+        <ul class="hero-chips" aria-label="ویژگی‌های سیم‌لند">
+          <li><svg aria-hidden="true"><use href="#i-layers"/></svg><span>۱۰ دسته سیم و کابل</span></li>
+          <li><svg aria-hidden="true"><use href="#i-route"/></svg><span>ارسال به شهرهای مختلف</span></li>
+          <li><svg aria-hidden="true"><use href="#i-spark"/></svg><span>مشاوره پیش از خرید</span></li>
+        </ul>
       </div>
     </div>
-    <a class="scroll-cue" href="#products" aria-label="رفتن به بخش محصولات">
-      <span class="scroll-cue-track" aria-hidden="true"><span></span></span>
-    </a>
   </section>
 
-  <section class="products" id="products" aria-labelledby="products-title">
-    <div class="products-head">
-      <div class="products-intro" data-reveal>
-        <h2 class="section-title" id="products-title">محصولات سیم‌لند</h2>
-        <p class="section-lede">مجموعه‌ای متنوع از سیم و کابل برای نیازهای ساختمانی و صنعتی.</p>
-        <a class="text-link" href="#/products">
-          <span>صفحه همه محصولات</span>
-          <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+  <section class="sheet products" id="products" aria-labelledby="products-title">
+    <div class="sheet-inner">
+      <header class="section-head" data-reveal>
+        <div>
+          <h2 class="section-title" id="products-title">محصولات سیم‌لند</h2>
+          <p class="section-lede">مجموعه‌ای متنوع از سیم و کابل برای نیازهای ساختمانی، صنعتی و تخصصی.</p>
+        </div>
+        <a class="btn btn-ghost" href="#/products">
+          <span>کاتالوگ کامل محصولات</span>
+          <svg class="btn-icon" aria-hidden="true"><use href="#i-arrow"/></svg>
         </a>
-      </div>
-      <div class="cable-slot" data-cable-slot aria-hidden="true"></div>
-    </div>
+      </header>
 <!-- products: home -->
+    </div>
   </section>
 
   <section class="why" id="why" aria-labelledby="why-title">
     <div class="why-inner">
-      <div class="why-visual" data-macro-host aria-hidden="true">
-        <img class="macro-poster" src="{{asset:images/hero/cable-macro.webp}}" alt="" width="900" height="1100" loading="lazy" decoding="async">
+      <div class="why-visual" data-reveal>
+        <div class="why-render-wrap" data-depth="0.06">
+          <img class="why-render" src="{{asset:images/render/cable-section.webp}}" alt="" width="1500" height="1050" loading="lazy" decoding="async">
+          <span class="why-tag" style="--x: 74%; --y: 23%;">هادی مسی افشان</span>
+          <span class="why-tag" style="--x: 52%; --y: 20%;">عایق رنگی</span>
+          <span class="why-tag" style="--x: 40%; --y: 62%;">زره فولادی</span>
+          <span class="why-tag" style="--x: 17%; --y: 16%;">روکش بیرونی</span>
+        </div>
+        <p class="why-caption">نمای سه‌بعدی یک کابل قدرت آرمودار؛ تصویر نمایشی است.</p>
       </div>
       <div class="why-content">
-        <div class="why-intro" data-reveal>
+        <header data-reveal>
           <h2 class="section-title" id="why-title">چرا سیم‌لند؟</h2>
-          <p class="section-lede">از انتخاب کابل مناسب تا تحویل سفارش، کنار پروژه شما هستیم.</p>
-        </div>
-        <ul class="why-list">
-          <li class="why-item" data-reveal style="--i:0">
-            <span class="why-icon"><svg aria-hidden="true"><use href="#i-expertise"/></svg></span>
-            <h3>تجربه و تخصص</h3>
-            <p>شناخت تخصصی محصولات و نیازهای پروژه‌های ساختمانی و صنعتی.</p>
+          <p class="section-lede">از انتخاب کابل مناسب تا رسیدن سفارش به محل پروژه، کنار شما هستیم.</p>
+        </header>
+        <ul class="circuit" data-circuit>
+          <li class="circuit-node" data-reveal>
+            <img class="circuit-icon" src="{{asset:images/icons/quality.webp}}" alt="" width="160" height="160" loading="lazy">
+            <div><h3>کیفیت محصولات</h3><p>انتخاب محصولات باکیفیت و قابل اعتماد برای اجرای مطمئن پروژه.</p></div>
           </li>
-          <li class="why-item" data-reveal style="--i:1">
-            <span class="why-icon"><svg aria-hidden="true"><use href="#i-quality"/></svg></span>
-            <h3>کیفیت قابل اعتماد</h3>
-            <p>تمرکز بر ارائه محصولات باکیفیت و انتخابی مطمئن برای هر پروژه.</p>
+          <li class="circuit-node" data-reveal>
+            <img class="circuit-icon" src="{{asset:images/icons/variety.webp}}" alt="" width="160" height="160" loading="lazy">
+            <div><h3>تنوع سیم و کابل</h3><p>از کابل ساختمانی تا کابل ابزار دقیق؛ ده دسته محصول در یک‌جا.</p></div>
           </li>
-          <li class="why-item" data-reveal style="--i:2">
-            <span class="why-icon"><svg aria-hidden="true"><use href="#i-price"/></svg></span>
-            <h3>قیمت رقابتی</h3>
-            <p>تلاش برای ارائه قیمت مناسب در کنار کیفیت مطلوب.</p>
+          <li class="circuit-node" data-reveal>
+            <img class="circuit-icon" src="{{asset:images/icons/price.webp}}" alt="" width="160" height="160" loading="lazy">
+            <div><h3>قیمت رقابتی</h3><p>تلاش برای ارائه قیمت مناسب در کنار کیفیت مطلوب.</p></div>
           </li>
-          <li class="why-item" data-reveal style="--i:3">
-            <span class="why-icon"><svg aria-hidden="true"><use href="#i-delivery"/></svg></span>
-            <h3>ارسال به سراسر کشور</h3>
-            <p>امکان هماهنگی ارسال سفارش به شهرهای مختلف.</p>
+          <li class="circuit-node" data-reveal>
+            <img class="circuit-icon" src="{{asset:images/icons/support.webp}}" alt="" width="160" height="160" loading="lazy">
+            <div><h3>مشاوره و پشتیبانی</h3><p>همراهی در انتخاب کابل مناسب برای هر پروژه و پاسخ به پرسش‌های شما.</p></div>
+          </li>
+          <li class="circuit-node" data-reveal>
+            <img class="circuit-icon" src="{{asset:images/icons/delivery.webp}}" alt="" width="160" height="160" loading="lazy">
+            <div><h3>ارسال سفارش‌ها</h3><p>امکان هماهنگی ارسال سفارش به شهرهای مختلف.</p></div>
           </li>
         </ul>
       </div>
     </div>
   </section>
 
+<!-- include: cta -->
 </div>
 
+<!-- ======================================================== PRODUCTS -->
 <div class="view view-products" data-view="products">
-  <section class="catalog" id="catalog" aria-labelledby="catalog-title">
-    <div class="catalog-head">
-      <div class="catalog-intro">
-        <h1 class="page-title" id="catalog-title">محصولات سیم‌لند</h1>
-        <p class="section-lede">مجموعه‌ای متنوع از سیم و کابل برای نیازهای ساختمانی و صنعتی. برای دیدن تصویر بزرگ و استعلام قیمت، روی هر محصول بزنید.</p>
+  <section class="phero" aria-labelledby="phero-title">
+    <div class="phero-inner">
+      <div class="phero-copy">
+        <h1 class="page-title" id="phero-title">محصولات سیم‌لند</h1>
+        <p class="section-lede">ده دسته سیم و کابل برای ساختمان، صنعت و کاربردهای تخصصی. هر محصول را باز کنید تا تصویر بزرگ آن را ببینید و قیمت روز را استعلام کنید.</p>
+        <dl class="phero-stats">
+          <div><dt>محصول</dt><dd>۱۰</dd></div>
+          <div><dt>دسته‌بندی</dt><dd>۳</dd></div>
+        </dl>
+        <div class="phero-actions">
+          <a class="btn btn-primary" href="#catalog">
+            <span>مشاهده کاتالوگ</span>
+            <svg class="btn-icon btn-icon-down" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+          <a class="btn btn-glass" href="#/contact">
+            <svg class="btn-icon" aria-hidden="true"><use href="#i-chat"/></svg>
+            <span>استعلام قیمت</span>
+          </a>
+        </div>
       </div>
-      <svg class="section-drawing" viewBox="0 0 240 240" aria-hidden="true" data-depth="0.12">
-        <circle class="d1" cx="120" cy="120" r="112"/>
-        <circle class="d2" cx="120" cy="120" r="98"/>
-        <circle class="d3" cx="120" cy="120" r="86"/>
-        <circle class="d4" cx="81" cy="81" r="33"/><circle class="d4" cx="159" cy="81" r="33"/>
-        <circle class="d4" cx="81" cy="159" r="33"/><circle class="d4" cx="159" cy="159" r="33"/>
-        <g class="d5">
-          <circle cx="81" cy="81" r="22"/><circle cx="159" cy="81" r="22"/>
-          <circle cx="81" cy="159" r="22"/><circle cx="159" cy="159" r="22"/>
-        </g>
-      </svg>
+      <div class="phero-visual" data-stage-host="products" aria-hidden="true">
+        <div class="phero-grid"></div>
+        <div class="stage-poster" data-poster="products"></div>
+        <div class="callouts" data-callouts>
+          <span class="callout" data-callout="copper">هادی مسی افشان</span>
+          <span class="callout" data-callout="insulation">عایق رنگی</span>
+          <span class="callout" data-callout="armour">زره سیم فولادی</span>
+          <span class="callout" data-callout="sheath">روکش PVC</span>
+        </div>
+      </div>
     </div>
+  </section>
+
+  <section class="cats" aria-labelledby="cats-title">
+    <div class="cats-inner">
+      <h2 class="visually-hidden" id="cats-title">دسته‌بندی محصولات</h2>
+<!-- categories -->
+    </div>
+  </section>
+
+  <section class="catalog" id="catalog" aria-labelledby="catalog-title">
+    <div class="catalog-inner">
+      <header class="section-head">
+        <h2 class="section-title" id="catalog-title">کاتالوگ محصولات</h2>
+        <div class="filters" role="group" aria-label="فیلتر دسته‌بندی" data-filters>
+          <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">همه</button>
+          <button class="filter" type="button" data-filter="building" aria-pressed="false">ساختمانی</button>
+          <button class="filter" type="button" data-filter="industrial" aria-pressed="false">صنعتی و قدرت</button>
+          <button class="filter" type="button" data-filter="special" aria-pressed="false">کنترل و تخصصی</button>
+        </div>
+      </header>
 <!-- products: catalog -->
+    </div>
+  </section>
+
+  <section class="apply" aria-labelledby="apply-title">
+    <div class="apply-card" data-reveal>
+      <img class="apply-img" src="{{asset:images/render/cable-tray.webp}}" alt="" width="1600" height="1000" loading="lazy" decoding="async">
+      <div class="apply-copy">
+        <h2 class="section-title" id="apply-title">برای ساختمان، کارخانه و شبکه</h2>
+        <p>کابل مناسب، اجرای تمیزتر و ایمن‌تر را ممکن می‌کند. برای انتخاب مقطع و نوع کابل پروژه‌تان با ما در تماس باشید.</p>
+        <a class="btn btn-primary" href="#/contact"><span>دریافت مشاوره</span><svg class="btn-icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+      <span class="apply-note">تصویر نمایشی</span>
+    </div>
   </section>
 </div>
 
+<!-- ======================================================== CONTACT -->
+<div class="view view-contact" data-view="contact">
+  <section class="chero" aria-labelledby="chero-title">
+    <div class="chero-visual" data-stage-host="contact" aria-hidden="true">
+      <div class="stage-poster" data-poster="contact"></div>
+    </div>
+    <div class="chero-copy">
+      <h1 class="page-title" id="chero-title">ارتباط با سیم‌لند</h1>
+      <p class="section-lede">برای دریافت مشاوره، استعلام قیمت و ثبت سفارش با ما در ارتباط باشید.</p>
+      <a class="btn btn-primary" href="#contact-ways"><span>راه‌های ارتباطی</span><svg class="btn-icon btn-icon-down" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </div>
+  </section>
+
 <!-- include: contact -->
+
+  <section class="steps" aria-labelledby="steps-title">
+    <div class="steps-inner">
+      <h2 class="section-title" id="steps-title" data-reveal>از تماس تا تحویل</h2>
+      <ol class="steps-list">
+        <li class="step" data-reveal style="--i:0">
+          <span class="step-no" aria-hidden="true">۱</span>
+          <h3>انتخاب محصول</h3>
+          <p>نوع پروژه و نیازتان را بگویید تا کابل مناسب را با هم انتخاب کنیم.</p>
+        </li>
+        <li class="step" data-reveal style="--i:1">
+          <span class="step-no" aria-hidden="true">۲</span>
+          <h3>استعلام قیمت</h3>
+          <p>قیمت روز محصول و مقدار موردنیاز را دریافت کنید.</p>
+        </li>
+        <li class="step" data-reveal style="--i:2">
+          <span class="step-no" aria-hidden="true">۳</span>
+          <h3>هماهنگی ارسال</h3>
+          <p>زمان و مقصد ارسال سفارش را با هم هماهنگ می‌کنیم.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+</div>
 </main>
 
 <!-- include: footer -->

@@ -1,6 +1,7 @@
 // Scroll and pointer motion that is not part of the 3D stage:
-// reveals, depth entrance of product cards, hero copy parallax, layered
-// parallax, card tilt with edge light, and magnetic buttons.
+// reveals, depth entrance of product cards, hero copy lift, layered
+// parallax, the current filling the "why" circuit, card tilt with edge
+// light, and magnetic buttons.
 import { finePointer } from './util.js';
 
 const root = document.documentElement;
@@ -18,7 +19,7 @@ export function initAnimations({ reducedMotion }) {
 // Elements enter once. Cards that arrive in the same batch are staggered
 // in reading order so a row lands right-to-left as a single movement.
 function initReveals(reducedMotion) {
-  const targets = document.querySelectorAll('[data-reveal], .product-item');
+  const targets = document.querySelectorAll('[data-reveal], .pitem');
   if (reducedMotion || !('IntersectionObserver' in window)) {
     targets.forEach((el) => el.classList.add('is-in'));
     return;
@@ -29,7 +30,7 @@ function initReveals(reducedMotion) {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
         const el = entry.target;
-        if (el.classList.contains('product-item')) el.style.setProperty('--d', String(batch++));
+        if (el.classList.contains('pitem')) el.style.setProperty('--d', String(batch++));
         el.classList.add('is-in');
         io.unobserve(el);
       }
@@ -42,15 +43,21 @@ function initReveals(reducedMotion) {
 function initScrollLinked(reducedMotion) {
   const layers = [...document.querySelectorAll('[data-depth]')];
   const hasHero = Boolean(document.querySelector('.hero'));
+  const circuit = document.querySelector('[data-circuit]');
   let ticking = false;
 
   function update() {
     ticking = false;
     const vh = innerHeight;
     if (hasHero) {
-      // Hero copy lifts away faster than the page (see .hero-copy in CSS).
-      const p = reducedMotion ? 0 : clamp(scrollY / (vh * 0.62), 0, 1);
+      // Hero copy lifts away faster than the page (see .hero-head in CSS).
+      const p = reducedMotion || root.dataset.route !== 'home' ? 0 : clamp(scrollY / (vh * 0.62), 0, 1);
       root.style.setProperty('--hero-progress', p.toFixed(3));
+    }
+    if (circuit && circuit.offsetParent !== null) {
+      const r = circuit.getBoundingClientRect();
+      const p = reducedMotion ? 1 : clamp((vh * 0.7 - r.top) / r.height, 0, 1);
+      circuit.style.setProperty('--progress', p.toFixed(3));
     }
     if (reducedMotion) return;
     for (const el of layers) {
@@ -68,12 +75,13 @@ function initScrollLinked(reducedMotion) {
   };
   addEventListener('scroll', request, { passive: true });
   addEventListener('resize', request);
+  addEventListener('simland:route', request);
   update();
 }
 
 function initCardTilt() {
   const MAX = 5;
-  document.querySelectorAll('.product-card').forEach((card) => {
+  document.querySelectorAll('.pcard').forEach((card) => {
     let frame = 0;
     let event = null;
     const paint = () => {

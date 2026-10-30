@@ -1,6 +1,6 @@
 import { contact } from './site-config.js';
 import { initAnimations } from './animations.js';
-import { initProducts } from './products.js';
+import { initFilters, initProducts } from './products.js';
 import { currentRoute, initRouter } from './router.js';
 import { prefersReducedMotion, toFa } from './util.js';
 
@@ -50,7 +50,7 @@ function onScrollHeader() {
 addEventListener('scroll', onScrollHeader, { passive: true });
 onScrollHeader();
 
-// ---------------------------------------------------------------- Active section + nav indicator
+// ---------------------------------------------------------------- Active page + nav indicator
 
 const navList = header.querySelector('[data-nav-list]');
 const indicator = header.querySelector('[data-nav-indicator]');
@@ -70,46 +70,22 @@ function placeIndicator() {
 
 function setActive(key) {
   activeKey = key;
-  const route = currentRoute();
   for (const link of navLinks) {
-    const name = link.dataset.nav;
-    link.classList.toggle('is-active', name === key);
-    // "page" marks the view itself; a section in view gets "location".
-    if (name === route) link.setAttribute('aria-current', 'page');
-    else if (name === key) link.setAttribute('aria-current', 'location');
+    const on = link.dataset.nav === key;
+    link.classList.toggle('is-active', on);
+    if (on) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
   }
   placeIndicator();
 }
 
-const sections = {
-  home: [
-    ['contact', document.getElementById('contact')],
-    ['products', document.getElementById('products')],
-  ],
-  products: [['contact', document.getElementById('contact')]],
-};
-
-function onScrollSpy() {
-  const probe = innerHeight * 0.45;
-  const route = currentRoute();
-  let key = route;
-  for (const [name, el] of sections[route]) {
-    const r = el.getBoundingClientRect();
-    if (r.top < probe && r.bottom > probe) {
-      key = name;
-      break;
-    }
-  }
-  if (key !== activeKey) setActive(key);
-}
-
-addEventListener('scroll', onScrollSpy, { passive: true });
 addEventListener('resize', placeIndicator);
 document.fonts?.ready.then(placeIndicator);
-router.onChange((route) => setActive(route));
+router.onChange((route) => {
+  setActive(route);
+  setMenu(false);
+});
 setActive(currentRoute());
-onScrollSpy();
 
 // ---------------------------------------------------------------- Contact details
 
@@ -159,30 +135,46 @@ try {
 
 initAnimations({ reducedMotion });
 initProducts({ reducedMotion });
+initFilters({ reducedMotion });
 
-// ---------------------------------------------------------------- 3D cable (home only)
+// ---------------------------------------------------------------- 3D stage (all three pages)
 
-const stageHost = document.querySelector('[data-stage]');
-if (stageHost) startStage();
+const hosts = {
+  home: document.querySelector('[data-stage]'),
+  products: document.querySelector('[data-stage-host="products"]'),
+  contact: document.querySelector('[data-stage-host="contact"]'),
+};
+const callouts = new Map([...document.querySelectorAll('[data-callout]')].map((el) => [el.dataset.callout, el]));
+if (hosts.home) startStage();
+
+// Engineering labels that follow the layers of the turning cable.
+function placeCallouts(shot, points) {
+  const width = hosts.products.clientWidth;
+  for (const p of points) {
+    const el = callouts.get(p.name);
+    if (!el) continue;
+    el.style.setProperty('--x', `${p.x.toFixed(1)}px`);
+    el.style.setProperty('--y', `${p.y.toFixed(1)}px`);
+    el.classList.toggle('is-flip', p.x > width * 0.62);
+    el.classList.toggle('is-visible', p.visible);
+  }
+}
 
 async function startStage() {
   const capture = new URLSearchParams(location.search).get('capture');
   // Slow device or connection: show the rendered poster until the 3D frame is ready.
-  const posterTimer = setTimeout(() => {
-    if (currentRoute() === 'home') root.classList.add('poster-on');
-  }, 3500);
+  const posterTimer = setTimeout(() => root.classList.add('poster-on'), 3500);
   try {
     if (!hasWebGL()) throw new Error('WebGL unavailable');
-    const { createCableStage } = await import('./hero3d/stage.js');
-    await createCableStage({
-      heroHost: stageHost,
-      macroHost: document.querySelector('[data-macro-host]'),
-      slot: document.querySelector('[data-cable-slot]'),
-      heroCopy: document.querySelector('[data-hero-copy]'),
-      header,
+    const { createStage } = await import('./hero3d/stage.js');
+    await createStage({
+      hosts,
+      slot: document.querySelector('[data-scene-slot]'),
+      hero: document.querySelector('[data-hero]'),
       reducedMotion,
       capture,
       skipIntro: () => root.classList.contains('poster-on'),
+      onCallouts: placeCallouts,
     });
   } catch (err) {
     root.classList.add('no-webgl');

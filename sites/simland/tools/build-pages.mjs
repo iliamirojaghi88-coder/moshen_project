@@ -15,7 +15,7 @@ import path from 'node:path';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const at = (...p) => path.join(root, ...p);
-const { products } = JSON.parse(await readFile(at('source/mapping.json'), 'utf8'));
+const { products, categories } = JSON.parse(await readFile(at('source/mapping.json'), 'utf8'));
 
 const fa = (n) => String(n).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
 const MIME = { webp: 'image/webp', svg: 'image/svg+xml', woff2: 'font/woff2', jpg: 'image/jpeg', png: 'image/png' };
@@ -27,34 +27,58 @@ async function dataUri(file) {
 
 // ---------------------------------------------------------------- product grids
 
+const catName = Object.fromEntries(categories.map((c) => [c.key, c.name]));
+const catIcon = { building: 'i-building', industrial: 'i-factory', special: 'i-chip' };
+
+// Image attributes: linked files in development; in the single file each
+// image is embedded once (home grid) and other places copy it at runtime.
+async function imageAttrs(slug, embed, sizes) {
+  const file = (w) => `assets/images/products/${slug}-${w}.webp`;
+  if (embed === 'link') return `src="${file(660)}" srcset="${file(440)} 440w, ${file(660)} 660w, ${file(880)} 880w" sizes="${sizes}"`;
+  if (embed === 'inline') return `src="${await dataUri(at(file(880)))}"`;
+  return `data-src-ref="${slug}"`;
+}
+
 async function productGrid(view, single) {
   const sizes = '(min-width: 1320px) 250px, (min-width: 1100px) 23vw, (min-width: 640px) 30vw, 46vw';
+  const embed = !single ? 'link' : view === 'home' ? 'inline' : 'ref';
   const items = [];
   for (const [i, p] of products.entries()) {
-    const file = (w) => `assets/images/products/${p.slug}-${w}.webp`;
-    let image;
-    if (!single) {
-      image = `src="${file(660)}" srcset="${file(440)} 440w, ${file(660)} 660w, ${file(880)} 880w" sizes="${sizes}"`;
-    } else if (view === 'home') {
-      image = `src="${await dataUri(at(file(880)))}"`;
-    } else {
-      // Embedded once (home grid); products.js copies it here.
-      image = `data-src-ref="${p.slug}"`;
-    }
-    items.push(`      <li class="product-item" style="--i:${i}">
-        <a class="product-card" href="#/products/${p.slug}" data-product="${p.slug}">
-          <span class="product-media">
-            <img ${image} width="880" height="1100" alt="" loading="lazy" decoding="async">
-            <span class="product-sheen" aria-hidden="true"></span>
+    items.push(`      <li class="pitem" style="--i:${i}" data-cat="${p.category}">
+        <a class="pcard" href="#/products/${p.slug}" data-product="${p.slug}" data-cat-name="${catName[p.category]}">
+          <span class="pcard-stage">
+            <span class="pcard-glow" aria-hidden="true"></span>
+            <span class="pcard-floor" aria-hidden="true"></span>
+            <img class="pcard-img" ${await imageAttrs(p.slug, embed, sizes)} width="880" height="1100" alt="" loading="lazy" decoding="async">
           </span>
-          <span class="product-meta">
-            <span class="product-name">${p.name}</span>
-            <span class="product-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+          <span class="pcard-body">
+            <span class="pcard-cat"><svg aria-hidden="true"><use href="#${catIcon[p.category]}"/></svg>${catName[p.category]}</span>
+            <span class="pcard-name">${p.name}</span>
+            <span class="pcard-more"><span>مشاهده جزئیات</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
           </span>
         </a>
       </li>`);
   }
-  return `    <ul class="product-grid" data-product-grid aria-label="${fa(products.length)} محصول">\n${items.join('\n')}\n    </ul>`;
+  return `    <ul class="pgrid" data-product-grid data-view-grid="${view}" aria-label="${fa(products.length)} محصول">\n${items.join('\n')}\n    </ul>`;
+}
+
+async function categoryTiles(single) {
+  const tiles = [];
+  for (const c of categories) {
+    const members = products.filter((p) => p.category === c.key);
+    const thumbs = [];
+    for (const p of members.slice(0, 4)) {
+      thumbs.push(`<img ${await imageAttrs(p.slug, single ? 'ref' : 'link', '120px')} width="880" height="1100" alt="" loading="lazy" decoding="async">`);
+    }
+    tiles.push(`      <button class="cat" type="button" data-filter-jump="${c.key}">
+        <span class="cat-thumbs" aria-hidden="true">${thumbs.join('')}</span>
+        <span class="cat-icon" aria-hidden="true"><svg><use href="#${catIcon[c.key]}"/></svg></span>
+        <span class="cat-name">${c.name}</span>
+        <span class="cat-text">${c.text}</span>
+        <span class="cat-count">${fa(members.length)} محصول</span>
+      </button>`);
+  }
+  return `    <div class="cats-grid">\n${tiles.join('\n')}\n    </div>`;
 }
 
 // ---------------------------------------------------------------- inlined CSS and JS
@@ -92,7 +116,8 @@ async function page(single) {
   }
   html = html
     .replace('<!-- products: home -->', await productGrid('home', single))
-    .replace('<!-- products: catalog -->', await productGrid('products', single));
+    .replace('<!-- products: catalog -->', await productGrid('products', single))
+    .replace('<!-- categories -->', await categoryTiles(single));
   for (const m of [...html.matchAll(/\{\{asset:([^}]+)\}\}/g)]) {
     html = html.replace(m[0], single ? await dataUri(at('assets', m[1])) : `assets/${m[1]}`);
   }

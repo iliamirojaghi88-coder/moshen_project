@@ -1,8 +1,8 @@
 // Product detail view: a native <dialog> opened from any product card, on
-// either view. The card image morphs into the dialog image with a view
+// the home or products page. The card image morphs into the dialog image with a view
 // transition where the browser supports it; the URL gets #/products/<slug>
-// (or #/product/<slug> on the home view) so the product can be shared and the
-// back button closes it.
+// (or #/product/<slug> on the home page) so the product can be shared and the
+// back button closes it. Also the category filter of the catalogue.
 import { currentRoute, setUrl } from './router.js';
 import { toFa } from './util.js';
 
@@ -11,18 +11,19 @@ const SLUG_HASH = /^#\/products?\/([\w-]+)$/;
 
 export function initProducts({ reducedMotion }) {
   const dialog = document.querySelector('[data-product-dialog]');
-  const cards = [...document.querySelectorAll('.product-card')];
+  const cards = [...document.querySelectorAll('.pcard')];
   if (!dialog || !cards.length) return;
 
-  // The products grid can appear on both views; an image embedded once is
-  // shared by every card that shows the same product.
+  // The product grid appears on two pages; an image embedded once is shared
+  // by every card and thumbnail that shows the same product.
   document.querySelectorAll('img[data-src-ref]').forEach((el) => {
-    const source = document.querySelector(`.product-card[data-product="${el.dataset.srcRef}"] img[src]`);
+    const source = document.querySelector(`.pcard[data-product="${el.dataset.srcRef}"] img[src]`);
     if (source) el.src = source.getAttribute('src');
   });
 
   const img = dialog.querySelector('[data-pd-img]');
   const title = dialog.querySelector('[data-pd-title]');
+  const catEl = dialog.querySelector('[data-pd-cat]');
   const indexEl = dialog.querySelector('[data-pd-index]');
   const products = [];
   for (const card of cards) {
@@ -31,7 +32,8 @@ export function initProducts({ reducedMotion }) {
     const srcset = cardImg.getAttribute('srcset');
     products.push({
       slug: card.dataset.product,
-      name: card.querySelector('.product-name').textContent.trim(),
+      name: card.querySelector('.pcard-name').textContent.trim(),
+      cat: card.dataset.catName,
       srcset,
       // with a srcset the largest file is the 880px one; inlined images are already 880px
       src: srcset ? cardImg.getAttribute('src').replace('-660.', '-880.') : cardImg.getAttribute('src'),
@@ -56,6 +58,7 @@ export function initProducts({ reducedMotion }) {
     img.src = p.src;
     img.alt = p.name;
     title.textContent = p.name;
+    catEl.textContent = p.cat;
     indexEl.textContent = toFa(i + 1);
     if (swap) {
       img.classList.remove('is-swapping');
@@ -149,17 +152,13 @@ export function initProducts({ reducedMotion }) {
     if (e.key === 'ArrowRight') step(-1);
   });
 
+  // Inquiry: the dialog closes on the spot and the router opens the contact
+  // page; back returns to this product.
   dialog.querySelectorAll('[data-pd-inquiry]').forEach((link) => {
-    link.addEventListener('click', (e) => {
-      const target = document.getElementById('contact');
-      if (!target) return;
-      e.preventDefault();
-      setUrl('#contact', { route: currentRoute() }, true);
+    link.addEventListener('click', () => {
       delete dialog.dataset.morphed;
       dialog.close();
       root.classList.remove('dialog-open');
-      target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
-      target.querySelector('h2')?.focus({ preventScroll: true });
     });
   });
 
@@ -189,6 +188,45 @@ export function initProducts({ reducedMotion }) {
   // so closing it just returns the address to the view it was opened on.
   dialog.addEventListener('close', () => {
     if (history.state?.landing) setUrl(currentRoute() === 'products' ? '#/products' : '', { route: currentRoute() }, true);
+  });
+}
+
+// Catalogue filter: chips above the grid and the category tiles above them.
+export function initFilters({ reducedMotion }) {
+  const grid = document.querySelector('[data-view-grid="products"]');
+  const chips = [...document.querySelectorAll('[data-filter]')];
+  if (!grid || !chips.length) return;
+  const items = [...grid.querySelectorAll('.pitem')];
+
+  function apply(key) {
+    chips.forEach((chip) => {
+      const on = chip.dataset.filter === key;
+      chip.classList.toggle('is-active', on);
+      chip.setAttribute('aria-pressed', String(on));
+    });
+    grid.classList.toggle('is-filtered', key !== 'all');
+    let n = 0;
+    for (const item of items) {
+      const show = key === 'all' || item.dataset.cat === key;
+      item.hidden = !show;
+      if (!show) continue;
+      if (!reducedMotion) {
+        item.classList.remove('is-in');
+        item.style.setProperty('--d', String(n++));
+      }
+    }
+    if (!reducedMotion) {
+      void grid.offsetWidth;
+      items.forEach((item) => !item.hidden && item.classList.add('is-in'));
+    }
+  }
+
+  chips.forEach((chip) => chip.addEventListener('click', () => apply(chip.dataset.filter)));
+  document.querySelectorAll('[data-filter-jump]').forEach((tile) => {
+    tile.addEventListener('click', () => {
+      apply(tile.dataset.filterJump);
+      document.getElementById('catalog')?.scrollIntoView({ behavior: reducedMotion ? 'instant' : 'smooth', block: 'start' });
+    });
   });
 }
 

@@ -2,7 +2,7 @@
 // (source/standardized/<slug>.png, made by tools/standardize-products.py).
 //
 // One layout rule for all ten products, so they read as one studio set:
-//   · canvas 880 × 1100 (4:5), pure black like the card's image well
+//   · canvas 880 × 1100 (4:5), transparent: the card supplies the lit stage
 //   · every product is scaled to the same height (80% of the canvas), unless
 //     it would get wider than 80% of the canvas, then it is fitted by width
 //   · centred, so the top and bottom margins are the same on every card
@@ -36,7 +36,7 @@ for (const p of products) {
   const product = await sharp(master).resize(w, h, { kernel: 'lanczos3' }).toBuffer();
 
   const canvas = await sharp({
-    create: { width: CANVAS_W, height: CANVAS_H, channels: 3, background: '#000000' },
+    create: { width: CANVAS_W, height: CANVAS_H, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
   })
     .composite([{ input: product, left: Math.round((CANVAS_W - w) / 2), top: Math.round((CANVAS_H - h) / 2) }])
     .png()
@@ -45,7 +45,7 @@ for (const p of products) {
   for (const width of WIDTHS) {
     let img = sharp(canvas).resize(width, Math.round((width / CANVAS_W) * CANVAS_H), { kernel: 'lanczos3' });
     if (width < CANVAS_W) img = img.sharpen({ sigma: 0.45 });
-    await img.webp({ quality: 86, smartSubsample: true, effort: 6 }).toFile(path.join(outDir, `${p.slug}-${width}.webp`));
+    await img.webp({ quality: 86, alphaQuality: 92, smartSubsample: true, effort: 6 }).toFile(path.join(outDir, `${p.slug}-${width}.webp`));
   }
   console.log(`${p.slug.padEnd(17)} ${w}×${h}  scale ${scale.toFixed(2)}`);
 }

@@ -1,205 +1,144 @@
-// The cable stage: one WebGL renderer and one cable model, filmed in two
-// "shots". The canvas is re-parented between them, so the page never runs two
-// WebGL scenes at once.
+// One WebGL renderer for the whole site, three shots:
 //
-//  hero  — fixed behind the hero. A short dolly-in on load, then scroll moves
-//          the cable from the hero composition onto the products heading,
-//          where it locks to the page and scrolls away with it.
-//  macro — inside the "why SIMLAND" panel: a close-up of the copper strands
-//          that turns slowly as that section scrolls.
+//  home     the infinity world behind the home hero. The camera flies in on
+//           load, drifts with the pointer, and on scroll dives towards the
+//           copper end of the cable as the products sheet rises over it.
+//  products the armoured cable turning slowly beside the products headline,
+//           with engineering callouts that follow its layers.
+//  contact  two cable ends meeting, current glowing between them.
+//
+// The canvas moves to whichever page is showing; nothing renders while its
+// host is off screen, while the tab is hidden or while a dialog covers it.
 import {
+  AdditiveBlending,
+  CanvasTexture,
   DirectionalLight,
   Group,
+  HemisphereLight,
   NeutralToneMapping,
   PerspectiveCamera,
+  PointLight,
   SRGBColorSpace,
   Scene,
+  Sprite,
+  SpriteMaterial,
   Vector3,
   WebGLRenderer,
 } from 'three';
 import { docOffset } from '../util.js';
-import { buildCable } from './cable-model.js';
 import { smoothstep } from './geometry.js';
-import { createStudioEnvironment } from './studio.js';
+import { createInfinityScene } from './infinity-scene.js';
+import { buildCable } from './cable-model.js';
+import { canvas, studioEnvironment } from './materials.js';
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const lerp = (a, b, t) => a + (b - a) * t;
-const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
-const damp = (current, target, lambda, dt) => lerp(current, target, 1 - Math.exp(-lambda * dt));
+const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const damp = (a, b, k, dt) => lerp(a, b, 1 - Math.exp(-k * dt));
+const root = document.documentElement;
 
-const POSE_KEYS = ['tiltX', 'tiltZ', 'spin', 'yaw', 'pitch', 'dist', 'x', 'y', 'env', 'focus'];
-function mix(a, b, t) {
-  const out = {};
-  for (const k of POSE_KEYS) out[k] = lerp(a[k], b[k], t);
-  return out;
-}
-
-const FOV = 26;
-const TAN = Math.tan(((FOV / 2) * Math.PI) / 180);
-const INTRO_SECONDS = 3.6;
-// Must match the hero layout switch in responsive.css.
-const wideQuery = matchMedia('(min-aspect-ratio: 21/20) and (min-width: 640px)');
-
-export async function createCableStage({ heroHost, macroHost, slot, heroCopy, header, reducedMotion = false, capture = null, skipIntro = () => false }) {
-  const heroSection = heroCopy.closest('section');
+export async function createStage({ hosts, slot, hero, reducedMotion = false, capture = null, skipIntro = () => false, onCallouts = () => {} }) {
   const coarse = matchMedia('(pointer: coarse)').matches;
-  const weak =
-    (navigator.hardwareConcurrency || 8) <= 4 ||
-    (navigator.deviceMemory || 8) <= 4 ||
-    navigator.connection?.saveData === true;
-  const quality = capture ? 'high' : coarse && innerWidth < 820 ? 'low' : weak ? 'low' : 'high';
-  const maxDpr = capture ? 2 : quality === 'high' ? 2 : 1.5;
-  let dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
+  const weak = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4 || navigator.connection?.saveData === true;
+  const quality = capture ? 'high' : (coarse && innerWidth < 820) || weak ? 'low' : 'high';
+  let dpr = Math.min(window.devicePixelRatio || 1, capture ? 2 : quality === 'high' ? 1.75 : 1.35);
 
-  const renderer = new WebGLRenderer({
-    antialias: true,
-    alpha: true,
-    powerPreference: 'high-performance',
-    preserveDrawingBuffer: Boolean(capture),
-  });
+  const renderer = new WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: Boolean(capture) });
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = SRGBColorSpace;
   renderer.toneMapping = NeutralToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMappingExposure = 1.02;
   renderer.setPixelRatio(dpr);
-  const canvas = renderer.domElement;
-  canvas.className = 'stage-canvas';
-  canvas.setAttribute('aria-hidden', 'true');
+  renderer.shadowMap.enabled = true;
+  const el = renderer.domElement;
+  el.className = 'stage-canvas';
+  el.setAttribute('aria-hidden', 'true');
 
   if (document.fonts?.load) {
-    await Promise.race([document.fonts.load('600 34px Estedad'), new Promise((r) => setTimeout(r, 1500))]);
+    await Promise.race([
+      Promise.all([document.fonts.load('900 120px Estedad'), document.fonts.load('700 40px Estedad')]),
+      new Promise((r) => setTimeout(r, 1500)),
+    ]);
   }
 
-  const scene = new Scene();
-  scene.environment = createStudioEnvironment(renderer);
-  scene.environmentIntensity = 1.0;
+  const camera = new PerspectiveCamera(30, 1, 0.1, 400);
+  const TAN = (fov) => Math.tan(((fov / 2) * Math.PI) / 180);
 
-  const cable = buildCable(quality);
-  const spin = new Group();
-  const tilt = new Group();
-  spin.add(cable.group);
-  tilt.add(spin);
-  scene.add(tilt);
+  // ---------------------------------------------------------------- scenes (built on first use)
+  let home = null;
+  let studio = null;
 
-  const key = new DirectionalLight('#fff7ef', 1.4);
-  scene.add(key);
-  scene.add(key.target);
+  function getHome() {
+    if (!home) home = createInfinityScene(renderer, quality);
+    return home;
+  }
 
-  const camera = new PerspectiveCamera(FOV, 1, 0.1, 200);
+  function getStudio() {
+    if (studio) return studio;
+    const scene = new Scene();
+    scene.environment = studioEnvironment(renderer);
+    const key = new DirectionalLight('#fff6ec', 1.6);
+    key.castShadow = true;
+    key.shadow.mapSize.set(1024, 1024);
+    Object.assign(key.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6 });
+    key.shadow.bias = -0.0005;
+    key.shadow.normalBias = 0.02;
+    scene.add(key, key.target, new HemisphereLight('#e8f0ff', '#2a3140', 0.35));
+    const make = (kind) => {
+      const c = buildCable(kind, quality);
+      const spin = new Group();
+      const tilt = new Group();
+      c.group.position.copy(c.focus.tips).negate();
+      spin.add(c.group);
+      tilt.add(spin);
+      scene.add(tilt);
+      return { ...c, spin, tilt };
+    };
+    const a = make('armoured');
+    const b = make('instrument');
+    // the current between the two ends on the contact page
+    const [gc, g] = canvas(128);
+    const grad = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.18, 'rgba(170,225,255,0.9)');
+    grad.addColorStop(0.5, 'rgba(60,140,255,0.28)');
+    grad.addColorStop(1, 'rgba(40,110,255,0)');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 128, 128);
+    const glowTex = new CanvasTexture(gc);
+    glowTex.colorSpace = SRGBColorSpace;
+    const glow = new Sprite(new SpriteMaterial({ map: glowTex, blending: AdditiveBlending, depthWrite: false, transparent: true }));
+    const spark = new PointLight('#8fd3ff', 0, 8, 1.6);
+    scene.add(glow, spark);
+    studio = { scene, key, a, b, glow, spark };
+    return studio;
+  }
 
-  // ---------------------------------------------------------------------------
-  // Layout: where on screen the cable should sit, measured from the DOM.
-  const layout = { vw: 1, vh: 1, hero: null, land: null, landScroll: 0, wide: true };
+  // ---------------------------------------------------------------- layout
+  const view = { slot: null, heroBottom: 1 };
 
   function measure() {
-    const vw = heroHost.clientWidth || innerWidth;
-    const vh = heroHost.clientHeight || innerHeight;
-    const wide = wideQuery.matches;
-    const headerBottom = header ? header.offsetTop + header.offsetHeight : 0;
-    const copy = docOffset(heroCopy);
-    const copyTop = copy.top;
-    let hero;
-    if (wide) {
-      // Text block on the right (RTL start); the cable owns the left side.
-      const right = copy.left - vw * 0.02;
-      hero = { cx: right * 0.56, cy: vh * 0.53, w: right, h: vh - headerBottom };
-    } else {
-      const top = headerBottom + 4;
-      const bottom = Math.max(top + vh * 0.24, copyTop - 6);
-      hero = { cx: vw * 0.5, cy: (top + bottom) / 2, w: vw, h: bottom - top };
+    if (slot && slot.offsetParent !== null) {
+      const r = docOffset(slot);
+      view.slot = { cx: r.left + r.width / 2, cy: r.top + r.height / 2, w: r.width, h: r.height };
     }
-    const r = docOffset(slot);
-    const landScroll = Math.max(1, r.top + r.height / 2 - vh / 2);
-    const land = { cx: r.left + r.width / 2, cy: vh / 2, w: r.width, h: r.height };
-    Object.assign(layout, { vw, vh, wide, hero, land, landScroll });
+    if (hero && hero.offsetParent !== null) {
+      const r = docOffset(hero);
+      view.heroBottom = r.top + r.height;
+    }
   }
 
-  // Distance that makes a subject of (sw × sh) world units fill `fill` of a region.
-  function fitDistance(region, sw, sh, fill) {
-    const byH = sh / (2 * TAN * clamp01((region.h * fill) / layout.vh));
-    const byW = sw / (2 * TAN * (layout.vw / layout.vh) * clamp01((region.w * fill) / layout.vw));
-    return Math.max(byH, byW);
-  }
-
-  function heroPose() {
-    const { hero, wide } = layout;
-    // Wide: rising from the lower-left corner towards the headline.
-    // Narrow: hanging in from the top-left corner, stripped end pointing down
-    // at the title, so the cable never crosses the text below it.
-    return wide
-      ? { tiltX: 0.4, tiltZ: -0.62, spin: 0.55, yaw: -0.18, pitch: 0.1, dist: fitDistance(hero, 6.6, 7.6, 0.84), x: hero.cx, y: hero.cy, env: 0, focus: 0.5 }
-      : { tiltX: -0.3, tiltZ: -2.28, spin: 2.2, yaw: 0.1, pitch: 0.06, dist: fitDistance(hero, 6.4, 6.4, 0.96), x: hero.cx * 1.18, y: hero.cy + hero.h * 0.1, env: 0, focus: 0.55 };
-  }
-
-  function introPose(p) {
-    return { ...p, tiltX: p.tiltX - 0.25, tiltZ: p.tiltZ + 0.22, spin: p.spin - 1.35, yaw: p.yaw + 0.5, pitch: p.pitch - 0.1, dist: p.dist * 1.85, env: -1.6 };
-  }
-
-  function landPose() {
-    const { land, wide } = layout;
-    // Lying almost horizontal, cut end pointing at the heading text.
-    return wide
-      ? { tiltX: 0.55, tiltZ: -1.36, spin: 1.2, yaw: -0.3, pitch: 0.16, dist: fitDistance(land, 8.2, 5.2, 0.95), x: land.cx, y: land.cy, env: 0.7, focus: 0.15 }
-      : { tiltX: 0.5, tiltZ: -1.4, spin: 1.2, yaw: -0.22, pitch: 0.14, dist: fitDistance(land, 8.6, 5.0, 0.98), x: land.cx, y: land.cy, env: 0.7, focus: 0.15 };
-  }
-
-  function macroPose(m, t) {
-    const w = macroHost.clientWidth || 1;
-    const h = macroHost.clientHeight || 1;
-    const portrait = h > w;
-    return {
-      tiltX: 1.02,
-      tiltZ: -0.32,
-      spin: 0.4 + m * 2.0 + (reducedMotion ? 0 : Math.sin(t * 0.2) * 0.05),
-      yaw: 0.25,
-      pitch: 0.02,
-      dist: portrait ? 9.2 : 7.4,
-      x: w / 2,
-      y: h * 0.5,
-      env: 0.3 + m * 0.9,
-      focus: 1,
-    };
-  }
-
-  // ---------------------------------------------------------------------------
-  const focusLocal = new Vector3();
-  const focusWorld = new Vector3();
-  const offset = new Vector3();
-
-  function apply(pose, viewW, viewH, extraShiftPx = 0) {
-    tilt.rotation.set(pose.tiltX, 0, pose.tiltZ);
-    spin.rotation.y = pose.spin;
-    focusLocal.lerpVectors(cable.focus.cut, cable.focus.tips, pose.focus);
-    tilt.updateMatrixWorld(true);
-    focusWorld.copy(focusLocal).applyMatrix4(tilt.matrixWorld);
-
-    offset.set(Math.sin(pose.yaw) * Math.cos(pose.pitch), Math.sin(pose.pitch), Math.cos(pose.yaw) * Math.cos(pose.pitch)).multiplyScalar(pose.dist);
-    camera.position.copy(focusWorld).add(offset);
-    camera.lookAt(focusWorld);
-    camera.aspect = viewW / viewH;
-    camera.updateProjectionMatrix();
-    // Lens shift: move the focus point to (x, y) in canvas pixels.
-    const dx = (pose.x / viewW) * 2 - 1;
-    const dy = 1 - ((pose.y - extraShiftPx) / viewH) * 2;
-    camera.projectionMatrix.elements[8] = -dx;
-    camera.projectionMatrix.elements[9] = -dy;
-    camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
-
-    scene.environmentRotation.set(0, pose.env, 0);
-    key.position.set(Math.cos(pose.env + 0.9) * 10, 8, Math.sin(pose.env + 0.9) * 10).add(focusWorld);
-    key.target.position.copy(focusWorld);
-  }
-
-  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------- modes
   let mode = 'off';
   let host = null;
   let width = 0;
   let height = 0;
+  let enteredAt = performance.now();
 
-  function resizeTo(el) {
-    const w = Math.max(1, Math.round(el.clientWidth));
-    const h = Math.max(1, Math.round(el.clientHeight));
+  function resizeTo(target) {
+    const w = Math.max(1, Math.round(target.clientWidth));
+    const h = Math.max(1, Math.round(target.clientHeight));
     if (w !== width || h !== height) {
       width = w;
       height = h;
@@ -207,14 +146,30 @@ export async function createCableStage({ heroHost, macroHost, slot, heroCopy, he
     }
   }
 
+  function inView(node, margin = 80) {
+    if (!node || node.offsetParent === null) return false;
+    const r = node.getBoundingClientRect();
+    return r.bottom > -margin && r.top < innerHeight + margin;
+  }
+
+  function chooseMode() {
+    if (capture) return capture;
+    const route = root.dataset.route || 'home';
+    if (route === 'home') return scrollY < view.heroBottom + 40 ? 'home' : 'off';
+    if (route === 'products') return inView(hosts.products) ? 'products' : 'off';
+    if (route === 'contact') return inView(hosts.contact) ? 'contact' : 'off';
+    return 'off';
+  }
+
   function setMode(next) {
     if (next === mode) return;
     mode = next;
-    document.documentElement.dataset.stage = mode;
+    root.dataset.stage = mode;
     if (mode === 'off') return;
-    const target = mode === 'hero' ? heroHost : macroHost;
+    enteredAt = performance.now();
+    const target = hosts[mode];
     if (host !== target) {
-      target.appendChild(canvas);
+      target.appendChild(el);
       host = target;
       width = height = 0;
     }
@@ -222,93 +177,179 @@ export async function createCableStage({ heroHost, macroHost, slot, heroCopy, he
     wake();
   }
 
-  function chooseMode() {
-    if (capture) return capture === 'macro' ? 'macro' : 'hero';
-    // The products view hides the hero and the "why" panel.
-    if (document.documentElement.dataset.route === 'products') return 'off';
-    // With reduced motion the cable never lands, so the hero itself is the limit.
-    const heroEnd = (reducedMotion ? heroSection : slot).getBoundingClientRect();
-    if (heroEnd.bottom > -40) return 'hero';
-    const m = macroHost.getBoundingClientRect();
-    if (m.bottom > -80 && m.top < innerHeight + 80) return 'macro';
-    return 'off';
+  // ---------------------------------------------------------------- shots
+  const pointer = { x: 0, y: 0, sx: 0, sy: 0 };
+  let smooth = scrollY;
+  let introStart = -1;
+  const target = new Vector3();
+  const offset = new Vector3();
+
+  function orbit(t, dist, elv, az, shiftX, shiftY, fov) {
+    camera.fov = fov;
+    camera.aspect = width / height;
+    offset.set(Math.sin(az) * Math.cos(elv), Math.sin(elv), Math.cos(az) * Math.cos(elv)).multiplyScalar(dist);
+    camera.position.copy(t).add(offset);
+    camera.lookAt(t);
+    camera.updateProjectionMatrix();
+    camera.projectionMatrix.elements[8] = -shiftX;
+    camera.projectionMatrix.elements[9] = -shiftY;
+    camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
   }
 
-  // ---------------------------------------------------------------------------
-  const pointer = { x: 0, y: 0, sx: 0, sy: 0 };
-  let smoothScroll = scrollY;
-  let introStart = -1;
-  let last = performance.now();
+  function homeShot(now, dt, t) {
+    const s = getHome();
+    const wide = width / height > 1.15;
+    const fov = wide ? 30 : 34;
+    const region = view.slot ?? { cx: width / 2, cy: height / 2, w: width, h: height };
+    const elev = wide ? 0.25 : 0.42;
+    // distance that fits the world into the free space between headline and buttons
+    const sw = s.bounds.width;
+    const sh = s.bounds.height * Math.cos(elev) + 9 * Math.sin(elev);
+    // phones: let the far ends of the world leave the screen so the cable stays large
+    const spill = width / height < 0.62 ? 1.4 : 1;
+    const byW = sw / (2 * TAN(fov) * (width / height) * Math.min(1.5, (region.w * 0.98 * spill) / width));
+    const byH = sh / (2 * TAN(fov) * clamp01((region.h * 0.98) / height));
+    const fit = Math.max(byW, byH);
+
+    let k = 1;
+    if (!reducedMotion && !capture) {
+      if (introStart < 0) introStart = skipIntro() ? now - 4000 : now;
+      k = clamp01((now - introStart) / 3800);
+    }
+    const e = easeOutCubic(k);
+    let dist = lerp(fit * 1.75, fit, e);
+    let el = lerp(elev + 0.32, elev, e);
+    let az = lerp(-0.62, 0, easeInOut(k));
+    target.copy(s.focus.centre);
+    let sx = (region.cx / width) * 2 - 1;
+    let sy = 1 - (region.cy / height) * 2;
+
+    if (!reducedMotion && !capture) {
+      const idle = smoothstep(0.7, 1, k);
+      pointer.sx = damp(pointer.sx, pointer.x, 2.2, dt);
+      pointer.sy = damp(pointer.sy, pointer.y, 2.2, dt);
+      az += (Math.sin(t * 0.13) * 0.04 + pointer.sx * 0.07) * idle;
+      el += pointer.sy * -0.025 * idle;
+      // scroll: dive towards the copper end
+      smooth = damp(smooth, scrollY, 8, dt);
+      const p = easeInOut(clamp01(smooth / (height * 0.85)));
+      target.lerp(s.focus.tip, p);
+      dist = lerp(dist, fit * 0.3, p);
+      el = lerp(el, 0.16, p);
+      az = lerp(az, -0.42, p);
+      sx = lerp(sx, 0.15, p);
+      sy = lerp(sy, 0.05, p);
+      s.world.rotation.y = lerp(-0.16, 0, easeInOut(k));
+    }
+    // haze starts just behind the world's centre at any camera distance
+    s.scene.fog.near = dist * 1.05;
+    s.scene.fog.far = dist * 3;
+    s.update(t);
+    orbit(target, dist, el, az, sx, sy, fov);
+    renderer.render(s.scene, camera);
+  }
+
+  function studioCamera(fov, dist) {
+    camera.fov = fov;
+    camera.aspect = width / height;
+    camera.position.set(0, 0, dist);
+    camera.lookAt(0, 0, 0);
+    camera.updateProjectionMatrix();
+  }
+
+  const anchorWorld = new Vector3();
+  const anchorNormal = new Vector3();
+  const toCam = new Vector3();
+
+  function productsShot(now, dt, t) {
+    const s = getStudio();
+    s.b.tilt.visible = false;
+    s.a.tilt.visible = true;
+    s.glow.visible = false;
+    s.spark.intensity = 0;
+    const portrait = height > width;
+    const r = host.getBoundingClientRect();
+    const pr = clamp01((innerHeight - r.top) / (innerHeight + r.height));
+    const k = reducedMotion ? 1 : easeOutCubic(clamp01((now - enteredAt) / 2200));
+    s.a.tilt.rotation.set(0.62, 0, portrait ? -0.35 : -0.72, 'YXZ');
+    s.a.spin.rotation.y = reducedMotion ? 0.6 : 0.6 + t * 0.16 + pr * 1.2 - (1 - k) * 1.4;
+    s.a.tilt.position.set(portrait ? 0.4 : 0.9, portrait ? 0.3 : 0.2, 0);
+    s.a.tilt.updateMatrixWorld(true);
+    s.key.position.set(5, 7, 6);
+    studioCamera(30, lerp(portrait ? 21 : 17.5, portrait ? 16.5 : 13.5, k));
+    renderer.render(s.scene, camera);
+    // callouts: project the anchors, hide the ones facing away
+    const out = [];
+    for (const [name, a] of Object.entries(s.a.anchors)) {
+      anchorWorld.copy(a.p).applyMatrix4(s.a.group.matrixWorld);
+      anchorNormal.copy(a.n).transformDirection(s.a.group.matrixWorld);
+      toCam.copy(camera.position).sub(anchorWorld).normalize();
+      const v = anchorWorld.clone().project(camera);
+      out.push({ name, x: (v.x * 0.5 + 0.5) * width, y: (0.5 - v.y * 0.5) * height, visible: k > 0.85 && anchorNormal.dot(toCam) > 0.05 });
+    }
+    onCallouts('products', out);
+  }
+
+  function contactShot(now, dt, t) {
+    const s = getStudio();
+    s.a.tilt.visible = true;
+    s.b.tilt.visible = true;
+    const portrait = height > width * 0.9;
+    const k = reducedMotion ? 1 : easeOutCubic(clamp01((now - enteredAt) / 1900));
+    const gap = 0.55 + (1 - k) * 6;
+    const lift = portrait ? 0.4 : 0;
+    // A from the left, cut end pointing right; B from the right
+    s.a.tilt.rotation.set(0.28, -0.32, -Math.PI / 2 + 0.06, 'YXZ');
+    s.a.spin.rotation.y = 0.9 + (reducedMotion ? 0 : Math.sin(t * 0.4) * 0.08);
+    s.a.tilt.position.set(-gap - 0.15, lift - 0.25, 0);
+    s.b.tilt.rotation.set(0.25, 0.34, Math.PI / 2 - 0.08, 'YXZ');
+    s.b.spin.rotation.y = 2.2 + (reducedMotion ? 0 : Math.sin(t * 0.37 + 1) * 0.08);
+    s.b.tilt.position.set(gap + 0.1, lift + 0.35, 0.2);
+    const pulse = reducedMotion ? 0.8 : 0.75 + 0.25 * Math.sin(t * 3.1) * Math.sin(t * 1.7 + 0.4);
+    s.glow.visible = true;
+    s.glow.position.set(0, lift + 0.05, 0.3);
+    s.glow.scale.setScalar(2.6 * pulse * k + 0.01);
+    s.glow.material.opacity = k;
+    s.spark.position.copy(s.glow.position);
+    s.spark.intensity = 9 * pulse * k;
+    s.key.position.set(4, 8, 7);
+    studioCamera(30, portrait ? 23 : 15.5);
+    renderer.render(s.scene, camera);
+  }
+
+  // ---------------------------------------------------------------- loop
   let raf = 0;
-  let frameTimes = [];
-  let firstFrame = true;
+  let last = performance.now();
+  let first = true;
+  let frames = [];
+  const covered = () => root.classList.contains('dialog-open');
 
   function frame(now) {
     raf = 0;
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
     const t = now / 1000;
-
-    if (mode === 'hero') {
-      const base = heroPose();
-      let pose = base;
-      let introDone = true;
-      if (!reducedMotion && !capture) {
-        if (introStart < 0) introStart = skipIntro() ? now - INTRO_SECONDS * 1000 : now;
-        const k = clamp01((now - introStart) / 1000 / INTRO_SECONDS);
-        introDone = k >= 1;
-        const from = introPose(base);
-        pose = mix(from, base, easeOutCubic(k));
-        pose.env = lerp(from.env, base.env, easeInOut(k));
-        pose.spin = lerp(from.spin, base.spin, easeInOut(k));
-        // Idle drift, faded in after the intro so the hand-off is seamless.
-        const idle = smoothstep(0.75, 1, k);
-        pose.spin += Math.sin(t * 0.3) * 0.06 * idle;
-        pose.env += Math.sin(t * 0.17) * 0.12 * idle;
-        pointer.sx = damp(pointer.sx, pointer.x, 2.5, dt);
-        pointer.sy = damp(pointer.sy, pointer.y, 2.5, dt);
-        pose.yaw += pointer.sx * 0.06 * idle;
-        pose.pitch += pointer.sy * 0.035 * idle;
-      }
-
-      const raw = scrollY;
-      let attachPx;
-      if (reducedMotion || capture) {
-        attachPx = capture ? 0 : raw;
-      } else {
-        smoothScroll = damp(smoothScroll, raw, 9, dt);
-        const a = easeInOut(clamp01(smoothScroll / layout.landScroll));
-        pose = mix(pose, landPose(), a);
-        attachPx = Math.max(0, raw - layout.landScroll);
-      }
-      if (!introDone || Math.abs(smoothScroll - raw) > 0.5) wake();
-      apply(pose, width, height, attachPx);
-    } else if (mode === 'macro') {
-      const r = macroHost.getBoundingClientRect();
-      const m = clamp01((innerHeight - r.top) / (innerHeight + r.height));
-      apply(macroPose(m, t), width, height, 0);
+    if (mode === 'off') return;
+    if (mode === 'home') homeShot(now, dt, t);
+    else if (mode === 'products') productsShot(now, dt, t);
+    else if (mode === 'contact') contactShot(now, dt, t);
+    if (first) {
+      first = false;
+      root.classList.add('stage-ready');
+      if (capture) root.dataset.captureReady = '1';
     }
-
-    if (mode !== 'off') {
-      renderer.render(scene, camera);
-      if (firstFrame) {
-        firstFrame = false;
-        document.documentElement.classList.add('stage-ready');
-        if (capture) document.documentElement.dataset.captureReady = '1';
-      }
-      adapt(dt);
-      // Keep animating while visible: the idle light drift is part of the shot.
-      if (!reducedMotion && !capture) wake();
-    }
+    adapt(dt);
+    // reduced motion: still frames, redrawn only on scroll, resize or page change
+    if (!capture && !reducedMotion) wake();
   }
 
-  // Drop resolution on slow devices instead of dropping frames.
+  // drop resolution on slow devices instead of dropping frames
   function adapt(dt) {
-    frameTimes.push(dt);
-    if (frameTimes.length < 90) return;
-    const avg = frameTimes.reduce((a, b) => a + b, 0) / frameTimes.length;
-    frameTimes = [];
-    if (avg > 0.026 && dpr > 1) {
+    frames.push(dt);
+    if (frames.length < 90) return;
+    const avg = frames.reduce((a, b) => a + b, 0) / frames.length;
+    frames = [];
+    if (avg > 0.028 && dpr > 1) {
       dpr = Math.max(1, dpr - 0.25);
       renderer.setPixelRatio(dpr);
       width = height = 0;
@@ -316,17 +357,12 @@ export async function createCableStage({ heroHost, macroHost, slot, heroCopy, he
     }
   }
 
-  // The product dialog covers the page: no need to keep rendering under it.
-  const covered = () => document.documentElement.classList.contains('dialog-open');
-
   function wake() {
     if (!raf && !document.hidden && mode !== 'off' && !covered()) raf = requestAnimationFrame(frame);
   }
 
-  // ---------------------------------------------------------------------------
   measure();
   setMode(chooseMode());
-
   const onScroll = () => {
     setMode(chooseMode());
     wake();
@@ -345,7 +381,11 @@ export async function createCableStage({ heroHost, macroHost, slot, heroCopy, he
     wake();
   };
   document.addEventListener('visibilitychange', resume);
-  new MutationObserver(resume).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  new MutationObserver(resume).observe(root, { attributes: true, attributeFilter: ['class'] });
+  addEventListener('simland:route', () => {
+    enteredAt = performance.now();
+    onResize();
+  });
   if (!coarse && !reducedMotion) {
     addEventListener(
       'pointermove',
@@ -356,7 +396,6 @@ export async function createCableStage({ heroHost, macroHost, slot, heroCopy, he
       { passive: true },
     );
   }
-
   wake();
-  return { renderer, setMode, measure, quality };
+  return { renderer, quality };
 }

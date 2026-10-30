@@ -1,12 +1,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#F2F5F9">
+  <meta name="theme-color" content="#eef5ff">
   <meta name="color-scheme" content="light">
   <script>
-    // Before first paint: mark JS and pick the view from the URL, so the
-    // right page shows immediately (#/products → products, anything else → home).
+    // Before first paint: mark JS and pick the page from the URL so the right
+    // one shows immediately (#/products, #/contact, anything else → home).
     (function (d) {
+      var h = location.hash;
       d.classList.add('js');
-      d.dataset.route = /^#\/products(\/|$)/.test(location.hash) ? 'products' : 'home';
+      d.dataset.route = /^#\/products(\/|$)/.test(h) ? 'products' : /^#\/contact$/.test(h) ? 'contact' : 'home';
     })(document.documentElement);
   </script>
