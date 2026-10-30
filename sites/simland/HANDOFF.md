@@ -4,6 +4,33 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
+## Exact stop point (2026-10-30, project paused by the user)
+
+- Last commit on the branch: `96015ed`.
+- `dist/index.html` (2.06 MB, single file) and the dev `index.html` are built from the current code,
+  including the last smoke tweak, which has **not** been checked visually yet.
+- **First action after «ادامه پروژه رو برو»:**
+  1. Read this file only.
+  2. Start the dev server.
+  3. Do step 1 of «Not finished yet» below (smoke in situ).
+  4. Then steps 2–6 in order.
+- Work economically (see the last section). The project was paused to analyse limit usage; any approved
+  workflow changes from that analysis apply.
+
+### Approved — do not change
+
+- The locked hero picture `source/hero/infinity-hero.png`: framing, 2:1 aspect, position, scale. No zoom,
+  camera, parallax or crop.
+- The cleaned layers from phase 1: blade cut-outs, caps, root extensions, matte cleanup.
+- Header design: glass pill with three items; «خانه» active; products and contact locked.
+- Hero copy and buttons:
+  - title «جریان مطمئن، اتصال ماندگار»;
+  - description «تأمین انواع سیم و کابل ساختمانی، صنعتی و تخصصی برای پروژه‌های امروز و فردا.»;
+  - buttons «مشاهده محصولات» and «دریافت مشاوره», with the order and layout as delivered.
+- Single-file delivery.
+- No sound, no new background, transparency kept.
+- Smoke colour: white with a very light grey, semi-transparent.
+
 ## Where we are
 
 Phase 1 (header + live hero) was delivered and approved in general. The user then sent
