@@ -1,0 +1,35 @@
+<!doctype html><meta charset="utf-8">
+<style>html,body{margin:0;background:#eef6ff}canvas{display:block}</style>
+<canvas id="c" width="760" height="640"></canvas>
+<script type="module">
+// Smoke bench: the plume() of live-hero.js alone, over the page colour, 1.6x.
+// Serve the site folder and open /tools/smoke-bench.html; renderAt(seconds) in the console.
+const src = await (await fetch('../assets/js/live-hero.js')).text();
+const frag = src.match(/const FRAG = `([\s\S]*?)`;/)[1];
+const head = frag.slice(0, frag.indexOf('void main() {'));
+const fs = head + `
+void main() {
+  vec2 P = vec2(gl_FragCoord.x / 1.6 + 300.0, (640.0 - gl_FragCoord.y) / 1.6 - 300.0);
+  vec4 c = plume(P, uChimney[0], 0.0);
+  c = over(plume(P, uChimney[1], 7.3), c);
+  vec3 bg = vec3(0.933, 0.965, 1.0);
+  gl_FragColor = vec4(c.rgb + bg * (1.0 - c.a), 1.0);
+}`;
+const gl = document.getElementById('c').getContext('webgl');
+const sh = (t, s) => { const o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o)); return o; };
+const p = gl.createProgram();
+gl.attachShader(p, sh(gl.VERTEX_SHADER, 'attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}'));
+gl.attachShader(p, sh(gl.FRAGMENT_SHADER, fs));
+gl.linkProgram(p); gl.useProgram(p);
+gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+gl.uniform3fv(gl.getUniformLocation(p, 'uChimney'), [498, 103, 24, 583, 145, 21]);
+window.renderAt = (t) => {
+  gl.uniform1f(gl.getUniformLocation(p, 'uTime'), t + 40);
+  gl.uniform1f(gl.getUniformLocation(p, 'uSmokeAge'), t);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+};
+renderAt(12);
+window.ready = true;
+</script>

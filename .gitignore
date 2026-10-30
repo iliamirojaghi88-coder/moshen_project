@@ -19,4 +19,4 @@ library/index.html
 __pycache__/
 *.pyc
 sites/simland/source/standardized/qc/
-sites/simland/tools/.three-entry.js
+sites/simland/source/hero/qc/
