@@ -1237,3 +1237,428 @@ svg {
     transform: none;
   }
 }
+
+/* ---------------------------------------------------------------- contact (the last section) */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Carries on from the pale blue end of «چرا سیم‌لند؟» (its two hairline curves mark
+   the change) into a brighter room: a soft beam of light from the upper left, a
+   large pale arc behind the text, and a blue and green glow under the phone. */
+.contact {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(40px, 5vw, 72px) var(--gutter) clamp(44px, 5.5vw, 80px);
+  /* no seam with «چرا سیم‌لند؟»: its green glow continues across the edge and the
+     base starts in the colour it ends in */
+  background:
+    radial-gradient(60% 460px at 0 0, rgba(43, 196, 138, 0.08), transparent 70%),
+    linear-gradient(180deg, #f2f8ff 0, #f8fbff 42%, #eef6ff 100%);
+  scroll-margin-top: 40px;
+}
+
+/* the beam of light fades in below the edge */
+.contact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(116deg, rgba(255, 255, 255, 0) 24%, rgba(255, 255, 255, 0.7) 38%, rgba(255, 255, 255, 0) 52%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 260px);
+  mask-image: linear-gradient(180deg, transparent 0, #000 260px);
+  pointer-events: none;
+}
+
+.contact-wrap {
+  container: contact / inline-size;
+  position: relative;
+  max-width: 1240px;
+  margin-inline: auto;
+}
+
+.contact-in {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  row-gap: clamp(18px, 4vw, 34px);
+}
+
+/* the large pale arc of the room, behind the text */
+.contact-in::before {
+  content: '';
+  position: absolute;
+  top: -14%;
+  right: 50%;
+  width: min(1100px, 190%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+  transform: translateX(50%);
+  pointer-events: none;
+}
+
+.contact-copy {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  min-width: 0;
+}
+
+.contact-head {
+  text-align: center;
+}
+
+.contact-title {
+  margin-top: clamp(14px, 2.4vw, 22px);
+  color: var(--navy);
+  font-size: clamp(2.2rem, 10.8vw, 3.7rem);
+  font-weight: 900;
+  line-height: 1.32;
+}
+
+.contact-title > span {
+  display: block;
+}
+
+/* «ارتباط»: green where the word begins (right), blue where it ends */
+.contact-accent {
+  background: linear-gradient(90deg, #0a6ff5 0%, #1593e3 48%, #20b46c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.contact-lede {
+  max-width: 24em;
+  margin: clamp(8px, 1.8vw, 14px) auto 0;
+  color: #5d6e86;
+  font-size: clamp(0.95rem, 3.7vw, 1.12rem);
+  line-height: 1.95;
+  text-wrap: balance;
+}
+
+.contact-list {
+  container: clist / inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(12px, 2.6vw, 16px);
+  margin: clamp(20px, 4.4vw, 32px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- a contact card: icon (right), label and value, action (left) */
+
+.ccard {
+  --tone: var(--brand);
+  --tone-2: #3a9bff;
+  --tone-line: rgba(8, 120, 249, 0.2);
+  --tone-shadow: rgba(8, 120, 249, 0.42);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 3.4vw, 18px);
+  min-height: clamp(82px, 21vw, 100px);
+  padding: 12px clamp(12px, 3.2vw, 18px);
+  border: 1px solid var(--tone-line);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(247, 251, 255, 0.9));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.95) inset, 0 3px 8px -6px rgba(7, 28, 75, 0.14), 0 18px 34px -26px var(--tone-shadow);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--navy);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ccard[data-tone='green'] {
+  --tone: #18a35e;
+  --tone-2: #34c77b;
+  --tone-line: rgba(30, 168, 101, 0.22);
+  --tone-shadow: rgba(30, 168, 101, 0.4);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(241, 251, 246, 0.9));
+}
+
+.ccard-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: clamp(50px, 15.5vw, 68px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, var(--tone-2), var(--tone) 72%);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 12px 22px -12px var(--tone-shadow);
+}
+
+.ccard-icon svg {
+  width: 42%;
+  height: 42%;
+}
+
+.ccard-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ccard-label {
+  color: var(--tone);
+  font-size: clamp(0.82rem, 3.5vw, 0.96rem);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.ccard-main {
+  color: var(--navy);
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+/* the number reads left to right, aligned with the label above it; it cannot
+   wrap, so its size follows the width the cards really have (11 digits are
+   6.4 em wide in Estedad) */
+.ccard-number {
+  font-size: clamp(1.2rem, 7.6cqi, 1.75rem);
+  text-align: right;
+  unicode-bidi: isolate;
+}
+
+.ccard-soon {
+  color: #6c7b91;
+  font-size: clamp(0.98rem, 4.4vw, 1.18rem);
+  font-weight: 700;
+}
+
+.ccard-addr {
+  font-size: clamp(0.9rem, 3.9vw, 1.04rem);
+  line-height: 1.75;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.ccard-go {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: clamp(40px, 11.5vw, 52px);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--tone);
+  box-shadow: inset 0 0 0 1px var(--tone-line), 0 6px 14px -10px var(--tone-shadow);
+  font: inherit;
+  transition: transform 0.35s var(--ease), background-color 0.3s;
+}
+
+.ccard-go svg {
+  width: 44%;
+  height: 44%;
+}
+
+/* the call card */
+a.ccard:focus-visible,
+.ccard-copy:focus-visible,
+.ccard-address a.ccard-go:focus-visible {
+  outline: 2.5px solid var(--tone);
+  outline-offset: 3px;
+}
+
+a.ccard:focus-visible {
+  border-radius: 24px;
+}
+
+a.ccard:active {
+  transform: scale(0.985);
+  transition-duration: 0.1s;
+}
+
+/* a line whose number is not known yet: same look, quieter, no action */
+.ccard.is-soon {
+  cursor: default;
+}
+
+.ccard.is-soon .ccard-go {
+  opacity: 0.45;
+  box-shadow: inset 0 0 0 1px var(--tone-line);
+}
+
+/* the address: copy button and its short confirmation */
+.ccard-copy {
+  cursor: pointer;
+}
+
+.ccard-copy .i-done,
+.ccard-copy.is-copied .i-copy {
+  display: none;
+}
+
+.ccard-copy.is-copied .i-done {
+  display: block;
+}
+
+.ccard-status:empty {
+  display: none;
+}
+
+.ccard-status {
+  position: absolute;
+  top: -11px;
+  left: 14px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 0.74rem;
+  font-weight: 600;
+  line-height: 1.7;
+  box-shadow: 0 6px 14px -8px rgba(7, 28, 75, 0.6);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a.ccard:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--tone) 38%, transparent);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.95) inset, 0 4px 10px -6px rgba(7, 28, 75, 0.16), 0 24px 40px -26px var(--tone-shadow);
+  }
+  a.ccard:hover .ccard-go {
+    transform: translateX(-3px);
+  }
+  .ccard-copy:hover,
+  .ccard-address a.ccard-go:hover {
+    background: #eef6ff;
+  }
+}
+
+/* ---- the phone on its stand: the client's image, whole, never stretched */
+
+.contact-art {
+  position: relative;
+  width: min(94%, 470px);
+}
+
+/* a soft blue and green light under the stand, and its contact shadow */
+.contact-art::before {
+  content: '';
+  position: absolute;
+  inset: 30% -6% -4%;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side at 38% 60%, rgba(55, 182, 255, 0.24), rgba(55, 182, 255, 0)),
+    radial-gradient(closest-side at 66% 66%, rgba(43, 196, 138, 0.2), rgba(43, 196, 138, 0));
+  pointer-events: none;
+}
+
+.contact-art::after {
+  content: '';
+  position: absolute;
+  right: 8%;
+  bottom: 0.5%;
+  left: 8%;
+  height: 8%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(7, 28, 75, 0.2), rgba(7, 28, 75, 0));
+  pointer-events: none;
+}
+
+/* never drawn larger than its own pixels (1075 px wide): on dense screens the
+   phone stops growing at 1075 / device-pixel-ratio CSS px */
+@media (min-resolution: 1.9dppx) {
+  .contact-art {
+    max-width: 537px;
+  }
+}
+
+@media (min-resolution: 2.9dppx) {
+  .contact-art {
+    max-width: 358px;
+  }
+}
+
+.contact-phone {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* wide enough for the text column and a large phone side by side: text and
+   cards on the right, the phone on the left, as in the desktop reference */
+@container contact (min-width: 880px) {
+  .contact-in {
+    grid-template-columns: minmax(360px, 0.95fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: clamp(28px, 4vw, 64px);
+  }
+  .contact-in::before {
+    top: 50%;
+    right: 26%;
+    width: 120%;
+    transform: translate(50%, -50%);
+  }
+  .contact-copy {
+    max-width: 540px;
+  }
+  .contact-art {
+    width: 100%;
+    max-width: 580px;
+  }
+}
+
+/* entrance: text, cards and phone rise in softly the first time they are seen */
+.contact-anim .contact-head,
+.contact-anim .contact-list > li,
+.contact-anim .contact-art {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+}
+
+.contact-anim .contact-list > li:nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.contact-anim .contact-list > li:nth-child(3) {
+  transition-delay: 0.16s;
+}
+
+.contact-anim .contact-art {
+  transform: translateY(10px);
+  transition-delay: 0.1s;
+}
+
+.contact-anim .contact-head.is-in,
+.contact-anim .contact-list > li.is-in,
+.contact-anim .contact-art.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ccard,
+  .ccard-go {
+    transition: none;
+  }
+  a.ccard:hover,
+  a.ccard:active,
+  a.ccard:hover .ccard-go {
+    transform: none;
+  }
+}

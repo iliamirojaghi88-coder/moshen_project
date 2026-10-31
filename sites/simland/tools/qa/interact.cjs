@@ -29,7 +29,13 @@ const path = require('path');
   const cardsLocked = p.url() === before;
   await p.evaluate(() => scrollTo(0, 0));
   await p.locator('.hero-actions .btn-soft').click();
-  await p.waitForTimeout(300);
+  await p.waitForTimeout(1500);
+  // «دریافت مشاوره» lands on the contact section, its title clear of the fixed header
+  const toContact = await p.evaluate(() => {
+    const t = document.getElementById('contact-title').getBoundingClientRect();
+    const bar = document.querySelector('.topbar').getBoundingClientRect();
+    return { titleTop: Math.round(t.top), clearOfHeader: t.top >= bar.bottom, inView: t.bottom <= innerHeight };
+  });
   const r = await p.evaluate(() => ({
     url: location.href.split('/').pop(),
     scrollY,
@@ -37,6 +43,6 @@ const path = require('path');
     locked: [...document.querySelectorAll('[aria-disabled="true"]')].map((a) => a.textContent + ':' + (a.hasAttribute('href') ? 'href' : 'no-href')),
     focusables: [...document.querySelectorAll('a[href], button')].map((a) => a.textContent.trim()),
   }));
-  console.log(JSON.stringify({ navOk, toProducts, cardsLocked, ...r, locked: `${r.locked.length} locked` }), errors.join(' | ') || 'no errors');
+  console.log(JSON.stringify({ navOk, toProducts, toContact, cardsLocked, ...r, locked: `${r.locked.length} locked` }), errors.join(' | ') || 'no errors');
   await b.close();
 })();

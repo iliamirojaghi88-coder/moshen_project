@@ -11,7 +11,7 @@
 import { build, transform } from 'esbuild';
 import sharp from 'sharp';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -111,6 +111,40 @@ async function whyCards(single) {
   return `      <ol class="why-grid" role="list">\n${cards.join('\n')}\n      </ol>`;
 }
 
+// «با ما در ارتباط باشید»: the cards come from assets/js/site-config.js. A phone
+// with a number is a real tel: link over the whole card; one without a number
+// says «شماره تماس به‌زودی» and is not a link. The address is plain text with a
+// copy button, or a link to a map once a verified mapUrl is set.
+const esc = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+async function contactCards() {
+  const { contact } = await import(pathToFileURL(at('assets/js/site-config.js')).href);
+  const icon = (id) => `<span class="ccard-icon" aria-hidden="true"><svg><use href="#${id}"/></svg></span>`;
+  const text = (label, main, cls) =>
+    `<span class="ccard-text"><span class="ccard-label">${esc(label)}</span> <span class="ccard-main ${cls}"${cls === 'ccard-number' ? ' dir="ltr"' : ''}>${esc(main)}</span></span>`;
+  const go = '<span class="ccard-go" aria-hidden="true"><svg><use href="#c-chevron"/></svg></span>';
+  const items = contact.phones.map((p) => {
+    const digits = String(p.number || '').replace(/[^\d+]/g, '');
+    if (!digits) {
+      return `          <li><div class="ccard is-soon" data-tone="${p.tone}" aria-disabled="true">${icon('c-phone')}${text(p.label, 'شماره تماس به‌زودی', 'ccard-soon')}${go}</div></li>`;
+    }
+    return `          <li><a class="ccard" data-tone="${p.tone}" href="tel:${digits}"><span class="sr-only">تماس: </span>${icon('c-phone')}${text(p.label, p.number, 'ccard-number')}${go}</a></li>`;
+  });
+  const a = contact.address;
+  const action = a.mapUrl
+    ? `<a class="ccard-go" href="${esc(a.mapUrl)}" target="_blank" rel="noopener" aria-label="مسیریابی روی نقشه"><svg aria-hidden="true"><use href="#c-map"/></svg></a>`
+    : `<button type="button" class="ccard-go ccard-copy" data-copy="${esc(a.text)}" aria-label="کپی آدرس شعبه" title="کپی آدرس"><svg class="i-copy" aria-hidden="true"><use href="#c-copy"/></svg><svg class="i-done" aria-hidden="true"><use href="#c-check"/></svg></button><span class="ccard-status" role="status" aria-live="polite"></span>`;
+  items.push(`          <li><div class="ccard ccard-address" data-tone="blue">${icon('c-pin')}${text(a.label, a.text, 'ccard-addr')}${action}</div></li>`);
+  return `          <ul class="contact-list" role="list">\n${items.join('\n')}\n          </ul>`;
+}
+
+async function contactArt(single) {
+  const file = at('assets/images/contact/phone.webp');
+  const { width, height } = await sharp(file).metadata();
+  const src = single ? await dataUri(file) : 'assets/images/contact/phone.webp';
+  return `          <img class="contact-phone" src="${src}" alt="گوشی هوشمند با آیکون تماس، روی پایه‌ی شیشه‌ای آبی و سبز" width="${width}" height="${height}" loading="lazy" decoding="async" draggable="false">`;
+}
+
 async function heroData(single) {
   const src = async (f) => (single ? dataUri(at('assets/hero', f)) : `assets/hero/${f}`);
   const json = JSON.stringify({ scene, masks: await src('masks.png') });
@@ -157,6 +191,8 @@ async function page(single) {
     '<!-- hero-data -->': await heroData(single),
     '<!-- products -->': await productCards(single),
     '<!-- why -->': await whyCards(single),
+    '<!-- contact -->': await contactCards(),
+    '<!-- contact-art -->': await contactArt(single),
     '<!-- body-scripts -->': bodyScripts,
   };
   // function replacements: the inlined code may contain "$&"-style sequences

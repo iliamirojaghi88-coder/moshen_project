@@ -4,15 +4,13 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-10-31, «چرا سیم‌لند؟» delivered, waiting for the user's approval)
+## Exact stop point (2026-10-31, home page complete, waiting for the user's approval)
 
 - Branch: `ccr-2cd3266d-qpjs3p`.
-- Done in this step (prompt «SIMLAND — پیاده‌سازی نهایی سکشن «چرا سیم‌لند؟»»): the why section after the
-  products, with the client's four 3D PNGs; see «Why section» below. Hero, its animation and the product
-  cards were not touched.
-- **Next action:** wait for the user's verdict. Then the contact section (the last one; see below).
-- Card 04 now says «ارسال سریع و رایگان» at the user's explicit request; this replaces the earlier rule
-  «never claim free shipping».
+- Done in this step («SIMLAND — FINAL CONTACT SECTION»): «با ما در ارتباط باشید», the fourth and last
+  section; see «Contact section» below. Hero, products and «چرا سیم‌لند؟» were not touched.
+- **Next action:** wait for the user's verdict. Open items for the user: the second phone number, and a
+  verified map link for the branch (then set `mapUrl`).
 
 ### Approved — do not change
 
@@ -138,7 +136,7 @@ Its requirements (all must hold):
 ### Why section (done, tested)
 
 - Reference: `source/why/reference.png` (mobile mock). Images: the client's PNGs `source/why/{shield,reels,
-  headset,box}.png`; `tools/build-why-images.py` removes isolated background specks (≤12/255 alpha, apart
+  headset,box}.png`; `tools/build-cutouts.py` removes isolated background specks (≤12/255 alpha, apart
   from the object), trims at alpha > 2, writes lossless WebP at the original resolution (visible pixels
   identical; checked by the script). They add ~2.7 MB to the single file (dist ~6.2 MB).
 - `build-pages.mjs` renders the cards (`WHY` list, `<!-- why -->`). Markup: `.why-card > .why-in > .why-body
@@ -152,6 +150,24 @@ Its requirements (all must hold):
 - Motion: `home.js` adds `.why-anim` and reveals cards once (IntersectionObserver); off with reduced motion.
 - QA: `tools/qa/why.cjs` (9 widths): one column / four in a row, alternation, image whole and undistorted
   and not enlarged past its pixels, no text overflow/overlap, sections adjacent, no overlap with products.
+
+### Contact section (done, tested)
+
+- References: `source/contact/reference-desktop.png`, `reference-mobile.png` (design only, never shown).
+  Asset: `source/contact/phone.png` -> `assets/images/contact/phone.webp` (lossless, original resolution)
+  via `tools/build-cutouts.py` (was `build-why-images.py`; now handles both sections).
+- Data: `assets/js/site-config.js` (`phones[]` with `number`, `address.text`, `address.mapUrl`), rendered
+  by `contactCards()` in `build-pages.mjs`: number -> `<a href="tel:…">` over the whole card; empty number
+  -> inactive `div` with «شماره تماس به‌زودی»; address -> text + «کپی آدرس» button (clipboard, with a
+  fallback and a status message), or a map link once `mapUrl` is set.
+- CSS: one column below an 880 px container (order: label, title, text, three cards, phone), two columns
+  from 880 px (copy right, phone left). Number size `clamp(1.2rem, 7.6cqi, 1.75rem)` (11 digits = 6.4 em
+  in Estedad; proportional digits). Phone width capped at 1075/dpr (537 px at 2x, 358 px at 3x) so it is
+  never upscaled. Entrance reveal (`contact-anim`), off with reduced motion.
+- QA: `tools/qa/contact.cjs` (11 widths 320–1920): order/columns, image whole/undistorted/not enlarged,
+  tel link hit-tested on icon/number/arrow, inactive second card, exact address, copy to clipboard,
+  keyboard focus ring, no overflow, visible after entrance, join colour step ≤ 3, contact is the last
+  section. `interact.cjs` now also checks «دریافت مشاوره» lands on the contact title.
 
 ## After the user approves the hero: the rest of the home page
 
