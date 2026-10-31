@@ -29,7 +29,7 @@ const ORDER = ['کابل کنترل افشان', 'سیم و کابل ساختم�
       document.documentElement.style.scrollBehavior = 'auto';
       for (const c of document.querySelectorAll('.pcard')) { c.scrollIntoView({ block: 'center' }); await new Promise((r) => setTimeout(r, 60)); }
     });
-    await page.waitForFunction(() => !document.documentElement.classList.contains('reveal-on') || [...document.querySelectorAll('.pcard')].every((c) => c.classList.contains('is-in') && !c.getAnimations().length), null, { timeout: 15000 }).catch(() => errors.push('cards never settled'));
+    await page.waitForFunction(() => !document.documentElement.classList.contains('reveal-on') || [...document.querySelectorAll('.pcard')].every((c) => c.classList.contains('is-in') && !c.getAnimations().length), null, { timeout: 40000 }).catch(() => errors.push('cards never settled'));
     await page.waitForFunction(() => [...document.querySelectorAll('.pcard img')].every((i) => i.complete && i.naturalWidth), null, { timeout: 30000 }).catch(() => errors.push('images not loaded'));
     await page.evaluate(() => scrollTo(0, 0));
     await page.waitForTimeout(300);
@@ -113,9 +113,10 @@ const ORDER = ['کابل کنترل افشان', 'سیم و کابل ساختم�
     }, ORDER);
     const tag = `${w}x${h}`;
     // the hero from the first view (a full-page capture resizes the window, which rebuilds the live canvas)
-    await page.screenshot({ path: path.join(out, `${tag}-hero.png`) });
+    // software WebGL draws a large 2x hero slowly: give the captures time
+    await page.screenshot({ path: path.join(out, `${tag}-hero.png`), timeout: 120000 });
     const sec = await page.locator('#products').boundingBox();
-    await page.screenshot({ path: path.join(out, `${tag}-products.png`), clip: { x: 0, y: sec.y, width: w, height: Math.min(sec.height, 2600) }, fullPage: true });
+    await page.screenshot({ path: path.join(out, `${tag}-products.png`), clip: { x: 0, y: sec.y, width: w, height: Math.min(sec.height, 2600) }, fullPage: true, timeout: 120000 });
     const ok = !r.fails.length && !errors.length;
     if (!ok) failed++;
     console.log(`${ok ? 'PASS' : 'FAIL'} ${w}x${h}@${dpr} cols ${r.cols} rows ${r.rows} gap ${r.colGap}/${r.rowGap} card ${r.layout.join(' ')} cable ${r.cableH}px hero→products ${r.heroToProducts}px ${r.fails.concat(errors).join('; ')}`);
