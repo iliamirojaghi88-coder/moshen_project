@@ -18,6 +18,24 @@ document.querySelectorAll('[data-scroll]').forEach((link) => {
   });
 });
 
+// ---------------------------------------------------------------- «چرا سیم‌لند؟»: cards rise in once
+
+const whyCards = document.querySelectorAll('.why-card');
+if (!reducedMotion && 'IntersectionObserver' in window && whyCards.length) {
+  document.documentElement.classList.add('why-anim');
+  const reveal = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add('is-in');
+        reveal.unobserve(e.target);
+      }
+    },
+    { rootMargin: '0px 0px -6% 0px', threshold: 0.12 },
+  );
+  whyCards.forEach((card) => reveal.observe(card));
+}
+
 // ---------------------------------------------------------------- the live hero
 
 const host = document.querySelector('[data-scene]');

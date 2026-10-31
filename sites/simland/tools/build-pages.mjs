@@ -78,6 +78,39 @@ ${cards.join('\n')}
       </ul>`;
 }
 
+// «چرا سیم‌لند؟»: four cards, each with the client's 3D image (assets/images/why,
+// made by tools/build-why-images.py from source/why).
+const WHY = [
+  { img: 'shield', tone: 'blue', title: 'کیفیت تضمینی', text: 'ارائه محصولات استاندارد و باکیفیت از برندهای معتبر داخلی و خارجی.' },
+  { img: 'reels', tone: 'green', title: 'تنوع کامل محصولات', text: 'انواع سیم و کابل برای بخش‌های ساختمانی، صنعتی، انرژی و پروژه‌های تخصصی.' },
+  { img: 'headset', tone: 'blue', title: 'مشاوره تخصصی', text: 'راهنمایی دقیق و حرفه‌ای برای انتخاب بهترین محصول متناسب با نیاز شما.' },
+  { img: 'box', tone: 'green', title: 'ارسال سریع و رایگان', text: 'ارسال سریع و رایگان سفارش‌ها با بسته‌بندی مناسب و مطمئن.' },
+];
+
+async function whyCards(single) {
+  const cards = [];
+  for (const [i, c] of WHY.entries()) {
+    const file = at('assets/images/why', `${c.img}.webp`);
+    const { width, height } = await sharp(file).metadata();
+    const src = single ? await dataUri(file) : `assets/images/why/${c.img}.webp`;
+    const n = String(i + 1).padStart(2, '0');
+    cards.push(`        <li class="why-card" data-tone="${c.tone}" style="--i:${i}">
+          <article class="why-in" aria-labelledby="why-${n}">
+            <div class="why-body">
+              <span class="why-num" aria-hidden="true" lang="en">${n}</span>
+              <span class="why-dash" aria-hidden="true"></span>
+              <h3 class="why-name" id="why-${n}">${c.title}</h3>
+              <p class="why-text">${c.text}</p>
+            </div>
+            <div class="why-art" aria-hidden="true">
+              <img src="${src}" alt="" width="${width}" height="${height}" loading="lazy" decoding="async" draggable="false">
+            </div>
+          </article>
+        </li>`);
+  }
+  return `      <ol class="why-grid" role="list">\n${cards.join('\n')}\n      </ol>`;
+}
+
 async function heroData(single) {
   const src = async (f) => (single ? dataUri(at('assets/hero', f)) : `assets/hero/${f}`);
   const json = JSON.stringify({ scene, masks: await src('masks.png') });
@@ -123,6 +156,7 @@ async function page(single) {
     '<!-- hero-still -->': await heroStill(single),
     '<!-- hero-data -->': await heroData(single),
     '<!-- products -->': await productCards(single),
+    '<!-- why -->': await whyCards(single),
     '<!-- body-scripts -->': bodyScripts,
   };
   // function replacements: the inlined code may contain "$&"-style sequences

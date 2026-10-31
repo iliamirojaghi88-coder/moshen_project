@@ -4,14 +4,15 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-10-30, products section delivered, waiting for the user's approval)
+## Exact stop point (2026-10-31, «چرا سیم‌لند؟» delivered, waiting for the user's approval)
 
 - Branch: `ccr-2cd3266d-qpjs3p`.
-- Done in this step (prompt «SIMLAND — طراحی ریسپانسیو سکشن محصولات و اصلاح نهایی هیرو»), see «Products section»:
-  hero order title → text → picture → buttons; the products section after the hero; the transition.
-- The hero animation (`live-hero.js`) was not touched in this step.
-- **Next action:** wait for the user's verdict. Then «چرا سیم‌لند؟» and the contact section (see below);
-  the «دریافت مشاوره» button already points to `#contact`.
+- Done in this step (prompt «SIMLAND — پیاده‌سازی نهایی سکشن «چرا سیم‌لند؟»»): the why section after the
+  products, with the client's four 3D PNGs; see «Why section» below. Hero, its animation and the product
+  cards were not touched.
+- **Next action:** wait for the user's verdict. Then the contact section (the last one; see below).
+- Card 04 now says «ارسال سریع و رایگان» at the user's explicit request; this replaces the earlier rule
+  «never claim free shipping».
 
 ### Approved — do not change
 
@@ -133,6 +134,24 @@ Its requirements (all must hold):
 - QA: `tools/qa/products.cjs` (12 widths 320–1920): columns, rows, equal gaps and heights, order, every
   cable whole and at one size, no clipped/overlapping text, buttons below the picture; `interact.cjs` checks
   the scroll to the products (title clear of the header) and that card buttons are locked.
+
+### Why section (done, tested)
+
+- Reference: `source/why/reference.png` (mobile mock). Images: the client's PNGs `source/why/{shield,reels,
+  headset,box}.png`; `tools/build-why-images.py` removes isolated background specks (≤12/255 alpha, apart
+  from the object), trims at alpha > 2, writes lossless WebP at the original resolution (visible pixels
+  identical; checked by the script). They add ~2.7 MB to the single file (dist ~6.2 MB).
+- `build-pages.mjs` renders the cards (`WHY` list, `<!-- why -->`). Markup: `.why-card > .why-in > .why-body
+  + .why-art`.
+- CSS: one column (max 720 px) below 1200 px, cards 1/3 picture left, 2/4 mirrored (text against the outer
+  edge); from 1200 px `@container why (min-width: 1040px)` gives four equal cards, picture on top, centred
+  text. Picture areas have a fixed size; the image is absolutely placed with `object-fit: contain`.
+  Card internals scale with `cqi`; narrow phones (<320 px card) get a tighter variant.
+- Transition: background starts at the products' end colour (#f5fbfa) and turns bluer; two hairline SVG
+  curves (non-scaling strokes) at the top and bottom.
+- Motion: `home.js` adds `.why-anim` and reveals cards once (IntersectionObserver); off with reduced motion.
+- QA: `tools/qa/why.cjs` (9 widths): one column / four in a row, alternation, image whole and undistorted
+  and not enlarged past its pixels, no text overflow/overlap, sections adjacent, no overlap with products.
 
 ## After the user approves the hero: the rest of the home page
 

@@ -897,3 +897,341 @@ svg {
     transition: none;
   }
 }
+
+/* ---------------------------------------------------------------- why simland */
+
+/* After the white products sheet the page turns a shade bluer; two hairline
+   curves, blue and green, mark where the new section begins. */
+.why {
+  position: relative;
+  padding: clamp(46px, 5.4vw, 76px) var(--gutter) clamp(64px, 8vw, 112px);
+  overflow: hidden;
+  background:
+    radial-gradient(70% 520px at 100% 0, rgba(55, 182, 255, 0.08), transparent 70%),
+    radial-gradient(60% 460px at 0 100%, rgba(43, 196, 138, 0.08), transparent 70%),
+    /* starts in the colour the products end in, then turns a shade bluer */
+    linear-gradient(180deg, #f5fbfa 0, #f3f8fe 220px, #f7fbff 50%, #f2f8ff 100%);
+}
+
+.why-curves {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: clamp(34px, 4.4vw, 62px);
+  fill: none;
+  pointer-events: none;
+}
+
+.why-curves path {
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.why-curves .c-blue {
+  stroke: rgba(55, 160, 255, 0.5);
+}
+
+.why-curves .c-green {
+  stroke: rgba(43, 190, 130, 0.42);
+}
+
+.why-curves-top {
+  top: 0;
+}
+
+.why-curves-bottom {
+  bottom: 0;
+}
+
+.why-head {
+  position: relative;
+  max-width: 40rem;
+  margin: 0 auto clamp(28px, 5vw, 56px);
+  text-align: center;
+}
+
+.why-kicker {
+  color: #3d5376;
+  font-family: 'Estedad', system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.36em;
+  /* the spacing after the last letter would push the word off centre */
+  margin-inline-start: 0.36em;
+}
+
+.why-kicker::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  margin: 12px auto 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #22b872, #0878f9);
+}
+
+.why-title {
+  margin-top: clamp(14px, 2.4vw, 22px);
+  color: var(--navy);
+  font-size: clamp(2.05rem, 9.6vw, 3.6rem);
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+/* «سیم‌لند» from blue (its start, on the right) to green */
+.why-brand {
+  background: linear-gradient(270deg, #0a72f5 0%, #1497e0 45%, #1fb37a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.why-lede {
+  max-width: 31em;
+  margin: clamp(10px, 2vw, 16px) auto 0;
+  color: #4a5f7f;
+  font-size: clamp(0.94rem, 3.4vw, 1.12rem);
+  line-height: 1.95;
+  text-wrap: balance;
+}
+
+/* phones and tablets: one column, at most ~720 px wide; laptops and desktops:
+   four cards in one row once the container has room for them */
+.why-wrap {
+  container: why / inline-size;
+  position: relative;
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.why-grid {
+  display: grid;
+  gap: clamp(14px, 3vw, 22px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- the card */
+
+.why-card {
+  container: whycard / inline-size;
+  --tone: var(--brand);
+  --num-bg: #e8f2ff;
+  --glow: rgba(55, 182, 255, 0.26);
+  --wash: rgba(214, 234, 255, 0.75);
+}
+
+.why-card[data-tone='green'] {
+  --tone: #1ea865;
+  --num-bg: #e5f6ec;
+  --glow: rgba(43, 196, 138, 0.24);
+  --wash: rgba(214, 244, 231, 0.75);
+}
+
+/* side by side: text on the right and picture on the left, then mirrored */
+.why-in {
+  position: relative;
+  display: flex;
+  height: 100%;
+  min-height: clamp(196px, 44cqi, 300px);
+  overflow: hidden;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(220, 234, 248, 0.85), 0 2px 6px -4px rgba(7, 28, 75, 0.1), 0 18px 40px -30px rgba(7, 28, 75, 0.3);
+  transition: box-shadow 0.5s var(--ease);
+}
+
+.why-card:nth-child(even) .why-in {
+  flex-direction: row-reverse;
+}
+
+.why-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(18px, 5cqi, 34px) clamp(16px, 5cqi, 34px);
+}
+
+/* the mirrored cards keep their text against the outer edge, as in the reference */
+.why-card:nth-child(even) .why-body {
+  align-items: flex-end;
+  text-align: end;
+}
+
+.why-num {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: var(--num-bg);
+  color: var(--tone);
+  font-size: 0.98rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.why-dash {
+  width: 26px;
+  height: 3px;
+  margin: 14px 0 12px;
+  border-radius: 3px;
+  background: var(--tone);
+}
+
+.why-name {
+  color: var(--navy);
+  font-size: clamp(1.05rem, 4.6cqi, 1.45rem);
+  font-weight: 900;
+  line-height: 1.5;
+}
+
+.why-text {
+  margin-top: 8px;
+  color: #5a6d8a;
+  font-size: clamp(0.82rem, 3.4cqi, 1rem);
+  line-height: 1.95;
+}
+
+/* the picture side: a soft wash and a blob of the card's colour behind the object;
+   the image fills it (contained), so its own pixel size never sizes the card */
+.why-art {
+  --pad-y: clamp(12px, 3cqi, 22px);
+  --pad-x: clamp(8px, 2.4cqi, 18px);
+  position: relative;
+  flex: 0 0 44%;
+  min-height: 0;
+  background: linear-gradient(to right, var(--wash), rgba(255, 255, 255, 0) 92%);
+}
+
+.why-card:nth-child(even) .why-art {
+  background: linear-gradient(to left, var(--wash), rgba(255, 255, 255, 0) 92%);
+}
+
+.why-art::before {
+  content: '';
+  position: absolute;
+  inset: 12% 6% 8%;
+  border-radius: 46% 54% 42% 58% / 56% 44% 56% 44%;
+  background: radial-gradient(closest-side, var(--glow), rgba(255, 255, 255, 0));
+}
+
+.why-art img {
+  position: absolute;
+  inset: var(--pad-y) var(--pad-x);
+  display: block;
+  width: calc(100% - 2 * var(--pad-x));
+  height: calc(100% - 2 * var(--pad-y));
+  object-fit: contain;
+  transition: transform 0.6s var(--ease);
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* narrow phones: a little less room for the picture, tighter type */
+@container whycard (max-width: 319px) {
+  .why-art {
+    flex-basis: 40%;
+  }
+  .why-body {
+    padding: 16px 13px;
+  }
+  .why-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    font-size: 0.86rem;
+  }
+  .why-dash {
+    margin: 11px 0 9px;
+  }
+  .why-name {
+    font-size: 0.98rem;
+  }
+  .why-text {
+    font-size: 0.78rem;
+    line-height: 1.85;
+  }
+}
+
+@media (min-width: 1200px) {
+  .why-wrap {
+    max-width: 1360px;
+  }
+  @container why (min-width: 1040px) {
+    .why-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    /* four in a row: picture on top, number, title and text centred below */
+    .why-in,
+    .why-card:nth-child(even) .why-in {
+      flex-direction: column-reverse;
+      justify-content: flex-end;
+      min-height: 0;
+    }
+    .why-art,
+    .why-card:nth-child(even) .why-art {
+      flex: none;
+      aspect-ratio: 1 / 0.78;
+      --pad-y: 20px;
+      --pad-x: 16px;
+      background: linear-gradient(to bottom, var(--wash), rgba(255, 255, 255, 0) 96%);
+    }
+    .why-art::before {
+      inset: 10% 10% 2%;
+    }
+    .why-body,
+    .why-card:nth-child(even) .why-body {
+      flex: 1;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 8px 22px 28px;
+      text-align: center;
+    }
+    .why-name {
+      font-size: 1.22rem;
+    }
+    .why-text {
+      font-size: 0.92rem;
+    }
+  }
+}
+
+/* entrance: each card rises in softly the first time it comes into view */
+.why-anim .why-card {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  transition-delay: calc(var(--i) * 90ms);
+}
+
+.why-anim .why-card.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .why-in:hover {
+    box-shadow: 0 0 0 1px rgba(205, 225, 246, 0.95), 0 3px 8px -4px rgba(7, 28, 75, 0.12), 0 26px 48px -30px rgba(7, 28, 75, 0.4);
+  }
+  .why-in:hover .why-art img {
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .why-in,
+  .why-art img {
+    transition: none;
+  }
+  .why-in:hover .why-art img {
+    transform: none;
+  }
+}
