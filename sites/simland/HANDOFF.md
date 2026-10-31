@@ -4,12 +4,20 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-10-31, precision fixes + electrical motion delivered, waiting for the user's approval)
+## Exact stop point (2026-10-31, precision fixes + electrical motion + fuller smoke delivered, waiting for the user's approval)
 
 - Branch: `ccr-2cd3266d-qpjs3p`.
-- Done in this step («SIMLAND — Precision UI Fixes & Cinematic Electrical Motion»): each sales number its own
-  inner card; menu active state follows the page (scroll spy); energy pulses along the pylon wires and small
-  sparks at the copper ends in the hero. See «Precision fixes & electrical motion».
+- Done in this step («SIMLAND — Precision UI Fixes & Cinematic Electrical Motion», then «تقویت دود دو دودکش»):
+  each sales number its own inner card; menu active state follows the page (scroll spy); energy pulses along
+  the pylon wires and small sparks at the copper ends; fuller, more visible chimney smoke. See «Precision
+  fixes & electrical motion» and «Smoke made more visible».
+- Final QA on the delivered build (run one suite at a time; parallel runs overload software WebGL and make
+  entrances miss their 15 s wait): motion-nav 9/9, products 12/12, why 9/9, interact, fallback (reduced
+  motion + no WebGL), responsive 11/11 — all pass. products 1180×820@2 and why 375×812@3 failed once in the
+  long sequence with «never settled» (entrances still moving under load) and pass when run alone. contact
+  (14 widths) and nav-spy (8 widths, 320–2560) passed on the same DOM/CSS/JS (only the smoke shader changed
+  after). Previews `preview/hero-desktop-1366.mp4` (8 s) and `preview/hero-mobile-390.mp4` (6 s) re-rendered
+  from t = 14 s.
 - **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`).
 
 ### Approved — do not change
@@ -81,6 +89,8 @@ Its requirements (all must hold):
 | `smoke-bench.cjs` | `<outprefix> <t...>` | Renders `tools/smoke-bench.html` (smoke alone, 1.6×, same clock via `clockUniforms`) via the dev server |
 | `fallback.cjs` | `<dist> <prefix>` | Reduced motion and no-WebGL show the still picture, no errors |
 | `interact.cjs` | `<dist>` | Locked menu items do nothing; buttons; focusables |
+| `nav-spy.cjs` | `<dist>` | Menu active item: load, menu/keyboard/hero jumps (no item passed on the way), wheel scrolling to each section and the end, rapid clicks, one active, items never move, reduced motion, `#contact` load |
+| `contact.cjs` / `products.cjs` / `why.cjs` / `motion-nav.cjs` | `<dist> <outdir>` (`motion-nav`: `<dist> [<previous dist>]`) | Section layouts, links, entrances; run one at a time |
 | `preview-frames.cjs` | `<dist> <outdir> <t0> <seconds> <fps> <w> <h> <dpr>` | Deterministic frames; then `ffmpeg … -c:v libx264 -crf 16` for a preview MP4 |
 | `align.cjs` | `<url> <w> <h> <dpr>` | Device-pixel boxes of the canvas and the still image |
 
