@@ -8,7 +8,7 @@ research engine with a licence ledger, a Blender/glTF 3D pipeline, Persian
 
 - HyperFrames skills are vendored in `.claude/skills/` (from `heygen-com/hyperframes`). Start HyperFrames work with `/hyperframes`; also `/hyperframes-cli`, `/hyperframes-registry` (≈450 blocks), `/media-use`.
 - Remotion work: the `remotion:*` plugin skills (`remotion-best-practices` first).
-- Design work: the `frontend-design` plugin skill.
+- Design work: the `frontend-design` plugin skill, plus the UI/UX Pro Max bundle in `.claude/skills/` (from `nextlevelbuilder/ui-ux-pro-max-skill`): `/ui-ux-pro-max` (styles, palettes, font pairings, UX rules, GSAP presets — local search, no network), `/design` (router: logo, CIP, icons, banners, social images, slides), `/brand`, `/design-system`, `/ui-styling`, `/slides`, `/banner-design`. Their AI generators (`design` logo/icon/CIP via Gemini, Atlas, MuAPI) are paid AI imagery: same rules as `tools/ai/gemini.mjs` — only with the user's explicit OK per generation. Persian/RTL and the project's `styles/` take precedence over their defaults.
 
 ## Layout
 

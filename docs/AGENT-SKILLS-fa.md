@@ -86,3 +86,49 @@
 ✓ MCP playwright — Connected
 ✓ skills: playwright, unslop, strix-security, skillui, context7
 ```
+
+## بستهٔ UI/UX Pro Max (هفت اسکیل طراحی)
+
+- **منبع:** `nextlevelbuilder/ui-ux-pro-max-skill` (نسخهٔ 2.15.0، کامیت `9a3f14f`)، مجوز MIT
+  (متن مجوز در `.claude/skills/ui-ux-pro-max/LICENSE`؛ `ui-styling` مجوز Apache-2.0 خودش را دارد و
+  فونت‌های `ui-styling/canvas-fonts` هر کدام فایل OFL خودشان را دارند).
+- **تعداد:** این ریپو **۷ اسکیل** دارد (نه ۴) و هر هفت تا یک بسته‌اند: نصب‌کنندهٔ رسمی
+  (`uipro init --ai claude`) و پلاگین مارکت‌پلیس هم هر هفت را با هم نصب می‌کنند، و اسکیل‌ها
+  اسکریپت‌های یکدیگر را با مسیر `../<skill>/scripts/` صدا می‌زنند. پس همه نصب شدند:
+
+| اسکیل | کاربرد | فراخوانی |
+|---|---|---|
+| `ui-ux-pro-max` | هستهٔ اصلی: ۷۹ سبک، ۱۹۲ پالت، ۷۴ جفت‌فونت، ۱۱۹ قاعدهٔ UX، ۱۷ پیش‌تنظیم GSAP، ۲۵ نوع نمودار، ۲۲ استک — جست‌وجوی محلی بدون اینترنت | `/ui-ux-pro-max` |
+| `design` | مسیریاب کلی: لوگو، هویت سازمانی (CIP)، آیکن، بنر، تصاویر شبکه‌های اجتماعی، اسلاید | `/design` |
+| `brand` | صدای برند، هویت بصری، چارچوب پیام، همگام‌سازی برند با توکن‌ها | `/brand` |
+| `design-system` | معماری توکن سه‌لایه، مشخصات کامپوننت، ساخت اسلاید | `/design-system` |
+| `ui-styling` | shadcn/ui + Tailwind، تم و حالت تیره، طراحی بوم (canvas) | `/ui-styling` |
+| `slides` | ارائهٔ HTML با Chart.js | `/slides` |
+| `banner-design` | بنر برای شبکه‌های اجتماعی، تبلیغات، هیروی سایت و چاپ | `/banner-design` |
+
+- **مسیر:** `.claude/skills/<نام>/`؛ اسکریپت `setup-motion-env.sh` هر هفت را در هر نشست به
+  `~/.claude/skills/` هم کپی می‌کند (همیشه با هم، چون به هم وابسته‌اند).
+- **تنها تغییر نسبت به نسخهٔ اصلی:**
+  1. در `ui-ux-pro-max/SKILL.md` مسیر `${CLAUDE_PLUGIN_ROOT}/.claude/skills/ui-ux-pro-max/scripts/search.py`
+     (که فقط در نصبِ پلاگینی معنا دارد) به `${CLAUDE_SKILL_DIR}/scripts/search.py` تغییر کرد تا هم
+     از پوشهٔ پروژه و هم از `~/.claude/skills` درست کار کند.
+  2. پوشه‌های `tests/` و فایل `.coverage` کپی نشدند؛ آزمون‌های توسعهٔ ریپوی اصلی‌اند و بیرون از آن
+     ریپو اجرا نمی‌شوند. همهٔ داده‌ها، مراجع، اسکریپت‌ها، قالب‌ها و فونت‌ها کامل‌اند.
+- **پیش‌نیاز:** فقط Python 3 و Node (هر دو در محیط هستند). جست‌وجوها کاملاً محلی‌اند.
+- **هزینه و قوانین پروژه:** تولید لوگو/آیکن/CIP با هوش مصنوعی در اسکیل `design` (Gemini، Atlas
+  Cloud، MuAPI) پولی است و طبق `CLAUDE.md` فقط با تأیید صریح شما برای هر بار تولید اجرا می‌شود.
+  `fetch-background.py` در `design-system` عکس از Pexels/Unsplash می‌آورد؛ برای ویدیوها همان قوانین
+  مجوز و ledger کتابخانهٔ دارایی‌ها برقرار است. پیش‌فرض‌های فارسی/RTL و سبک‌های `styles/` بر
+  پیش‌فرض‌های این اسکیل‌ها مقدم‌اند.
+- **مثال:** «یک صفحهٔ فرود برای استودیوی موشن‌گرافیک طراحی کن» → `ui-ux-pro-max` خودکار فعال می‌شود؛
+  یا مستقیم:
+  `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "motion graphics studio portfolio" --design-system -p "Moshen"`
+- **دربارهٔ چت‌های قدیمی:** اسکیل‌ها روی `main` هستند، پس هر چت تازه‌ای که از `main` شروع شود آن‌ها
+  را دارد. چتِ قدیمی‌ای که روی شاخهٔ قدیمی‌تری کار می‌کند، با `git pull origin main` (یا merge کردن
+  `main`) آن‌ها را می‌گیرد. برای اینکه بدون هیچ کاری در **هر** نشست و هر شاخه/ریپوی این environment
+  باشند، این خط را به «Setup script» محیط در تنظیمات Claude Code وب اضافه کنید (نصب سراسری رسمی در
+  `~/.claude/skills`):
+
+  ```bash
+  npx -y ui-ux-pro-max-cli@2.15.0 init --ai claude --global --offline
+  ```
