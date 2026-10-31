@@ -246,7 +246,7 @@ vec4 sampleRect(vec2 q, vec4 rect, vec4 uv) {
 // field), so the billows keep changing shape as they rise.
 const float V0 = 22.0;   // px/s at the mouth
 const float H1 = 360.0;  // px: speed and feature size double over this height
-const float F0 = 16.0;   // px: billow size at the mouth
+const float F0 = 18.0;   // px: billow size at the mouth
 // noise space: the plume's up axis maps to (1,1,1), the direction its time offsets move in
 const mat3 M1 = mat3(0.70710678, -0.70710678, 0.0, 0.57735027, 0.57735027, 0.57735027, -0.40824829, -0.40824829, 0.81649658);
 const mat3 M2 = mat3(0.40824829, 0.40824829, -0.81649658, 0.57735027, 0.57735027, 0.57735027, 0.70710678, -0.70710678, 0.0);
@@ -261,7 +261,7 @@ vec4 plume(vec2 P, vec4 ch, float seed) {
   float yn = H1 / F0 * log(grow);   // noise height of this parcel
   float age = yn * F0 / V0;          // seconds since it left the mouth
   if (age > uSmokeAge) return vec4(0.0);  // only smoke made since the page opened
-  float R = ch.z * 0.9 + 0.17 * hp;  // radius of the plume
+  float R = ch.z * 0.9 + 0.21 * hp;  // radius of the plume (the mouth's own radius at the mouth)
   // the axis: carried left by every gust the smoke has felt since it left (it
   // takes a moment to pick up the wind), plus a slow meander born at the mouth
   float delay = (uSize.x - ch.x) / 650.0;
@@ -276,9 +276,9 @@ vec4 plume(vec2 P, vec4 ch, float seed) {
   vec3 sd = vec3(seed, 2.3 * seed, -seed);
   // warp: a slower field than the billows, so their shapes keep changing
   vec3 w0 = M2 * vec3(x / F, yn, 0.0) * 0.5 + sd;
-  vec2 warp = vec2(snoise3(w0 - uSmoke.z), snoise3(w0 + vec3(31.4, -12.1, 7.7) - uSmoke.z)) * 0.6 * rough;
+  vec2 warp = vec2(snoise3(w0 - uSmoke.z), snoise3(w0 + vec3(31.4, -12.1, 7.7) - uSmoke.z)) * 0.42 * rough;
   // optical depth across the middle: dense at the exit, thinner as it spreads and evaporates
-  float od = 3.4 * pow(ch.z * 0.9 / R, 0.8) * exp(-age / 15.0) * ch.w;
+  float od = 6.0 * pow(ch.z * 0.9 / R, 0.8) * exp(-age / 22.0) * ch.w;
   float sigma = od / (1.5 * R);
   float c = R * sqrt(max(2.25 - u * u, 0.0));  // half chord through the envelope
   float dz = 2.0 * c / 8.0;
@@ -293,8 +293,8 @@ vec4 plume(vec2 P, vec4 ch, float seed) {
     vec3 q = vec3(x / F + warp.x, yn + warp.y, z / F);
     vec3 p = M1 * q + sd;
     float n1 = snoise3(p - uSmoke.x);
-    float n = 0.74 * n1 + 0.26 * snoise3(p * 2.1 + vec3(17.0, 3.0, -9.0) - uSmoke.y);
-    float dens = (1.0 - smoothstep(0.45, 1.2, rho - 0.34 * n * rough)) * clamp(0.62 + 0.8 * n * rough, 0.0, 1.6);
+    float n = 0.8 * n1 + 0.2 * snoise3(p * 2.1 + vec3(17.0, 3.0, -9.0) - uSmoke.y);
+    float dens = (1.0 - smoothstep(0.45, 1.2, rho - 0.34 * n * rough)) * clamp(0.68 + 0.62 * n * rough, 0.0, 1.6);
     if (dens < 0.002) continue;
     // light: one step towards the sun through the billows (their sunny sides are
     // bright, their far sides and folds soft grey), the plume's own depth and
@@ -302,7 +302,7 @@ vec4 plume(vec2 P, vec4 ch, float seed) {
     float dl = 0.6 * F;
     vec2 pl = vec2(x, z) + SUN.xz * dl;
     float nl = snoise3(M1 * (q + SUN * 0.6) + sd - uSmoke.x);
-    float densL = (1.0 - smoothstep(0.45, 1.2, length(pl) / R - 0.34 * nl * rough)) * clamp(0.62 + 0.8 * nl * rough, 0.0, 1.6);
+    float densL = (1.0 - smoothstep(0.45, 1.2, length(pl) / R - 0.34 * nl * rough)) * clamp(0.68 + 0.62 * nl * rough, 0.0, 1.6);
     vec2 pq = vec2(x, z);
     float b = dot(pq, sunXZ);
     float toSun = (-b + sqrt(max(b * b - dot(pq, pq) + 1.44 * R * R, 0.0))) / sunLen;
@@ -310,8 +310,8 @@ vec4 plume(vec2 P, vec4 ch, float seed) {
     float sky = exp(-sigma * max(1.2 * R - length(pq), 0.0) * 0.3);
     // relief from the large billows only (the fine octave would draw thin lines)
     float relief = clamp((nl - n1) * 0.55, -1.0, 1.0) * rough * smoothstep(1.2, 0.6, rho);
-    float lit = clamp(0.55 * sun + 0.3 * sky + 0.17 - 0.28 * relief, 0.0, 1.0);
-    vec3 cs = mix(vec3(0.71, 0.73, 0.77), vec3(0.958, 0.961, 0.968), lit);
+    float lit = clamp(0.55 * sun + 0.3 * sky + 0.17 - 0.08 * relief, 0.0, 1.0);
+    vec3 cs = mix(vec3(0.64, 0.665, 0.705), vec3(0.955, 0.958, 0.966), lit);
     float a = 1.0 - exp(-sigma * dens * dz);
     col += T * a * cs;
     T *= 1.0 - a;

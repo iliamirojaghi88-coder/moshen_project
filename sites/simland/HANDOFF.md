@@ -24,7 +24,7 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
   - buttons «مشاهده محصولات» (right) and «دریافت مشاوره» (left), below the picture.
 - Single-file delivery.
 - No sound, no new background, transparency kept.
-- Smoke colour: white with a very light grey, semi-transparent.
+- Smoke colour: white with a very light grey, semi-transparent (made denser and fuller on 2026-10-31 at the user's request).
 
 ## Where we are
 
@@ -229,6 +229,16 @@ Its requirements (all must hold):
   left side + 2–5 streaks (110–280 px/s, decelerating, slight drop, life 0.14–0.36 s). Pixels outside the
   wire band and the copper box are identical to the previous build (checked by diff).
 - Docs: README «هیروی زنده», «منو», contact; this file.
+
+### Smoke made more visible (user request, same day; done, tested)
+
+- `plume()` in `live-hero.js` only: optical depth 3.4 → 6.0, evaporation time 15 → 22 s, spread
+  0.17 → 0.21 px per px of height (radius at the mouth unchanged, so it still leaves the mouth exactly),
+  billow size F0 16 → 18 px, shadow tone (0.71,0.73,0.77) → (0.64,0.665,0.705), lit tone ~unchanged.
+  Denser smoke showed the old marbled «veins» (strong domain warp + derivative relief), so warp 0.6 → 0.42,
+  fine octave 0.26 → 0.2, density modulation 0.8 → 0.62 (base 0.62 → 0.68), relief 0.28 → 0.08.
+- Checked at 1366 / 768 / 375 (t = 6 and 16 s): pixels differ only in picture x 264–610 above the mouths
+  (y < 144); nothing below the mouths changes. Software-WebGL frame +3 % (409 vs 396 ms at 1366).
 
 ## After the user approves the hero: the rest of the home page
 
