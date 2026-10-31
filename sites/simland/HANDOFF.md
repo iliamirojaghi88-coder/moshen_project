@@ -4,24 +4,25 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-10-31, home page complete, waiting for the user's approval)
+## Exact stop point (2026-10-31, surgical update delivered, waiting for the user's approval)
 
 - Branch: `ccr-2cd3266d-qpjs3p`.
-- Done in this step («SIMLAND — FINAL CONTACT SECTION»): «با ما در ارتباط باشید», the fourth and last
-  section; see «Contact section» below. Hero, products and «چرا سیم‌لند؟» were not touched.
-- **Next action:** wait for the user's verdict. Open items for the user: the second phone number, and a
-  verified map link for the branch (then set `mapUrl`).
+- Done in this step («SIMLAND — FINAL SURGICAL UPDATE»): hero buttons swapped (مشاهده محصولات right,
+  دریافت مشاوره left); nine product names corrected to match their images; the menu links to #top,
+  #products, #contact; one entrance system for products, «چرا سیم‌لند؟» and contact. See «Surgical update».
+- **Next action:** wait for the user's verdict. Still open for the user: the second phone number and a
+  verified map link for the branch.
 
 ### Approved — do not change
 
 - The locked hero picture `source/hero/infinity-hero.png`: framing, 2:1 aspect, position, scale. No zoom,
   camera, parallax or crop.
 - The cleaned layers from phase 1: blade cut-outs, caps, root extensions, matte cleanup.
-- Header design: glass pill with three items; «خانه» active; products and contact locked.
+- Header design: glass pill with three items; «خانه» active. (Products and contact now scroll to their sections.)
 - Hero copy and buttons:
   - title «جریان مطمئن، اتصال ماندگار»;
   - description «تأمین انواع سیم و کابل ساختمانی، صنعتی و تخصصی برای پروژه‌های امروز و فردا.»;
-  - buttons «مشاهده محصولات» and «دریافت مشاوره», with the order and layout as delivered.
+  - buttons «مشاهده محصولات» (right) and «دریافت مشاوره» (left), below the picture.
 - Single-file delivery.
 - No sound, no new background, transparency kept.
 - Smoke colour: white with a very light grey, semi-transparent.
@@ -169,6 +170,22 @@ Its requirements (all must hold):
   keyboard focus ring, no overflow, visible after entrance, join colour step ≤ 3, contact is the last
   section. `interact.cjs` now also checks «دریافت مشاوره» lands on the contact title.
 
+### Surgical update (done, tested)
+
+- Product names: `source/mapping.json` keeps `slug`/`photo` (the image) and `tone` with each position;
+  `name`, `text`, `icon`, `category` now follow what the image shows (client's labelled reference photo,
+  ArianCable): 1 کنترل افشان, 2 سیم و کابل ساختمانی, 3 آرموردار, 4 فشار ضعیف, 5 ابزار دقیق, 6 قدرت,
+  7 نسوز, 8 آلومینیومی, 9 سولار, 10 جوش. Slugs (file names) no longer equal the product names.
+- Menu: `<a href="#top|#products|#contact" data-scroll>`; `home.js` `goTo()` scrolls (smooth unless reduced
+  motion), updates the hash with replaceState, focuses the section title (tabindex -1, no ring); a direct
+  `#products`/`#contact` load re-lands after `document.fonts.ready`.
+- Entrances: `[data-reveal]` (right | left | up | rise) + `.reveal-on` + one IntersectionObserver;
+  product sides from the real row (offsetTop/offsetLeft, recomputed on resize), why sides by layout;
+  delays via `--rd`. `.products` has `overflow-x: clip` so cards sliding in never widen the page.
+- QA: `tools/qa/motion-nav.cjs <dist> [<previous dist>]` (9 widths): buttons identical to the previous build
+  except order, menu by mouse/touch/keyboard, hero CTAs, direct #hash loads, no overflow while moving,
+  nothing left transformed, reduced motion shows everything. products/why QA wait for the entrances.
+
 ## After the user approves the hero: the rest of the home page
 
 Source: the user's **"SIMLAND — FINAL MASTER IMPLEMENTATION PROMPT"**. Home page only, in this order:
@@ -190,7 +207,7 @@ Palette:
 Header (already built):
 - glass pill with three items, خانه | محصولات | ارتباط با ما;
 - «خانه» is active (light-blue background and a small bar);
-- the other two are locked, with no navigation.
+- the other two scroll to `#products` and `#contact` (since the surgical update).
 
 The hero buttons scroll to `#products` and `#contact`.
 

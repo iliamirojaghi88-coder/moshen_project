@@ -82,9 +82,9 @@
 
 <header class="topbar" data-topbar>
   <nav class="topnav" aria-label="منوی اصلی">
-    <a class="topnav-item is-active" href="#top" aria-current="page">خانه</a>
-    <a class="topnav-item" role="link" aria-disabled="true" title="به‌زودی">محصولات</a>
-    <a class="topnav-item" role="link" aria-disabled="true" title="به‌زودی">ارتباط با ما</a>
+    <a class="topnav-item is-active" href="#top" aria-current="page" data-scroll>خانه</a>
+    <a class="topnav-item" href="#products" data-scroll>محصولات</a>
+    <a class="topnav-item" href="#contact" data-scroll>ارتباط با ما</a>
   </nav>
 </header>
 
@@ -106,13 +106,13 @@
     </div>
     </div>
     <div class="hero-actions">
-      <a class="btn btn-soft" href="#contact" data-scroll>
-        <span>دریافت مشاوره</span>
-        <svg class="btn-icon" aria-hidden="true"><use href="#i-headset"/></svg>
-      </a>
       <a class="btn btn-primary" href="#products" data-scroll>
         <span>مشاهده محصولات</span>
         <svg class="btn-icon" aria-hidden="true"><use href="#i-box"/></svg>
+      </a>
+      <a class="btn btn-soft" href="#contact" data-scroll>
+        <span>دریافت مشاوره</span>
+        <svg class="btn-icon" aria-hidden="true"><use href="#i-headset"/></svg>
       </a>
     </div>
   </section>
@@ -124,88 +124,16 @@
     </header>
     <div class="pgrid-wrap">
       <ul class="pgrid" role="list">
-        <li class="pcard" data-tone="green">
+        <li class="pcard" data-tone="green" data-reveal="up">
           <article class="pcard-in" aria-labelledby="prod-building">
             <div class="pcard-media" aria-hidden="true">
-              <svg class="pcard-mark"><use href="#p-house"/></svg>
-              <img src="assets/images/products/building.webp" alt="" width="327" height="640" loading="lazy" decoding="async" draggable="false">
-            </div>
-            <div class="pcard-body">
-              <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-house"/></svg></span>
-              <span class="pcard-dash" aria-hidden="true"></span>
-              <h3 class="pcard-title" id="prod-building">کابل ساختمانی</h3>
-              <p class="pcard-text">مناسب برای ساختمان‌های مسکونی و تجاری</p>
-              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
-                <span>مشاهده محصولات</span>
-                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
-              </a>
-            </div>
-          </article>
-        </li>
-        <li class="pcard" data-tone="blue">
-          <article class="pcard-in" aria-labelledby="prod-fire-resistant">
-            <div class="pcard-media" aria-hidden="true">
-              <svg class="pcard-mark"><use href="#p-flame"/></svg>
-              <img src="assets/images/products/fire-resistant.webp" alt="" width="295" height="640" loading="lazy" decoding="async" draggable="false">
-            </div>
-            <div class="pcard-body">
-              <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-flame"/></svg></span>
-              <span class="pcard-dash" aria-hidden="true"></span>
-              <h3 class="pcard-title" id="prod-fire-resistant">کابل نسوز</h3>
-              <p class="pcard-text">مقاوم در برابر حرارت و شرایط سخت محیطی</p>
-              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
-                <span>مشاهده محصولات</span>
-                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
-              </a>
-            </div>
-          </article>
-        </li>
-        <li class="pcard" data-tone="green">
-          <article class="pcard-in" aria-labelledby="prod-power">
-            <div class="pcard-media" aria-hidden="true">
-              <svg class="pcard-mark"><use href="#p-bolt"/></svg>
-              <img src="assets/images/products/power.webp" alt="" width="272" height="640" loading="lazy" decoding="async" draggable="false">
-            </div>
-            <div class="pcard-body">
-              <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-bolt"/></svg></span>
-              <span class="pcard-dash" aria-hidden="true"></span>
-              <h3 class="pcard-title" id="prod-power">کابل قدرت</h3>
-              <p class="pcard-text">انتقال مطمئن انرژی در پروژه‌های صنعتی و نیروگاهی</p>
-              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
-                <span>مشاهده محصولات</span>
-                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
-              </a>
-            </div>
-          </article>
-        </li>
-        <li class="pcard" data-tone="blue">
-          <article class="pcard-in" aria-labelledby="prod-aluminium">
-            <div class="pcard-media" aria-hidden="true">
-              <svg class="pcard-mark"><use href="#p-leaf"/></svg>
-              <img src="assets/images/products/aluminium.webp" alt="" width="283" height="640" loading="lazy" decoding="async" draggable="false">
-            </div>
-            <div class="pcard-body">
-              <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-leaf"/></svg></span>
-              <span class="pcard-dash" aria-hidden="true"></span>
-              <h3 class="pcard-title" id="prod-aluminium">کابل آلومینیومی</h3>
-              <p class="pcard-text">سبک، اقتصادی و مناسب برای خطوط انتقال و توزیع</p>
-              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
-                <span>مشاهده محصولات</span>
-                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
-              </a>
-            </div>
-          </article>
-        </li>
-        <li class="pcard" data-tone="blue">
-          <article class="pcard-in" aria-labelledby="prod-flexible-control">
-            <div class="pcard-media" aria-hidden="true">
               <svg class="pcard-mark"><use href="#p-gear"/></svg>
-              <img src="assets/images/products/flexible-control.webp" alt="" width="402" height="640" loading="lazy" decoding="async" draggable="false">
+              <img src="assets/images/products/building.webp" alt="" width="327" height="640" loading="lazy" decoding="async" draggable="false">
             </div>
             <div class="pcard-body">
               <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-gear"/></svg></span>
               <span class="pcard-dash" aria-hidden="true"></span>
-              <h3 class="pcard-title" id="prod-flexible-control">کابل کنترل افشان</h3>
+              <h3 class="pcard-title" id="prod-building">کابل کنترل افشان</h3>
               <p class="pcard-text">انعطاف‌پذیر و مناسب برای سیستم‌های کنترل و فرمان</p>
               <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
                 <span>مشاهده محصولات</span>
@@ -214,16 +142,34 @@
             </div>
           </article>
         </li>
-        <li class="pcard" data-tone="green">
-          <article class="pcard-in" aria-labelledby="prod-armoured">
+        <li class="pcard" data-tone="blue" data-reveal="up">
+          <article class="pcard-in" aria-labelledby="prod-fire-resistant">
+            <div class="pcard-media" aria-hidden="true">
+              <svg class="pcard-mark"><use href="#p-house"/></svg>
+              <img src="assets/images/products/fire-resistant.webp" alt="" width="295" height="640" loading="lazy" decoding="async" draggable="false">
+            </div>
+            <div class="pcard-body">
+              <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-house"/></svg></span>
+              <span class="pcard-dash" aria-hidden="true"></span>
+              <h3 class="pcard-title" id="prod-fire-resistant">سیم و کابل ساختمانی</h3>
+              <p class="pcard-text">مناسب برای ساختمان‌های مسکونی و تجاری</p>
+              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
+                <span>مشاهده محصولات</span>
+                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+              </a>
+            </div>
+          </article>
+        </li>
+        <li class="pcard" data-tone="green" data-reveal="up">
+          <article class="pcard-in" aria-labelledby="prod-power">
             <div class="pcard-media" aria-hidden="true">
               <svg class="pcard-mark"><use href="#p-shield"/></svg>
-              <img src="assets/images/products/armoured.webp" alt="" width="201" height="640" loading="lazy" decoding="async" draggable="false">
+              <img src="assets/images/products/power.webp" alt="" width="272" height="640" loading="lazy" decoding="async" draggable="false">
             </div>
             <div class="pcard-body">
               <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-shield"/></svg></span>
               <span class="pcard-dash" aria-hidden="true"></span>
-              <h3 class="pcard-title" id="prod-armoured">کابل آرمودار</h3>
+              <h3 class="pcard-title" id="prod-power">کابل آرموردار</h3>
               <p class="pcard-text">مقاوم در برابر ضربه و شرایط مکانیکی سخت</p>
               <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
                 <span>مشاهده محصولات</span>
@@ -232,52 +178,16 @@
             </div>
           </article>
         </li>
-        <li class="pcard" data-tone="green">
-          <article class="pcard-in" aria-labelledby="prod-instrumentation">
-            <div class="pcard-media" aria-hidden="true">
-              <svg class="pcard-mark"><use href="#p-bars"/></svg>
-              <img src="assets/images/products/instrumentation.webp" alt="" width="237" height="640" loading="lazy" decoding="async" draggable="false">
-            </div>
-            <div class="pcard-body">
-              <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-bars"/></svg></span>
-              <span class="pcard-dash" aria-hidden="true"></span>
-              <h3 class="pcard-title" id="prod-instrumentation">کابل ابزار دقیق</h3>
-              <p class="pcard-text">انتقال دقیق سیگنال‌ها در سیستم‌های اندازه‌گیری و کنترل</p>
-              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
-                <span>مشاهده محصولات</span>
-                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
-              </a>
-            </div>
-          </article>
-        </li>
-        <li class="pcard" data-tone="blue">
-          <article class="pcard-in" aria-labelledby="prod-solar">
-            <div class="pcard-media" aria-hidden="true">
-              <svg class="pcard-mark"><use href="#p-sun"/></svg>
-              <img src="assets/images/products/solar.webp" alt="" width="271" height="640" loading="lazy" decoding="async" draggable="false">
-            </div>
-            <div class="pcard-body">
-              <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-sun"/></svg></span>
-              <span class="pcard-dash" aria-hidden="true"></span>
-              <h3 class="pcard-title" id="prod-solar">کابل سولار</h3>
-              <p class="pcard-text">ویژه سیستم‌های خورشیدی با مقاومت بالا در برابر UV</p>
-              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
-                <span>مشاهده محصولات</span>
-                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
-              </a>
-            </div>
-          </article>
-        </li>
-        <li class="pcard" data-tone="blue">
-          <article class="pcard-in" aria-labelledby="prod-low-voltage">
+        <li class="pcard" data-tone="blue" data-reveal="up">
+          <article class="pcard-in" aria-labelledby="prod-aluminium">
             <div class="pcard-media" aria-hidden="true">
               <svg class="pcard-mark"><use href="#p-network"/></svg>
-              <img src="assets/images/products/low-voltage.webp" alt="" width="193" height="640" loading="lazy" decoding="async" draggable="false">
+              <img src="assets/images/products/aluminium.webp" alt="" width="283" height="640" loading="lazy" decoding="async" draggable="false">
             </div>
             <div class="pcard-body">
               <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-network"/></svg></span>
               <span class="pcard-dash" aria-hidden="true"></span>
-              <h3 class="pcard-title" id="prod-low-voltage">کابل فشار ضعیف</h3>
+              <h3 class="pcard-title" id="prod-aluminium">کابل فشار ضعیف</h3>
               <p class="pcard-text">مناسب برای توزیع انرژی در شبکه‌های فشار ضعیف</p>
               <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
                 <span>مشاهده محصولات</span>
@@ -286,7 +196,97 @@
             </div>
           </article>
         </li>
-        <li class="pcard" data-tone="green">
+        <li class="pcard" data-tone="blue" data-reveal="up">
+          <article class="pcard-in" aria-labelledby="prod-flexible-control">
+            <div class="pcard-media" aria-hidden="true">
+              <svg class="pcard-mark"><use href="#p-bars"/></svg>
+              <img src="assets/images/products/flexible-control.webp" alt="" width="402" height="640" loading="lazy" decoding="async" draggable="false">
+            </div>
+            <div class="pcard-body">
+              <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-bars"/></svg></span>
+              <span class="pcard-dash" aria-hidden="true"></span>
+              <h3 class="pcard-title" id="prod-flexible-control">کابل ابزار دقیق</h3>
+              <p class="pcard-text">انتقال دقیق سیگنال‌ها در سیستم‌های اندازه‌گیری و کنترل</p>
+              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
+                <span>مشاهده محصولات</span>
+                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+              </a>
+            </div>
+          </article>
+        </li>
+        <li class="pcard" data-tone="green" data-reveal="up">
+          <article class="pcard-in" aria-labelledby="prod-armoured">
+            <div class="pcard-media" aria-hidden="true">
+              <svg class="pcard-mark"><use href="#p-bolt"/></svg>
+              <img src="assets/images/products/armoured.webp" alt="" width="201" height="640" loading="lazy" decoding="async" draggable="false">
+            </div>
+            <div class="pcard-body">
+              <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-bolt"/></svg></span>
+              <span class="pcard-dash" aria-hidden="true"></span>
+              <h3 class="pcard-title" id="prod-armoured">کابل قدرت</h3>
+              <p class="pcard-text">انتقال مطمئن انرژی در پروژه‌های صنعتی و نیروگاهی</p>
+              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
+                <span>مشاهده محصولات</span>
+                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+              </a>
+            </div>
+          </article>
+        </li>
+        <li class="pcard" data-tone="green" data-reveal="up">
+          <article class="pcard-in" aria-labelledby="prod-instrumentation">
+            <div class="pcard-media" aria-hidden="true">
+              <svg class="pcard-mark"><use href="#p-flame"/></svg>
+              <img src="assets/images/products/instrumentation.webp" alt="" width="237" height="640" loading="lazy" decoding="async" draggable="false">
+            </div>
+            <div class="pcard-body">
+              <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-flame"/></svg></span>
+              <span class="pcard-dash" aria-hidden="true"></span>
+              <h3 class="pcard-title" id="prod-instrumentation">کابل نسوز</h3>
+              <p class="pcard-text">مقاوم در برابر حرارت و شرایط سخت محیطی</p>
+              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
+                <span>مشاهده محصولات</span>
+                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+              </a>
+            </div>
+          </article>
+        </li>
+        <li class="pcard" data-tone="blue" data-reveal="up">
+          <article class="pcard-in" aria-labelledby="prod-solar">
+            <div class="pcard-media" aria-hidden="true">
+              <svg class="pcard-mark"><use href="#p-leaf"/></svg>
+              <img src="assets/images/products/solar.webp" alt="" width="271" height="640" loading="lazy" decoding="async" draggable="false">
+            </div>
+            <div class="pcard-body">
+              <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-leaf"/></svg></span>
+              <span class="pcard-dash" aria-hidden="true"></span>
+              <h3 class="pcard-title" id="prod-solar">کابل آلومینیومی</h3>
+              <p class="pcard-text">سبک، اقتصادی و مناسب برای خطوط انتقال و توزیع</p>
+              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
+                <span>مشاهده محصولات</span>
+                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+              </a>
+            </div>
+          </article>
+        </li>
+        <li class="pcard" data-tone="blue" data-reveal="up">
+          <article class="pcard-in" aria-labelledby="prod-low-voltage">
+            <div class="pcard-media" aria-hidden="true">
+              <svg class="pcard-mark"><use href="#p-sun"/></svg>
+              <img src="assets/images/products/low-voltage.webp" alt="" width="193" height="640" loading="lazy" decoding="async" draggable="false">
+            </div>
+            <div class="pcard-body">
+              <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-sun"/></svg></span>
+              <span class="pcard-dash" aria-hidden="true"></span>
+              <h3 class="pcard-title" id="prod-low-voltage">کابل سولار</h3>
+              <p class="pcard-text">ویژه سیستم‌های خورشیدی با مقاومت بالا در برابر UV</p>
+              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
+                <span>مشاهده محصولات</span>
+                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+              </a>
+            </div>
+          </article>
+        </li>
+        <li class="pcard" data-tone="green" data-reveal="up">
           <article class="pcard-in" aria-labelledby="prod-welding">
             <div class="pcard-media" aria-hidden="true">
               <svg class="pcard-mark"><use href="#p-spark"/></svg>
@@ -320,7 +320,7 @@
     </header>
     <div class="why-wrap">
       <ol class="why-grid" role="list">
-        <li class="why-card" data-tone="blue" style="--i:0">
+        <li class="why-card" data-tone="blue" data-reveal="up">
           <article class="why-in" aria-labelledby="why-01">
             <div class="why-body">
               <span class="why-num" aria-hidden="true" lang="en">01</span>
@@ -333,7 +333,7 @@
             </div>
           </article>
         </li>
-        <li class="why-card" data-tone="green" style="--i:1">
+        <li class="why-card" data-tone="green" data-reveal="up">
           <article class="why-in" aria-labelledby="why-02">
             <div class="why-body">
               <span class="why-num" aria-hidden="true" lang="en">02</span>
@@ -346,7 +346,7 @@
             </div>
           </article>
         </li>
-        <li class="why-card" data-tone="blue" style="--i:2">
+        <li class="why-card" data-tone="blue" data-reveal="up">
           <article class="why-in" aria-labelledby="why-03">
             <div class="why-body">
               <span class="why-num" aria-hidden="true" lang="en">03</span>
@@ -359,7 +359,7 @@
             </div>
           </article>
         </li>
-        <li class="why-card" data-tone="green" style="--i:3">
+        <li class="why-card" data-tone="green" data-reveal="up">
           <article class="why-in" aria-labelledby="why-04">
             <div class="why-body">
               <span class="why-num" aria-hidden="true" lang="en">04</span>
@@ -384,18 +384,18 @@
     <div class="contact-wrap">
       <div class="contact-in">
         <div class="contact-copy">
-          <header class="contact-head">
+          <header class="contact-head" data-reveal="up">
             <p class="why-kicker contact-kicker" lang="en">SIMLAND</p>
             <h2 class="contact-title" id="contact-title"><span>با ما در</span> <span><span class="contact-accent">ارتباط</span> باشید</span></h2>
             <p class="contact-lede">برای مشاوره و خرید، تیم ما آماده پاسخگویی به سؤالات شماست.</p>
           </header>
           <ul class="contact-list" role="list">
-          <li><a class="ccard" data-tone="blue" href="tel:09123520415"><span class="sr-only">تماس: </span><span class="ccard-icon" aria-hidden="true"><svg><use href="#c-phone"/></svg></span><span class="ccard-text"><span class="ccard-label">مشاوره و خرید</span> <span class="ccard-main ccard-number" dir="ltr">09123520415</span></span><span class="ccard-go" aria-hidden="true"><svg><use href="#c-chevron"/></svg></span></a></li>
-          <li><div class="ccard is-soon" data-tone="green" aria-disabled="true"><span class="ccard-icon" aria-hidden="true"><svg><use href="#c-phone"/></svg></span><span class="ccard-text"><span class="ccard-label">مشاوره و خرید</span> <span class="ccard-main ccard-soon">شماره تماس به‌زودی</span></span><span class="ccard-go" aria-hidden="true"><svg><use href="#c-chevron"/></svg></span></div></li>
-          <li><div class="ccard ccard-address" data-tone="blue"><span class="ccard-icon" aria-hidden="true"><svg><use href="#c-pin"/></svg></span><span class="ccard-text"><span class="ccard-label">آدرس شعبه</span> <span class="ccard-main ccard-addr">قم، خیابان مفتح، نبش کوچه ۶</span></span><button type="button" class="ccard-go ccard-copy" data-copy="قم، خیابان مفتح، نبش کوچه ۶" aria-label="کپی آدرس شعبه" title="کپی آدرس"><svg class="i-copy" aria-hidden="true"><use href="#c-copy"/></svg><svg class="i-done" aria-hidden="true"><use href="#c-check"/></svg></button><span class="ccard-status" role="status" aria-live="polite"></span></div></li>
+          <li data-reveal="right"><a class="ccard" data-tone="blue" href="tel:09123520415"><span class="sr-only">تماس: </span><span class="ccard-icon" aria-hidden="true"><svg><use href="#c-phone"/></svg></span><span class="ccard-text"><span class="ccard-label">مشاوره و خرید</span> <span class="ccard-main ccard-number" dir="ltr">09123520415</span></span><span class="ccard-go" aria-hidden="true"><svg><use href="#c-chevron"/></svg></span></a></li>
+          <li data-reveal="right"><div class="ccard is-soon" data-tone="green" aria-disabled="true"><span class="ccard-icon" aria-hidden="true"><svg><use href="#c-phone"/></svg></span><span class="ccard-text"><span class="ccard-label">مشاوره و خرید</span> <span class="ccard-main ccard-soon">شماره تماس به‌زودی</span></span><span class="ccard-go" aria-hidden="true"><svg><use href="#c-chevron"/></svg></span></div></li>
+          <li data-reveal="right"><div class="ccard ccard-address" data-tone="blue"><span class="ccard-icon" aria-hidden="true"><svg><use href="#c-pin"/></svg></span><span class="ccard-text"><span class="ccard-label">آدرس شعبه</span> <span class="ccard-main ccard-addr">قم، خیابان مفتح، نبش کوچه ۶</span></span><button type="button" class="ccard-go ccard-copy" data-copy="قم، خیابان مفتح، نبش کوچه ۶" aria-label="کپی آدرس شعبه" title="کپی آدرس"><svg class="i-copy" aria-hidden="true"><use href="#c-copy"/></svg><svg class="i-done" aria-hidden="true"><use href="#c-check"/></svg></button><span class="ccard-status" role="status" aria-live="polite"></span></div></li>
           </ul>
         </div>
-        <div class="contact-art">
+        <div class="contact-art" data-reveal="rise">
           <img class="contact-phone" src="assets/images/contact/phone.webp" alt="گوشی هوشمند با آیکون تماس، روی پایه‌ی شیشه‌ای آبی و سبز" width="1075" height="1232" loading="lazy" decoding="async" draggable="false">
         </div>
       </div>

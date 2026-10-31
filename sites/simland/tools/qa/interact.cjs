@@ -14,7 +14,8 @@ const path = require('path');
     await p.getByText(label, { exact: true }).first().click({ force: true });
     await p.waitForTimeout(300);
   }
-  const navOk = p.url() === before;
+  // the menu now leads to sections of this page: the document stays, only the #hash changes
+  const navOk = p.url().split('#')[0] === before.split('#')[0];
   // the hero button scrolls to the products; the title ends up below the fixed header
   await p.locator('.hero-actions .btn-primary').click();
   await p.waitForTimeout(1500);
@@ -26,7 +27,7 @@ const path = require('path');
   // the product buttons are locked for now (no product pages yet): no navigation
   await p.locator('.pcard-cta').first().click({ force: true });
   await p.waitForTimeout(300);
-  const cardsLocked = p.url() === before;
+  const cardsLocked = p.url().split('#')[0] === before.split('#')[0] && !(await p.evaluate(() => document.querySelector('.pcard-cta').hasAttribute('href')));
   await p.evaluate(() => scrollTo(0, 0));
   await p.locator('.hero-actions .btn-soft').click();
   await p.waitForTimeout(1500);

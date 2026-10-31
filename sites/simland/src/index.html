@@ -80,9 +80,9 @@
 
 <header class="topbar" data-topbar>
   <nav class="topnav" aria-label="منوی اصلی">
-    <a class="topnav-item is-active" href="#top" aria-current="page">خانه</a>
-    <a class="topnav-item" role="link" aria-disabled="true" title="به‌زودی">محصولات</a>
-    <a class="topnav-item" role="link" aria-disabled="true" title="به‌زودی">ارتباط با ما</a>
+    <a class="topnav-item is-active" href="#top" aria-current="page" data-scroll>خانه</a>
+    <a class="topnav-item" href="#products" data-scroll>محصولات</a>
+    <a class="topnav-item" href="#contact" data-scroll>ارتباط با ما</a>
   </nav>
 </header>
 
@@ -96,13 +96,13 @@
 <!-- hero-still -->
     </div>
     <div class="hero-actions">
-      <a class="btn btn-soft" href="#contact" data-scroll>
-        <span>دریافت مشاوره</span>
-        <svg class="btn-icon" aria-hidden="true"><use href="#i-headset"/></svg>
-      </a>
       <a class="btn btn-primary" href="#products" data-scroll>
         <span>مشاهده محصولات</span>
         <svg class="btn-icon" aria-hidden="true"><use href="#i-box"/></svg>
+      </a>
+      <a class="btn btn-soft" href="#contact" data-scroll>
+        <span>دریافت مشاوره</span>
+        <svg class="btn-icon" aria-hidden="true"><use href="#i-headset"/></svg>
       </a>
     </div>
   </section>
@@ -140,14 +140,14 @@
     <div class="contact-wrap">
       <div class="contact-in">
         <div class="contact-copy">
-          <header class="contact-head">
+          <header class="contact-head" data-reveal="up">
             <p class="why-kicker contact-kicker" lang="en">SIMLAND</p>
             <h2 class="contact-title" id="contact-title"><span>با ما در</span> <span><span class="contact-accent">ارتباط</span> باشید</span></h2>
             <p class="contact-lede">برای مشاوره و خرید، تیم ما آماده پاسخگویی به سؤالات شماست.</p>
           </header>
 <!-- contact -->
         </div>
-        <div class="contact-art">
+        <div class="contact-art" data-reveal="rise">
 <!-- contact-art -->
         </div>
       </div>

@@ -454,6 +454,8 @@ svg {
   border-radius: 50% 50% 0 0 / clamp(16px, 2.4vw, 38px) clamp(16px, 2.4vw, 38px) 0 0;
   box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.95), 0 -26px 48px -36px rgba(7, 28, 75, 0.26);
   scroll-margin-top: 36px;
+  /* cards gliding in from the sides never widen the page */
+  overflow-x: clip;
 }
 
 .section-head {
@@ -1206,19 +1208,6 @@ svg {
   }
 }
 
-/* entrance: each card rises in softly the first time it comes into view */
-.why-anim .why-card {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
-  transition-delay: calc(var(--i) * 90ms);
-}
-
-.why-anim .why-card.is-in {
-  opacity: 1;
-  transform: none;
-}
-
 @media (hover: hover) and (pointer: fine) {
   .why-in:hover {
     box-shadow: 0 0 0 1px rgba(205, 225, 246, 0.95), 0 3px 8px -4px rgba(7, 28, 75, 0.12), 0 26px 48px -30px rgba(7, 28, 75, 0.4);
@@ -1622,35 +1611,6 @@ a.ccard:active {
   }
 }
 
-/* entrance: text, cards and phone rise in softly the first time they are seen */
-.contact-anim .contact-head,
-.contact-anim .contact-list > li,
-.contact-anim .contact-art {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
-}
-
-.contact-anim .contact-list > li:nth-child(2) {
-  transition-delay: 0.08s;
-}
-
-.contact-anim .contact-list > li:nth-child(3) {
-  transition-delay: 0.16s;
-}
-
-.contact-anim .contact-art {
-  transform: translateY(10px);
-  transition-delay: 0.1s;
-}
-
-.contact-anim .contact-head.is-in,
-.contact-anim .contact-list > li.is-in,
-.contact-anim .contact-art.is-in {
-  opacity: 1;
-  transform: none;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .ccard,
   .ccard-go {
@@ -1661,4 +1621,49 @@ a.ccard:active {
   a.ccard:hover .ccard-go {
     transform: none;
   }
+}
+
+/* a section title that receives focus after a menu jump is not a control: no ring */
+h1[tabindex='-1']:focus,
+h2[tabindex='-1']:focus {
+  outline: none;
+}
+
+/* ---------------------------------------------------------------- entrance (home.js adds .reveal-on)
+   A block waits slightly to one side, or a little lower, fully transparent, and
+   glides into its own place the first time it is seen; its side is chosen by
+   home.js from where it really sits. Only transform and opacity change, and
+   nothing stays transformed once it has arrived. */
+
+:root {
+  --reveal-x: clamp(18px, 3.2vw, 36px);
+}
+
+.reveal-on [data-reveal] {
+  opacity: 0;
+  transition: opacity 0.7s var(--ease), transform 0.9s var(--ease);
+  transition-delay: var(--rd, 0ms);
+}
+
+.reveal-on [data-reveal='right'] {
+  transform: translate3d(var(--reveal-x), 0, 0);
+}
+
+.reveal-on [data-reveal='left'] {
+  transform: translate3d(calc(var(--reveal-x) * -1), 0, 0);
+}
+
+.reveal-on [data-reveal='up'] {
+  transform: translate3d(0, 22px, 0);
+}
+
+/* the phone on its stand: the gentlest, slowest arrival */
+.reveal-on [data-reveal='rise'] {
+  transform: translate3d(0, 12px, 0);
+  transition-duration: 1.1s, 1.3s;
+}
+
+.reveal-on [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
 }

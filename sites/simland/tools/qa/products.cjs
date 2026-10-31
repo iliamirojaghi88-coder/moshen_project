@@ -9,7 +9,8 @@ fs.mkdirSync(out, { recursive: true });
 const VP = process.env.VP
   ? JSON.parse(process.env.VP)
   : [[320, 640, 2], [360, 800, 3], [375, 812, 3], [390, 844, 3], [430, 932, 3], [768, 1024, 2], [1024, 768, 1], [1180, 820, 2], [1200, 800, 1], [1366, 768, 1], [1536, 864, 1.25], [1920, 1080, 1]];
-const ORDER = ['کابل ساختمانی', 'کابل نسوز', 'کابل قدرت', 'کابل آلومینیومی', 'کابل کنترل افشان', 'کابل آرمودار', 'کابل ابزار دقیق', 'کابل سولار', 'کابل فشار ضعیف', 'کابل جوش'];
+// names in page order (right to left), each matching what its image shows (client's labelled reference)
+const ORDER = ['کابل کنترل افشان', 'سیم و کابل ساختمانی', 'کابل آرموردار', 'کابل فشار ضعیف', 'کابل ابزار دقیق', 'کابل قدرت', 'کابل نسوز', 'کابل آلومینیومی', 'کابل سولار', 'کابل جوش'];
 
 (async () => {
   const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
@@ -23,7 +24,12 @@ const ORDER = ['کابل ساختمانی', 'کابل نسوز', 'کابل قد�
     await page.waitForFunction(() => document.querySelector('[data-scene]').classList.contains('is-live'), null, { timeout: 120000 }).catch(() => errors.push('never went live'));
     await page.evaluate(() => { if (window.__hero) { window.__hero.pause(); window.__hero.renderAt(9); } });
     // lazy images: bring the section into view once so they load, then back to the top
-    await page.evaluate(() => document.getElementById('products').scrollIntoView());
+    // bring every card into view once so it makes its entrance, then measure the settled page
+    await page.evaluate(async () => {
+      document.documentElement.style.scrollBehavior = 'auto';
+      for (const c of document.querySelectorAll('.pcard')) { c.scrollIntoView({ block: 'center' }); await new Promise((r) => setTimeout(r, 60)); }
+    });
+    await page.waitForFunction(() => !document.documentElement.classList.contains('reveal-on') || [...document.querySelectorAll('.pcard')].every((c) => c.classList.contains('is-in') && !c.getAnimations().length), null, { timeout: 15000 }).catch(() => errors.push('cards never settled'));
     await page.waitForFunction(() => [...document.querySelectorAll('.pcard img')].every((i) => i.complete && i.naturalWidth), null, { timeout: 30000 }).catch(() => errors.push('images not loaded'));
     await page.evaluate(() => scrollTo(0, 0));
     await page.waitForTimeout(300);

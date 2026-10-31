@@ -30,7 +30,7 @@ const TITLES = ['کیفیت تضمینی', 'تنوع کامل محصولات', '
       for (const c of s.querySelectorAll('.why-card')) { c.scrollIntoView({ block: 'center' }); await new Promise((r) => setTimeout(r, 120)); }
     });
     await page.waitForFunction(() => [...document.querySelectorAll('.why-card img')].every((i) => i.complete && i.naturalWidth), null, { timeout: 30000 }).catch(() => errors.push('images not loaded'));
-    await page.waitForFunction(() => [...document.querySelectorAll('.why-card')].every((c) => c.classList.contains('is-in') || !document.documentElement.classList.contains('why-anim')), null, { timeout: 10000 }).catch(() => errors.push('cards never revealed'));
+    await page.waitForFunction(() => !document.documentElement.classList.contains('reveal-on') || [...document.querySelectorAll('.why-card')].every((c) => c.classList.contains('is-in') && !c.getAnimations().length), null, { timeout: 15000 }).catch(() => errors.push('cards never settled'));
     await page.waitForTimeout(1200); // entrance finished
     const r = await page.evaluate((TITLES) => {
       // document coordinates, so a scroll in between cannot skew a comparison

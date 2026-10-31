@@ -2,27 +2,107 @@ import { createLiveHero } from './live-hero.js';
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ---------------------------------------------------------------- header: products and contact are locked for now
+// ---------------------------------------------------------------- items without a destination yet (product pages, the second phone line)
 
 document.querySelectorAll('[aria-disabled="true"]').forEach((el) => {
   el.addEventListener('click', (e) => e.preventDefault());
 });
 
-// ---------------------------------------------------------------- buttons scroll to their section (once it exists)
+// ---------------------------------------------------------------- menu and hero buttons: the sections of this page
+// Real anchors (#top, #products, #contact), so they also work without script and
+// from the address bar. Each section's scroll-margin-top keeps its title clear of
+// the fixed header; focus moves to the section's title for keyboard users.
+
+function goTo(id, behavior) {
+  const target = document.getElementById(id);
+  if (!target) return false;
+  if (id === 'top') scrollTo({ top: 0, behavior });
+  else target.scrollIntoView({ behavior, block: 'start' });
+  const title = id === 'top' ? document.getElementById('hero-title') : target.querySelector('h2');
+  if (title) {
+    title.setAttribute('tabindex', '-1');
+    title.focus({ preventScroll: true });
+  }
+  return true;
+}
 
 document.querySelectorAll('[data-scroll]').forEach((link) => {
   link.addEventListener('click', (e) => {
+    const id = link.getAttribute('href').slice(1);
+    if (!goTo(id, reducedMotion ? 'auto' : 'smooth')) return;
     e.preventDefault();
-    const target = document.getElementById(link.getAttribute('href').slice(1));
-    target?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+    history.replaceState(null, '', id === 'top' ? location.pathname + location.search : `#${id}`);
   });
 });
 
-// ---------------------------------------------------------------- «چرا سیم‌لند؟»: cards rise in once
+// opened with #products or #contact: land on the section once the fonts have settled the layout
+if (/^#(products|contact|why)$/.test(location.hash)) {
+  const id = location.hash.slice(1);
+  document.fonts.ready.then(() => {
+    const root = document.documentElement;
+    root.style.scrollBehavior = 'auto';
+    goTo(id, 'auto');
+    root.style.scrollBehavior = '';
+  });
+}
 
-const whyCards = document.querySelectorAll('.why-card');
-if (!reducedMotion && 'IntersectionObserver' in window && whyCards.length) {
-  document.documentElement.classList.add('why-anim');
+// ---------------------------------------------------------------- entrance: each block slides or rises in once
+// One observer for the page. A product card comes in from its own side of its
+// real row (right half from the right, left half from the left, a middle one from
+// below), one after another along the row, whatever the number of columns; the
+// four «چرا سیم‌لند؟» cards alternate; the contact title rises, its cards follow
+// from the reading side and the phone settles in last. Only transform and opacity
+// move, nothing stays transformed afterwards, and without script or with reduced
+// motion everything is simply there.
+
+const revealing = [...document.querySelectorAll('[data-reveal]')];
+if (!reducedMotion && 'IntersectionObserver' in window && revealing.length) {
+  const pending = (el) => !el.classList.contains('is-in');
+
+  const placeProducts = () => {
+    const rows = new Map();
+    for (const card of document.querySelectorAll('.pcard')) {
+      const key = card.offsetTop; // layout position: not moved by the entrance transform
+      if (!rows.has(key)) rows.set(key, []);
+      rows.get(key).push(card);
+    }
+    for (const row of rows.values()) {
+      row.sort((a, b) => b.offsetLeft - a.offsetLeft); // right to left, the reading order
+      const n = row.length;
+      row.forEach((card, i) => {
+        if (!pending(card)) return;
+        card.dataset.reveal = n % 2 && i === (n - 1) / 2 ? 'up' : i < n / 2 ? 'right' : 'left';
+        card.style.setProperty('--rd', `${i * 70}ms`);
+      });
+    }
+  };
+
+  const placeWhy = () => {
+    const cards = [...document.querySelectorAll('.why-card')];
+    const oneRow = cards.length > 1 && cards.every((c) => c.offsetTop === cards[0].offsetTop);
+    // one column: from the side of the text, the third rises; a row of four: from the outer edges inwards
+    const sides = oneRow ? ['right', 'up', 'up', 'left'] : ['right', 'left', 'up', 'left'];
+    cards.forEach((card, i) => {
+      if (!pending(card)) return;
+      card.dataset.reveal = sides[i % sides.length];
+      card.style.setProperty('--rd', oneRow ? `${i * 90}ms` : '0ms');
+    });
+  };
+
+  document.querySelectorAll('.contact-list > li').forEach((li, i) => li.style.setProperty('--rd', `${80 + i * 90}ms`));
+  placeProducts();
+  placeWhy();
+  document.documentElement.classList.add('reveal-on');
+
+  let resizeTimer = 0;
+  addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      placeProducts();
+      placeWhy();
+    }, 150);
+  });
+
   const reveal = new IntersectionObserver(
     (entries) => {
       for (const e of entries) {
@@ -31,28 +111,12 @@ if (!reducedMotion && 'IntersectionObserver' in window && whyCards.length) {
         reveal.unobserve(e.target);
       }
     },
-    { rootMargin: '0px 0px -6% 0px', threshold: 0.12 },
+    { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
   );
-  whyCards.forEach((card) => reveal.observe(card));
+  revealing.forEach((el) => reveal.observe(el));
 }
 
-// ---------------------------------------------------------------- contact: entrance and «کپی آدرس»
-
-const contactParts = document.querySelectorAll('.contact-head, .contact-list > li, .contact-art');
-if (!reducedMotion && 'IntersectionObserver' in window && contactParts.length) {
-  document.documentElement.classList.add('contact-anim');
-  const reveal = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (!e.isIntersecting) continue;
-        e.target.classList.add('is-in');
-        reveal.unobserve(e.target);
-      }
-    },
-    { rootMargin: '0px 0px -6% 0px', threshold: 0.12 },
-  );
-  contactParts.forEach((el) => reveal.observe(el));
-}
+// ---------------------------------------------------------------- contact: «کپی آدرس»
 
 async function copyText(text) {
   try {

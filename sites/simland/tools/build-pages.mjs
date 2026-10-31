@@ -54,7 +54,7 @@ async function productCards(single) {
     const file = at('assets/images/products', `${p.slug}.webp`);
     const { width, height } = await sharp(file).metadata();
     const src = single ? await dataUri(file) : `assets/images/products/${p.slug}.webp`;
-    cards.push(`        <li class="pcard" data-tone="${p.tone}">
+    cards.push(`        <li class="pcard" data-tone="${p.tone}" data-reveal="up">
           <article class="pcard-in" aria-labelledby="prod-${p.slug}">
             <div class="pcard-media" aria-hidden="true">
               <svg class="pcard-mark"><use href="#p-${p.icon}"/></svg>
@@ -94,7 +94,7 @@ async function whyCards(single) {
     const { width, height } = await sharp(file).metadata();
     const src = single ? await dataUri(file) : `assets/images/why/${c.img}.webp`;
     const n = String(i + 1).padStart(2, '0');
-    cards.push(`        <li class="why-card" data-tone="${c.tone}" style="--i:${i}">
+    cards.push(`        <li class="why-card" data-tone="${c.tone}" data-reveal="up">
           <article class="why-in" aria-labelledby="why-${n}">
             <div class="why-body">
               <span class="why-num" aria-hidden="true" lang="en">${n}</span>
@@ -126,15 +126,15 @@ async function contactCards() {
   const items = contact.phones.map((p) => {
     const digits = String(p.number || '').replace(/[^\d+]/g, '');
     if (!digits) {
-      return `          <li><div class="ccard is-soon" data-tone="${p.tone}" aria-disabled="true">${icon('c-phone')}${text(p.label, 'شماره تماس به‌زودی', 'ccard-soon')}${go}</div></li>`;
+      return `          <li data-reveal="right"><div class="ccard is-soon" data-tone="${p.tone}" aria-disabled="true">${icon('c-phone')}${text(p.label, 'شماره تماس به‌زودی', 'ccard-soon')}${go}</div></li>`;
     }
-    return `          <li><a class="ccard" data-tone="${p.tone}" href="tel:${digits}"><span class="sr-only">تماس: </span>${icon('c-phone')}${text(p.label, p.number, 'ccard-number')}${go}</a></li>`;
+    return `          <li data-reveal="right"><a class="ccard" data-tone="${p.tone}" href="tel:${digits}"><span class="sr-only">تماس: </span>${icon('c-phone')}${text(p.label, p.number, 'ccard-number')}${go}</a></li>`;
   });
   const a = contact.address;
   const action = a.mapUrl
     ? `<a class="ccard-go" href="${esc(a.mapUrl)}" target="_blank" rel="noopener" aria-label="مسیریابی روی نقشه"><svg aria-hidden="true"><use href="#c-map"/></svg></a>`
     : `<button type="button" class="ccard-go ccard-copy" data-copy="${esc(a.text)}" aria-label="کپی آدرس شعبه" title="کپی آدرس"><svg class="i-copy" aria-hidden="true"><use href="#c-copy"/></svg><svg class="i-done" aria-hidden="true"><use href="#c-check"/></svg></button><span class="ccard-status" role="status" aria-live="polite"></span>`;
-  items.push(`          <li><div class="ccard ccard-address" data-tone="blue">${icon('c-pin')}${text(a.label, a.text, 'ccard-addr')}${action}</div></li>`);
+  items.push(`          <li data-reveal="right"><div class="ccard ccard-address" data-tone="blue">${icon('c-pin')}${text(a.label, a.text, 'ccard-addr')}${action}</div></li>`);
   return `          <ul class="contact-list" role="list">\n${items.join('\n')}\n          </ul>`;
 }
 

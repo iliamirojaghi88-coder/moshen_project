@@ -1,85 +1,85 @@
 {
-  "_note": "Which source photo (in the order they were sent) belongs to which product, and the card copy (text from the client's reference design), icon and tone. Order = order on the page (right to left). Images: node tools/build-images.mjs; page: node tools/build-pages.mjs",
+  "_note": "Page order (right to left) of the ten cards. Each entry: the image (slug, photo) and the card's tone stay with the position; name, text, icon and category follow what the image shows, matched to the client's labelled reference photo. Images: node tools/build-images.mjs; page: node tools/build-pages.mjs",
   "products": [
     {
       "slug": "building",
-      "name": "کابل ساختمانی",
+      "name": "کابل کنترل افشان",
       "photo": "photo-02.jpg",
-      "category": "building",
-      "text": "مناسب برای ساختمان‌های مسکونی و تجاری",
-      "icon": "house",
+      "category": "special",
+      "text": "انعطاف‌پذیر و مناسب برای سیستم‌های کنترل و فرمان",
+      "icon": "gear",
       "tone": "green"
     },
     {
       "slug": "fire-resistant",
-      "name": "کابل نسوز",
+      "name": "سیم و کابل ساختمانی",
       "photo": "photo-04.jpg",
       "category": "building",
-      "text": "مقاوم در برابر حرارت و شرایط سخت محیطی",
-      "icon": "flame",
+      "text": "مناسب برای ساختمان‌های مسکونی و تجاری",
+      "icon": "house",
       "tone": "blue"
     },
     {
       "slug": "power",
-      "name": "کابل قدرت",
+      "name": "کابل آرموردار",
       "photo": "photo-09.jpg",
-      "category": "industrial",
-      "text": "انتقال مطمئن انرژی در پروژه‌های صنعتی و نیروگاهی",
-      "icon": "bolt",
-      "tone": "green"
-    },
-    {
-      "slug": "aluminium",
-      "name": "کابل آلومینیومی",
-      "photo": "photo-07.jpg",
-      "category": "industrial",
-      "text": "سبک، اقتصادی و مناسب برای خطوط انتقال و توزیع",
-      "icon": "leaf",
-      "tone": "blue"
-    },
-    {
-      "slug": "flexible-control",
-      "name": "کابل کنترل افشان",
-      "photo": "photo-10.jpg",
-      "category": "special",
-      "text": "انعطاف‌پذیر و مناسب برای سیستم‌های کنترل و فرمان",
-      "icon": "gear",
-      "tone": "blue"
-    },
-    {
-      "slug": "armoured",
-      "name": "کابل آرمودار",
-      "photo": "photo-06.jpg",
       "category": "industrial",
       "text": "مقاوم در برابر ضربه و شرایط مکانیکی سخت",
       "icon": "shield",
       "tone": "green"
     },
     {
-      "slug": "instrumentation",
+      "slug": "aluminium",
+      "name": "کابل فشار ضعیف",
+      "photo": "photo-07.jpg",
+      "category": "building",
+      "text": "مناسب برای توزیع انرژی در شبکه‌های فشار ضعیف",
+      "icon": "network",
+      "tone": "blue"
+    },
+    {
+      "slug": "flexible-control",
       "name": "کابل ابزار دقیق",
-      "photo": "photo-05.jpg",
+      "photo": "photo-10.jpg",
       "category": "special",
       "text": "انتقال دقیق سیگنال‌ها در سیستم‌های اندازه‌گیری و کنترل",
       "icon": "bars",
+      "tone": "blue"
+    },
+    {
+      "slug": "armoured",
+      "name": "کابل قدرت",
+      "photo": "photo-06.jpg",
+      "category": "industrial",
+      "text": "انتقال مطمئن انرژی در پروژه‌های صنعتی و نیروگاهی",
+      "icon": "bolt",
+      "tone": "green"
+    },
+    {
+      "slug": "instrumentation",
+      "name": "کابل نسوز",
+      "photo": "photo-05.jpg",
+      "category": "building",
+      "text": "مقاوم در برابر حرارت و شرایط سخت محیطی",
+      "icon": "flame",
       "tone": "green"
     },
     {
       "slug": "solar",
-      "name": "کابل سولار",
+      "name": "کابل آلومینیومی",
       "photo": "photo-01.jpg",
-      "category": "special",
-      "text": "ویژه سیستم‌های خورشیدی با مقاومت بالا در برابر UV",
-      "icon": "sun",
+      "category": "industrial",
+      "text": "سبک، اقتصادی و مناسب برای خطوط انتقال و توزیع",
+      "icon": "leaf",
       "tone": "blue"
     },
     {
       "slug": "low-voltage",
-      "name": "کابل فشار ضعیف",
+      "name": "کابل سولار",
       "photo": "photo-08.jpg",
-      "category": "building",
-      "text": "مناسب برای توزیع انرژی در شبکه‌های فشار ضعیف",
-      "icon": "network",
+      "category": "special",
+      "text": "ویژه سیستم‌های خورشیدی با مقاومت بالا در برابر UV",
+      "icon": "sun",
       "tone": "blue"
     },
     {
