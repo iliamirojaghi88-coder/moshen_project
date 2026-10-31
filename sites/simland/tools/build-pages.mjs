@@ -11,7 +11,7 @@
 //   node tools/build-pages.mjs
 import { build, transform } from 'esbuild';
 import sharp from 'sharp';
-import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
@@ -234,7 +234,9 @@ console.log('wrote index.html (development, links assets/)');
 
 await mkdir(at('dist'), { recursive: true });
 const single = await page(true);
-await writeFile(at('dist/index.html'), single);
+// written whole, then moved into place: a page loading at that moment never reads half a file
+await writeFile(at('dist/index.html.tmp'), single);
+await rename(at('dist/index.html.tmp'), at('dist/index.html'));
 console.log(`wrote dist/index.html (single file, ${(Buffer.byteLength(single) / 1024 / 1024).toFixed(2)} MB)`);
 
 // The résumé and catalogue opens as its own file, so it sits next to the page at

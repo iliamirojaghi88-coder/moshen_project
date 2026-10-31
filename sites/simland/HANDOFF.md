@@ -258,6 +258,12 @@ Its requirements (all must hold):
   bloom 12k/22k, 2–3 jagged 4-segment filaments (16–38k long, redrawn every 40 ms, 0.18 s), 3–7 sparks
   (130–280k px/s, decelerating, gravity), copper reflection (col.rgb × blue tint × exp(−r/18k)), all ×
   window that is 0 at the evaluation box (90 + 70k): box edge ≤ 1 level, outside 0 (checked by diff).
+- Join résumé → contact: on phones/tablets the card's lower shadow (0 34px 64px -44px) reaches past the
+  44 px bottom padding; the contact section used to paint over its tail, leaving a 6–7 level line.
+  `.resume { z-index: 1 }` lets the tail fade over the contact's top instead (card pixels identical,
+  checked): step 7 → 4 at 375, 6 → 3 at 768, 2 on desktop. A fully clean join needs ~10 px more bottom
+  padding on phones or a shorter shadow: not done, the user locked the section's look (2026-10-31).
+- Meta description now carries the new hero line too (the old sentence is nowhere in the site).
 - Hero line: `.hero-lede` navy 600, clamp(1rem, 4.3vw, 1.14rem) / 1.18rem ≥ 600 / clamp(1.2rem, 1.45vw,
   1.42rem) ≥ 1200; `.lede-lead` 700; `.lede-brand` #0a66e2 800 nowrap; `.lede-place` #2a3f66.
 - QA: new `tools/qa/resume.cjs` (http URL of dist; PDF bytes/type, section order/adjacency, image whole and
