@@ -31,14 +31,14 @@ function goTo(id, behavior) {
 // two IntersectionObservers: a thin line across the screen at 35% of its height
 // (well below the fixed header), on which exactly one section lies, and a marker at
 // the very end of the page (the last section may be shorter than a tall screen).
-// The hero is «خانه», the products and «چرا سیم‌لند؟» are «محصولات», the contact
+// The hero is «خانه», the products, «چرا سیم‌لند؟» and the résumé are «محصولات», the contact
 // section is «ارتباط با ما». During a jump from the menu or a hero button the menu
 // shows the destination at once and ignores the sections it glides past; once the
 // page has come to rest, what is in view decides again (also if the visitor took
 // over mid-way). No work on scroll except while such a jump is moving.
 
 const navItems = [...document.querySelectorAll('.topnav-item[data-scroll]')];
-const navKey = { top: 'top', products: 'products', why: 'products', contact: 'contact' };
+const navKey = { top: 'top', products: 'products', why: 'products', resume: 'products', contact: 'contact' };
 let active = navItems.find((a) => a.classList.contains('is-active'))?.getAttribute('href').slice(1) || 'top';
 
 function setActive(key) {
@@ -91,7 +91,7 @@ function startJump(key) {
 }
 
 if ('IntersectionObserver' in window) {
-  const sections = new Map([[document.querySelector('.hero'), 'top'], ...['products', 'why', 'contact'].map((id) => [document.getElementById(id), navKey[id]])]);
+  const sections = new Map([[document.querySelector('.hero'), 'top'], ...['products', 'why', 'resume', 'contact'].map((id) => [document.getElementById(id), navKey[id]])]);
   const line = new IntersectionObserver((entries) => {
     for (const e of entries) if (e.isIntersecting) onLine = sections.get(e.target);
     if (!jump) setActive(inView());

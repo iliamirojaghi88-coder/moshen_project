@@ -1,8 +1,8 @@
 // node nav-spy.cjs <dist/index.html>   (VP='[[w,h,dpr],…]')
 // The menu's active item: «خانه» on the hero; the menu (mouse, touch, keyboard) and
 // the hero buttons move it to their destination at once and it never passes through
-// another item on the way; scrolling by hand selects what is in view (products and
-// «چرا سیم‌لند؟» → «محصولات», contact and the end of the page → «ارتباط با ما»);
+// another item on the way; scrolling by hand selects what is in view (products,
+// «چرا سیم‌لند؟» and the résumé → «محصولات», contact and the end of the page → «ارتباط با ما»);
 // rapid clicks end on the last one; always exactly one active item with
 // aria-current; the items never change size or move when it changes.
 const { chromium } = require('playwright');
@@ -126,6 +126,9 @@ const NAME = { top: 'خانه', products: 'محصولات', contact: 'ارتبا
     const why = await page.evaluate(() => { const r = document.getElementById('why').getBoundingClientRect(); return r.top + scrollY + r.height / 2 - innerHeight / 2; });
     await wheelTo(why);
     await expect('scroll to «چرا سیم‌لند؟»', 'products');
+    const resume = await page.evaluate(() => { const r = document.getElementById('resume').getBoundingClientRect(); return r.top + scrollY + r.height / 2 - innerHeight / 2; });
+    await wheelTo(resume);
+    await expect('scroll to the résumé', 'products');
     // 6. by hand to the contact section, then to the very end
     await wheelTo((await top('#contact')) + 20);
     await expect('scroll to contact', 'contact');

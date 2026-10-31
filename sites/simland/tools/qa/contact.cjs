@@ -39,9 +39,11 @@ const ADDRESS = 'قم، خیابان مفتح، نبش کوچه ۶';
       const main = document.querySelector('main');
       if (main.lastElementChild !== sec) fails.push('contact is not the last section');
       if (document.querySelector('footer') || [...document.body.children].some((e) => !['SCRIPT', 'MAIN', 'HEADER', 'svg', 'SVG'].includes(e.tagName))) fails.push('something after/around the sections');
-      const why = R(document.getElementById('why'));
+      // the section before the contact: the résumé (since 2026-10-31), before that «چرا سیم‌لند؟»
+      const why = R(sec.previousElementSibling);
       const S = R(sec);
-      if (Math.abs(S.top - why.bottom) > 1) fails.push('not adjacent to «چرا سیم‌لند؟»');
+      if (sec.previousElementSibling.id !== 'resume') fails.push('the résumé section is not right before the contact');
+      if (Math.abs(S.top - why.bottom) > 1) fails.push('not adjacent to the section before it');
       const kicker = R(sec.querySelector('.contact-kicker'));
       const title = R(sec.querySelector('.contact-title'));
       const lede = R(sec.querySelector('.contact-lede'));

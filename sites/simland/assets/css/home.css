@@ -210,12 +210,29 @@ svg {
 }
 
 .hero-lede {
-  max-width: 25em;
-  margin: 10px auto 0;
-  color: var(--muted);
-  font-size: 0.875rem;
-  line-height: 1.9;
+  max-width: 21em;
+  margin: 12px auto 0;
+  color: var(--navy);
+  font-size: clamp(1rem, 4.3vw, 1.14rem);
+  font-weight: 600;
+  line-height: 1.85;
   text-wrap: balance;
+}
+
+/* one sentence in three weights: the claim, the brand it represents (blue, never
+   broken across lines), and the province */
+.lede-lead {
+  font-weight: 700;
+}
+
+.lede-brand {
+  color: #0a66e2;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.lede-place {
+  color: #2a3f66;
 }
 
 /* the buttons come after the picture: title, text, picture, buttons */
@@ -385,7 +402,7 @@ svg {
 
 @media (min-width: 600px) {
   .hero-lede {
-    font-size: 1rem;
+    font-size: 1.18rem;
   }
   .btn {
     height: 52px;
@@ -437,7 +454,7 @@ svg {
   }
   .hero-lede {
     margin-inline: 0;
-    font-size: 1.06rem;
+    font-size: clamp(1.2rem, 1.45vw, 1.42rem);
   }
   /* the picture is taller than the copy: the spare height goes half above the
      title, half between the text and the buttons, which end level with the picture */
@@ -1267,6 +1284,211 @@ svg {
     transition: none;
   }
   .why-in:hover .why-art img {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------- résumé and catalogue
+   Its own section between «چرا سیم‌لند؟» and the contact. It starts in the pale
+   blue and green glow «چرا سیم‌لند؟» ends in and ends in the glow the contact
+   section starts with, so neither neighbour changes. One wide, soft card: on
+   phones the folder above the text, from 760 px of content the text on the right
+   and the folder on the left, rising a little above the card's edge. */
+
+.resume {
+  position: relative;
+  padding: clamp(48px, 6vw, 88px) var(--gutter) clamp(44px, 5.5vw, 80px);
+  overflow-x: clip;
+  background:
+    radial-gradient(60% 460px at 0 0, rgba(43, 196, 138, 0.08), transparent 70%),
+    radial-gradient(60% 460px at 0 100%, rgba(43, 196, 138, 0.08), transparent 70%),
+    radial-gradient(55% 420px at 100% 45%, rgba(55, 182, 255, 0.08), transparent 70%),
+    linear-gradient(180deg, #f2f8ff 0, #f7fbff 50%, #f2f8ff 100%);
+  scroll-margin-top: 36px;
+}
+
+.resume-curves {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  pointer-events: none;
+}
+
+.resume-curves path {
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+.resume-curves .c-blue {
+  stroke: rgba(55, 160, 255, 0.34);
+}
+
+.resume-curves .c-green {
+  stroke: rgba(43, 190, 130, 0.3);
+}
+
+.resume-wrap {
+  container: resume / inline-size;
+  position: relative;
+  max-width: 1240px;
+  margin-inline: auto;
+}
+
+.resume-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  row-gap: clamp(8px, 2.6cqi, 18px);
+  padding: clamp(20px, 6cqi, 40px) clamp(16px, 5.5cqi, 40px) clamp(26px, 7cqi, 44px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: clamp(24px, 6cqi, 34px);
+  background:
+    radial-gradient(70% 90% at 50% 18%, rgba(55, 182, 255, 0.12), transparent 70%),
+    linear-gradient(165deg, rgba(255, 255, 255, 0.95), rgba(241, 248, 255, 0.9));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 0 0 1px rgba(8, 120, 249, 0.07),
+    0 12px 26px -20px rgba(8, 120, 249, 0.3),
+    0 34px 64px -44px rgba(7, 28, 75, 0.36);
+  text-align: center;
+}
+
+.resume-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.resume-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(232, 243, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(8, 120, 249, 0.08) inset;
+  color: #2a4470;
+  font-size: clamp(0.78rem, 3.2cqi, 0.88rem);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.resume-tag::before {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22b872;
+  box-shadow: 0 0 0 4px rgba(34, 184, 114, 0.14);
+}
+
+.resume-tag span {
+  letter-spacing: 0.08em;
+}
+
+.resume-title {
+  margin-top: clamp(12px, 3cqi, 18px);
+  color: var(--navy);
+  font-size: clamp(1.55rem, 7.4cqi, 2.15rem);
+  font-weight: 900;
+  line-height: 1.45;
+  text-wrap: balance;
+}
+
+.resume-accent {
+  color: var(--brand);
+  background: linear-gradient(100deg, #0a6cf0 0%, var(--brand) 40%, #2aa6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.resume-lede {
+  max-width: 24em;
+  margin-top: clamp(6px, 2cqi, 12px);
+  color: #4a5f7f;
+  font-size: clamp(0.94rem, 4cqi, 1.12rem);
+  line-height: 1.9;
+  text-wrap: balance;
+}
+
+.resume-cta {
+  margin-top: clamp(16px, 4.4cqi, 26px);
+}
+
+.resume-arrow {
+  width: 18px;
+  height: 18px;
+}
+
+/* the folder: the client's image, whole, never stretched nor enlarged past its pixels
+   (1233 px wide: at most 410 css px, also on 3x screens) */
+.resume-art {
+  order: -1;
+  width: clamp(170px, 58cqi, 300px);
+}
+
+.resume-folder {
+  display: block;
+  width: 100%;
+  max-width: 410px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 22px rgba(7, 40, 110, 0.18));
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* the narrowest phones: the button keeps its document icon, the arrow goes */
+@container resume (max-width: 330px) {
+  .resume-arrow {
+    display: none;
+  }
+}
+
+@container resume (min-width: 760px) {
+  .resume-card {
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+    align-items: center;
+    justify-items: start;
+    column-gap: clamp(24px, 4cqi, 64px);
+    padding: clamp(32px, 4.2cqi, 54px) clamp(34px, 5cqi, 72px);
+    background:
+      radial-gradient(42% 80% at 24% 52%, rgba(55, 182, 255, 0.14), transparent 70%),
+      linear-gradient(165deg, rgba(255, 255, 255, 0.95), rgba(241, 248, 255, 0.9));
+    text-align: start;
+  }
+  .resume-copy {
+    align-items: flex-start;
+  }
+  .resume-title {
+    font-size: clamp(1.9rem, 3.5cqi, 2.85rem);
+    line-height: 1.4;
+  }
+  .resume-lede {
+    font-size: clamp(1rem, 1.6cqi, 1.2rem);
+  }
+  .resume-cta {
+    height: 56px;
+    padding: 0 30px;
+  }
+  /* the folder on the left, rising a little above the top of the card */
+  .resume-art {
+    order: 0;
+    justify-self: center;
+    align-self: start;
+    width: min(100%, 410px);
+    margin-top: calc(-1 * clamp(26px, 4.4cqi, 58px));
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .resume-cta:hover .btn-icon:not(.resume-arrow) {
     transform: none;
   }
 }

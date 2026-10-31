@@ -1,5 +1,6 @@
 """The client's 3D cut-outs: the four images of «چرا سیم‌لند؟» (source/why/) and the
-phone on its stand of «با ما در ارتباط باشید» (source/contact/).
+phone on its stand of «با ما در ارتباط باشید» (source/contact/) and the SIMLAND folder of the
+resume section (source/resume/).
 
 The pictures themselves are used exactly as supplied: no redrawing, no resizing,
 no lossy compression. Only two things are cleaned:
@@ -18,7 +19,7 @@ import numpy as np
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
-JOBS = [('why', n) for n in ('shield', 'variety', 'headset', 'box')] + [('contact', 'phone')]
+JOBS = [('why', n) for n in ('shield', 'variety', 'headset', 'box')] + [('contact', 'phone'), ('resume', 'folder')]
 SPECK_ALPHA = 12  # a stray component this faint (and small, and apart) is background residue
 PAD = 6
 

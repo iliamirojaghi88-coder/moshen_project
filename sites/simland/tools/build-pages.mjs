@@ -2,7 +2,8 @@
 //
 //   dist/index.html   the deliverable: ONE self-contained file. CSS in <style>,
 //                     JavaScript in one <script>, fonts and images embedded as
-//                     data URIs. Opens from disk or any web server.
+//                     data URIs. Opens from disk or any web server. The résumé
+//                     PDF it links to is copied next to it (dist/assets/docs/).
 //   index.html        the same page for development: links the files in
 //                     assets/ (serve the folder: python3 -m http.server 8765)
 //
@@ -10,7 +11,8 @@
 //   node tools/build-pages.mjs
 import { build, transform } from 'esbuild';
 import sharp from 'sharp';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
 
@@ -159,6 +161,14 @@ async function contactArt(single) {
   return `          <img class="contact-phone" src="${src}" alt="گوشی هوشمند با آیکون تماس، روی پایه‌ی شیشه‌ای آبی و سبز" width="${width}" height="${height}" loading="lazy" decoding="async" draggable="false">`;
 }
 
+// the SIMLAND folder of the résumé section (the client's 3D image, tools/build-cutouts.py)
+async function resumeArt(single) {
+  const file = at('assets/images/resume/folder.webp');
+  const { width, height } = await sharp(file).metadata();
+  const src = single ? await dataUri(file) : 'assets/images/resume/folder.webp';
+  return `          <img class="resume-folder" src="${src}" alt="پوشه‌ی آبی رزومه و کاتالوگ با نشان SIMLAND" width="${width}" height="${height}" loading="lazy" decoding="async" draggable="false">`;
+}
+
 async function heroData(single) {
   const src = async (f) => (single ? dataUri(at('assets/hero', f)) : `assets/hero/${f}`);
   // the power lines and copper ends of the picture (tools/build-power-lines.py)
@@ -210,6 +220,7 @@ async function page(single) {
     '<!-- why -->': await whyCards(single),
     '<!-- contact -->': await contactCards(),
     '<!-- contact-art -->': await contactArt(single),
+    '<!-- resume-art -->': await resumeArt(single),
     '<!-- body-scripts -->': bodyScripts,
   };
   // function replacements: the inlined code may contain "$&"-style sequences
@@ -225,3 +236,13 @@ await mkdir(at('dist'), { recursive: true });
 const single = await page(true);
 await writeFile(at('dist/index.html'), single);
 console.log(`wrote dist/index.html (single file, ${(Buffer.byteLength(single) / 1024 / 1024).toFixed(2)} MB)`);
+
+// The résumé and catalogue opens as its own file, so it sits next to the page at
+// the address its button links to (assets/docs/simland-catalog.pdf), byte for byte
+// the client's PDF. Deploy dist/ as a folder.
+const pdf = 'assets/docs/simland-catalog.pdf';
+await mkdir(at('dist/assets/docs'), { recursive: true });
+await copyFile(at(pdf), at('dist', pdf));
+const sha = async (f) => createHash('sha256').update(await readFile(f)).digest('hex');
+if ((await sha(at(pdf))) !== (await sha(at('dist', pdf)))) throw new Error('catalogue copy differs');
+console.log(`copied ${pdf} to dist/ (unchanged, ${((await readFile(at(pdf))).length / 1024 / 1024).toFixed(1)} MB)`);

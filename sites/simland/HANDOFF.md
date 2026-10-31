@@ -4,20 +4,13 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-10-31, precision fixes + electrical motion + fuller smoke delivered, waiting for the user's approval)
+## Exact stop point (2026-10-31, résumé section + stronger sparks + new hero line delivered, waiting for the user's approval)
 
 - Branch: `ccr-2cd3266d-qpjs3p`.
-- Done in this step («SIMLAND — Precision UI Fixes & Cinematic Electrical Motion», then «تقویت دود دو دودکش»):
-  each sales number its own inner card; menu active state follows the page (scroll spy); energy pulses along
-  the pylon wires and small sparks at the copper ends; fuller, more visible chimney smoke. See «Precision
-  fixes & electrical motion» and «Smoke made more visible».
-- Final QA on the delivered build (run one suite at a time; parallel runs overload software WebGL and make
-  entrances miss their 15 s wait): motion-nav 9/9, products 12/12, why 9/9, interact, fallback (reduced
-  motion + no WebGL), responsive 11/11 — all pass. products 1180×820@2 and why 375×812@3 failed once in the
-  long sequence with «never settled» (entrances still moving under load) and pass when run alone. contact
-  (14 widths) and nav-spy (8 widths, 320–2560) passed on the same DOM/CSS/JS (only the smoke shader changed
-  after). Previews `preview/hero-desktop-1366.mp4` (8 s) and `preview/hero-mobile-390.mp4` (6 s) re-rendered
-  from t = 14 s.
+- Done in this step («SIMLAND — اجرای دقیق سه اصلاح نهایی»): a résumé / catalogue section between «چرا سیم‌لند؟»
+  and the contact, opening the client's PDF; the copper sparks made clearly visible; the hero's description
+  replaced by «کامل‌ترین مجموعه نمایندگی سیم و کابل آرین ابهر در استان قم». See «Résumé, sparks, hero line».
+- Earlier the same day: inner number cards, menu scroll spy, power-line pulses, fuller smoke (see below).
 - **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`).
 
 ### Approved — do not change
@@ -28,9 +21,11 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
 - Header design: glass pill with three items; «خانه» active. (Products and contact now scroll to their sections.)
 - Hero copy and buttons:
   - title «جریان مطمئن، اتصال ماندگار»;
-  - description «تأمین انواع سیم و کابل ساختمانی، صنعتی و تخصصی برای پروژه‌های امروز و فردا.»;
+  - line under the title (replaced the old description at the user's request, 2026-10-31):
+    «کامل‌ترین مجموعه نمایندگی سیم و کابل آرین ابهر در استان قم» (`.lede-lead` / `.lede-brand` blue / `.lede-place`);
   - buttons «مشاهده محصولات» (right) and «دریافت مشاوره» (left), below the picture.
-- Single-file delivery.
+- Single-file delivery (`dist/index.html`) plus the one linked file `dist/assets/docs/simland-catalog.pdf`
+  (the client's PDF byte for byte; deploy `dist/` as a folder).
 - No sound, no new background, transparency kept.
 - Smoke colour: white with a very light grey, semi-transparent (made denser and fuller on 2026-10-31 at the user's request).
 
@@ -89,6 +84,7 @@ Its requirements (all must hold):
 | `smoke-bench.cjs` | `<outprefix> <t...>` | Renders `tools/smoke-bench.html` (smoke alone, 1.6×, same clock via `clockUniforms`) via the dev server |
 | `fallback.cjs` | `<dist> <prefix>` | Reduced motion and no-WebGL show the still picture, no errors |
 | `interact.cjs` | `<dist>` | Locked menu items do nothing; buttons; focusables |
+| `resume.cjs` | `<http url of dist/index.html> <outdir>` | Résumé section, the PDF link (served bytes, new tab), the hero line; serve `dist/` first (`python3 -m http.server 8770`) |
 | `nav-spy.cjs` | `<dist>` | Menu active item: load, menu/keyboard/hero jumps (no item passed on the way), wheel scrolling to each section and the end, rapid clicks, one active, items never move, reduced motion, `#contact` load |
 | `contact.cjs` / `products.cjs` / `why.cjs` / `motion-nav.cjs` | `<dist> <outdir>` (`motion-nav`: `<dist> [<previous dist>]`) | Section layouts, links, entrances; run one at a time |
 | `preview-frames.cjs` | `<dist> <outdir> <t0> <seconds> <fps> <w> <h> <dpr>` | Deterministic frames; then `ffmpeg … -c:v libx264 -crf 16` for a preview MP4 |
@@ -239,6 +235,35 @@ Its requirements (all must hold):
   left side + 2–5 streaks (110–280 px/s, decelerating, slight drop, life 0.14–0.36 s). Pixels outside the
   wire band and the copper box are identical to the previous build (checked by diff).
 - Docs: README «هیروی زنده», «منو», contact; this file.
+
+### Résumé, sparks, hero line (done, tested)
+
+- PDF: downloaded from the user's Google Drive link (Drive name `simland-catalog-under-30mb.pdf`, Ghostscript-
+  compressed by the user; 102 A4 pages, 28,724,812 bytes, SHA-256 b26c8ccd…20701b8; it is the Arian Abhar
+  Cable catalogue/résumé). Kept byte for byte as `assets/docs/simland-catalog.pdf` (Git LFS rule
+  `sites/simland/**/*.pdf` in the root `.gitattributes`); `build-pages.mjs` copies it to
+  `dist/assets/docs/` and checks the hash. Button: `a.btn.btn-primary.resume-cta`, relative href, `_blank`,
+  `rel="noopener noreferrer"`, `type="application/pdf"`, sr-only text naming it a PDF of Arian Abhar opening
+  in a new tab. In full Chromium the new tab shows the built-in PDF viewer (checked); the headless shell
+  has no viewer and downloads it instead, so `resume.cjs` launches `channel: 'chromium'`.
+- Section `#resume` (`src/index.html`, `home.css` «résumé and catalogue»): background starts with why's end
+  (#f2f8ff, green glow at 0 0) and ends with contact's start (green glow at 0 100%), so neither neighbour
+  changed. Container `resume`: < 760 px stacked (folder `order: -1`, `clamp(170px, 58cqi, 300px)`);
+  ≥ 760 px grid 1.12fr/0.88fr, folder left, `max-width 410px` (never past its 1233 px at 3x), lifted
+  `clamp(26px, 4.4cqi, 58px)` above the card. Arrow icon hidden < 330 px container. Reveal: card `up`,
+  folder `rise`. Image: `source/resume/folder.png` → `build-cutouts.py` → `assets/images/resume/folder.webp`
+  (1037 invisible specks removed, visible pixels identical). Nav: `resume` → «محصولات».
+- Sparks (`sparks(P, col)` in `live-hero.js`): sizes in picture px × k, k = clamp(0.6 / uCss, 1.35, 2.3)
+  (`uCss` = CSS px per picture px, new uniform set in `resize()`); hot point σ 5k with re-strike (55 %),
+  bloom 12k/22k, 2–3 jagged 4-segment filaments (16–38k long, redrawn every 40 ms, 0.18 s), 3–7 sparks
+  (130–280k px/s, decelerating, gravity), copper reflection (col.rgb × blue tint × exp(−r/18k)), all ×
+  window that is 0 at the evaluation box (90 + 70k): box edge ≤ 1 level, outside 0 (checked by diff).
+- Hero line: `.hero-lede` navy 600, clamp(1rem, 4.3vw, 1.14rem) / 1.18rem ≥ 600 / clamp(1.2rem, 1.45vw,
+  1.42rem) ≥ 1200; `.lede-lead` 700; `.lede-brand` #0a66e2 800 nowrap; `.lede-place` #2a3f66.
+- QA: new `tools/qa/resume.cjs` (http URL of dist; PDF bytes/type, section order/adjacency, image whole and
+  not enlarged, texts exact, no overflow, new tab with the PDF, hero line exact/unbroken/clear) at 11 widths
+  320–2560. `contact.cjs` now expects the résumé right before the contact; `nav-spy.cjs` checks the résumé
+  → «محصولات».
 
 ### Smoke made more visible (user request, same day; done, tested)
 

@@ -73,6 +73,7 @@ uniform vec4 uChimney[2];
 uniform sampler2D uPower; // where the wires are seen against the sky (0..1)
 uniform vec4 uPulse[4];   // two pulse heads per wire: position along it, 0 at its 'from' end
 uniform vec4 uSpark;      // age of the current spark burst (s), its seed, which conductor, strength
+uniform float uCss;       // CSS px per picture px (how large the picture is on screen)
 
 // 2D and 3D simplex noise: Ian McEwan, Ashima Arts, and Stefan Gustavson (webgl-noise), MIT License.
 // Lattice indices are taken mod 289, so snoise(v + k(1,1)) repeats for k = 289/sqrt(3)
@@ -362,9 +363,15 @@ vec4 power(vec2 P) {
 }
 
 // ---------------------------------------------------------------- sparks at the copper ends
-// About every two seconds: a brief flash on the strands of one conductor face and
-// two to five fine sparks thrown outward, slowing, dropping a little and fading
-// within a third of a second. White-blue, small, never a short circuit.
+// About every two seconds a strand tip on the outer ring of one conductor face
+// discharges: a white-hot point in a blue bloom (sometimes struck twice), two or
+// three short jagged filaments that crackle (redrawn every 40 ms) for a seventh
+// of a second, and three to seven fine sparks thrown outward that slow down, drop
+// a little and fade within half a second. Its light also catches the copper around
+// it: each strand edge brightens in proportion to its own colour. Sizes are in
+// picture px, so the spark stays on the copper and scales with the picture; on
+// small screens it is up to 1.7x larger again relative to the picture, to stay visible.
+// Every term has faded to nothing well inside the box it is evaluated in.
 float hash1(float n) { return fract(sin(n * 12.9898 + 4.1) * 43758.5453); }
 
 float segDist(vec2 p, vec2 a, vec2 b) {
@@ -373,44 +380,94 @@ float segDist(vec2 p, vec2 a, vec2 b) {
   return length(p - a - ab * t);
 }
 
-vec4 sparks(vec2 P) {
-  if (uSpark.w <= 0.0) return vec4(0.0);
+vec4 sparks(vec2 P, vec4 col) {
+  if (uSpark.w <= 0.0 || uEase <= 0.0) return col;
   vec4 e = uSpark.z < 0.5 ? EMIT0 : EMIT1; // conductor face: centre, radii
-  if (abs(P.x - e.x) > 130.0 || abs(P.y - e.y) > 110.0) return vec4(0.0);
+  float k = clamp(0.6 / uCss, 1.35, 2.3); // relative size
+  float B = 90.0 + 70.0 * k;              // evaluated only in this box ...
+  float edge = max(abs(P.x - e.x), abs(P.y - e.y));
+  if (edge > B) return col;
+  float win = 1.0 - smoothstep(0.65 * B, B, edge); // ... and every term is zero at its edge
   float age = uSpark.x;
   float sd = uSpark.y;
+  float px = 1.0 / uView.y;               // one device px, in picture px
   // a strand tip in the outer ring, on the side that faces out of the cable (left)
-  float ang = 3.1416 + (hash1(sd + 0.37) - 0.5) * 2.2;
-  vec2 o = e.xy + vec2(cos(ang) * e.z, sin(ang) * e.w) * (0.72 + 0.22 * hash1(sd + 1.3));
-  float s = uView.y;
-  float fl = exp(-age / 0.09);
-  float r = length(P - o) * s;
-  float flash = fl * exp(-r * r / (8.0 + 5.0 * s)); // on the strands: white-hot
-  float core = 0.0;                                    // the thrown sparks: blue-white
-  float halo = fl * exp(-r / (6.0 + 9.0 * s));
-  float count = 2.0 + floor(4.0 * hash1(sd + 9.1));
-  for (int k = 0; k < 5; k++) {
-    float fk = float(k);
-    if (fk >= count) break;
-    float life = 0.14 + 0.22 * hash1(sd * 1.7 + fk * 3.1);
-    if (age > life) continue;
-    float th = ang + (hash1(sd * 2.9 + fk * 5.3) - 0.5) * 1.5;
-    vec2 dir = vec2(cos(th), sin(th) * 0.85);
-    float v = 110.0 + 170.0 * hash1(sd * 4.3 + fk * 7.7); // px/s, slowing down
-    float t1 = age;
-    float t0 = max(age - 0.03, 0.0);
-    vec2 p1 = o + dir * v * (t1 - 1.2 * t1 * t1) + vec2(0.0, 55.0 * t1 * t1);
-    vec2 p0 = o + dir * v * (t0 - 1.2 * t0 * t0) + vec2(0.0, 55.0 * t0 * t0);
-    float fade = 1.0 - age / life;
-    float d = segDist(P, p0, p1) * s;
-    float w = 0.6 + 0.45 * s;
-    core += fade * fade * exp(-d * d / (w * w));
-    halo += fade * exp(-d / (1.8 + 2.4 * s)) * 0.6;
+  float ang = 3.1416 + (hash1(sd + 0.37) - 0.5) * 2.0;
+  vec2 o = e.xy + vec2(cos(ang) * e.z, sin(ang) * e.w) * (0.8 + 0.14 * hash1(sd + 1.3));
+  float r = length(P - o);
+
+  // the discharge point: brightest in its first 60 ms, sometimes a second strike
+  float fl = exp(-age / 0.1);
+  if (hash1(sd + 5.5) < 0.55) fl = max(fl, 0.7 * exp(-abs(age - 0.09 - 0.06 * hash1(sd + 6.1)) / 0.025));
+  float rc = 5.0 * k;
+  float hot = fl * exp(-r * r / (rc * rc + 2.0 * px * px));
+  float bloom = fl * (0.75 * exp(-r / (12.0 * k)) + 0.25 * exp(-r / (22.0 * k)));
+
+  // crackling filaments from the tip
+  float fil = 0.0;
+  float filGlow = 0.0;
+  if (age < 0.18) {
+    float sub = floor(age / 0.04);
+    float fa = 1.0 - age / 0.18;
+    float nf = 2.0 + floor(2.0 * hash1(sd * 3.1 + sub));
+    for (int f = 0; f < 3; f++) {
+      float ff = float(f);
+      if (ff >= nf) break;
+      float h0 = sd * 3.7 + ff * 11.3 + sub * 5.1;
+      float th = ang + (hash1(h0 + 1.0) - 0.5) * 1.6;
+      vec2 dir = vec2(cos(th), sin(th));
+      vec2 nrm = vec2(-dir.y, dir.x);
+      float L = (16.0 + 22.0 * hash1(h0 + 2.0)) * k;
+      vec2 a = o;
+      float dmin = 1e5;
+      for (int j = 1; j <= 4; j++) {
+        float fj = float(j);
+        vec2 b = o + dir * L * fj / 4.0 + nrm * (hash1(h0 + fj * 3.3) - 0.5) * L * 0.42;
+        dmin = min(dmin, segDist(P, a, b));
+        a = b;
+      }
+      float w = max(0.65 * k, 0.9 * px);
+      fil += fa * exp(-dmin * dmin / (w * w)) * (0.45 + 0.55 * exp(-r / L));
+      filGlow += fa * exp(-dmin / (3.0 * k)) * 0.7;
+    }
   }
-  flash = min(flash, 1.0) * uSpark.w;
-  core = min(core, 1.0) * uSpark.w * (1.0 - flash);
-  halo = min(halo, 1.0) * uSpark.w * 0.55 * (1.0 - flash - core);
-  return vec4(vec3(0.95, 0.98, 1.0) * flash + vec3(0.42, 0.76, 1.0) * core + vec3(0.22, 0.58, 1.0) * halo, flash + core + halo);
+
+  // sparks thrown outward
+  float core = 0.0;
+  float glow = 0.0;
+  float count = 3.0 + floor(5.0 * hash1(sd + 9.1));
+  for (int q = 0; q < 7; q++) {
+    float fq = float(q);
+    if (fq >= count) break;
+    float life = 0.18 + 0.27 * hash1(sd * 1.7 + fq * 3.1);
+    if (age > life) continue;
+    float th = ang + (hash1(sd * 2.9 + fq * 5.3) - 0.5) * 1.7;
+    vec2 dir = vec2(cos(th), sin(th) * 0.9);
+    float v = (130.0 + 150.0 * hash1(sd * 4.3 + fq * 7.7)) * k; // px/s, slowing down
+    vec2 g = vec2(0.0, 70.0 * k);
+    float t1 = age;
+    float t0 = max(age - 0.035, 0.0);
+    vec2 p1 = o + dir * v * (t1 - 1.1 * t1 * t1) + g * t1 * t1;
+    vec2 p0 = o + dir * v * (t0 - 1.1 * t0 * t0) + g * t0 * t0;
+    float fade = 1.0 - age / life;
+    float d = segDist(P, p0, p1);
+    float w = max(0.7 * k, 0.8 * px);
+    core += fade * fade * exp(-d * d / (w * w));
+    glow += fade * exp(-d / (2.6 * k)) * 0.8;
+  }
+
+  float amt = uSpark.w * uEase * win;
+  // the copper catches the light: strand edges brighten with their own colour, tinted blue
+  float lit = (0.9 * fl + 0.5 * (age < 0.18 ? 1.0 - age / 0.18 : 0.0)) * exp(-r / (18.0 * k)) * amt;
+  float copper = smoothstep(0.15, 0.5, col.r - 0.4 * col.b);
+  col.rgb = min(col.rgb + lit * (0.25 + 0.75 * copper) * col.rgb * vec3(0.95, 1.2, 1.7), vec3(col.a));
+
+  // light over the picture: white-hot cores, white-blue sparks, electric-blue bloom
+  float aHot = min(hot + fil, 1.0) * amt;
+  float aCore = min(core, 1.0) * amt * (1.0 - aHot);
+  float aGlow = min(0.7 * bloom + filGlow + glow, 1.0) * 0.8 * amt * (1.0 - aHot - aCore);
+  vec4 light = vec4(vec3(0.97, 0.99, 1.0) * aHot + vec3(0.6, 0.84, 1.0) * aCore + vec3(0.24, 0.6, 1.0) * aGlow, aHot + aCore + aGlow);
+  return over(light, col);
 }
 
 void main() {
@@ -459,7 +516,7 @@ void main() {
     for (int i = 0; i < 3; i++) col = over(sampleRect(P, uCapRect[i], uCapUV[i]), col);
     // light only added on top of the picture, never changing it
     col = over(power(P) * uEase, col);
-    col = over(sparks(P) * uEase, col);
+    col = sparks(P, col);
   }
   // the second chimney stands further back: its plume is drawn first
   col = over(plume(P, uChimney[1], 7.3), col);
@@ -633,6 +690,7 @@ export async function createLiveHero({ host, scene, power = null, images, reduce
   gl.uniform1i(loc('uPower'), 5);
   const uPulse = loc('uPulse');
   const uSpark = loc('uSpark');
+  const uCss = loc('uCss');
   const pulseBuf = new Float32Array(16);
   const uEase = loc('uEase');
   const uSmokeAge = loc('uSmokeAge');
@@ -786,6 +844,7 @@ export async function createLiveHero({ host, scene, power = null, images, reduce
     if (canvas.height !== ch) canvas.height = ch;
     gl.useProgram(program);
     gl.uniform4f(uView, ch, sx, sy, extPx / sy);
+    gl.uniform1f(uCss, w / W);
     // on small screens the same breeze gets a little more room, so it is still felt
     gl.uniform1f(uAmp, Math.min(1.6, Math.max(1, Math.sqrt(0.5 / (w / W)))));
     if (Math.abs(sx - scale) > 1e-6 || picH !== cssW) {
