@@ -906,10 +906,12 @@ svg {
   position: relative;
   padding: clamp(46px, 5.4vw, 76px) var(--gutter) clamp(64px, 8vw, 112px);
   overflow: hidden;
+  /* no seam where the products end: the products' green glow continues across
+     the edge, the blue one starts below it, and the base starts in their end colour */
   background:
-    radial-gradient(70% 520px at 100% 0, rgba(55, 182, 255, 0.08), transparent 70%),
+    radial-gradient(50% 380px at 10% 0, rgba(43, 196, 138, 0.06), transparent 70%),
+    radial-gradient(70% 520px at 100% 560px, rgba(55, 182, 255, 0.08), transparent 70%),
     radial-gradient(60% 460px at 0 100%, rgba(43, 196, 138, 0.08), transparent 70%),
-    /* starts in the colour the products end in, then turns a shade bluer */
     linear-gradient(180deg, #f5fbfa 0, #f3f8fe 220px, #f7fbff 50%, #f2f8ff 100%);
 }
 
