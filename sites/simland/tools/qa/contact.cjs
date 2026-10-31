@@ -88,7 +88,27 @@ const ADDRESS = 'قم، خیابان مفتح، نبش کوچه ۶';
         if (a.getAttribute('href') !== want[i][0] || a.querySelector('.ccard-number').textContent !== want[i][1]) fails.push('sales row ' + (i + 1));
         if (a.getBoundingClientRect().height < 44) fails.push('sales row too low to tap');
         hits(a, '.ccard-number, .ccard-go-sm');
+        // each number is its own inner card: border, rounded corners, a background,
+        // inside the group's card, with its call button and number inside it
+        const cs = getComputedStyle(a);
+        const b = R(a);
+        if (parseFloat(cs.borderTopWidth) < 1 || parseFloat(cs.borderTopLeftRadius) < 10 || cs.backgroundImage === 'none') fails.push('sales row ' + (i + 1) + ' is not a card');
+        const m = R(sales);
+        if (b.left < m.left + 4 || b.right > m.right - 4 || b.bottom > m.bottom - 4) fails.push('inner card ' + (i + 1) + ' leaves the group card');
+        for (const part of a.querySelectorAll('.ccard-number, .ccard-go-sm')) {
+          const p = R(part);
+          if (p.left < b.left + 1 || p.right > b.right - 1 || p.top < b.top || p.bottom > b.bottom) fails.push('inner card ' + (i + 1) + ': ' + part.className + ' outside it');
+        }
+        const n = a.querySelector('.ccard-number');
+        if (n.scrollWidth > n.clientWidth + 1) fails.push('inner card ' + (i + 1) + ': number overflows');
       });
+      if (rows.length === 2) {
+        const gap = R(rows[1]).top - R(rows[0]).bottom;
+        if (gap < 6 || gap > 14) fails.push('gap between inner cards ' + gap.toFixed(1));
+        if (Math.abs(R(rows[0]).width - R(rows[1]).width) > 0.5) fails.push('inner cards differ in width');
+        if (Math.abs(R(rows[0]).height - R(rows[1]).height) > 0.5) fails.push('inner cards differ in height');
+      }
+      if (sales.querySelectorAll('.ccard-icon').length !== 1) fails.push('group phone icon');
       if (office.tagName !== 'A' || office.getAttribute('href') !== 'tel:02533551111' || office.querySelector('.ccard-label').textContent !== 'دفتر مرکزی' || office.querySelector('.ccard-number').textContent !== '025 3355 1111') fails.push('office card');
       hits(office, '.ccard-icon, .ccard-number, .ccard-go');
       for (const n of sec.querySelectorAll('.ccard-number')) {

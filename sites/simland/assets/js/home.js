@@ -26,11 +26,96 @@ function goTo(id, behavior) {
   return true;
 }
 
+// ---------------------------------------------------------------- the menu follows the page
+// One state and one place that changes it: setActive(). What is in view comes from
+// two IntersectionObservers: a thin line across the screen at 35% of its height
+// (well below the fixed header), on which exactly one section lies, and a marker at
+// the very end of the page (the last section may be shorter than a tall screen).
+// The hero is «خانه», the products and «چرا سیم‌لند؟» are «محصولات», the contact
+// section is «ارتباط با ما». During a jump from the menu or a hero button the menu
+// shows the destination at once and ignores the sections it glides past; once the
+// page has come to rest, what is in view decides again (also if the visitor took
+// over mid-way). No work on scroll except while such a jump is moving.
+
+const navItems = [...document.querySelectorAll('.topnav-item[data-scroll]')];
+const navKey = { top: 'top', products: 'products', why: 'products', contact: 'contact' };
+let active = navItems.find((a) => a.classList.contains('is-active'))?.getAttribute('href').slice(1) || 'top';
+
+function setActive(key) {
+  if (key === active) return;
+  active = key;
+  for (const a of navItems) {
+    const on = a.getAttribute('href') === `#${key}`;
+    a.classList.toggle('is-active', on);
+    if (on) a.setAttribute('aria-current', 'true');
+    else a.removeAttribute('aria-current');
+  }
+}
+
+let onLine = 'top'; // the section crossing the line
+let atEnd = false; // the end of the page is in view
+let jump = null; // destination of a jump still on its way
+let jumpAt = 0;
+let moved = false;
+let restTimer = 0;
+const inView = () => (atEnd ? 'contact' : onLine);
+
+function rest() {
+  // the jump is over when the page has stopped moving (a smooth scroll can take a
+  // moment to begin on a busy device: until it has moved, wait up to a second)
+  clearTimeout(restTimer);
+  restTimer = setTimeout(() => {
+    const y = scrollY;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (!jump || scrollY !== y) return; // still moving: the next scroll event checks again
+      if (!moved && performance.now() - jumpAt < 1000) return rest();
+      jump = null;
+      removeEventListener('scroll', onJumpScroll);
+      setActive(inView());
+    }));
+  }, 120);
+}
+
+function onJumpScroll() {
+  moved = true;
+  rest();
+}
+
+function startJump(key) {
+  jump = key;
+  jumpAt = performance.now();
+  moved = false;
+  setActive(key);
+  addEventListener('scroll', onJumpScroll, { passive: true });
+  rest();
+}
+
+if ('IntersectionObserver' in window) {
+  const sections = new Map([[document.querySelector('.hero'), 'top'], ...['products', 'why', 'contact'].map((id) => [document.getElementById(id), navKey[id]])]);
+  const line = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) onLine = sections.get(e.target);
+    if (!jump) setActive(inView());
+  }, { rootMargin: '-35% 0px -64% 0px' });
+  for (const el of sections.keys()) if (el) line.observe(el);
+  const contact = document.getElementById('contact');
+  if (contact) {
+    const marker = document.createElement('span');
+    marker.className = 'page-end';
+    marker.setAttribute('aria-hidden', 'true');
+    contact.append(marker);
+    new IntersectionObserver(([e]) => {
+      atEnd = e.isIntersecting;
+      if (!jump) setActive(inView());
+    }).observe(marker);
+  }
+}
+
 document.querySelectorAll('[data-scroll]').forEach((link) => {
   link.addEventListener('click', (e) => {
     const id = link.getAttribute('href').slice(1);
     if (!goTo(id, reducedMotion ? 'auto' : 'smooth')) return;
     e.preventDefault();
+    startJump(navKey[id] || 'top');
     history.replaceState(null, '', id === 'top' ? location.pathname + location.search : `#${id}`);
   });
 });
@@ -165,6 +250,7 @@ const images = {
   base: host.querySelector('[data-layer="base"]'),
   masks: load(data.masks),
 };
+if (data.power) images.power = load(data.power.mask);
 for (const t of data.scene.turbines) {
   images[`blades-${t.id}`] = host.querySelector(`[data-layer="blades-${t.id}"]`);
   images[`caps-${t.id}`] = host.querySelector(`[data-layer="caps-${t.id}"]`);
@@ -173,6 +259,7 @@ for (const t of data.scene.turbines) {
 createLiveHero({
   host,
   scene: data.scene,
+  power: data.power,
   images,
   reducedMotion,
   onLive: () => host.classList.add('is-live'),

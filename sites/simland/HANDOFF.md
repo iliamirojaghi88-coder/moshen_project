@@ -4,12 +4,12 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-10-31, precision refinement delivered, waiting for the user's approval)
+## Exact stop point (2026-10-31, precision fixes + electrical motion delivered, waiting for the user's approval)
 
 - Branch: `ccr-2cd3266d-qpjs3p`.
-- Done in this step («SIMLAND — Precision UI Refinement & Contact Information Update»): new icons for
-  آلومینیومی / فشار ضعیف / ابزار دقیق; «تنوع کامل محصولات» uses the client's new image; two sales numbers
-  and the head office number; «آدرس شعبه مرکزی». See «Precision refinement».
+- Done in this step («SIMLAND — Precision UI Fixes & Cinematic Electrical Motion»): each sales number its own
+  inner card; menu active state follows the page (scroll spy); energy pulses along the pylon wires and small
+  sparks at the copper ends in the hero. See «Precision fixes & electrical motion».
 - **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`).
 
 ### Approved — do not change
@@ -198,6 +198,37 @@ Its requirements (all must hold):
   (`.ccard-multi`) has one `a.ccard-line` per number; the office card is a whole-card link (the green card
   that used to say «به‌زودی»); numbers shown grouped by `phoneGroups()` (4-3-4 mobile, 3-4-4 landline).
 - QA: `contact.cjs` checks the three tel: links, grouping, LTR isolation, row height, labels.
+
+### Precision fixes & electrical motion (done, tested)
+
+- Contact: `.ccard-line` is now an inner card (1 px `--tone-line` border, 16 px radius, light gradient,
+  6/9–14 px padding, call button `.ccard-go-sm` inside); `.ccard-lines` gap 8–10 px; numbers `nowrap`, and
+  inside a list narrower than 310 px (320–340 phones) the inner number is `max(1.2rem, 6.9cqi)` (it wrapped
+  by 1 px at 320). Office and address cards untouched. `contact.cjs` checks each inner card (border, radius,
+  background, inside the group card, number/button inside it, no overflow, equal size, gap 6–14 px).
+- Menu (`home.js` «the menu follows the page»): `setActive()` is the only writer (class + `aria-current="true"`).
+  IO line `rootMargin: '-35% 0px -64% 0px'` over `.hero`/#products/#why/#contact (why → محصولات) + IO on a
+  1 px `.page-end` marker appended to #contact (end of page → contact; needed on tall screens). Click on
+  `[data-scroll]` → `startJump(dest)`: destination active at once, observers ignored until the page rests
+  (passive scroll listener only during a jump; rest = 120 ms without scroll + two still frames; waits up to
+  1 s for a smooth scroll to begin). Labels reserve their bold width (`::before { content: attr(data-label) }`
+  in an inline-grid) so items never move; bar fades/scales in 0.25–0.3 s. QA: `tools/qa/nav-spy.cjs`
+  (load, menu ×3, keyboard, hero button, wheel to products / why / contact / end / top, rapid clicks,
+  one active always, item boxes constant, reduced motion, #contact load) — pass 320…2560.
+- Hero (`live-hero.js`): `power(P)` and `sparks(P)` composited with `over()` after the caps, × `uEase`.
+  Wires: `tools/build-power-lines.py` fits y = ax²+bx+c to each wire's own dark pixels (column centroids,
+  seeds only locate them; rms 0.07–0.11 px), writes `assets/hero/power.json` (8 wires: R1 earth + R2–R5 to
+  the right, L1 earth + L2–L3 to the house; flow `from`→`to` x; gain 0.65 for earth wires) and
+  `power.png` (visibility mask: band ±12 px around visible wire, blurred σ2.5, zero over non-wire objects,
+  σ0.6). `powerCode()` writes the curves into the shader as constants; `uPulse[4]` = two heads per wire from
+  `pulseHeads()` (speeds 150/185 px/s ±10%, own periods 1.35–2.15× travel, own phases); comet = Gaussian head
+  ahead, exp tail behind; core width max(0.75, 1.15·scale) screen px, halo exp(−d/(2.4+3·scale)) tapered
+  4–11 px; colours: core blue (0.10,0.46,1) → cyan (0.66,0.92,1) at the head, halo (0.20,0.56,1) — white
+  would vanish on the white sky. Sparks: `sparkState()` one burst per 2 s slot ± 0.3 s (gaps 1.43–2.59 s),
+  random conductor (EMIT0 (243,682) / EMIT1 (238,792), ellipse radii), flash on an outer strand on the
+  left side + 2–5 streaks (110–280 px/s, decelerating, slight drop, life 0.14–0.36 s). Pixels outside the
+  wire band and the copper box are identical to the previous build (checked by diff).
+- Docs: README «هیروی زنده», «منو», contact; this file.
 
 ## After the user approves the hero: the rest of the home page
 

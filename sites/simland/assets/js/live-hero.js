@@ -68,6 +68,11 @@ uniform vec4 uBladeUV[3];
 uniform vec4 uCapRect[3];
 uniform vec4 uCapUV[3];
 uniform vec4 uChimney[2];
+// the power lines and the copper ends of the cable (curves measured on the picture,
+// written into this shader as constants by powerCode() below)
+uniform sampler2D uPower; // where the wires are seen against the sky (0..1)
+uniform vec4 uPulse[4];   // two pulse heads per wire: position along it, 0 at its 'from' end
+uniform vec4 uSpark;      // age of the current spark burst (s), its seed, which conductor, strength
 
 // 2D and 3D simplex noise: Ian McEwan, Ashima Arts, and Stefan Gustavson (webgl-noise), MIT License.
 // Lattice indices are taken mod 289, so snoise(v + k(1,1)) repeats for k = 289/sqrt(3)
@@ -317,6 +322,97 @@ vec4 plume(vec2 P, vec4 ch, float seed) {
   return vec4(col, 1.0 - T) * fade;
 }
 
+// ---------------------------------------------------------------- energy on the power lines
+// A pulse is a sharp bright head with a long, fading tail that travels along the
+// wire's own curve, y = a x² + b x + c fitted to the wire's pixels. Its light lies
+// on the wire (a core as wide as the wire on screen) with a narrow electric-blue
+// halo in the sky around it; the mask keeps it off anything in front of the wire.
+float pulseAt(float d) { // d: px ahead of the head (+) or behind it (-), along the wire
+  return d > 0.0 ? exp(-d * d / 7.0) : exp(d / 42.0) * (0.3 + 0.7 * exp(d / 10.0));
+}
+
+vec2 wireLight(vec2 P, vec3 k, vec2 span, vec2 heads, float gain) {
+  float lo = min(span.x, span.y);
+  float hi = max(span.x, span.y);
+  if (P.x < lo - 4.0 || P.x > hi + 4.0) return vec2(0.0);
+  float slope = 2.0 * k.x * P.x + k.y;
+  float n = sqrt(1.0 + slope * slope);
+  float dist = abs(P.y - ((k.x * P.x + k.y) * P.x + k.z)) / n; // picture px from the curve
+  if (dist > 12.0) return vec2(0.0);
+  float len = (hi - lo) * n;
+  float u = (P.x - span.x) / (span.y - span.x);
+  float e = pulseAt((u - heads.x) * len) + pulseAt((u - heads.y) * len);
+  float dd = dist * uView.y; // screen px
+  float wt = max(0.75, 1.15 * uView.y); // half the wire's width on screen
+  float taper = 1.0 - smoothstep(4.0, 11.0, dist); // the bloom fades out well inside the band
+  return vec2(exp(-dd * dd / (wt * wt)), exp(-dd / (2.4 + 3.0 * uView.y)) * taper) * e * gain;
+}
+
+vec4 power(vec2 P) {
+  vec2 L = vec2(0.0);
+/*POWER_WIRES*/
+  // the sky is white: light reads by its colour, so the lit wire turns electric blue
+  // (bright cyan at the head) inside a blue bloom, instead of fading to white
+  float core = min(L.x, 1.0);
+  float halo = min(L.y, 1.0);
+  vec3 cc = mix(vec3(0.10, 0.46, 1.0), vec3(0.66, 0.92, 1.0), core * core);
+  float ac = core * 0.92;
+  float ah = halo * 0.5 * (1.0 - ac);
+  return vec4(cc * ac + vec3(0.20, 0.56, 1.0) * ah, ac + ah);
+}
+
+// ---------------------------------------------------------------- sparks at the copper ends
+// About every two seconds: a brief flash on the strands of one conductor face and
+// two to five fine sparks thrown outward, slowing, dropping a little and fading
+// within a third of a second. White-blue, small, never a short circuit.
+float hash1(float n) { return fract(sin(n * 12.9898 + 4.1) * 43758.5453); }
+
+float segDist(vec2 p, vec2 a, vec2 b) {
+  vec2 ab = b - a;
+  float t = clamp(dot(p - a, ab) / max(dot(ab, ab), 1e-6), 0.0, 1.0);
+  return length(p - a - ab * t);
+}
+
+vec4 sparks(vec2 P) {
+  if (uSpark.w <= 0.0) return vec4(0.0);
+  vec4 e = uSpark.z < 0.5 ? EMIT0 : EMIT1; // conductor face: centre, radii
+  if (abs(P.x - e.x) > 130.0 || abs(P.y - e.y) > 110.0) return vec4(0.0);
+  float age = uSpark.x;
+  float sd = uSpark.y;
+  // a strand tip in the outer ring, on the side that faces out of the cable (left)
+  float ang = 3.1416 + (hash1(sd + 0.37) - 0.5) * 2.2;
+  vec2 o = e.xy + vec2(cos(ang) * e.z, sin(ang) * e.w) * (0.72 + 0.22 * hash1(sd + 1.3));
+  float s = uView.y;
+  float fl = exp(-age / 0.09);
+  float r = length(P - o) * s;
+  float flash = fl * exp(-r * r / (8.0 + 5.0 * s)); // on the strands: white-hot
+  float core = 0.0;                                    // the thrown sparks: blue-white
+  float halo = fl * exp(-r / (6.0 + 9.0 * s));
+  float count = 2.0 + floor(4.0 * hash1(sd + 9.1));
+  for (int k = 0; k < 5; k++) {
+    float fk = float(k);
+    if (fk >= count) break;
+    float life = 0.14 + 0.22 * hash1(sd * 1.7 + fk * 3.1);
+    if (age > life) continue;
+    float th = ang + (hash1(sd * 2.9 + fk * 5.3) - 0.5) * 1.5;
+    vec2 dir = vec2(cos(th), sin(th) * 0.85);
+    float v = 110.0 + 170.0 * hash1(sd * 4.3 + fk * 7.7); // px/s, slowing down
+    float t1 = age;
+    float t0 = max(age - 0.03, 0.0);
+    vec2 p1 = o + dir * v * (t1 - 1.2 * t1 * t1) + vec2(0.0, 55.0 * t1 * t1);
+    vec2 p0 = o + dir * v * (t0 - 1.2 * t0 * t0) + vec2(0.0, 55.0 * t0 * t0);
+    float fade = 1.0 - age / life;
+    float d = segDist(P, p0, p1) * s;
+    float w = 0.6 + 0.45 * s;
+    core += fade * fade * exp(-d * d / (w * w));
+    halo += fade * exp(-d / (1.8 + 2.4 * s)) * 0.6;
+  }
+  flash = min(flash, 1.0) * uSpark.w;
+  core = min(core, 1.0) * uSpark.w * (1.0 - flash);
+  halo = min(halo, 1.0) * uSpark.w * 0.55 * (1.0 - flash - core);
+  return vec4(vec3(0.95, 0.98, 1.0) * flash + vec3(0.42, 0.76, 1.0) * core + vec3(0.22, 0.58, 1.0) * halo, flash + core + halo);
+}
+
 void main() {
   // picture coordinates (source pixels, y down); the canvas reaches above the picture for the smoke
   vec2 P = vec2(gl_FragCoord.x / uView.y, (uView.x - gl_FragCoord.y) / uView.z - uView.w);
@@ -361,6 +457,9 @@ void main() {
       col = over(blade, col);
     }
     for (int i = 0; i < 3; i++) col = over(sampleRect(P, uCapRect[i], uCapUV[i]), col);
+    // light only added on top of the picture, never changing it
+    col = over(power(P) * uEase, col);
+    col = over(sparks(P) * uEase, col);
   }
   // the second chimney stands further back: its plume is drawn first
   col = over(plume(P, uChimney[1], 7.3), col);
@@ -429,6 +528,61 @@ export function wind(t, delay = 0, tau = 0) {
 }
 
 // the shader's clock-driven uniforms at scene time T, every value wrapped
+const glf = (v) => (Number.isInteger(+v) ? `${+v}.0` : `${+v}`);
+
+// The wires and the conductor faces measured on the picture (assets/hero/power.json)
+// become constants of the shader; without them the two effects draw nothing.
+function powerCode(power) {
+  const wires = power?.wires || [];
+  if (!wires.length) return { wires: '  return vec4(0.0);', emit: 'const vec4 EMIT0 = vec4(0.0);\nconst vec4 EMIT1 = vec4(0.0);' };
+  const xs = wires.flatMap((w) => [w.from, w.to]);
+  const ys = wires.flatMap((w) => [w.from, w.to].map((x) => (w.k[0] * x + w.k[1]) * x + w.k[2]));
+  const box = [Math.min(...xs) - 12, Math.min(...ys) - 12, Math.max(...xs) + 12, Math.max(...ys) + 12].map(glf);
+  const lines = [
+    `  if (P.x < ${box[0]} || P.y < ${box[1]} || P.x > ${box[2]} || P.y > ${box[3]}) return vec4(0.0);`,
+    '  float m = texture2D(uPower, P / uSize).r;',
+    '  if (m < 0.004) return vec4(0.0);',
+    ...wires.map((w, i) => `  L += wireLight(P, vec3(${w.k.map(glf).join(', ')}), vec2(${glf(w.from)}, ${glf(w.to)}), uPulse[${i >> 1}].${i & 1 ? 'zw' : 'xy'}, ${glf(w.gain)});`),
+    '  L *= m;',
+  ];
+  const e = power.emitters;
+  return { wires: lines.join('\n'), emit: `const vec4 EMIT0 = vec4(${e[0].map(glf).join(', ')});\nconst vec4 EMIT1 = vec4(${e[1].map(glf).join(', ')});` };
+}
+
+const hash = (x) => {
+  const v = Math.sin(x * 12.9898 + 4.1) * 43758.5453;
+  return v - Math.floor(v);
+};
+
+// Two pulses per wire, at different paces and with pauses of their own, entering
+// before the wire's start and leaving after its end: the flow never stops and
+// never looks clocked. Positions are along the wire, 0 at its 'from' end.
+function pulseHeads(power, T, out) {
+  (power?.wires || []).forEach((w, i) => {
+    const len = Math.abs(w.to - w.from) * 1.15;
+    const margin = 130 / len; // the tail leaves completely
+    for (let q = 0; q < 2; q++) {
+      const speed = (q ? 150 : 185) * (0.9 + 0.2 * hash(i * 3.1 + q * 7.7));
+      const travel = (len * (1 + 2 * margin)) / speed;
+      const period = travel * (1.35 + 0.8 * hash(i * 5.3 + q * 2.9));
+      const f = T / period + hash(i * 9.7 + q * 4.3);
+      out[i * 2 + q] = ((f - Math.floor(f)) * period * speed) / len - margin;
+    }
+  });
+  return out;
+}
+
+// One spark burst about every two seconds (1.7–2.3 s), on one of the two
+// conductors, chosen irregularly; only its first 0.6 s is drawn.
+function sparkState(T) {
+  // the latest burst that has started (a burst may start up to 0.3 s before its slot)
+  const at = (k) => k * 2 + (hash(k) - 0.5) * 0.6;
+  let k = Math.floor(T / 2) + 1;
+  while (at(k) > T) k -= 1;
+  const age = T - at(k);
+  return [age, (k % 997) + 0.5, hash(k * 7.1) < 0.5 ? 0 : 1, age < 0.6 ? 0.8 + 0.2 * hash(k * 1.3) : 0];
+}
+
 export function clockUniforms(T) {
   const r = 22 / 16; // smoke noise rises V0 / F0 units per second
   return {
@@ -441,7 +595,7 @@ export function clockUniforms(T) {
   };
 }
 
-export async function createLiveHero({ host, scene, images, reducedMotion = false, onLive = () => {} }) {
+export async function createLiveHero({ host, scene, power = null, images, reducedMotion = false, onLive = () => {} }) {
   if (reducedMotion) return null;
   const canvas = document.createElement('canvas');
   canvas.className = 'scene-live';
@@ -451,7 +605,8 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
 
   await Promise.all(Object.values(images).map((img) => (img.decode ? img.decode().catch(() => {}) : null)));
 
-  const program = link(gl, VERT, FRAG);
+  const pc = powerCode(power);
+  const program = link(gl, VERT, FRAG.replace('/*POWER_WIRES*/', pc.wires).replace('float hash1(float n)', `${pc.emit}\nfloat hash1(float n)`));
   if (!program) return null;
   gl.useProgram(program);
   const loc = (n) => gl.getUniformLocation(program, n);
@@ -475,6 +630,10 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
   gl.uniform1i(loc('uAtlas'), 1);
   gl.uniform1i(loc('uMasks'), 2);
   gl.uniform1i(loc('uHi'), 3);
+  gl.uniform1i(loc('uPower'), 5);
+  const uPulse = loc('uPulse');
+  const uSpark = loc('uSpark');
+  const pulseBuf = new Float32Array(16);
   const uEase = loc('uEase');
   const uSmokeAge = loc('uSmokeAge');
   const uAmp = loc('uAmp');
@@ -544,6 +703,7 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
   }
 
   let maskTex = null;
+  let powerTex = null;
   const live = [];
   function buildTextures(sx, picW, picH) {
     while (live.length) gl.deleteTexture(live.pop());
@@ -584,7 +744,8 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
     gl.uniform4fv(loc('uBladeUV'), parts.slice(0, 3).flatMap(uv));
     gl.uniform4fv(loc('uCapUV'), parts.slice(3).flatMap(uv));
     if (!maskTex) maskTex = texture(2, images.masks, W, H, false);
-    for (const [unit, tex] of [[0, base.tex], [1, atlas.tex], [2, maskTex], [3, hi.tex]]) {
+    if (!powerTex) powerTex = texture(5, images.power || null, 1, 1, false);
+    for (const [unit, tex] of [[0, base.tex], [1, atlas.tex], [2, maskTex], [3, hi.tex], [5, powerTex]]) {
       gl.activeTexture(gl.TEXTURE0 + unit);
       gl.bindTexture(gl.TEXTURE_2D, tex);
     }
@@ -685,6 +846,8 @@ export async function createLiveHero({ host, scene, images, reducedMotion = fals
     for (const n in clockLoc) gl.uniform4fv(clockLoc[n], u[n]);
     gl.uniform1f(uEase, smooth(t / 2.8));
     gl.uniform1f(uSmokeAge, Math.min(t, 100));
+    gl.uniform4fv(uPulse, pulseHeads(power, t + 40, pulseBuf));
+    gl.uniform4fv(uSpark, sparkState(t + 40));
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);

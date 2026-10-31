@@ -161,7 +161,10 @@ async function contactArt(single) {
 
 async function heroData(single) {
   const src = async (f) => (single ? dataUri(at('assets/hero', f)) : `assets/hero/${f}`);
-  const json = JSON.stringify({ scene, masks: await src('masks.png') });
+  // the power lines and copper ends of the picture (tools/build-power-lines.py)
+  const power = JSON.parse(await readFile(at('assets/hero/power.json'), 'utf8'));
+  power.mask = await src('power.png');
+  const json = JSON.stringify({ scene, masks: await src('masks.png'), power });
   return `<script type="application/json" id="hero-data">${json}</script>`;
 }
 

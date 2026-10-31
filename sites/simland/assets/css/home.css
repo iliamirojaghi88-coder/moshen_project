@@ -116,8 +116,9 @@ svg {
 
 .topnav-item {
   position: relative;
-  display: inline-flex;
-  align-items: center;
+  display: inline-grid;
+  align-content: center;
+  justify-content: center;
   height: 38px;
   padding: 0 clamp(12px, 4vw, 20px);
   border-radius: 999px;
@@ -125,8 +126,19 @@ svg {
   font-size: 0.94rem;
   font-weight: 500;
   white-space: nowrap;
-  transition: background-color 0.3s;
+  transition: background-color 0.25s, color 0.25s;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* the label's width in its bold (active) weight is always reserved, so the items
+   never shift when the active one changes */
+.topnav-item::before {
+  content: attr(data-label);
+  grid-area: 1 / 1;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 600;
 }
 
 .topnav-item.is-active {
@@ -135,7 +147,7 @@ svg {
   font-weight: 600;
 }
 
-.topnav-item.is-active::after {
+.topnav-item::after {
   content: '';
   position: absolute;
   left: 50%;
@@ -145,6 +157,24 @@ svg {
   margin-left: -7px;
   border-radius: 3px;
   background: var(--brand);
+  opacity: 0;
+  transform: scaleX(0.3);
+  transition: opacity 0.25s, transform 0.3s var(--ease);
+}
+
+.topnav-item.is-active::after {
+  opacity: 1;
+  transform: none;
+}
+
+/* the end of the page, for the menu (home.js) */
+.page-end {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
 }
 
 /* products and contact pages are not built yet: same look, no navigation */
@@ -431,6 +461,10 @@ svg {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .topnav-item,
+  .topnav-item::after {
+    transition: none;
   }
   .js .hero-copy > *,
   .js .hero-actions,
@@ -1485,36 +1519,56 @@ a.ccard:active {
   transition-duration: 0.1s;
 }
 
-/* a group with several numbers: one row per number, each its own call link,
-   the arrow of each row where the card's arrow would be */
+/* a group with several numbers: each number is its own small card inside the
+   group's card (its own call link, its call button inside it), one under another */
 .ccard-lines {
   display: grid;
-  margin-top: 2px;
+  gap: clamp(8px, 2.2vw, 10px);
+  margin-top: 6px;
 }
 
 .ccard-line {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  min-height: 46px;
-  padding: 3px 0;
-  border-radius: 14px;
+  gap: 8px;
+  min-width: 0;
+  min-height: 52px;
+  padding-block: 6px;
+  padding-inline: clamp(9px, 2.6cqi, 14px) 6px; /* number side, button side */
+  border: 1px solid var(--tone-line);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(244, 250, 255, 0.96), rgba(234, 245, 255, 0.9));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 6px 14px -12px var(--tone-shadow);
   color: var(--navy);
+  transition: transform 0.35s var(--ease), border-color 0.3s, box-shadow 0.3s;
   -webkit-tap-highlight-color: transparent;
-}
-
-.ccard-line + .ccard-line {
-  border-top: 1px solid var(--tone-line);
 }
 
 .ccard-go-sm {
   width: clamp(32px, 9vw, 38px);
 }
 
+/* a number never wraps; on the narrowest phones the inner card's padding leaves
+   it a little less room than the single-number card has, so it is a little smaller */
+.ccard-line .ccard-number {
+  white-space: nowrap;
+}
+
+@container clist (max-width: 310px) {
+  .ccard-line .ccard-number {
+    font-size: max(1.2rem, 6.9cqi);
+  }
+}
+
 .ccard-line:focus-visible {
   outline: 2.5px solid var(--tone);
   outline-offset: 2px;
+}
+
+.ccard-line:active {
+  transform: scale(0.985);
+  transition-duration: 0.1s;
 }
 
 .ccard-line:active .ccard-number {
@@ -1572,6 +1626,10 @@ a.ccard:active {
   a.ccard:hover .ccard-go,
   .ccard-line:hover .ccard-go-sm {
     transform: translateX(-3px);
+  }
+  .ccard-line:hover {
+    border-color: color-mix(in srgb, var(--tone) 38%, transparent);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 10px 18px -14px var(--tone-shadow);
   }
   .ccard-line:hover .ccard-number {
     color: var(--tone);
@@ -1663,12 +1721,15 @@ a.ccard:active {
 
 @media (prefers-reduced-motion: reduce) {
   .ccard,
-  .ccard-go {
+  .ccard-go,
+  .ccard-line {
     transition: none;
   }
   a.ccard:hover,
   a.ccard:active,
-  a.ccard:hover .ccard-go {
+  a.ccard:hover .ccard-go,
+  .ccard-line:active,
+  .ccard-line:hover .ccard-go-sm {
     transform: none;
   }
 }
