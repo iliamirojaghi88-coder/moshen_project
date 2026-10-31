@@ -1139,6 +1139,13 @@ svg {
   user-select: none;
 }
 
+/* the product-range image is almost square: where the picture area is narrow and
+   tall (one column) it would stand larger than its neighbours, so it keeps a
+   little air around it; on wide screens it already matches them */
+.why-card[data-art='variety'] .why-art img {
+  padding: 6%;
+}
+
 /* narrow phones: a little less room for the picture, tighter type */
 @container whycard (max-width: 319px) {
   .why-art {
@@ -1190,6 +1197,9 @@ svg {
     }
     .why-art::before {
       inset: 10% 10% 2%;
+    }
+    .why-card[data-art='variety'] .why-art img {
+      padding: 0;
     }
     .why-body,
     .why-card:nth-child(even) .why-body {
@@ -1475,6 +1485,42 @@ a.ccard:active {
   transition-duration: 0.1s;
 }
 
+/* a group with several numbers: one row per number, each its own call link,
+   the arrow of each row where the card's arrow would be */
+.ccard-lines {
+  display: grid;
+  margin-top: 2px;
+}
+
+.ccard-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 46px;
+  padding: 3px 0;
+  border-radius: 14px;
+  color: var(--navy);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ccard-line + .ccard-line {
+  border-top: 1px solid var(--tone-line);
+}
+
+.ccard-go-sm {
+  width: clamp(32px, 9vw, 38px);
+}
+
+.ccard-line:focus-visible {
+  outline: 2.5px solid var(--tone);
+  outline-offset: 2px;
+}
+
+.ccard-line:active .ccard-number {
+  opacity: 0.7;
+}
+
 /* a line whose number is not known yet: same look, quieter, no action */
 .ccard.is-soon {
   cursor: default;
@@ -1523,8 +1569,12 @@ a.ccard:active {
     border-color: color-mix(in srgb, var(--tone) 38%, transparent);
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.95) inset, 0 4px 10px -6px rgba(7, 28, 75, 0.16), 0 24px 40px -26px var(--tone-shadow);
   }
-  a.ccard:hover .ccard-go {
+  a.ccard:hover .ccard-go,
+  .ccard-line:hover .ccard-go-sm {
     transform: translateX(-3px);
+  }
+  .ccard-line:hover .ccard-number {
+    color: var(--tone);
   }
   .ccard-copy:hover,
   .ccard-address a.ccard-go:hover {

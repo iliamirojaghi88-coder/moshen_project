@@ -82,7 +82,7 @@ ${cards.join('\n')}
 // made by tools/build-why-images.py from source/why).
 const WHY = [
   { img: 'shield', tone: 'blue', title: 'کیفیت تضمینی', text: 'ارائه محصولات استاندارد و باکیفیت از برندهای معتبر داخلی و خارجی.' },
-  { img: 'reels', tone: 'green', title: 'تنوع کامل محصولات', text: 'انواع سیم و کابل برای بخش‌های ساختمانی، صنعتی، انرژی و پروژه‌های تخصصی.' },
+  { img: 'variety', tone: 'green', title: 'تنوع کامل محصولات', text: 'انواع سیم و کابل برای بخش‌های ساختمانی، صنعتی، انرژی و پروژه‌های تخصصی.' },
   { img: 'headset', tone: 'blue', title: 'مشاوره تخصصی', text: 'راهنمایی دقیق و حرفه‌ای برای انتخاب بهترین محصول متناسب با نیاز شما.' },
   { img: 'box', tone: 'green', title: 'ارسال سریع و رایگان', text: 'ارسال سریع و رایگان سفارش‌ها با بسته‌بندی مناسب و مطمئن.' },
 ];
@@ -94,7 +94,7 @@ async function whyCards(single) {
     const { width, height } = await sharp(file).metadata();
     const src = single ? await dataUri(file) : `assets/images/why/${c.img}.webp`;
     const n = String(i + 1).padStart(2, '0');
-    cards.push(`        <li class="why-card" data-tone="${c.tone}" data-reveal="up">
+    cards.push(`        <li class="why-card" data-tone="${c.tone}" data-art="${c.img}" data-reveal="up">
           <article class="why-in" aria-labelledby="why-${n}">
             <div class="why-body">
               <span class="why-num" aria-hidden="true" lang="en">${n}</span>
@@ -111,30 +111,44 @@ async function whyCards(single) {
   return `      <ol class="why-grid" role="list">\n${cards.join('\n')}\n      </ol>`;
 }
 
-// «با ما در ارتباط باشید»: the cards come from assets/js/site-config.js. A phone
-// with a number is a real tel: link over the whole card; one without a number
-// says «شماره تماس به‌زودی» and is not a link. The address is plain text with a
-// copy button, or a link to a map once a verified mapUrl is set.
+// «با ما در ارتباط باشید»: the cards come from assets/js/site-config.js. Each
+// number is a real tel: link: a group with one number makes the whole card that
+// link; a group with several numbers gets one row (one link) per number; a group
+// without numbers says «شماره تماس به‌زودی» and is not a link. The address is
+// plain text with a copy button, or a link to a map once a verified mapUrl is set.
 const esc = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// 09123520415 -> 0912 352 0415 (mobile), 02533551111 -> 025 3355 1111 (landline)
+function phoneGroups(digits) {
+  if (/^09\d{9}$/.test(digits)) return `${digits.slice(0, 4)} ${digits.slice(4, 7)} ${digits.slice(7)}`;
+  if (/^0\d{10}$/.test(digits)) return `${digits.slice(0, 3)} ${digits.slice(3, 7)} ${digits.slice(7)}`;
+  return digits;
+}
 
 async function contactCards() {
   const { contact } = await import(pathToFileURL(at('assets/js/site-config.js')).href);
   const icon = (id) => `<span class="ccard-icon" aria-hidden="true"><svg><use href="#${id}"/></svg></span>`;
-  const text = (label, main, cls) =>
-    `<span class="ccard-text"><span class="ccard-label">${esc(label)}</span> <span class="ccard-main ${cls}"${cls === 'ccard-number' ? ' dir="ltr"' : ''}>${esc(main)}</span></span>`;
-  const go = '<span class="ccard-go" aria-hidden="true"><svg><use href="#c-chevron"/></svg></span>';
-  const items = contact.phones.map((p) => {
-    const digits = String(p.number || '').replace(/[^\d+]/g, '');
-    if (!digits) {
-      return `          <li data-reveal="right"><div class="ccard is-soon" data-tone="${p.tone}" aria-disabled="true">${icon('c-phone')}${text(p.label, 'شماره تماس به‌زودی', 'ccard-soon')}${go}</div></li>`;
+  const label = (text) => `<span class="ccard-label">${esc(text)}</span>`;
+  const number = (digits) => `<span class="ccard-main ccard-number" dir="ltr">${phoneGroups(digits)}</span>`;
+  const go = (cls = '') => `<span class="ccard-go${cls}" aria-hidden="true"><svg><use href="#c-chevron"/></svg></span>`;
+  const items = contact.groups.map((g) => {
+    const nums = (g.numbers || []).map((n) => String(n).replace(/[^\d+]/g, '')).filter(Boolean);
+    if (!nums.length) {
+      return `          <li data-reveal="right"><div class="ccard is-soon" data-tone="${g.tone}" aria-disabled="true">${icon('c-phone')}<span class="ccard-text">${label(g.label)} <span class="ccard-main ccard-soon">شماره تماس به‌زودی</span></span>${go()}</div></li>`;
     }
-    return `          <li data-reveal="right"><a class="ccard" data-tone="${p.tone}" href="tel:${digits}"><span class="sr-only">تماس: </span>${icon('c-phone')}${text(p.label, p.number, 'ccard-number')}${go}</a></li>`;
+    if (nums.length === 1) {
+      return `          <li data-reveal="right"><a class="ccard" data-tone="${g.tone}" href="tel:${nums[0]}"><span class="sr-only">تماس: </span>${icon('c-phone')}<span class="ccard-text">${label(g.label)} ${number(nums[0])}</span>${go()}</a></li>`;
+    }
+    const rows = nums
+      .map((n) => `<a class="ccard-line" href="tel:${n}"><span class="sr-only">تماس با ${esc(g.label)}: </span>${number(n)}${go(' ccard-go-sm')}</a>`)
+      .join('');
+    return `          <li data-reveal="right"><div class="ccard ccard-multi" data-tone="${g.tone}">${icon('c-phone')}<span class="ccard-text">${label(g.label)} <span class="ccard-lines">${rows}</span></span></div></li>`;
   });
   const a = contact.address;
   const action = a.mapUrl
     ? `<a class="ccard-go" href="${esc(a.mapUrl)}" target="_blank" rel="noopener" aria-label="مسیریابی روی نقشه"><svg aria-hidden="true"><use href="#c-map"/></svg></a>`
     : `<button type="button" class="ccard-go ccard-copy" data-copy="${esc(a.text)}" aria-label="کپی آدرس شعبه" title="کپی آدرس"><svg class="i-copy" aria-hidden="true"><use href="#c-copy"/></svg><svg class="i-done" aria-hidden="true"><use href="#c-check"/></svg></button><span class="ccard-status" role="status" aria-live="polite"></span>`;
-  items.push(`          <li data-reveal="right"><div class="ccard ccard-address" data-tone="blue">${icon('c-pin')}${text(a.label, a.text, 'ccard-addr')}${action}</div></li>`);
+  items.push(`          <li data-reveal="right"><div class="ccard ccard-address" data-tone="blue">${icon('c-pin')}<span class="ccard-text">${label(a.label)} <span class="ccard-main ccard-addr">${esc(a.text)}</span></span>${action}</div></li>`);
   return `          <ul class="contact-list" role="list">\n${items.join('\n')}\n          </ul>`;
 }
 

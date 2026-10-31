@@ -34,7 +34,7 @@
       "photo": "photo-07.jpg",
       "category": "building",
       "text": "مناسب برای توزیع انرژی در شبکه‌های فشار ضعیف",
-      "icon": "network",
+      "icon": "lv",
       "tone": "blue"
     },
     {
@@ -43,7 +43,7 @@
       "photo": "photo-10.jpg",
       "category": "special",
       "text": "انتقال دقیق سیگنال‌ها در سیستم‌های اندازه‌گیری و کنترل",
-      "icon": "bars",
+      "icon": "precision",
       "tone": "blue"
     },
     {
@@ -70,7 +70,7 @@
       "photo": "photo-01.jpg",
       "category": "industrial",
       "text": "سبک، اقتصادی و مناسب برای خطوط انتقال و توزیع",
-      "icon": "leaf",
+      "icon": "conductor",
       "tone": "blue"
     },
     {

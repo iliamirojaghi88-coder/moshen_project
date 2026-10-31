@@ -4,14 +4,13 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-10-31, surgical update delivered, waiting for the user's approval)
+## Exact stop point (2026-10-31, precision refinement delivered, waiting for the user's approval)
 
 - Branch: `ccr-2cd3266d-qpjs3p`.
-- Done in this step («SIMLAND — FINAL SURGICAL UPDATE»): hero buttons swapped (مشاهده محصولات right,
-  دریافت مشاوره left); nine product names corrected to match their images; the menu links to #top,
-  #products, #contact; one entrance system for products, «چرا سیم‌لند؟» and contact. See «Surgical update».
-- **Next action:** wait for the user's verdict. Still open for the user: the second phone number and a
-  verified map link for the branch.
+- Done in this step («SIMLAND — Precision UI Refinement & Contact Information Update»): new icons for
+  آلومینیومی / فشار ضعیف / ابزار دقیق; «تنوع کامل محصولات» uses the client's new image; two sales numbers
+  and the head office number; «آدرس شعبه مرکزی». See «Precision refinement».
+- **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`).
 
 ### Approved — do not change
 
@@ -136,7 +135,7 @@ Its requirements (all must hold):
 
 ### Why section (done, tested)
 
-- Reference: `source/why/reference.png` (mobile mock). Images: the client's PNGs `source/why/{shield,reels,
+- Reference: `source/why/reference.png` (mobile mock). Images: the client's PNGs `source/why/{shield,variety,
   headset,box}.png`; `tools/build-cutouts.py` removes isolated background specks (≤12/255 alpha, apart
   from the object), trims at alpha > 2, writes lossless WebP at the original resolution (visible pixels
   identical; checked by the script). They add ~2.7 MB to the single file (dist ~6.2 MB).
@@ -185,6 +184,20 @@ Its requirements (all must hold):
 - QA: `tools/qa/motion-nav.cjs <dist> [<previous dist>]` (9 widths): buttons identical to the previous build
   except order, menu by mouse/touch/keyboard, hero CTAs, direct #hash loads, no overflow while moving,
   nothing left transformed, reduced motion shows everything. products/why QA wait for the entrances.
+
+### Precision refinement (done, tested)
+
+- Icons (`src/index.html` symbols, `mapping.json` `icon`): `p-conductor` (1 + 6 stranded conductor
+  cross-section) for کابل آلومینیومی, `p-lv` (feeder, busbar, three outgoing circuits, «LV») for کابل فشار ضعیف,
+  `p-precision` (measuring reticle) for کابل ابزار دقیق. The corner icon and the watermark use the same
+  symbol. `p-leaf`, `p-network`, `p-bars` removed (no other user).
+- «تنوع کامل محصولات»: `source/why/variety.png` (client's PNG) replaces the reels (removed); card has
+  `data-art="variety"`; in one column its image gets `padding: 6%` so its visible size matches the other
+  three (measured: 375 px 8.3k px² vs 6.8–8.8k; 768 px 29.4k vs 28.6–37.1k); no padding in the row of four.
+- Contact: `site-config.js` now has `groups[]` (`label`, `tone`, `numbers[]`) + `address`. Sales card
+  (`.ccard-multi`) has one `a.ccard-line` per number; the office card is a whole-card link (the green card
+  that used to say «به‌زودی»); numbers shown grouped by `phoneGroups()` (4-3-4 mobile, 3-4-4 landline).
+- QA: `contact.cjs` checks the three tel: links, grouping, LTR isolation, row height, labels.
 
 ## After the user approves the hero: the rest of the home page
 

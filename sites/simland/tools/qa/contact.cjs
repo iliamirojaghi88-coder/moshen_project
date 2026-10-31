@@ -70,19 +70,33 @@ const ADDRESS = 'قم، خیابان مفتح، نبش کوچه ۶';
       if (Math.abs(ib.width / ib.height - img.naturalWidth / img.naturalHeight) > 0.005) fails.push('phone aspect changed');
       if (ib.width * devicePixelRatio > img.naturalWidth + 1) fails.push('phone enlarged past its pixels');
       if (ib.left < -0.5 || ib.right > innerWidth + 0.5 || ib.top < S.top || ib.bottom > S.bottom) fails.push('phone cut by the screen or the section');
-      // call card: one real tel: link over the whole card
-      const [call, soon, addr] = cards;
-      call.scrollIntoView({ block: 'center' }); // hit-testing only works inside the window
-      if (call.tagName !== 'A' || call.getAttribute('href') !== 'tel:09123520415') fails.push('first card is not tel:09123520415');
-      for (const part of call.querySelectorAll('.ccard-icon, .ccard-number, .ccard-go')) {
-        const b = part.getBoundingClientRect();
-        const hit = document.elementFromPoint(b.left + b.width / 2, b.top + b.height / 2);
-        if (!hit || !call.contains(hit)) fails.push('a part of the call card is not clickable: ' + part.className);
+      // sales card: «مشاوره و خرید», two rows, each its own tel: link; office card: one link over the whole card
+      const [sales, office, addr] = cards;
+      const hits = (link, parts) => {
+        link.scrollIntoView({ block: 'center' }); // hit-testing only works inside the window
+        for (const part of link.querySelectorAll(parts)) {
+          const b = part.getBoundingClientRect();
+          const hit = document.elementFromPoint(b.left + b.width / 2, b.top + b.height / 2);
+          if (!hit || !link.contains(hit)) fails.push('not clickable: ' + link.getAttribute('href') + ' ' + part.className);
+        }
+      };
+      if (sales.querySelector('.ccard-label').textContent !== 'مشاوره و خرید') fails.push('sales label');
+      const rows = [...sales.querySelectorAll('a.ccard-line')];
+      const want = [['tel:09123520415', '0912 352 0415'], ['tel:09127473187', '0912 747 3187']];
+      if (rows.length !== 2) fails.push('sales rows: ' + rows.length);
+      rows.forEach((a, i) => {
+        if (a.getAttribute('href') !== want[i][0] || a.querySelector('.ccard-number').textContent !== want[i][1]) fails.push('sales row ' + (i + 1));
+        if (a.getBoundingClientRect().height < 44) fails.push('sales row too low to tap');
+        hits(a, '.ccard-number, .ccard-go-sm');
+      });
+      if (office.tagName !== 'A' || office.getAttribute('href') !== 'tel:02533551111' || office.querySelector('.ccard-label').textContent !== 'دفتر مرکزی' || office.querySelector('.ccard-number').textContent !== '025 3355 1111') fails.push('office card');
+      hits(office, '.ccard-icon, .ccard-number, .ccard-go');
+      for (const n of sec.querySelectorAll('.ccard-number')) {
+        const cs = getComputedStyle(n);
+        if (cs.direction !== 'ltr' || cs.unicodeBidi !== 'isolate') fails.push('number not isolated LTR');
       }
-      if (call.querySelector('.ccard-number').textContent !== '09123520415') fails.push('number text wrong');
-      // second line: inactive, no fake number or link
-      if (soon.tagName === 'A' || soon.querySelector('a[href], [tabindex]') || soon.getAttribute('aria-disabled') !== 'true') fails.push('second card is active');
-      if (!soon.textContent.includes('شماره تماس به‌زودی') || /\d{6,}/.test(soon.textContent)) fails.push('second card text');
+      if (sec.querySelector('[aria-disabled="true"]')) fails.push('an inactive card is left');
+      if (addr.querySelector('.ccard-label').textContent !== 'آدرس شعبه مرکزی') fails.push('address title');
       // address: exact text, selectable, copy button with a name
       if (addr.querySelector('.ccard-addr').textContent !== ADDRESS) fails.push('address text');
       const btn = addr.querySelector('button.ccard-copy');
@@ -117,9 +131,10 @@ const ADDRESS = 'قم، خیابان مفتح، نبش کوچه ۶';
     const focus = await page.evaluate(() => { const a = document.activeElement; return { isCall: a.matches('a.ccard'), outline: getComputedStyle(a).outlineStyle }; });
     if (!focus.isCall || focus.outline === 'none') r.fails.push('keyboard focus on the call card: ' + JSON.stringify(focus));
     // colour step where «چرا سیم‌لند؟» ends (median over the width, curves aside)
-    await page.evaluate((y) => { document.querySelector('.topbar').style.visibility = 'hidden'; scrollTo(0, y - 100); }, r.boundaryY);
+    // the boundary where it really is on screen (near the end of the page it cannot be scrolled to the top)
+    const by = await page.evaluate((y) => { document.querySelector('.topbar').style.visibility = 'hidden'; scrollTo(0, y - 100); return Math.round(y - scrollY); }, r.boundaryY);
     await page.waitForTimeout(200);
-    const strip = await page.screenshot({ clip: { x: 0, y: 96, width: w, height: 8 } });
+    const strip = await page.screenshot({ clip: { x: 0, y: by - 4, width: w, height: 8 } });
     const tag = `${w}x${h}`;
     fs.writeFileSync(path.join(out, `${tag}-seam.png`), strip);
     const seam = await page.evaluate(async (b64) => {

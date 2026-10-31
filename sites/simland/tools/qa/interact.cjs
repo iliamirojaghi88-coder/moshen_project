@@ -30,7 +30,9 @@ const path = require('path');
   const cardsLocked = p.url().split('#')[0] === before.split('#')[0] && !(await p.evaluate(() => document.querySelector('.pcard-cta').hasAttribute('href')));
   await p.evaluate(() => scrollTo(0, 0));
   await p.locator('.hero-actions .btn-soft').click();
-  await p.waitForTimeout(1500);
+  // smooth scrolling is slow in software rendering: wait for the landing itself
+  await p.waitForFunction(() => { const t = document.getElementById('contact-title').getBoundingClientRect(); return t.top >= 0 && t.bottom <= innerHeight; }, null, { timeout: 20000, polling: 150 }).catch(() => {});
+  await p.waitForTimeout(400);
   // «دریافت مشاوره» lands on the contact section, its title clear of the fixed header
   const toContact = await p.evaluate(() => {
     const t = document.getElementById('contact-title').getBoundingClientRect();
