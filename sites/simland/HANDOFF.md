@@ -11,7 +11,17 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
   and the contact, opening the client's PDF; the copper sparks made clearly visible; the hero's description
   replaced by «کامل‌ترین مجموعه نمایندگی سیم و کابل آرین ابهر در استان قم». See «Résumé, sparks, hero line».
 - Earlier the same day: inner number cards, menu scroll spy, power-line pulses, fuller smoke (see below).
-- **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`).
+- Final QA on the delivered build (one suite at a time): résumé 11/11 (320–2560, PDF served 200
+  application/pdf 28,724,812 B, new tab shows it in full Chromium), responsive 11/11, contact 11/11 (join
+  check included), nav-spy 8/8, motion-nav 9/9, products 12/12 (1024@1 and 1180@2 passed when run alone; in
+  the long sequence they ran out of time under software WebGL), why 9/9, interact, fallback. Hero vs the
+  build before these fixes: pixel-identical at 375/768/1366; résumé section identical at 768/1366, at 375
+  only ±1-level gradient noise (new stacking layer) and the boundary rows of the join fix.
+- Previews re-rendered from t = 1.4 s (sparks at ~1.9 s and ~3.8 s): `preview/hero-desktop-1366.mp4`,
+  `preview/hero-mobile-390.mp4` (git-ignored, sent to the user).
+- **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`);
+  optional: ~10 px more bottom padding on phones in the résumé section for a perfectly seamless join (needs
+  the user's OK, the section is locked).
 
 ### Approved — do not change
 
