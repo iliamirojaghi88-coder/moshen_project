@@ -27,7 +27,11 @@ const TITLES = ['کیفیت تضمینی', 'تنوع کامل محصولات', '
     await page.evaluate(async () => {
       document.documentElement.style.scrollBehavior = 'auto'; // measure a page that is not still scrolling
       const s = document.getElementById('why');
-      for (const c of s.querySelectorAll('.why-card')) { c.scrollIntoView({ block: 'center' }); await new Promise((r) => setTimeout(r, 120)); }
+      // one card at a time, on to the next once it has been seen (slow software WebGL)
+      for (const c of s.querySelectorAll('.why-card')) {
+        c.scrollIntoView({ block: 'center' });
+        for (let k = 0; k < 100 && document.documentElement.classList.contains('reveal-on') && !c.classList.contains('is-in'); k++) await new Promise((r) => setTimeout(r, 100));
+      }
     });
     await page.waitForFunction(() => [...document.querySelectorAll('.why-card img')].every((i) => i.complete && i.naturalWidth), null, { timeout: 30000 }).catch(() => errors.push('images not loaded'));
     await page.waitForFunction(() => !document.documentElement.classList.contains('reveal-on') || [...document.querySelectorAll('.why-card')].every((c) => c.classList.contains('is-in') && !c.getAnimations().length), null, { timeout: 15000 }).catch(() => errors.push('cards never settled'));

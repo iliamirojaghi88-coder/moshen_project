@@ -27,7 +27,12 @@ const ORDER = ['کابل کنترل افشان', 'سیم و کابل ساختم�
     // bring every card into view once so it makes its entrance, then measure the settled page
     await page.evaluate(async () => {
       document.documentElement.style.scrollBehavior = 'auto';
-      for (const c of document.querySelectorAll('.pcard')) { c.scrollIntoView({ block: 'center' }); await new Promise((r) => setTimeout(r, 60)); }
+      // one card at a time, and on to the next only once it has been seen (software WebGL
+      // can be so slow that a fast pass skips cards before the browser notices them)
+      for (const c of document.querySelectorAll('.pcard')) {
+        c.scrollIntoView({ block: 'center' });
+        for (let k = 0; k < 100 && document.documentElement.classList.contains('reveal-on') && !c.classList.contains('is-in'); k++) await new Promise((r) => setTimeout(r, 100));
+      }
     });
     await page.waitForFunction(() => !document.documentElement.classList.contains('reveal-on') || [...document.querySelectorAll('.pcard')].every((c) => c.classList.contains('is-in') && !c.getAnimations().length), null, { timeout: 40000 }).catch(() => errors.push('cards never settled'));
     await page.waitForFunction(() => [...document.querySelectorAll('.pcard img')].every((i) => i.complete && i.naturalWidth), null, { timeout: 30000 }).catch(() => errors.push('images not loaded'));
