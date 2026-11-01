@@ -44,6 +44,13 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
   computer → file; one-file page on a computer → embedded blob; phone opening a local file / content: → Drive
   (`data-online`); one-file page on a phone offline → download of the embedded copy. Verified by
   `tools/qa/resume-open.cjs` (real click, bytes + SHA-256 or Drive tab title, screenshot of the tab).
+- Final checks of that step on build aa06793: résumé 8/8 widths (320–1536, texts exact, old texts gone, phone
+  card 344–383 px, desktop card unchanged 1240×414), contact 8/8 (no overlap, join), nav-spy 4/4, responsive
+  11/11 (no horizontal scroll, no errors). Delivered `SIMLAND-site-2026-11-01-v2-aa06793.zip` (folder with
+  index.html, assets/resume/simland-resume.pdf, راهنما.txt) and `SIMLAND-standalone-2026-11-01-aa06793.html`,
+  byte-identical to the commit; unzipped/copied into clean folders and opened 7 ways with resume-open.cjs
+  (hosted desktop/phone, hosted without the PDF, unzipped desktop/phone, one-file desktop/phone): all opened
+  the real PDF (SHA-256 / Drive copy), screenshots show page 1 of 102.
 - **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`);
   optional: ~10 px more bottom padding on phones in the résumé section for a perfectly seamless join (needs
   the user's OK, the section is locked).
