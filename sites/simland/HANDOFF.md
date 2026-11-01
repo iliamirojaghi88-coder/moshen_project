@@ -26,6 +26,15 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
   section and showed it when opened from disk (extracted ZIP and lone HTML, Playwright, 375 and 1366); every
   earlier delivery was named `index.html`, one of them built before the résumé existed. Deliveries are now
   versioned: `SIMLAND-site-<date>-<commit>.zip` (folder + PDF + راهنما) and `SIMLAND-standalone-<date>-<commit>.html`.
+- Final QA of this step on build 9f98d2b (one suite at a time): hero picture vs the build before the H1
+  change pixel-identical (live frame, 375/768/1366/1920; size unchanged); résumé+H1 11/11 (320–2560),
+  responsive 11/11, motion-nav 9/9, products 12/12 (320 after the test fix), nav-spy 8/8, why 9/9, contact
+  11/11, interact, fallback (reduced motion + no WebGL). Delivery: `SIMLAND-site-2026-11-01-9f98d2b.zip`
+  (folder `SIMLAND-site-2026-11-01/`: index.html, assets/docs/simland-catalog.pdf, راهنما.txt) and
+  `SIMLAND-standalone-2026-11-01-9f98d2b.html`, both extracted/copied into clean folders and opened from
+  disk at 375 and 1366: H1 exact, one H1, old title nowhere, résumé between why and contact and visible,
+  texts exact, PDF opens in a new tab (ZIP: the file next to it; standalone: embedded, SHA-256 identical),
+  no console errors. Files are byte-identical to the commit's dist/ and dist-standalone/.
 - **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`);
   optional: ~10 px more bottom padding on phones in the résumé section for a perfectly seamless join (needs
   the user's OK, the section is locked).
