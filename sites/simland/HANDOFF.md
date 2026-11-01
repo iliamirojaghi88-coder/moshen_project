@@ -19,6 +19,13 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
   only ±1-level gradient noise (new stacking layer) and the boundary rows of the join fix.
 - Previews re-rendered from t = 1.4 s (sparks at ~1.9 s and ~3.8 s): `preview/hero-desktop-1366.mp4`,
   `preview/hero-mobile-390.mp4` (git-ignored, sent to the user).
+- 2026-11-01 «FINAL EXECUTION & DELIVERY DIRECTIVE»: H1 replaced (above); one-file page with the PDF inside
+  (`dist-standalone/simland-home-standalone.html`, LFS; `#catalog-pdf` base64 → blob on click in `home.js`), because
+  the delivered HTML alone could not open the PDF (relative path, no folder next to it; on Android `content://`
+  never resolves relative links). Investigation: the previous HTML and ZIP (sha 86be6032…) did contain the résumé
+  section and showed it when opened from disk (extracted ZIP and lone HTML, Playwright, 375 and 1366); every
+  earlier delivery was named `index.html`, one of them built before the résumé existed. Deliveries are now
+  versioned: `SIMLAND-site-<date>-<commit>.zip` (folder + PDF + راهنما) and `SIMLAND-standalone-<date>-<commit>.html`.
 - **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`);
   optional: ~10 px more bottom padding on phones in the résumé section for a perfectly seamless join (needs
   the user's OK, the section is locked).
@@ -31,8 +38,10 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
 - Header design: glass pill with three items; «خانه» active. (Products and contact now scroll to their sections.)
 - Hero copy and buttons:
   - title «جریان مطمئن، اتصال ماندگار»;
-  - line under the title (replaced the old description at the user's request, 2026-10-31):
-    «کامل‌ترین مجموعه نمایندگی سیم و کابل آرین ابهر در استان قم» (`.lede-lead` / `.lede-brand` blue / `.lede-place`);
+  - (2026-11-01, user's final directive) the H1 IS «کامل‌ترین مجموعه نمایندگی / سیم و کابل آرین ابهر در استان قم»
+    (`.ht-line` ×2, `.accent` blue gradient 900, `.ht-place`); the old slogan «جریان مطمئن، اتصال ماندگار» and the
+    line under it are removed everywhere (also `<title>`); size `clamp(1.375rem, 100cqi / 14.2, 3.6rem | 3.9rem ≥1200)`
+    on `.hero-copy` (container `herocopy`), three lines only < 360 px;
   - buttons «مشاهده محصولات» (right) and «دریافت مشاوره» (left), below the picture.
 - Single-file delivery (`dist/index.html`) plus the one linked file `dist/assets/docs/simland-catalog.pdf`
   (the client's PDF byte for byte; deploy `dist/` as a folder).

@@ -248,3 +248,16 @@ await copyFile(at(pdf), at('dist', pdf));
 const sha = async (f) => createHash('sha256').update(await readFile(f)).digest('hex');
 if ((await sha(at(pdf))) !== (await sha(at('dist', pdf)))) throw new Error('catalogue copy differs');
 console.log(`copied ${pdf} to dist/ (unchanged, ${((await readFile(at(pdf))).length / 1024 / 1024).toFixed(1)} MB)`);
+
+// The same page as ONE file that also carries the catalogue, for sending the page on
+// its own (a file opened by itself cannot reach a folder next to it): the PDF, byte
+// for byte, as base64 in an inert <script type="application/pdf;base64">; home.js
+// opens it in a new tab from a blob address.
+const pdfData = (await readFile(at(pdf))).toString('base64');
+const end = single.lastIndexOf('</body>');
+const standalone = `${single.slice(0, end)}<script type="application/pdf;base64" id="catalog-pdf">${pdfData}</script>\n${single.slice(end)}`;
+await mkdir(at('dist-standalone'), { recursive: true });
+await writeFile(at('dist-standalone/simland-home-standalone.html.tmp'), standalone);
+await rename(at('dist-standalone/simland-home-standalone.html.tmp'), at('dist-standalone/simland-home-standalone.html'));
+if (Buffer.from(pdfData, 'base64').compare(await readFile(at(pdf))) !== 0) throw new Error('embedded catalogue differs');
+console.log(`wrote dist-standalone/simland-home-standalone.html (one file with the catalogue, ${(Buffer.byteLength(standalone) / 1024 / 1024).toFixed(1)} MB)`);

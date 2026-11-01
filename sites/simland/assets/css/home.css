@@ -190,49 +190,34 @@ svg {
 }
 
 .hero-title {
-  font-size: clamp(1.6rem, 7.6vw, 3.6rem);
-  font-weight: 900;
+  /* «کامل‌ترین مجموعه نمایندگی» / «سیم و کابل آرین ابهر در استان قم»: the size
+     follows the copy's own width so that the longer second line (13.96 em in
+     Estedad) always fits; only on the narrowest phones, where that would fall
+     under 22 px, «در استان قم» moves to a third line instead */
+  font-size: clamp(1.375rem, calc(100cqi / 14.2), 3.6rem);
+  font-weight: 800;
   line-height: 1.38;
   letter-spacing: 0;
   text-wrap: balance;
 }
 
-.hero-title span {
+.hero-title .ht-line {
+  display: block;
+}
+
+.hero-title .ht-line:first-child,
+.hero-title .accent,
+.hero-title .ht-place {
   white-space: nowrap;
 }
 
 .hero-title .accent {
+  font-weight: 900;
   color: var(--brand);
   background: linear-gradient(100deg, #0a6cf0 0%, var(--brand) 40%, #2aa6ff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-.hero-lede {
-  max-width: 21em;
-  margin: 12px auto 0;
-  color: var(--navy);
-  font-size: clamp(1rem, 4.3vw, 1.14rem);
-  font-weight: 600;
-  line-height: 1.85;
-  text-wrap: balance;
-}
-
-/* one sentence in three weights: the claim, the brand it represents (blue, never
-   broken across lines), and the province */
-.lede-lead {
-  font-weight: 700;
-}
-
-.lede-brand {
-  color: #0a66e2;
-  font-weight: 800;
-  white-space: nowrap;
-}
-
-.lede-place {
-  color: #2a3f66;
 }
 
 /* the buttons come after the picture: title, text, picture, buttons */
@@ -305,8 +290,10 @@ svg {
 
 /* ---------------------------------------------------------------- scene: the picture, alive */
 
-/* the copy stays above the scene: the smoke may rise behind the buttons, never over them */
+/* the copy stays above the scene: the smoke may rise behind the buttons, never over them;
+   its width is what the title is sized by */
 .hero-copy {
+  container: herocopy / inline-size;
   position: relative;
   z-index: 2;
 }
@@ -358,10 +345,6 @@ svg {
   animation: rise 0.9s var(--ease) both;
 }
 
-.js .hero-lede {
-  animation-delay: 0.08s;
-}
-
 .js .hero-actions {
   animation: rise 0.9s var(--ease) 0.24s both;
 }
@@ -401,9 +384,6 @@ svg {
 }
 
 @media (min-width: 600px) {
-  .hero-lede {
-    font-size: 1.18rem;
-  }
   .btn {
     height: 52px;
     padding: 0 26px;
@@ -447,14 +427,7 @@ svg {
     text-align: start;
   }
   .hero-title {
-    font-size: clamp(2.3rem, 3.4vw, 3.9rem);
-  }
-  .hero-title span {
-    display: block;
-  }
-  .hero-lede {
-    margin-inline: 0;
-    font-size: clamp(1.2rem, 1.45vw, 1.42rem);
+    font-size: clamp(1.375rem, calc(100cqi / 14.2), 3.9rem);
   }
   /* the picture is taller than the copy: the spare height goes half above the
      title, half between the text and the buttons, which end level with the picture */

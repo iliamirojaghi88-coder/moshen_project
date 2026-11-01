@@ -120,6 +120,28 @@ document.querySelectorAll('[data-scroll]').forEach((link) => {
   });
 });
 
+// ---------------------------------------------------------------- the catalogue in the one-file page
+// dist-standalone/ is the same page as one file that also carries the catalogue
+// (<script type="application/pdf;base64" id="catalog-pdf">), for sending the page on
+// its own: a file opened by itself (from a phone's file manager, an e-mail, a chat)
+// has no folder next to it. On the first click the PDF becomes a blob address and
+// the link opens it, as before, in a new tab (noopener noreferrer). The site in
+// dist/ has no such element and links to assets/docs/simland-catalog.pdf.
+const catalogData = document.getElementById('catalog-pdf');
+const catalogLink = document.querySelector('a.resume-cta');
+if (catalogData && catalogLink) {
+  let catalogUrl = '';
+  catalogLink.addEventListener('click', () => {
+    if (!catalogUrl) {
+      const bin = atob(catalogData.textContent.trim());
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      catalogUrl = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+    }
+    catalogLink.href = catalogUrl;
+  });
+}
+
 // opened with #products or #contact: land on the section once the fonts have settled the layout
 if (/^#(products|contact|why)$/.test(location.hash)) {
   const id = location.hash.slice(1);

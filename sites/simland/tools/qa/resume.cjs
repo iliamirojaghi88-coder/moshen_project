@@ -4,8 +4,9 @@
 // contact; the client's folder image whole, undistorted, never enlarged past its
 // pixels; the text exact, nothing clipped or overlapping; the button opens the real
 // PDF (served, application/pdf, byte size of the original) in a new tab with
-// noopener noreferrer and a descriptive name. The hero's new line: exact text, the
-// brand never broken, clear of the title and the picture. No horizontal scroll,
+// noopener noreferrer and a descriptive name. The hero's H1: the new sentence exactly,
+// in its two lines (three only under 360 px), nothing broken inside a phrase, inside its
+// column, clear of the picture, the old title nowhere. No horizontal scroll,
 // no console errors.
 const { chromium } = require('playwright');
 const path = require('path');
@@ -40,25 +41,32 @@ const LEDE = 'کامل‌ترین مجموعه نمایندگی سیم و کاب
     await page.goto(url, { waitUntil: 'load' });
     await page.waitForFunction(() => document.querySelector('[data-scene]').classList.contains('is-live'), null, { timeout: 120000 }).catch(() => errors.push('hero never went live'));
     await page.evaluate(() => window.__hero && window.__hero.pause());
-    // the hero line, in the first view
+    // the hero title (H1): the new sentence, nothing of the old one anywhere
     const hero = await page.evaluate((LEDE) => {
       const fails = [];
       const R = (e) => e.getBoundingClientRect();
-      const lede = document.querySelector('.hero-lede');
-      if (lede.textContent !== LEDE) fails.push('hero line text: ' + lede.textContent);
-      const brand = lede.querySelector('.lede-brand');
-      if (brand.getClientRects().length !== 1) fails.push('brand broken across lines');
-      const lh = parseFloat(getComputedStyle(lede).lineHeight);
-      const lines = Math.round(R(lede).height / lh);
-      const t = R(document.querySelector('.hero-title'));
+      const h1s = document.querySelectorAll('h1');
+      const h1 = document.querySelector('.hero-title');
+      if (h1s.length !== 1 || h1s[0] !== h1) fails.push('not the one H1');
+      if (h1.textContent !== LEDE) fails.push('H1 text: ' + h1.textContent);
+      if (document.documentElement.outerHTML.includes('جریان مطمئن') || document.title.includes('جریان مطمئن')) fails.push('old title still in the page');
+      if (document.querySelector('.hero-lede')) fails.push('a line under the title is left');
+      const lines = h1.querySelectorAll('.ht-line');
+      if (lines[0].textContent !== 'کامل‌ترین مجموعه نمایندگی' || lines[1].textContent !== 'سیم و کابل آرین ابهر در استان قم') fails.push('line structure');
+      for (const el of [lines[0], h1.querySelector('.accent'), h1.querySelector('.ht-place')]) if (el.getClientRects().length !== 1) fails.push('broken inside: ' + el.textContent);
+      const lh = parseFloat(getComputedStyle(h1).lineHeight);
+      const n = Math.round(R(h1).height / lh);
+      const size = parseFloat(getComputedStyle(h1).fontSize);
+      if (size < 21.9) fails.push('title too small ' + size);
+      if (n !== 2 && !(n === 3 && innerWidth < 360)) fails.push(n + ' lines');
+      const copy = R(document.querySelector('.hero-copy'));
+      for (const el of h1.querySelectorAll('.ht-line, .accent, .ht-place')) { const b = R(el); if (b.left < copy.left - 0.5 || b.right > copy.right + 0.5) fails.push('title leaves its column: ' + el.textContent); }
       const sc = R(document.querySelector('[data-scene]'));
-      const L = R(lede);
-      if (L.top < t.bottom - 0.5) fails.push('line overlaps the title');
-      const side = sc.right <= L.left + 0.5;
-      if (!side && L.bottom > sc.top + 0.5) fails.push('line overlaps the picture');
-      if (L.left < 0 || L.right > innerWidth) fails.push('line leaves the screen');
-      const cs = getComputedStyle(lede);
-      return { lines, size: cs.fontSize, fails };
+      const t = R(h1);
+      const side = sc.right <= t.left + 0.5;
+      if (!side && t.bottom > sc.top + 0.5) fails.push('title overlaps the picture');
+      if (getComputedStyle(h1).fontFamily.split(',')[0].replace(/["']/g, '') !== 'Estedad') fails.push('font ' + getComputedStyle(h1).fontFamily);
+      return { lines: n, size: getComputedStyle(h1).fontSize, fails };
     }, LEDE);
     // scroll the section into view so it makes its entrance and its image loads
     await page.evaluate(async () => {
@@ -130,7 +138,7 @@ const LEDE = 'کامل‌ترین مجموعه نمایندگی سیم و کاب
     await page.screenshot({ path: path.join(out, `${w}x${h}-hero.png`) });
     const fails = hero.fails.concat(r.fails, errors);
     if (fails.length) failed++;
-    console.log(`${fails.length ? 'FAIL' : 'PASS'} ${w}x${h}@${dpr} hero line ${hero.lines} lines ${hero.size} | résumé ${r.layout} card ${r.card} folder ${r.img} ${fails.join('; ')}`);
+    console.log(`${fails.length ? 'FAIL' : 'PASS'} ${w}x${h}@${dpr} hero H1 ${hero.lines} lines ${hero.size} | résumé ${r.layout} card ${r.card} folder ${r.img} ${fails.join('; ')}`);
     await ctx.close();
   }
   await browser.close();
