@@ -35,6 +35,15 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
   disk at 375 and 1366: H1 exact, one H1, old title nowhere, résumé between why and contact and visible,
   texts exact, PDF opens in a new tab (ZIP: the file next to it; standalone: embedded, SHA-256 identical),
   no console errors. Files are byte-identical to the commit's dist/ and dist-standalone/.
+- 2026-11-01 «دستور نهایی اصلاح سایت»: résumé texts from the desktop reference (tag «رزومه شرکت سیم‌لند», title
+  «سیم‌لند را بیشتر بشناسید», lede «نگاهی به توانمندی‌ها و مسیر حرفه‌ای ما», button «مشاهده رزومه شرکت»; «سیم‌لند»
+  kept with its ZWNJ as in the reference image); phone card compacted (folder clamp(140px, 44cqi, 230px), title
+  one line, smaller gaps, section padding-bottom 28 px on phones; desktop values restored in the ≥760 container);
+  PDF moved to `assets/resume/simland-resume.pdf`; link routing in `home.js` («the résumé PDF», `resumeRoute`,
+  exposed as `window.__resumeRoute`): http(s) → file, HEAD check → public Drive copy if missing; file: on a
+  computer → file; one-file page on a computer → embedded blob; phone opening a local file / content: → Drive
+  (`data-online`); one-file page on a phone offline → download of the embedded copy. Verified by
+  `tools/qa/resume-open.cjs` (real click, bytes + SHA-256 or Drive tab title, screenshot of the tab).
 - **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`);
   optional: ~10 px more bottom padding on phones in the résumé section for a perfectly seamless join (needs
   the user's OK, the section is locked).
@@ -112,6 +121,7 @@ Its requirements (all must hold):
 | `smoke-bench.cjs` | `<outprefix> <t...>` | Renders `tools/smoke-bench.html` (smoke alone, 1.6×, same clock via `clockUniforms`) via the dev server |
 | `fallback.cjs` | `<dist> <prefix>` | Reduced motion and no-WebGL show the still picture, no errors |
 | `interact.cjs` | `<dist>` | Locked menu items do nothing; buttons; focusables |
+| `resume-open.cjs` | `<label> <url> [phone]` | Clicks the résumé button, checks the PDF that opens (SHA-256 / Drive copy), screenshot of the tab (`SHOT=dir`) |
 | `resume.cjs` | `<http url of dist/index.html> <outdir>` | Résumé section, the PDF link (served bytes, new tab), the hero line; serve `dist/` first (`python3 -m http.server 8770`) |
 | `nav-spy.cjs` | `<dist>` | Menu active item: load, menu/keyboard/hero jumps (no item passed on the way), wheel scrolling to each section and the end, rapid clicks, one active, items never move, reduced motion, `#contact` load |
 | `contact.cjs` / `products.cjs` / `why.cjs` / `motion-nav.cjs` | `<dist> <outdir>` (`motion-nav`: `<dist> [<previous dist>]`) | Section layouts, links, entrances; run one at a time |
