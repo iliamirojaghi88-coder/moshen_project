@@ -25,7 +25,7 @@ const LEDE = 'کامل‌ترین مجموعه نمایندگی سیم و کاب
   let failed = 0;
   // the PDF itself, as a visitor's browser gets it
   const ctx0 = await browser.newContext();
-  const res = await ctx0.request.get(new URL('assets/docs/simland-catalog.pdf', url).href);
+  const res = await ctx0.request.get(new URL('assets/resume/simland-resume.pdf', url).href);
   const body = await res.body();
   const pdfOk = res.status() === 200 && /application\/pdf/.test(res.headers()['content-type'] || '') && body.length === PDF_BYTES && body.subarray(0, 5).toString() === '%PDF-';
   console.log(`PDF ${res.status()} ${res.headers()['content-type']} ${body.length} bytes ${pdfOk ? 'ok' : 'WRONG'}`);
@@ -96,7 +96,7 @@ const LEDE = 'کامل‌ترین مجموعه نمایندگی سیم و کاب
       const side = ib.right <= copy.left + 0.5;
       if (!side && ib.bottom > copy.top + 0.5) fails.push('image overlaps the text');
       if (side && !(ib.right <= copy.left)) fails.push('image not left of the text');
-      const want = { '.resume-tag': 'SIMLAND | معرفی مجموعه', '.resume-title': 'اعتبار ما، پشتوانه انتخاب شما', '.resume-lede': 'آشنایی با سوابق، توانمندی‌ها و مستندات تخصصی مجموعه' };
+      const want = { '.resume-tag': 'رزومه شرکت سیم‌لند', '.resume-title': 'سیم‌لند را بیشتر بشناسید', '.resume-lede': 'نگاهی به توانمندی‌ها و مسیر حرفه‌ای ما' };
       for (const [sel, text] of Object.entries(want)) {
         const el = sec.querySelector(sel);
         if (el.textContent.trim() !== text) fails.push(sel + ' text: ' + el.textContent.trim());
@@ -106,13 +106,19 @@ const LEDE = 'کامل‌ترین مجموعه نمایندگی سیم و کاب
       }
       const a = sec.querySelector('a.resume-cta');
       const ab = R(a);
-      if (a.querySelector('span').textContent !== 'مشاهده رزومه و کاتالوگ') fails.push('button text');
+      if (a.querySelector('span').textContent !== 'مشاهده رزومه شرکت') fails.push('button text');
+      if (document.body.textContent.includes('اعتبار ما') || document.body.textContent.includes('مستندات تخصصی') || document.body.textContent.includes('رزومه و کاتالوگ')) fails.push('old résumé text left');
+      // on phones the card is no taller than its content needs
+      const kids = [...sec.querySelectorAll('.resume-card > *')].map(R);
+      const used = Math.max(...kids.map((k) => k.bottom)) - Math.min(...kids.map((k) => k.top));
+      const pad = card.height - used;
+      if (innerWidth < 760 && pad > 90) fails.push('card has ' + Math.round(pad) + ' px of padding');
       if (ab.left < card.left || ab.right > card.right || ab.bottom > card.bottom) fails.push('button leaves the card');
       if (a.scrollWidth > a.clientWidth + 1) fails.push('button text clipped');
       if (ab.height < 44) fails.push('button too low to tap');
       const rel = (a.getAttribute('rel') || '').split(/\s+/);
       if (a.target !== '_blank' || !rel.includes('noopener') || !rel.includes('noreferrer')) fails.push('link target/rel');
-      if (!/assets\/docs\/simland-catalog\.pdf$/.test(a.href)) fails.push('link href ' + a.href);
+      if (!/assets\/resume\/simland-resume\.pdf$/.test(a.href)) fails.push('link href ' + a.href);
       const name = a.textContent.replace(/\s+/g, ' ').trim();
       if (!/PDF/.test(name) || !/زبانه/.test(name)) fails.push('accessible name: ' + name);
       return { layout: side ? 'side by side' : 'stacked', card: `${Math.round(card.width)}x${Math.round(card.height)}`, img: `${Math.round(ib.width)}x${Math.round(ib.height)}`, gapAbove: Math.round(card.top - S.top), fails };
@@ -123,7 +129,7 @@ const LEDE = 'کامل‌ترین مجموعه نمایندگی سیم و کاب
       page.locator('a.resume-cta').click({ modifiers: [] }),
     ]);
     const popUrl = popup ? popup.url() : '';
-    if (!popup || !/assets\/docs\/simland-catalog\.pdf$/.test(popUrl)) r.fails.push('no new tab with the PDF: ' + popUrl);
+    if (!popup || !/assets\/resume\/simland-resume\.pdf$/.test(popUrl)) r.fails.push('no new tab with the PDF: ' + popUrl);
     if (popup) {
       const opener = await popup.evaluate(() => window.opener === null).catch(() => true);
       if (!opener) r.fails.push('new tab can reach its opener');

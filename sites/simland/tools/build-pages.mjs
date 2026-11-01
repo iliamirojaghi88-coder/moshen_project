@@ -3,7 +3,7 @@
 //   dist/index.html   the deliverable: ONE self-contained file. CSS in <style>,
 //                     JavaScript in one <script>, fonts and images embedded as
 //                     data URIs. Opens from disk or any web server. The résumé
-//                     PDF it links to is copied next to it (dist/assets/docs/).
+//                     PDF it links to is copied next to it (dist/assets/resume/).
 //   index.html        the same page for development: links the files in
 //                     assets/ (serve the folder: python3 -m http.server 8765)
 //
@@ -239,11 +239,11 @@ await writeFile(at('dist/index.html.tmp'), single);
 await rename(at('dist/index.html.tmp'), at('dist/index.html'));
 console.log(`wrote dist/index.html (single file, ${(Buffer.byteLength(single) / 1024 / 1024).toFixed(2)} MB)`);
 
-// The résumé and catalogue opens as its own file, so it sits next to the page at
-// the address its button links to (assets/docs/simland-catalog.pdf), byte for byte
-// the client's PDF. Deploy dist/ as a folder.
-const pdf = 'assets/docs/simland-catalog.pdf';
-await mkdir(at('dist/assets/docs'), { recursive: true });
+// The résumé opens as its own file, so it sits next to the page at the address its
+// button links to (assets/resume/simland-resume.pdf), byte for byte the client's PDF.
+// Deploy dist/ as a folder.
+const pdf = 'assets/resume/simland-resume.pdf';
+await mkdir(at('dist/assets/resume'), { recursive: true });
 await copyFile(at(pdf), at('dist', pdf));
 const sha = async (f) => createHash('sha256').update(await readFile(f)).digest('hex');
 if ((await sha(at(pdf))) !== (await sha(at('dist', pdf)))) throw new Error('catalogue copy differs');

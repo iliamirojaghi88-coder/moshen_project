@@ -120,26 +120,59 @@ document.querySelectorAll('[data-scroll]').forEach((link) => {
   });
 });
 
-// ---------------------------------------------------------------- the catalogue in the one-file page
-// dist-standalone/ is the same page as one file that also carries the catalogue
-// (<script type="application/pdf;base64" id="catalog-pdf">), for sending the page on
-// its own: a file opened by itself (from a phone's file manager, an e-mail, a chat)
-// has no folder next to it. On the first click the PDF becomes a blob address and
-// the link opens it, as before, in a new tab (noopener noreferrer). The site in
-// dist/ has no such element and links to assets/docs/simland-catalog.pdf.
-const catalogData = document.getElementById('catalog-pdf');
-const catalogLink = document.querySelector('a.resume-cta');
-if (catalogData && catalogLink) {
-  let catalogUrl = '';
-  catalogLink.addEventListener('click', () => {
-    if (!catalogUrl) {
-      const bin = atob(catalogData.textContent.trim());
-      const bytes = new Uint8Array(bin.length);
-      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-      catalogUrl = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
-    }
-    catalogLink.href = catalogUrl;
+// ---------------------------------------------------------------- the résumé PDF
+// The button links to assets/resume/simland-resume.pdf next to the page (a web server
+// or the unzipped folder on a computer) and opens it in a new tab. Where that address
+// cannot work, the same PDF is opened another way:
+//  · on a web server where the PDF was not uploaded (checked once with HEAD): its
+//    public copy (data-online, the client's Google Drive link to the same file);
+//  · a page opened from a phone's file manager (content://, or any phone opening a
+//    local file) cannot reach a file next to it, and phone browsers do not show a
+//    local PDF themselves: the public copy;
+//  · the one-file page (dist-standalone/) carries the PDF inside it
+//    (<script type="application/pdf;base64" id="catalog-pdf">): opened from disk on a
+//    computer it opens that copy in a new tab; on a phone with no connection it saves
+//    it (download), so it can be opened in the phone's PDF reader.
+const resumeLink = document.querySelector('a.resume-cta');
+const resumeData = document.getElementById('catalog-pdf');
+
+// where the button should lead, for a given page context (also used by the checks)
+function resumeRoute({ protocol, phone, online, embedded }) {
+  if (protocol === 'http:' || protocol === 'https:') return 'file-then-check';
+  if (embedded && !(phone && online)) return phone ? 'embedded-download' : 'embedded';
+  if (protocol === 'file:' && !phone) return 'file';
+  return 'online';
+}
+window.__resumeRoute = resumeRoute;
+
+if (resumeLink) {
+  const route = resumeRoute({
+    protocol: location.protocol,
+    phone: /Android|iPhone|iPad|iPod/i.test(navigator.userAgent),
+    online: navigator.onLine !== false,
+    embedded: !!resumeData,
   });
+  resumeLink.dataset.route = route;
+  const publicCopy = resumeLink.dataset.online;
+  if (route === 'online' && publicCopy) resumeLink.href = publicCopy;
+  if (route === 'file-then-check' && publicCopy) {
+    fetch(resumeLink.href, { method: 'HEAD' })
+      .then((r) => { if (!r.ok) resumeLink.href = publicCopy; })
+      .catch(() => {});
+  }
+  if (route === 'embedded' || route === 'embedded-download') {
+    let blobUrl = '';
+    resumeLink.addEventListener('click', () => {
+      if (!blobUrl) {
+        const bin = atob(resumeData.textContent.trim());
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        blobUrl = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+      }
+      resumeLink.href = blobUrl;
+      if (route === 'embedded-download') resumeLink.setAttribute('download', 'simland-resume.pdf');
+    });
+  }
 }
 
 // opened with #products or #contact: land on the section once the fonts have settled the layout
