@@ -232,19 +232,17 @@ ${cards.join('\n')}
 ${crumbs([['خانه', '#top'], ['محصولات', '#products'], [c.name, `#/products/${c.id}`], [p.name]])}
       <article class="pdetail">
         <div class="pdetail-info">
-          <p class="pdetail-en" lang="en" dir="ltr">${esc(p.nameEn)}</p>
           <h1 class="pdetail-title" id="pd-${p.id}" tabindex="-1">${esc(p.name)}</h1>
-          <p class="pdetail-label" id="pd-${p.id}-codes">کدهای فنی</p>
-          <ul class="pdetail-codes" role="list" aria-labelledby="pd-${p.id}-codes">${p.codes.map((k) => `<li dir="ltr" lang="en">${esc(k)}</li>`).join('')}</ul>
+          <h2 class="pdetail-label" id="pd-${p.id}-codes">کدهای فنی</h2>
+          <p class="pdetail-codes" aria-labelledby="pd-${p.id}-codes"><span dir="ltr" lang="en">${esc(p.codesText || p.codes.join(', '))}</span></p>
 ${p.description ? `          <p class="pdetail-desc">${esc(p.description)}</p>
 ` : ''}          <section class="pdetail-block" aria-labelledby="pd-${p.id}-use">
-            <h2 class="pdetail-h" id="pd-${p.id}-use">کاربرد</h2>
+            <h2 class="pdetail-h" id="pd-${p.id}-use">کاربرد:</h2>
             <p class="pdetail-text">${esc(p.application)}</p>
           </section>
           <section class="pdetail-block" aria-labelledby="pd-${p.id}-build">
-            <h2 class="pdetail-h" id="pd-${p.id}-build">ساختار</h2>
-            <p class="pdetail-structure" dir="ltr" lang="en">${esc(p.structure)}</p>
-            <p class="pdetail-note">${esc(p.structureNote)}</p>
+            <h2 class="pdetail-h" id="pd-${p.id}-build">ساختار:</h2>
+            <p class="pdetail-structure-line"><span class="pdetail-structure" dir="ltr" lang="en">${esc(p.structure)}</span></p>${p.structureNote ? `\n            <p class="pdetail-note">${esc(p.structureNote)}</p>` : ''}
           </section>
           ${inquiry(p, 'btn btn-primary pdetail-inquiry')}
         </div>

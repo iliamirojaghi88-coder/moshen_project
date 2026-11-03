@@ -2308,15 +2308,6 @@ h2[tabindex='-1']:focus {
   filter: drop-shadow(0 18px 20px rgba(7, 28, 75, 0.18));
 }
 
-.pdetail-en {
-  color: var(--brand);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-align: right;
-  unicode-bidi: isolate;
-}
-
 .pdetail-title {
   margin-top: 6px;
   color: var(--navy);
@@ -2334,17 +2325,17 @@ h2[tabindex='-1']:focus {
 }
 
 .pdetail-codes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 8px 0 0;
-  padding: 0;
-  list-style: none;
+  margin-top: 8px;
 }
 
-.pdetail-codes li {
+/* the codes as one left-to-right line, on the right like the rest of the text */
+.pdetail-codes span {
+  display: inline-block;
+  max-width: 100%;
   padding: 6px 12px;
   border-radius: 10px;
+  unicode-bidi: isolate;
+  line-height: 1.7;
   background: var(--ice);
   color: #0a5fd0;
   font-size: 0.92rem;
@@ -2384,16 +2375,22 @@ h2[tabindex='-1']:focus {
 }
 
 .pdetail-text {
-  margin-top: 8px;
+  max-width: 40em;
+  margin-top: 10px;
   color: #3e5272;
-  font-size: clamp(0.92rem, 3.4cqi, 1.02rem);
-  line-height: 2.05;
+  font-size: clamp(0.94rem, 3.4cqi, 1.04rem);
+  line-height: 2.1;
+  text-align: right;
+}
+
+.pdetail-structure-line {
+  margin-top: 10px;
 }
 
 .pdetail-structure {
   display: inline-block;
-  margin-top: 10px;
   padding: 8px 14px;
+  unicode-bidi: isolate;
   border-radius: 12px;
   background: linear-gradient(135deg, #0d2a63, var(--navy));
   color: #fff;

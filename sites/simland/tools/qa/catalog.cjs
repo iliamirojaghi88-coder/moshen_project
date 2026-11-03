@@ -16,8 +16,10 @@ const URL0 = 'file://' + path.resolve(file);
 const TELS = ['tel:09123520415', 'tel:09127473187', 'tel:02533551111'];
 const LABELS = ['مشاوره و خرید', 'مشاوره و خرید', 'دفتر مرکزی'];
 const NUMBERS = ['0912 352 0415', '0912 747 3187', '025 3355 1111'];
-const NAME = 'کابل تک‌رشته و چندرشته مسلح (زره‌دار)';
-const USE = 'این نوع کابل برای تأسیسات داخل یا خارج ساختمان، نصب ثابت در زیرزمین، داکت‌ها و محیط‌هایی که کابل به محافظت مکانیکی نیاز دارد، کاربرد دارد. همچنین در شرایطی که احتمال آتش‌سوزی وجود دارد، بسته به مشخصات محصول می‌توان از انواع دارای مواد کندسوز یا LSZH استفاده کرد.';
+const NAME = "کابل تک رشته و چند رشته مسلح (زره دار)"; // the client's locked texts
+const CODES = "N2XRY, NYRY, N2XBY, NYBY";
+const STRUCT = "Cu/PVC/Bd/SWA/PVC";
+const USE = "این نوع کابل‌ها در تاسیسات داخل یا خارج ساختمان به صورت نصب ثابت در زیرزمین و در داکت‌ها و فضای باز که نیاز به حفاظت مکانیکی زیادی از کابل وجود دارد به کار می‌روند. در مکان‌هایی که احتمال آتش سوزی وجود دارد برای جلوگیری از آزاد شدن گازهای سمی و گازهای خورنده، از مواد LSZH استفاده می‌شود.";
 
 (async () => {
   const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
@@ -172,15 +174,21 @@ const USE = 'این نوع کابل برای تأسیسات داخل یا خار
       const ib = R(img), mb = R(v.querySelector('.pdetail-media')), info = R(v.querySelector('.pdetail-info'));
       const big = [...v.querySelectorAll('.pdetail-title, .pdetail-text, .pdetail-structure, .pdetail-codes li')].filter((e) => e.scrollWidth > e.clientWidth + 1).length;
       return {
-        codes: [...v.querySelectorAll('.pdetail-codes li')].map((x) => x.textContent).join(','), use: v.querySelector('.pdetail-text').textContent,
-        structure: v.querySelector('.pdetail-structure').textContent, note: !!v.querySelector('.pdetail-note').textContent, en: v.querySelector('.pdetail-en').textContent,
+        // every text of the details, in order, exactly (the button aside)
+        texts: [...v.querySelector('.pdetail-info').querySelectorAll('h1, h2, p')].map((x) => x.textContent),
+        codesDir: getComputedStyle(v.querySelector('.pdetail-codes span')).direction, structDir: getComputedStyle(v.querySelector('.pdetail-structure')).direction,
+        codesRight: (() => { const a = v.querySelector('.pdetail-codes span').getBoundingClientRect(), b = v.querySelector('.pdetail-info').getBoundingClientRect(); return Math.abs(a.right - b.right) < 1.5; })(),
+        rtl: getComputedStyle(v.querySelector('.pdetail-text')).direction === 'rtl' && getComputedStyle(v.querySelector('.pdetail-text')).textAlign === 'right',
+        fonts: [...v.querySelectorAll('.pdetail-info h1, .pdetail-info h2, .pdetail-info p')].every((x) => getComputedStyle(x).fontFamily.replace(/["']/g, '').startsWith('Estedad')),
         side: ib.right <= info.left + 0.5 || mb.right <= info.left + 0.5, above: mb.bottom <= info.top + 0.5,
         whole: ib.left >= mb.left - 0.5 && ib.right <= mb.right + 0.5 && ib.top >= mb.top - 0.5 && ib.bottom <= mb.bottom + 0.5,
         ratio: Math.abs(ib.width / ib.height - img.naturalWidth / img.naturalHeight) < 0.01, enlarged: ib.height * devicePixelRatio > img.naturalHeight + 1,
         big, wide: R(v.querySelector('.rv-wrap')).width,
       };
     });
-    if (d.codes !== 'N2XRY,NYRY,N2XBY,NYBY' || d.use !== USE || d.structure !== 'Cu/PVC/Bd/SWA/PVC' || !d.note || d.en !== 'Armored Copper Cable') fails.push('product texts ' + JSON.stringify(d).slice(0, 200));
+    const WANT = [NAME, 'کدهای فنی', CODES, 'کاربرد:', USE, 'ساختار:', STRUCT];
+    if (JSON.stringify(d.texts) !== JSON.stringify(WANT)) fails.push('product texts differ: ' + JSON.stringify(d.texts).slice(0, 300));
+    if (d.codesDir !== 'ltr' || d.structDir !== 'ltr' || !d.codesRight || !d.rtl || !d.fonts) fails.push('direction / alignment / font ' + JSON.stringify([d.codesDir, d.structDir, d.codesRight, d.rtl, d.fonts]));
     if (d.wide >= 860 ? !d.side : !d.above) fails.push('product layout ' + JSON.stringify({ side: d.side, above: d.above, wide: d.wide }));
     if (!d.whole || !d.ratio || d.enlarged) fails.push('product photo ' + JSON.stringify(d));
     if (d.big) fails.push(d.big + ' texts overflow on the product page');

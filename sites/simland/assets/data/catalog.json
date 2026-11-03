@@ -1,5 +1,5 @@
 {
-  "_doc": "Product categories and products of the catalogue pages (built by tools/build-pages.mjs). A category with homeCard links the home page card of that slug (source/mapping.json) to its page. Each product: id, category, name, nameEn, image (assets/images/catalog/<image>.webp), imageAlt, codes, description, application, structure, structureNote; its page is #/products/<category>/<id>.",
+  "_doc": "Product categories and products of the catalogue pages (built by tools/build-pages.mjs). A category with homeCard links the home page card of that slug (source/mapping.json) to its page. Each product: id, category, name, nameEn, image (assets/images/catalog/<image>.webp), imageAlt, codes, description, application, structure; codesText is the codes line exactly as shown; its page is #/products/<category>/<id>.",
   "categories": [
     {
       "id": "armored",
@@ -13,15 +13,20 @@
     {
       "id": "armored-copper-cable",
       "category": "armored",
-      "name": "کابل تک‌رشته و چندرشته مسلح (زره‌دار)",
+      "name": "کابل تک رشته و چند رشته مسلح (زره دار)",
       "nameEn": "Armored Copper Cable",
       "image": "armored-copper-cable",
       "imageAlt": "کابل مسلح سیم‌لند: هادی مسی چندلایه، زره فلزی و روکش مشکی",
-      "codes": ["N2XRY", "NYRY", "N2XBY", "NYBY"],
+      "codes": [
+        "N2XRY",
+        "NYRY",
+        "N2XBY",
+        "NYBY"
+      ],
       "description": "",
-      "application": "این نوع کابل برای تأسیسات داخل یا خارج ساختمان، نصب ثابت در زیرزمین، داکت‌ها و محیط‌هایی که کابل به محافظت مکانیکی نیاز دارد، کاربرد دارد. همچنین در شرایطی که احتمال آتش‌سوزی وجود دارد، بسته به مشخصات محصول می‌توان از انواع دارای مواد کندسوز یا LSZH استفاده کرد.",
+      "application": "این نوع کابل‌ها در تاسیسات داخل یا خارج ساختمان به صورت نصب ثابت در زیرزمین و در داکت‌ها و فضای باز که نیاز به حفاظت مکانیکی زیادی از کابل وجود دارد به کار می‌روند. در مکان‌هایی که احتمال آتش سوزی وجود دارد برای جلوگیری از آزاد شدن گازهای سمی و گازهای خورنده، از مواد LSZH استفاده می‌شود.",
       "structure": "Cu/PVC/Bd/SWA/PVC",
-      "structureNote": "ساختار بالا مربوط به نمونه‌ی مرجع است؛ مشخصات ساختاری بسته به کد کابل می‌تواند متفاوت باشد."
+      "codesText": "N2XRY, NYRY, N2XBY, NYBY"
     }
   ]
 }
