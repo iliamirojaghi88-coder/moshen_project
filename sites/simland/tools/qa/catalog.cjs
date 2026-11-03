@@ -200,7 +200,9 @@ const USE = 'این نوع کابل برای تأسیسات داخل یا خار
     if (s.view !== '/products/armored') fails.push('Back: ' + JSON.stringify(s));
     await page.goBack(); await page.waitForTimeout(500);
     s = await state();
-    if (!s.home || s.view || Math.abs(s.y - homeY) > 4 || s.title.includes('آرموردار')) fails.push(`Back to home: ${JSON.stringify(s)} (was at ${Math.round(homeY)})`);
+    // back where it was left (a tap may first nudge the focused link fully into view), the card in sight
+    const cardSeen = await page.evaluate(() => { const r = document.querySelector('.pcard.is-linked').getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; });
+    if (!s.home || s.view || Math.abs(s.y - homeY) > 16 || !cardSeen || s.title.includes('آرموردار')) fails.push(`Back to home: ${JSON.stringify(s)} (was at ${Math.round(homeY)}, card in view ${cardSeen})`);
     const heroOk = await page.evaluate(() => { const c = document.querySelector('.scene-live'); return document.querySelector('[data-scene]').classList.contains('is-live') && c && c.width > 0; });
     if (!heroOk) fails.push('hero not live after coming back');
     await page.goForward(); await page.waitForTimeout(300);

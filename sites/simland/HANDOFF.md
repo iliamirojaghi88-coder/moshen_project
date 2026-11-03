@@ -4,56 +4,18 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-10-31, résumé section + stronger sparks + new hero line delivered, waiting for the user's approval)
+## Exact stop point (2026-11-03, armored cable pages + contact panel delivered, waiting for the user's approval)
 
 - Branch: `ccr-2cd3266d-qpjs3p`.
-- Done in this step («SIMLAND — اجرای دقیق سه اصلاح نهایی»): a résumé / catalogue section between «چرا سیم‌لند؟»
-  and the contact, opening the client's PDF; the copper sparks made clearly visible; the hero's description
-  replaced by «کامل‌ترین مجموعه نمایندگی سیم و کابل آرین ابهر در استان قم». See «Résumé, sparks, hero line».
-- Earlier the same day: inner number cards, menu scroll spy, power-line pulses, fuller smoke (see below).
-- Final QA on the delivered build (one suite at a time): résumé 11/11 (320–2560, PDF served 200
-  application/pdf 28,724,812 B, new tab shows it in full Chromium), responsive 11/11, contact 11/11 (join
-  check included), nav-spy 8/8, motion-nav 9/9, products 12/12 (1024@1 and 1180@2 passed when run alone; in
-  the long sequence they ran out of time under software WebGL), why 9/9, interact, fallback. Hero vs the
-  build before these fixes: pixel-identical at 375/768/1366; résumé section identical at 768/1366, at 375
-  only ±1-level gradient noise (new stacking layer) and the boundary rows of the join fix.
-- Previews re-rendered from t = 1.4 s (sparks at ~1.9 s and ~3.8 s): `preview/hero-desktop-1366.mp4`,
-  `preview/hero-mobile-390.mp4` (git-ignored, sent to the user).
-- 2026-11-01 «FINAL EXECUTION & DELIVERY DIRECTIVE»: H1 replaced (above); one-file page with the PDF inside
-  (`dist-standalone/simland-home-standalone.html`, LFS; `#catalog-pdf` base64 → blob on click in `home.js`), because
-  the delivered HTML alone could not open the PDF (relative path, no folder next to it; on Android `content://`
-  never resolves relative links). Investigation: the previous HTML and ZIP (sha 86be6032…) did contain the résumé
-  section and showed it when opened from disk (extracted ZIP and lone HTML, Playwright, 375 and 1366); every
-  earlier delivery was named `index.html`, one of them built before the résumé existed. Deliveries are now
-  versioned: `SIMLAND-site-<date>-<commit>.zip` (folder + PDF + راهنما) and `SIMLAND-standalone-<date>-<commit>.html`.
-- Final QA of this step on build 9f98d2b (one suite at a time): hero picture vs the build before the H1
-  change pixel-identical (live frame, 375/768/1366/1920; size unchanged); résumé+H1 11/11 (320–2560),
-  responsive 11/11, motion-nav 9/9, products 12/12 (320 after the test fix), nav-spy 8/8, why 9/9, contact
-  11/11, interact, fallback (reduced motion + no WebGL). Delivery: `SIMLAND-site-2026-11-01-9f98d2b.zip`
-  (folder `SIMLAND-site-2026-11-01/`: index.html, assets/docs/simland-catalog.pdf, راهنما.txt) and
-  `SIMLAND-standalone-2026-11-01-9f98d2b.html`, both extracted/copied into clean folders and opened from
-  disk at 375 and 1366: H1 exact, one H1, old title nowhere, résumé between why and contact and visible,
-  texts exact, PDF opens in a new tab (ZIP: the file next to it; standalone: embedded, SHA-256 identical),
-  no console errors. Files are byte-identical to the commit's dist/ and dist-standalone/.
-- 2026-11-01 «دستور نهایی اصلاح سایت»: résumé texts from the desktop reference (tag «رزومه شرکت سیم‌لند», title
-  «سیم‌لند را بیشتر بشناسید», lede «نگاهی به توانمندی‌ها و مسیر حرفه‌ای ما», button «مشاهده رزومه شرکت»; «سیم‌لند»
-  kept with its ZWNJ as in the reference image); phone card compacted (folder clamp(140px, 44cqi, 230px), title
-  one line, smaller gaps, section padding-bottom 28 px on phones; desktop values restored in the ≥760 container);
-  PDF moved to `assets/resume/simland-resume.pdf`; link routing in `home.js` («the résumé PDF», `resumeRoute`,
-  exposed as `window.__resumeRoute`): http(s) → file, HEAD check → public Drive copy if missing; file: on a
-  computer → file; one-file page on a computer → embedded blob; phone opening a local file / content: → Drive
-  (`data-online`); one-file page on a phone offline → download of the embedded copy. Verified by
-  `tools/qa/resume-open.cjs` (real click, bytes + SHA-256 or Drive tab title, screenshot of the tab).
-- Final checks of that step on build aa06793: résumé 8/8 widths (320–1536, texts exact, old texts gone, phone
-  card 344–383 px, desktop card unchanged 1240×414), contact 8/8 (no overlap, join), nav-spy 4/4, responsive
-  11/11 (no horizontal scroll, no errors). Delivered `SIMLAND-site-2026-11-01-v2-aa06793.zip` (folder with
-  index.html, assets/resume/simland-resume.pdf, راهنما.txt) and `SIMLAND-standalone-2026-11-01-aa06793.html`,
-  byte-identical to the commit; unzipped/copied into clean folders and opened 7 ways with resume-open.cjs
-  (hosted desktop/phone, hosted without the PDF, unzipped desktop/phone, one-file desktop/phone): all opened
-  the real PDF (SHA-256 / Drive copy), screenshots show page 1 of 102.
-- **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`);
-  optional: ~10 px more bottom padding on phones in the résumé section for a perfectly seamless join (needs
-  the user's OK, the section is locked).
+- Done in this step («SIMLAND — Armored Cable Product System»): the home «کابل آرموردار» card links (whole card) to
+  `#/products/armored`; category page + product page `#/products/armored/armored-copper-cable` built from
+  `assets/data/catalog.json` (hash routes inside the same page: work on a server, from disk, in the one-file page and
+  from a phone's file manager; Back/Refresh/direct links); product cards with a full-width «استعلام قیمت» bar; one
+  reusable contact panel (`<dialog id="contact-panel">`, numbers from site-config.js, tel: rows) opened by every
+  `[data-inquiry]`. See «Catalogue pages» below and README «صفحات محصولات».
+- Name: the brief wrote «آرمودار»; the approved home card and the client's reference image say «آرموردار» — used
+  everywhere for consistency (tell the user).
+- **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`).
 
 ### Approved — do not change
 
@@ -128,6 +90,7 @@ Its requirements (all must hold):
 | `smoke-bench.cjs` | `<outprefix> <t...>` | Renders `tools/smoke-bench.html` (smoke alone, 1.6×, same clock via `clockUniforms`) via the dev server |
 | `fallback.cjs` | `<dist> <prefix>` | Reduced motion and no-WebGL show the still picture, no errors |
 | `interact.cjs` | `<dist>` | Locked menu items do nothing; buttons; focusables |
+| `catalog.cjs` | `<dist> <outdir>` | Catalogue pages + contact panel: home card → category → product, grid columns, card, panel rows/close/scroll lock/focus, Back/Forward/Refresh/direct links, menu from a route, hero after return |
 | `resume-open.cjs` | `<label> <url> [phone]` | Clicks the résumé button, checks the PDF that opens (SHA-256 / Drive copy), screenshot of the tab (`SHOT=dir`) |
 | `resume.cjs` | `<http url of dist/index.html> <outdir>` | Résumé section, the PDF link (served bytes, new tab), the hero line; serve `dist/` first (`python3 -m http.server 8770`) |
 | `nav-spy.cjs` | `<dist>` | Menu active item: load, menu/keyboard/hero jumps (no item passed on the way), wheel scrolling to each section and the end, rapid clicks, one active, items never move, reduced motion, `#contact` load |
@@ -280,6 +243,26 @@ Its requirements (all must hold):
   left side + 2–5 streaks (110–280 px/s, decelerating, slight drop, life 0.14–0.36 s). Pixels outside the
   wire band and the copper box are identical to the previous build (checked by diff).
 - Docs: README «هیروی زنده», «منو», contact; this file.
+
+### Catalogue pages (done, tested)
+
+- Data `assets/data/catalog.json` (categories: id, name, accent, description, homeCard = mapping.json slug;
+  products: id, category, name, nameEn, image, imageAlt, codes, description, application, structure, structureNote).
+- `build-pages.mjs`: `catalogPages(single)` → `<main class="route-view" data-route data-title hidden>` blocks after
+  the home `<main id="top">` (`<!-- catalog-pages -->`); one-file page: photos once in `#media-data` (JSON of data
+  URIs), `<img data-media>` filled by home.js when the page is shown. `contactPanel()` → `<dialog id="contact-panel">`
+  (`<!-- contact-panel -->`). `productCards()`: the card whose slug is a category's homeCard gets a real CTA link,
+  `.pcard.is-linked` stretches it over the card (`::after`).
+- `home.js`: `showRoute()` on load and hashchange (home hidden while a route is shown; `homeY` restored when coming
+  back, or the #section named; title; menu shows «محصولات»; route h1 focused); menu clicks on a route push the
+  section hash and show home; scroll-spy observers ignore changes while a route is shown (`routeView`); panel:
+  `[data-inquiry]` → `showModal()`, close on ×/Escape/backdrop (`e.target === panel`), `html.panel-open` locks scroll,
+  focus back to the opener; no `<dialog>` → `#contact`.
+- CSS: «catalogue pages» and «the contact panel» blocks at the end of home.css (container queries `rv`, `agrid`,
+  `acard`, `cpanel`; sheet below 600 px).
+- Photo: `source/catalog/armored-copper-cable.png` → `assets/images/catalog/armored-copper-cable.webp` (lossless, 428×1693
+  after trimming, 1357 invisible specks removed). References kept in `source/catalog/reference-*`.
+- QA `tools/qa/catalog.cjs` (320/375/390/430/768/1024/1440).
 
 ### Résumé, sparks, hero line (done, tested)
 
