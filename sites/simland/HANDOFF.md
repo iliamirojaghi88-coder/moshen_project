@@ -15,6 +15,14 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
   `[data-inquiry]`. See «Catalogue pages» below and README «صفحات محصولات».
 - Name: the brief wrote «آرمودار»; the approved home card and the client's reference image say «آرموردار» — used
   everywhere for consistency (tell the user).
+- Then («اصلاح دقیق محتوای صفحه جزئیات کابل آرمودار», commit 09fc1a7): the product page carries the client's locked
+  texts word for word — title «کابل تک رشته و چند رشته مسلح (زره دار)», «کدهای فنی» `N2XRY, NYRY, N2XBY, NYBY`
+  (LTR), «کاربرد:» + the locked paragraph, «ساختار:» `Cu/PVC/Bd/SWA/PVC` (LTR); the English kicker and the
+  structure note are gone. `tools/qa/catalog.cjs` compares the rendered h1/h2/p text with the locked strings.
+- Delivered: `SIMLAND-site-2026-11-03-09fc1a7.zip` (folder with index.html + assets/resume/simland-resume.pdf +
+  راهنما.txt) and `SIMLAND-standalone-2026-11-03-09fc1a7.html`, byte-identical to `dist/` and `dist-standalone/`.
+  Tests on the build: catalog 7/7, contact 11/11, products 12/12, nav-spy 8/8, motion-nav 9/9, why 9/9, résumé 11/11,
+  responsive 11/11, interact, fallback; on the delivered files: catalog (375/1440) and resume-open, zip + standalone.
 - **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`).
 
 ### Approved — do not change
