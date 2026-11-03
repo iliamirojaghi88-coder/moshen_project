@@ -1978,3 +1978,777 @@ h2[tabindex='-1']:focus {
   opacity: 1;
   transform: none;
 }
+
+/* ---------------------------------------------------------------- the home card of a category page
+   «کابل آرموردار»: the whole card is the link to its page (its «مشاهده محصولات» link
+   stretched over the card); it looks as before. */
+
+.pcard.is-linked .pcard-in {
+  position: relative;
+}
+
+.pcard.is-linked .pcard-cta {
+  cursor: pointer;
+}
+
+.pcard.is-linked .pcard-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+}
+
+.pcard.is-linked .pcard-cta:focus-visible {
+  outline: none;
+}
+
+.pcard.is-linked:has(.pcard-cta:focus-visible) .pcard-in {
+  outline: 2.5px solid var(--brand);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pcard.is-linked:hover .pcard-go {
+    transform: translateX(-3px);
+  }
+}
+
+/* ---------------------------------------------------------------- catalogue pages
+   A category page (#/products/<category>) and a product page
+   (#/products/<category>/<id>), shown by home.js in place of the home page; the
+   header stays. The same light ground, type, blues and soft cards as the home page. */
+
+.route-view {
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(var(--bar-top) + var(--bar-h) + 22px) var(--gutter) clamp(48px, 7vw, 96px);
+  overflow-x: clip;
+  background:
+    radial-gradient(60% 420px at 85% 0, rgba(55, 182, 255, 0.08), transparent 70%),
+    radial-gradient(50% 380px at 10% 100%, rgba(43, 196, 138, 0.06), transparent 70%),
+    linear-gradient(180deg, #f3f8ff 0, var(--pearl) 360px, #f5fbfa 100%);
+}
+
+.rv-wrap {
+  container: rv / inline-size;
+  max-width: 1240px;
+  margin-inline: auto;
+}
+
+.rv-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  color: #6c7b91;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.9;
+}
+
+.rv-crumbs a {
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.rv-crumbs [aria-current] {
+  color: var(--navy);
+}
+
+.rv-sep {
+  color: #b7c4d6;
+}
+
+.rv-head {
+  margin-top: clamp(14px, 3cqi, 26px);
+  text-align: center;
+}
+
+.rv-title {
+  color: var(--navy);
+  font-size: clamp(1.7rem, 6.4cqi, 2.8rem);
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.rv-title .accent {
+  color: var(--brand);
+  background: linear-gradient(100deg, #0a6cf0 0%, var(--brand) 40%, #2aa6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.rv-title:focus,
+.pdetail-title:focus {
+  outline: none;
+}
+
+.rv-lede {
+  max-width: 32em;
+  margin: 10px auto 0;
+  color: #4a5f7f;
+  font-size: clamp(0.94rem, 3.6cqi, 1.1rem);
+  line-height: 1.9;
+  text-wrap: balance;
+}
+
+/* back: the site's arrow, turned to point back (right, in a right-to-left page) */
+.rv-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  margin-top: 16px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--navy);
+  font-size: 0.88rem;
+  font-weight: 700;
+  box-shadow: 0 0 0 1px var(--line) inset, 0 8px 18px -14px rgba(7, 28, 75, 0.35);
+  transition: background-color 0.25s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rv-back svg {
+  width: 18px;
+  height: 18px;
+  color: var(--brand);
+  transform: scaleX(-1);
+}
+
+.rv-back:focus-visible,
+.rv-crumbs a:focus-visible,
+.acard-link:focus-visible {
+  outline: 2.5px solid var(--brand);
+  outline-offset: 3px;
+}
+
+/* the product grid: two cards a row on phones, three on tablets, four on desktops */
+.agrid-wrap {
+  container: agrid / inline-size;
+  margin-top: clamp(22px, 4cqi, 40px);
+}
+
+.agrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 2.2cqi, 22px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@container agrid (min-width: 560px) {
+  .agrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@container agrid (min-width: 900px) {
+  .agrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* a product card: the photo with plenty of white around it, the name, and below
+   them a full-width «استعلام قیمت» bar (its own button, never a link) */
+.acard {
+  container: acard / inline-size;
+}
+
+.acard-in {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid #e3edf8;
+  border-radius: clamp(18px, 7cqi, 24px);
+  background: #fff;
+  box-shadow: 0 1px 0 #fff inset, 0 14px 30px -24px rgba(7, 28, 75, 0.38);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+
+.acard-link {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  border-radius: inherit;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.acard-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  margin: clamp(6px, 3cqi, 10px) clamp(6px, 3cqi, 10px) 0;
+  overflow: hidden;
+  border-radius: clamp(12px, 5cqi, 18px);
+  background:
+    radial-gradient(70% 55% at 50% 42%, #fff, rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #f6f9fd, #ebf2fa);
+}
+
+/* the whole photo, fitted in the box (never cropped, never stretched) */
+.acard-img {
+  position: absolute;
+  inset: 5%;
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 12px rgba(7, 28, 75, 0.16));
+  transition: transform 0.5s var(--ease);
+}
+
+.acard-body {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(10px, 5cqi, 16px) clamp(8px, 5cqi, 16px) clamp(12px, 5.4cqi, 18px);
+}
+
+.acard-title {
+  color: var(--navy);
+  font-size: clamp(0.8rem, 6.2cqi, 1rem);
+  font-weight: 800;
+  line-height: 1.75;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.acard-inquiry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: clamp(46px, 18cqi, 56px);
+  padding: 0 10px;
+  border: 0;
+  background: linear-gradient(115deg, #0866ef 0%, var(--brand) 48%, #2fa8ff 100%);
+  color: #fff;
+  font: inherit;
+  font-size: clamp(0.86rem, 6.4cqi, 1.04rem);
+  font-weight: 800;
+  cursor: pointer;
+  transition: filter 0.2s, box-shadow 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.acard-inquiry svg {
+  flex: none;
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.acard-inquiry:focus-visible {
+  outline: 3px solid var(--navy);
+  outline-offset: -3px;
+}
+
+.acard-inquiry:active {
+  filter: brightness(0.92);
+  box-shadow: inset 0 3px 8px rgba(3, 30, 90, 0.35);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .acard-in:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 1px 0 #fff inset, 0 22px 38px -26px rgba(7, 28, 75, 0.45);
+  }
+  .acard-link:hover .acard-img {
+    transform: translateY(-4px);
+  }
+  .acard-inquiry:hover {
+    filter: brightness(1.07);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+  .rv-back:hover {
+    background: var(--ice);
+  }
+  .rv-crumbs a:hover {
+    color: var(--brand);
+  }
+}
+
+/* the product page: details on the right, the photo on the left; on phones the
+   photo first, then the name, codes, use, structure and «استعلام قیمت» */
+.pdetail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(18px, 4cqi, 56px);
+  margin-top: clamp(14px, 3cqi, 26px);
+}
+
+.pdetail-media {
+  order: -1;
+  display: grid;
+  place-items: center;
+  padding: clamp(18px, 4cqi, 36px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: clamp(22px, 5cqi, 32px);
+  background:
+    radial-gradient(65% 55% at 50% 42%, #fff, rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #f7fafe, #e9f1fa);
+  box-shadow: 0 0 0 1px rgba(8, 120, 249, 0.06), 0 30px 60px -44px rgba(7, 28, 75, 0.38);
+}
+
+/* never larger than its own pixels (1693 px high: at most 564 css px on 3x screens) */
+.pdetail-img {
+  width: auto;
+  max-width: 100%;
+  height: clamp(240px, 66cqi, 380px);
+  max-height: 564px;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 20px rgba(7, 28, 75, 0.18));
+}
+
+.pdetail-en {
+  color: var(--brand);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-align: right;
+  unicode-bidi: isolate;
+}
+
+.pdetail-title {
+  margin-top: 6px;
+  color: var(--navy);
+  font-size: clamp(1.4rem, 5.6cqi, 2.3rem);
+  font-weight: 900;
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+.pdetail-label {
+  margin-top: clamp(14px, 3cqi, 20px);
+  color: #6c7b91;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.pdetail-codes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pdetail-codes li {
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: var(--ice);
+  color: #0a5fd0;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  box-shadow: inset 0 0 0 1px rgba(8, 120, 249, 0.12);
+}
+
+.pdetail-desc {
+  margin-top: 14px;
+  color: #3e5272;
+  line-height: 2;
+}
+
+.pdetail-block {
+  margin-top: clamp(18px, 3.4cqi, 26px);
+  padding-top: clamp(16px, 3cqi, 22px);
+  border-top: 1px solid var(--line);
+}
+
+.pdetail-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--navy);
+  font-size: 1.04rem;
+  font-weight: 800;
+}
+
+.pdetail-h::before {
+  content: '';
+  flex: none;
+  width: 4px;
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #2fa8ff, #0866ef);
+}
+
+.pdetail-text {
+  margin-top: 8px;
+  color: #3e5272;
+  font-size: clamp(0.92rem, 3.4cqi, 1.02rem);
+  line-height: 2.05;
+}
+
+.pdetail-structure {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0d2a63, var(--navy));
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.pdetail-note {
+  margin-top: 8px;
+  color: #6c7b91;
+  font-size: 0.82rem;
+  line-height: 1.9;
+}
+
+.pdetail-inquiry {
+  width: 100%;
+  height: 56px;
+  margin-top: clamp(22px, 4cqi, 32px);
+  font-size: 1.02rem;
+}
+
+.pdetail-inquiry svg {
+  width: 20px;
+  height: 20px;
+}
+
+.rv-product .rv-back {
+  margin-top: clamp(24px, 4cqi, 36px);
+}
+
+@container rv (max-width: 859.98px) {
+  .rv-product .rv-back {
+    display: flex;
+    width: max-content;
+    margin-inline: auto;
+  }
+}
+
+@container rv (min-width: 860px) {
+  .pdetail {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: start;
+  }
+  .pdetail-media {
+    order: 0;
+    position: sticky;
+    top: calc(var(--bar-top) + var(--bar-h) + 18px);
+  }
+  .pdetail-img {
+    height: min(520px, 44cqi);
+  }
+  .pdetail-inquiry {
+    width: auto;
+    min-width: 260px;
+    padding: 0 34px;
+  }
+}
+
+/* ---------------------------------------------------------------- the contact panel («استعلام قیمت»)
+   One <dialog> for the whole site: a centred card on larger screens, a sheet from
+   the bottom on phones. Three separate rows, each one tel: link over its whole area. */
+
+html.panel-open,
+html.panel-open body {
+  overflow: hidden;
+}
+
+.cpanel {
+  width: min(460px, calc(100% - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  color: var(--navy);
+  font: inherit;
+}
+
+.cpanel::backdrop {
+  background: rgba(7, 28, 75, 0.42);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+.cpanel[open] {
+  animation: cpanel-in 0.32s var(--ease);
+}
+
+.cpanel[open]::backdrop {
+  animation: cpanel-fade 0.3s ease;
+}
+
+@keyframes cpanel-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+}
+
+@keyframes cpanel-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.cpanel-in {
+  container: cpanel / inline-size;
+  position: relative;
+  max-height: inherit;
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+  padding: clamp(26px, 7cqi, 34px) clamp(14px, 5cqi, 26px) clamp(20px, 6cqi, 28px);
+  border-radius: 30px;
+  background:
+    radial-gradient(70% 38% at 0 0, rgba(55, 182, 255, 0.16), transparent 70%),
+    radial-gradient(60% 30% at 100% 100%, rgba(8, 120, 249, 0.12), transparent 70%),
+    linear-gradient(180deg, #ffffff, #f2f7fe);
+  box-shadow: 0 1px 0 #fff inset, 0 0 0 1px rgba(255, 255, 255, 0.8), 0 40px 80px -30px rgba(7, 28, 75, 0.55);
+}
+
+.cpanel-grip {
+  display: none;
+}
+
+.cpanel-close {
+  position: absolute;
+  top: 14px;
+  inset-inline-end: 14px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #5d6c84;
+  box-shadow: 0 0 0 1px var(--line) inset, 0 6px 14px -10px rgba(7, 28, 75, 0.4);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cpanel-close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.cpanel-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.cpanel-badge {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: clamp(50px, 15cqi, 60px);
+  aspect-ratio: 1;
+  border-radius: 30%;
+  background: radial-gradient(circle at 32% 26%, #3a9bff, var(--brand) 72%);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 12px 22px -12px rgba(8, 120, 249, 0.6);
+}
+
+.cpanel-badge svg {
+  width: 54%;
+  height: 54%;
+}
+
+.cpanel-title {
+  position: relative;
+  padding-bottom: 10px;
+  font-size: clamp(1.5rem, 8cqi, 1.9rem);
+  font-weight: 900;
+  line-height: 1.4;
+}
+
+.cpanel-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  inset-inline-start: 0;
+  width: 52%;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #2fa8ff, #0866ef);
+}
+
+.cpanel-hint {
+  margin-top: 14px;
+  color: #5b6b84;
+  font-size: clamp(0.88rem, 4cqi, 0.98rem);
+  line-height: 1.8;
+  text-align: center;
+}
+
+.cpanel-list {
+  display: grid;
+  gap: clamp(10px, 3cqi, 14px);
+  margin: clamp(16px, 4.4cqi, 22px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cpanel-row {
+  --tone: var(--brand);
+  --tone-2: #3a9bff;
+  --tone-line: rgba(8, 120, 249, 0.22);
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 3cqi, 12px);
+  min-height: 74px;
+  padding: 10px clamp(10px, 3cqi, 14px);
+  border-radius: 22px;
+  background: #fff;
+  color: var(--navy);
+  box-shadow: inset 0 0 0 1px #e3ecf8, 0 10px 22px -18px rgba(7, 28, 75, 0.42);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s, background-color 0.3s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cpanel-row[data-tone='green'] {
+  --tone: #18a35e;
+  --tone-2: #34c77b;
+  --tone-line: rgba(30, 168, 101, 0.24);
+}
+
+.cpanel-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: clamp(44px, 14cqi, 54px);
+  aspect-ratio: 1;
+  border-radius: 30%;
+  background: radial-gradient(circle at 32% 26%, var(--tone-2), var(--tone) 72%);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 10px 18px -12px var(--tone);
+}
+
+.cpanel-icon svg {
+  width: 48%;
+  height: 48%;
+}
+
+.cpanel-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding-inline-start: clamp(8px, 3cqi, 12px);
+  border-inline-start: 1.5px solid var(--tone-line);
+}
+
+.cpanel-label {
+  color: #5d6c84;
+  font-size: clamp(0.8rem, 3.6cqi, 0.9rem);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.cpanel-number {
+  font-size: clamp(1.12rem, 6.6cqi, 1.6rem);
+  font-weight: 800;
+  line-height: 1.35;
+  white-space: nowrap;
+  text-align: right;
+  unicode-bidi: isolate;
+}
+
+.cpanel-go {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: clamp(30px, 9cqi, 36px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #f1f6fd;
+  color: var(--tone);
+  transition: transform 0.3s var(--ease);
+}
+
+.cpanel-go svg {
+  width: 50%;
+  height: 50%;
+}
+
+.cpanel-row:focus-visible,
+.cpanel-close:focus-visible {
+  outline: 2.5px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.cpanel-row:active {
+  transform: scale(0.985);
+  transition-duration: 0.1s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cpanel-row:hover {
+    background: #f8fbff;
+    box-shadow: inset 0 0 0 1px var(--tone-line), 0 14px 26px -18px rgba(7, 28, 75, 0.5);
+  }
+  .cpanel-row:hover .cpanel-go {
+    transform: translateX(-3px);
+  }
+  .cpanel-close:hover {
+    background: var(--ice);
+  }
+}
+
+/* phones: a sheet from the bottom of the screen */
+@media (max-width: 599.98px) {
+  .cpanel {
+    width: 100%;
+    max-height: 92dvh;
+    margin: auto 0 0;
+  }
+  .cpanel[open] {
+    animation-name: cpanel-up;
+  }
+  .cpanel-in {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    border-radius: 26px 26px 0 0;
+  }
+  .cpanel-grip {
+    display: block;
+    width: 44px;
+    height: 5px;
+    margin: -14px auto 14px;
+    border-radius: 5px;
+    background: #cfdbea;
+  }
+}
+
+@keyframes cpanel-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cpanel[open],
+  .cpanel[open]::backdrop {
+    animation: none;
+  }
+  .acard-in,
+  .acard-img,
+  .cpanel-row,
+  .cpanel-go {
+    transition: none;
+  }
+}

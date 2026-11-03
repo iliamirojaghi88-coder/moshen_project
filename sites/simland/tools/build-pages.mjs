@@ -51,12 +51,24 @@ async function heroStill(single) {
 // source/mapping.json: the client's photo, name, short text, icon and tone.
 async function productCards(single) {
   const { products } = JSON.parse(await readFile(at('source/mapping.json'), 'utf8'));
+  const { categories } = await catalog();
   const cards = [];
   for (const p of products) {
+    // a card whose category has its own page links to it (the whole card is the link)
+    const category = categories.find((c) => c.homeCard === p.slug);
+    const cta = category
+      ? `<a class="pcard-cta" href="#/products/${category.id}">
+                <span>مشاهده محصولات</span><span class="sr-only"> ${esc(category.name)}</span>
+                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+              </a>`
+      : `<a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
+                <span>مشاهده محصولات</span>
+                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+              </a>`;
     const file = at('assets/images/products', `${p.slug}.webp`);
     const { width, height } = await sharp(file).metadata();
     const src = single ? await dataUri(file) : `assets/images/products/${p.slug}.webp`;
-    cards.push(`        <li class="pcard" data-tone="${p.tone}" data-reveal="up">
+    cards.push(`        <li class="pcard${category ? ' is-linked' : ''}" data-tone="${p.tone}" data-reveal="up">
           <article class="pcard-in" aria-labelledby="prod-${p.slug}">
             <div class="pcard-media" aria-hidden="true">
               <svg class="pcard-mark"><use href="#p-${p.icon}"/></svg>
@@ -67,10 +79,7 @@ async function productCards(single) {
               <span class="pcard-dash" aria-hidden="true"></span>
               <h3 class="pcard-title" id="prod-${p.slug}">${p.name}</h3>
               <p class="pcard-text">${p.text}</p>
-              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
-                <span>مشاهده محصولات</span>
-                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
-              </a>
+              ${cta}
             </div>
           </article>
         </li>`);
@@ -161,6 +170,125 @@ async function contactArt(single) {
   return `          <img class="contact-phone" src="${src}" alt="گوشی هوشمند با آیکون تماس، روی پایه‌ی شیشه‌ای آبی و سبز" width="${width}" height="${height}" loading="lazy" decoding="async" draggable="false">`;
 }
 
+// ---------------------------------------------------------------- catalogue pages
+// assets/data/catalog.json: categories and products. Each category gets its page
+// (#/products/<category>) with a grid of product cards, each product its page
+// (#/products/<category>/<id>). They are <main class="route-view" hidden> blocks
+// after the home page; home.js shows the one the address asks for. In the
+// one-file page each product photo is embedded once (#media-data) and set on its
+// <img data-media> when a page is shown.
+async function catalog() {
+  return JSON.parse(await readFile(at('assets/data/catalog.json'), 'utf8'));
+}
+
+async function catalogPages(single) {
+  const { categories, products } = await catalog();
+  const media = {};
+  const img = async (p, cls, eager) => {
+    const file = at('assets/images/catalog', `${p.image}.webp`);
+    const { width, height } = await sharp(file).metadata();
+    if (single) media[p.image] = await dataUri(file);
+    const src = single ? `data-media="${p.image}"` : `src="assets/images/catalog/${p.image}.webp"`;
+    return `<img class="${cls}" ${src} alt="${esc(p.imageAlt)}" width="${width}" height="${height}" decoding="async"${eager ? '' : ' loading="lazy"'} draggable="false">`;
+  };
+  const crumbs = (items) => `      <nav class="rv-crumbs" aria-label="مسیر صفحه">
+        ${items.map(([text, href]) => (href ? `<a href="${href}">${esc(text)}</a>` : `<span aria-current="page">${esc(text)}</span>`)).join('<span class="rv-sep" aria-hidden="true">/</span>')}
+      </nav>`;
+  const inquiry = (p, cls) => `<button type="button" class="${cls}" data-inquiry aria-haspopup="dialog" aria-label="استعلام قیمت ${esc(p.name)}"><svg aria-hidden="true"><use href="#i-tag"/></svg><span>استعلام قیمت</span></button>`;
+  const titled = (name, accent) => (accent && name.includes(accent) ? esc(name).replace(esc(accent), `<span class="accent">${esc(accent)}</span>`) : esc(name));
+  const pages = [];
+  for (const c of categories) {
+    const items = products.filter((p) => p.category === c.id);
+    const cards = [];
+    for (const p of items) {
+      cards.push(`          <li class="acard">
+            <article class="acard-in" aria-labelledby="acard-${p.id}">
+              <a class="acard-link" href="#/products/${c.id}/${p.id}">
+                <span class="acard-media">${await img(p, 'acard-img', false)}</span>
+                <span class="acard-body"><span class="acard-title" id="acard-${p.id}" role="heading" aria-level="2">${esc(p.name)}</span></span>
+              </a>
+              ${inquiry(p, 'acard-inquiry')}
+            </article>
+          </li>`);
+    }
+    pages.push(`<main class="route-view rv-category" data-route="/products/${c.id}" data-title="${esc(c.name)} | سیم‌لند" aria-labelledby="cat-${c.id}-title" hidden>
+    <div class="rv-wrap">
+${crumbs([['خانه', '#top'], ['محصولات', '#products'], [c.name]])}
+      <header class="rv-head">
+        <h1 class="rv-title" id="cat-${c.id}-title" tabindex="-1">${titled(c.name, c.accent)}</h1>
+        <p class="rv-lede">${esc(c.description)}</p>
+        <a class="rv-back" href="#products"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>بازگشت به محصولات</span></a>
+      </header>
+      <div class="agrid-wrap">
+        <ul class="agrid" role="list">
+${cards.join('\n')}
+        </ul>
+      </div>
+    </div>
+  </main>`);
+    for (const p of items) {
+      pages.push(`<main class="route-view rv-product" data-route="/products/${c.id}/${p.id}" data-title="${esc(p.name)} | سیم‌لند" aria-labelledby="pd-${p.id}" hidden>
+    <div class="rv-wrap">
+${crumbs([['خانه', '#top'], ['محصولات', '#products'], [c.name, `#/products/${c.id}`], [p.name]])}
+      <article class="pdetail">
+        <div class="pdetail-info">
+          <p class="pdetail-en" lang="en" dir="ltr">${esc(p.nameEn)}</p>
+          <h1 class="pdetail-title" id="pd-${p.id}" tabindex="-1">${esc(p.name)}</h1>
+          <p class="pdetail-label" id="pd-${p.id}-codes">کدهای فنی</p>
+          <ul class="pdetail-codes" role="list" aria-labelledby="pd-${p.id}-codes">${p.codes.map((k) => `<li dir="ltr" lang="en">${esc(k)}</li>`).join('')}</ul>
+${p.description ? `          <p class="pdetail-desc">${esc(p.description)}</p>
+` : ''}          <section class="pdetail-block" aria-labelledby="pd-${p.id}-use">
+            <h2 class="pdetail-h" id="pd-${p.id}-use">کاربرد</h2>
+            <p class="pdetail-text">${esc(p.application)}</p>
+          </section>
+          <section class="pdetail-block" aria-labelledby="pd-${p.id}-build">
+            <h2 class="pdetail-h" id="pd-${p.id}-build">ساختار</h2>
+            <p class="pdetail-structure" dir="ltr" lang="en">${esc(p.structure)}</p>
+            <p class="pdetail-note">${esc(p.structureNote)}</p>
+          </section>
+          ${inquiry(p, 'btn btn-primary pdetail-inquiry')}
+        </div>
+        <div class="pdetail-media">${await img(p, 'pdetail-img', true)}</div>
+      </article>
+      <a class="rv-back" href="#/products/${c.id}"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>بازگشت به ${esc(c.name)}</span></a>
+    </div>
+  </main>`);
+    }
+  }
+  const mediaJson = single ? `\n<script type="application/json" id="media-data">${JSON.stringify(media)}</script>` : '';
+  return pages.join('\n\n') + mediaJson;
+}
+
+// The contact panel of «استعلام قیمت» (a <dialog>, one for the whole site): the same
+// numbers as the contact section (assets/js/site-config.js), one row (one tel: link,
+// the whole row) per number; no address.
+async function contactPanel() {
+  const { contact } = await import(pathToFileURL(at('assets/js/site-config.js')).href);
+  const rows = [];
+  for (const g of contact.groups) {
+    const icon = g.tone === 'green' ? 'c-office' : 'c-phone';
+    for (const raw of g.numbers || []) {
+      const n = String(raw).replace(/[^\d+]/g, '');
+      if (!n) continue;
+      rows.push(`        <li><a class="cpanel-row" data-tone="${g.tone}" href="tel:${n}"><span class="sr-only">تماس با </span><span class="cpanel-icon" aria-hidden="true"><svg><use href="#${icon}"/></svg></span><span class="cpanel-text"><span class="cpanel-label">${esc(g.label)}</span><span class="cpanel-number" dir="ltr">${phoneGroups(n)}</span></span><span class="cpanel-go" aria-hidden="true"><svg><use href="#c-chevron"/></svg></span></a></li>`);
+    }
+  }
+  return `<dialog class="cpanel" id="contact-panel" aria-labelledby="cpanel-title" aria-describedby="cpanel-hint">
+  <div class="cpanel-in">
+    <span class="cpanel-grip" aria-hidden="true"></span>
+    <button type="button" class="cpanel-close" data-close aria-label="بستن"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    <header class="cpanel-head">
+      <span class="cpanel-badge" aria-hidden="true"><svg><use href="#c-ring"/></svg></span>
+      <h2 class="cpanel-title" id="cpanel-title">تماس با ما</h2>
+    </header>
+    <p class="cpanel-hint" id="cpanel-hint">برای تماس، روی شماره دلخواه بزنید</p>
+    <ul class="cpanel-list" role="list">
+${rows.join('\n')}
+    </ul>
+  </div>
+</dialog>`;
+}
+
 // the SIMLAND folder of the résumé section (the client's 3D image, tools/build-cutouts.py)
 async function resumeArt(single) {
   const file = at('assets/images/resume/folder.webp');
@@ -221,6 +349,8 @@ async function page(single) {
     '<!-- contact -->': await contactCards(),
     '<!-- contact-art -->': await contactArt(single),
     '<!-- resume-art -->': await resumeArt(single),
+    '<!-- catalog-pages -->': await catalogPages(single),
+    '<!-- contact-panel -->': await contactPanel(),
     '<!-- body-scripts -->': bodyScripts,
   };
   // function replacements: the inlined code may contain "$&"-style sequences

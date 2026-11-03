@@ -26,6 +26,9 @@ function goTo(id, behavior) {
   return true;
 }
 
+// the catalogue page on screen (null: the home page); see «catalogue pages» below
+let routeView = null;
+
 // ---------------------------------------------------------------- the menu follows the page
 // One state and one place that changes it: setActive(). What is in view comes from
 // two IntersectionObservers: a thin line across the screen at 35% of its height
@@ -94,7 +97,7 @@ if ('IntersectionObserver' in window) {
   const sections = new Map([[document.querySelector('.hero'), 'top'], ...['products', 'why', 'resume', 'contact'].map((id) => [document.getElementById(id), navKey[id]])]);
   const line = new IntersectionObserver((entries) => {
     for (const e of entries) if (e.isIntersecting) onLine = sections.get(e.target);
-    if (!jump) setActive(inView());
+    if (!jump && !routeView) setActive(inView());
   }, { rootMargin: '-35% 0px -64% 0px' });
   for (const el of sections.keys()) if (el) line.observe(el);
   const contact = document.getElementById('contact');
@@ -105,7 +108,7 @@ if ('IntersectionObserver' in window) {
     contact.append(marker);
     new IntersectionObserver(([e]) => {
       atEnd = e.isIntersecting;
-      if (!jump) setActive(inView());
+      if (!jump && !routeView) setActive(inView());
     }).observe(marker);
   }
 }
@@ -113,6 +116,13 @@ if ('IntersectionObserver' in window) {
 document.querySelectorAll('[data-scroll]').forEach((link) => {
   link.addEventListener('click', (e) => {
     const id = link.getAttribute('href').slice(1);
+    // from a catalogue page: back to the home page, at that section (Back returns here)
+    if (routeView) {
+      e.preventDefault();
+      history.pushState(null, '', id === 'top' ? location.pathname + location.search : `#${id}`);
+      showRoute();
+      return;
+    }
     if (!goTo(id, reducedMotion ? 'auto' : 'smooth')) return;
     e.preventDefault();
     startJump(navKey[id] || 'top');
@@ -173,6 +183,94 @@ if (resumeLink) {
       if (route === 'embedded-download') resumeLink.setAttribute('download', 'simland-resume.pdf');
     });
   }
+}
+
+// ---------------------------------------------------------------- catalogue pages
+// The category and product pages are <main class="route-view" data-route> blocks
+// after the home page (built from assets/data/catalog.json). The address says which
+// one is shown: #/products/<category> or #/products/<category>/<id>. A hash, so a
+// direct link, Refresh and Back work everywhere: on a web server, from the disk,
+// in the one-file page and from a phone's file manager. Any other address shows
+// the home page: where it was left, or at the #section the address names.
+const homeMain = document.getElementById('top');
+const routeViews = [...document.querySelectorAll('.route-view')];
+const homeTitle = document.title;
+let homeY = 0;
+let mediaData = null;
+
+// in the one-file page each product photo is embedded once (#media-data)
+function showMedia(view) {
+  const imgs = view.querySelectorAll('img[data-media]:not([src])');
+  if (!imgs.length) return;
+  if (!mediaData) {
+    const el = document.getElementById('media-data');
+    mediaData = el ? JSON.parse(el.textContent) : {};
+  }
+  imgs.forEach((img) => {
+    if (mediaData[img.dataset.media]) img.src = mediaData[img.dataset.media];
+  });
+}
+
+function showRoute() {
+  const path = location.hash.startsWith('#/') ? location.hash.slice(1) : '';
+  const view = routeViews.find((v) => v.dataset.route === path);
+  if (view) {
+    if (!routeView) homeY = scrollY;
+    homeMain.hidden = true;
+    routeViews.forEach((v) => (v.hidden = v !== view));
+    routeView = view;
+    showMedia(view);
+    document.title = view.dataset.title;
+    setActive('products');
+    scrollTo({ top: 0, behavior: 'instant' });
+    view.querySelector('h1').focus({ preventScroll: true });
+    return;
+  }
+  if (!routeView) return;
+  routeViews.forEach((v) => (v.hidden = true));
+  homeMain.hidden = false;
+  routeView = null;
+  document.title = homeTitle;
+  const id = location.hash.slice(1);
+  const section = id && document.getElementById(id);
+  if (id === 'top') goTo('top', 'instant');
+  else if (section && homeMain.contains(section)) goTo(id, 'instant');
+  else scrollTo({ top: homeY, behavior: 'instant' });
+}
+
+addEventListener('hashchange', showRoute);
+showRoute();
+
+// ---------------------------------------------------------------- the contact panel («استعلام قیمت»)
+// One <dialog> for the whole site (#contact-panel): every [data-inquiry] button opens
+// it. A centred card on larger screens, a sheet from the bottom on phones; closed by
+// ×, Escape or a tap outside it; the page behind does not scroll; focus goes back to
+// the button that opened it. Without <dialog> support the button leads to #contact.
+const panel = document.getElementById('contact-panel');
+if (panel) {
+  let opener = null;
+  const closePanel = () => panel.open && panel.close();
+  document.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-inquiry]');
+    if (!trigger) return;
+    e.preventDefault();
+    if (typeof panel.showModal !== 'function') {
+      location.hash = '#contact';
+      return;
+    }
+    opener = trigger;
+    document.documentElement.classList.add('panel-open');
+    panel.showModal();
+  });
+  panel.addEventListener('click', (e) => {
+    if (e.target === panel) closePanel(); // the dimmed area around the card
+  });
+  panel.querySelector('[data-close]').addEventListener('click', closePanel);
+  panel.addEventListener('close', () => {
+    document.documentElement.classList.remove('panel-open');
+    if (opener) opener.focus({ preventScroll: true });
+    opener = null;
+  });
 }
 
 // opened with #products or #contact: land on the section once the fonts have settled the layout

@@ -45,7 +45,7 @@ const LEDE = 'کامل‌ترین مجموعه نمایندگی سیم و کاب
     const hero = await page.evaluate((LEDE) => {
       const fails = [];
       const R = (e) => e.getBoundingClientRect();
-      const h1s = document.querySelectorAll('h1');
+      const h1s = [...document.querySelectorAll('h1')].filter((h) => h.getClientRects().length); // visible (the catalogue pages are hidden)
       const h1 = document.querySelector('.hero-title');
       if (h1s.length !== 1 || h1s[0] !== h1) fails.push('not the one H1');
       if (h1.textContent !== LEDE) fails.push('H1 text: ' + h1.textContent);

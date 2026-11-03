@@ -1,0 +1,27 @@
+{
+  "_doc": "Product categories and products of the catalogue pages (built by tools/build-pages.mjs). A category with homeCard links the home page card of that slug (source/mapping.json) to its page. Each product: id, category, name, nameEn, image (assets/images/catalog/<image>.webp), imageAlt, codes, description, application, structure, structureNote; its page is #/products/<category>/<id>.",
+  "categories": [
+    {
+      "id": "armored",
+      "name": "کابل آرموردار",
+      "accent": "آرموردار",
+      "description": "انواع کابل‌های آرموردار با ساختار مقاوم و مناسب کاربردهای صنعتی",
+      "homeCard": "power"
+    }
+  ],
+  "products": [
+    {
+      "id": "armored-copper-cable",
+      "category": "armored",
+      "name": "کابل تک‌رشته و چندرشته مسلح (زره‌دار)",
+      "nameEn": "Armored Copper Cable",
+      "image": "armored-copper-cable",
+      "imageAlt": "کابل مسلح سیم‌لند: هادی مسی چندلایه، زره فلزی و روکش مشکی",
+      "codes": ["N2XRY", "NYRY", "N2XBY", "NYBY"],
+      "description": "",
+      "application": "این نوع کابل برای تأسیسات داخل یا خارج ساختمان، نصب ثابت در زیرزمین، داکت‌ها و محیط‌هایی که کابل به محافظت مکانیکی نیاز دارد، کاربرد دارد. همچنین در شرایطی که احتمال آتش‌سوزی وجود دارد، بسته به مشخصات محصول می‌توان از انواع دارای مواد کندسوز یا LSZH استفاده کرد.",
+      "structure": "Cu/PVC/Bd/SWA/PVC",
+      "structureNote": "ساختار بالا مربوط به نمونه‌ی مرجع است؛ مشخصات ساختاری بسته به کد کابل می‌تواند متفاوت باشد."
+    }
+  ]
+}
