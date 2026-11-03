@@ -38,7 +38,11 @@ const ADDRESS = 'قم، خیابان مفتح، نبش کوچه ۶';
       const sec = document.getElementById('contact');
       const main = document.querySelector('main');
       if (main.lastElementChild !== sec) fails.push('contact is not the last section');
-      if (document.querySelector('footer') || [...document.body.children].some((e) => !['SCRIPT', 'MAIN', 'HEADER', 'svg', 'SVG'].includes(e.tagName))) fails.push('something after/around the sections');
+      // nothing visible after or around the sections (the closed contact panel and the
+      // hidden catalogue pages are not shown on the home page)
+      const shown = (e) => !(e.tagName === 'DIALOG' && !e.open) && !(e.tagName === 'MAIN' && e.hidden);
+      if (document.querySelector('footer') || [...document.body.children].some((e) => shown(e) && !['SCRIPT', 'MAIN', 'HEADER', 'svg', 'SVG'].includes(e.tagName))) fails.push('something after/around the sections');
+      if ([...document.querySelectorAll('body > main')].filter((m) => !m.hidden).length !== 1) fails.push('more than one page shown');
       // the section before the contact: the résumé (since 2026-10-31), before that «چرا سیم‌لند؟»
       const why = R(sec.previousElementSibling);
       const S = R(sec);
