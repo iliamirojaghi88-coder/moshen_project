@@ -2670,6 +2670,49 @@ html:not(.js) .pdetail-acc[open] .pdetail-acc-icon {
   }
 }
 
+/* a product photo with few pixels (.is-low, --native-h set by the build): never drawn with more device
+   pixels than it has, whatever the layout asks for */
+.pdetail-img.is-low {
+  max-height: var(--native-h);
+}
+
+/* each density band divides by its own top, so no screen in the band gets more device pixels than the photo has */
+@media (min-resolution: 1.01dppx) {
+  .pdetail-img.is-low {
+    max-height: calc(var(--native-h) / 1.25);
+  }
+}
+
+@media (min-resolution: 1.26dppx) {
+  .pdetail-img.is-low {
+    max-height: calc(var(--native-h) / 1.5);
+  }
+}
+
+@media (min-resolution: 1.51dppx) {
+  .pdetail-img.is-low {
+    max-height: calc(var(--native-h) / 2);
+  }
+}
+
+@media (min-resolution: 2.01dppx) {
+  .pdetail-img.is-low {
+    max-height: calc(var(--native-h) / 2.75);
+  }
+}
+
+@media (min-resolution: 2.76dppx) {
+  .pdetail-img.is-low {
+    max-height: calc(var(--native-h) / 3);
+  }
+}
+
+@media (min-resolution: 3.01dppx) {
+  .pdetail-img.is-low {
+    max-height: calc(var(--native-h) / 4);
+  }
+}
+
 /* ---------------------------------------------------------------- the contact panel («استعلام قیمت»)
    One <dialog> for the whole site: a centred card on larger screens, a sheet from
    the bottom on phones. Three separate rows, each one tel: link over its whole area. */

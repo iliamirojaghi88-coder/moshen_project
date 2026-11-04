@@ -191,7 +191,9 @@ async function catalogPages(single) {
     const { width, height } = await sharp(file).metadata();
     if (single) media[p.image] = await dataUri(file);
     const src = single ? `data-media="${p.image}"` : `src="assets/images/catalog/${p.image}.webp"`;
-    return `<img class="${cls}" ${src} alt="${esc(p.imageAlt)}" width="${width}" height="${height}" decoding="async"${eager ? '' : ' loading="lazy"'} draggable="false">`;
+    // a photo with fewer pixels than the product frame was drawn for (1692 px high): never shown larger than them
+    const low = cls === 'pdetail-img' && height < 1692 ? ` style="--native-h: ${height}px"` : '';
+    return `<img class="${cls}${low ? ' is-low' : ''}" ${src} alt="${esc(p.imageAlt)}" width="${width}" height="${height}"${low} decoding="async"${eager ? '' : ' loading="lazy"'} draggable="false">`;
   };
   // a very slim photo (more than 5× as tall as wide) gets a taller frame on the product page
   const slim = async (p) => {
