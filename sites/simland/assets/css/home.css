@@ -644,6 +644,8 @@ svg {
   opacity: 0.09;
 }
 
+/* every cable at one height (--s: a per-photo weight, 1 unless set in mapping.json);
+   a very wide one (the telecom fan) is fitted into 92% of the frame, never cut */
 .pcard-media img {
   position: absolute;
   bottom: -9%;
@@ -651,8 +653,10 @@ svg {
   z-index: 1;
   display: block;
   width: auto;
-  height: 99%;
-  max-width: none;
+  height: calc(99% * var(--s, 1));
+  max-width: 92%;
+  object-fit: contain;
+  object-position: 50% 100%;
   transform: translateX(-50%);
   -webkit-user-drag: none;
   user-select: none;
@@ -861,7 +865,7 @@ svg {
      widest one (0.63 as wide as tall) leaves its 44% column */
   .pcard-media img {
     bottom: -8%;
-    height: min(96%, 64cqi);
+    height: calc(min(96%, 64cqi) * var(--s, 1));
   }
   .pcard-body {
     padding: 18px 20px 18px 6px;

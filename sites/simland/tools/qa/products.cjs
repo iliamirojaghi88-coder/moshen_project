@@ -8,9 +8,12 @@ const [file, out] = process.argv.slice(2);
 fs.mkdirSync(out, { recursive: true });
 const VP = process.env.VP
   ? JSON.parse(process.env.VP)
-  : [[320, 640, 2], [360, 800, 3], [375, 812, 3], [390, 844, 3], [430, 932, 3], [768, 1024, 2], [1024, 768, 1], [1180, 820, 2], [1200, 800, 1], [1366, 768, 1], [1536, 864, 1.25], [1920, 1080, 1]];
+  : [[320, 640, 2], [360, 800, 3], [375, 812, 3], [390, 844, 3], [412, 915, 2.625], [430, 932, 3], [768, 1024, 2], [1024, 768, 1], [1180, 820, 2], [1200, 800, 1], [1280, 800, 1], [1366, 768, 1], [1440, 900, 1], [1536, 864, 1.25], [1920, 1080, 1]];
 // names in page order (right to left), each matching what its image shows (client's labelled reference)
-const ORDER = ['کابل کنترل افشان', 'سیم و کابل ساختمانی', 'کابل آرموردار', 'کابل فشار ضعیف', 'کابل ابزار دقیق', 'کابل قدرت', 'کابل نسوز', 'کابل آلومینیومی', 'کابل سولار', 'کابل جوش'];
+const ORDER = ['کابل کنترل افشان', 'سیم و کابل ساختمانی', 'کابل آرموردار', 'کابل آسانسوری', 'کابل ابزار دقیق', 'کابل مخابراتی', 'کابل نسوز', 'کابل آلومینیومی', 'کابل سولار', 'کابل جوش'];
+// each card's symbol (the icon in the corner and the faint mark behind the cable) and its photo's pixel size
+const ICONS = ['gear', 'house', 'shield', 'elevator', 'precision', 'telecom', 'flame', 'conductor', 'sun', 'spark'];
+const PHOTOS = { 'کابل آسانسوری': [405, 640], 'کابل مخابراتی': [506, 640], 'کابل سولار': [223, 640] };
 
 (async () => {
   const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
@@ -40,7 +43,7 @@ const ORDER = ['کابل کنترل افشان', 'سیم و کابل ساختم�
     await page.waitForTimeout(300);
     // coming back into view restarts the hero's loop: stop it again (software WebGL is slow)
     await page.evaluate(() => { if (window.__hero) { window.__hero.pause(); window.__hero.renderAt(9); } });
-    const r = await page.evaluate((ORDER) => {
+    const r = await page.evaluate(([ORDER, ICONS, PHOTOS]) => {
       const R = (e) => e.getBoundingClientRect();
       const fails = [];
       const sc = R(document.querySelector('[data-scene]'));
@@ -89,10 +92,23 @@ const ORDER = ['کابل کنترل افشان', 'سیم و کابل ساختم�
       cards.forEach((card, i) => {
         const c = cr[i];
         const media = R(card.querySelector('.pcard-media'));
-        const img = R(card.querySelector('.pcard-media img'));
+        const el = card.querySelector('.pcard-media img');
+        const box = R(el);
         const name = ORDER[i];
-        imgH.push(+img.height.toFixed(1));
-        if (img.left < media.left - 0.5 || img.right > media.right + 0.5) fails.push(name + ': cable cut at the side');
+        // the picture as drawn (object-fit: contain, bottom centre), not its box
+        const k = Math.min(box.width / el.naturalWidth, box.height / el.naturalHeight);
+        const pw = el.naturalWidth * k, ph = el.naturalHeight * k;
+        const img = { left: box.left + (box.width - pw) / 2, right: box.left + (box.width + pw) / 2, top: box.bottom - ph, bottom: box.bottom, width: pw, height: ph };
+        if (!el.complete || !el.naturalWidth) fails.push(name + ': photo not loaded');
+        const s = parseFloat(getComputedStyle(el).getPropertyValue('--s')) || 1;
+        // one height for all (÷ the photo's own weight), unless the 92% width cap had to fit a very wide one
+        const capped = box.width < el.naturalWidth * (box.height / el.naturalHeight) - 0.5;
+        imgH.push(capped ? null : +(ph / s).toFixed(1));
+        if (capped && box.width > media.width * 0.92 + 0.5) fails.push(name + ': wider than 92% of its picture');
+        const uses = [...card.querySelectorAll('.pcard-mark use, .pcard-icon use')].map((u) => u.getAttribute('href'));
+        if (uses.length !== 2 || uses.some((h) => h !== '#p-' + ICONS[i]) || !document.getElementById('p-' + ICONS[i])) fails.push(name + ': symbol ' + uses.join());
+        if (PHOTOS[name] && (el.naturalWidth !== PHOTOS[name][0] || el.naturalHeight !== PHOTOS[name][1])) fails.push(name + ': not its new photo ' + el.naturalWidth + 'x' + el.naturalHeight);
+        if (img.left < media.left + 2 || img.right > media.right - 2) fails.push(name + ': cable cut at the side');
         if (img.top < media.top + 2) fails.push(name + ': cable top cut');
         const visible = (Math.min(img.bottom, media.bottom) - img.top) / img.height;
         if (visible < 0.85) fails.push(name + `: only ${Math.round(visible * 100)}% of the cable shows`);
@@ -112,10 +128,11 @@ const ORDER = ['کابل کنترل افشان', 'سیم و کابل ساختم�
         }
         if (i === 0) layout.push(getComputedStyle(card.querySelector('.pcard-in')).flexDirection === 'row-reverse' ? 'side-by-side' : 'stacked', Math.round(c.width) + 'x' + Math.round(c.height));
       });
-      if (Math.max(...imgH) - Math.min(...imgH) > 1) fails.push('cables not at one size: ' + imgH.join(','));
+      const hs = imgH.filter((x) => x !== null);
+      if (Math.max(...hs) - Math.min(...hs) > 1) fails.push('cables not at one size: ' + imgH.join(','));
       const sec = R(document.getElementById('products'));
-      return { cols, rows: rows.length, colGap, rowGap, layout, cableH: imgH[0], heroToProducts: Math.round(sec.top - Math.max(act.bottom, sc.bottom)), fails };
-    }, ORDER);
+      return { cols, rows: rows.length, colGap, rowGap, layout, cableH: hs[0], capped: imgH.map((x, i) => (x === null ? ORDER[i] : '')).filter(Boolean), heroToProducts: Math.round(sec.top - Math.max(act.bottom, sc.bottom)), fails };
+    }, [ORDER, ICONS, PHOTOS]);
     const tag = `${w}x${h}`;
     // the hero from the first view (a full-page capture resizes the window, which rebuilds the live canvas)
     // software WebGL draws a large 2x hero slowly: give the captures time
@@ -124,7 +141,7 @@ const ORDER = ['کابل کنترل افشان', 'سیم و کابل ساختم�
     await page.screenshot({ path: path.join(out, `${tag}-products.png`), clip: { x: 0, y: sec.y, width: w, height: Math.min(sec.height, 2600) }, fullPage: true, timeout: 120000 });
     const ok = !r.fails.length && !errors.length;
     if (!ok) failed++;
-    console.log(`${ok ? 'PASS' : 'FAIL'} ${w}x${h}@${dpr} cols ${r.cols} rows ${r.rows} gap ${r.colGap}/${r.rowGap} card ${r.layout.join(' ')} cable ${r.cableH}px hero→products ${r.heroToProducts}px ${r.fails.concat(errors).join('; ')}`);
+    console.log(`${ok ? 'PASS' : 'FAIL'} ${w}x${h}@${dpr} cols ${r.cols} rows ${r.rows} gap ${r.colGap}/${r.rowGap} card ${r.layout.join(' ')} cable ${r.cableH}px${r.capped.length ? ' (fitted to 92%: ' + r.capped.join(', ') + ')' : ''} hero→products ${r.heroToProducts}px ${r.fails.concat(errors).join('; ')}`);
     await page.close();
   }
   await browser.close();

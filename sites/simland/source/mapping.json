@@ -1,5 +1,5 @@
 {
-  "_note": "Page order (right to left) of the ten cards. Each entry: the image (slug, photo) and the card's tone stay with the position; name, text, icon and category follow what the image shows, matched to the client's labelled reference photo. Images: node tools/build-images.mjs; page: node tools/build-pages.mjs",
+  "_note": "Page order (right to left) of the ten cards. Each entry: the image (slug, photo) and the card's tone stay with the position; name, text, icon and category follow what the image shows, matched to the client's labelled reference photo. Images: node tools/build-images.mjs; page: node tools/build-pages.mjs Optional scale: a per-photo visual weight (1 = the common height), for a cable much bulkier than the rest.",
   "products": [
     {
       "slug": "building",
@@ -29,13 +29,14 @@
       "tone": "green"
     },
     {
-      "slug": "aluminium",
-      "name": "کابل فشار ضعیف",
-      "photo": "photo-07.jpg",
+      "slug": "elevator",
+      "name": "کابل آسانسوری",
+      "photo": "elevator-cable.png",
       "category": "building",
-      "text": "مناسب برای توزیع انرژی در شبکه‌های فشار ضعیف",
-      "icon": "lv",
-      "tone": "blue"
+      "text": "مخصوص اتصال کابین و سیستم‌های کنترل آسانسور",
+      "icon": "elevator",
+      "tone": "blue",
+      "scale": 0.86
     },
     {
       "slug": "flexible-control",
@@ -47,12 +48,12 @@
       "tone": "blue"
     },
     {
-      "slug": "armoured",
-      "name": "کابل قدرت",
-      "photo": "photo-06.jpg",
-      "category": "industrial",
-      "text": "انتقال مطمئن انرژی در پروژه‌های صنعتی و نیروگاهی",
-      "icon": "bolt",
+      "slug": "telecom",
+      "name": "کابل مخابراتی",
+      "photo": "telecom-cable.png",
+      "category": "special",
+      "text": "مناسب برای شبکه‌های ارتباطی و انتقال داده",
+      "icon": "telecom",
       "tone": "green"
     },
     {
@@ -76,7 +77,7 @@
     {
       "slug": "low-voltage",
       "name": "کابل سولار",
-      "photo": "photo-08.jpg",
+      "photo": "solar-cable.png",
       "category": "special",
       "text": "ویژه سیستم‌های خورشیدی با مقاومت بالا در برابر UV",
       "icon": "sun",

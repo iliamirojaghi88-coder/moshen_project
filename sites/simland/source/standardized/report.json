@@ -27,19 +27,13 @@
     "end": "original"
   },
   {
-    "slug": "aluminium",
-    "photo": "photo-07.jpg",
+    "slug": "elevator",
+    "photo": "elevator-cable.png",
     "size": [
-      541,
-      1217
+      732,
+      1157
     ],
-    "end": "rebuilt",
-    "xc": 604.5,
-    "a": 267.0,
-    "b": 128.16,
-    "yc": 1170.84,
-    "bottom": 1299.0,
-    "length": 0.41
+    "end": "original"
   },
   {
     "slug": "flexible-control",
@@ -57,11 +51,11 @@
     "length": 1.0
   },
   {
-    "slug": "armoured",
-    "photo": "photo-06.jpg",
+    "slug": "telecom",
+    "photo": "telecom-cable.png",
     "size": [
-      280,
-      882
+      918,
+      1160
     ],
     "end": "original"
   },
@@ -91,18 +85,12 @@
   },
   {
     "slug": "low-voltage",
-    "photo": "photo-08.jpg",
+    "photo": "solar-cable.png",
     "size": [
-      344,
-      1130
+      614,
+      1753
     ],
-    "end": "rebuilt",
-    "xc": 547.0,
-    "a": 169.5,
-    "b": 81.36,
-    "yc": 1149.0,
-    "bottom": 1230.36,
-    "length": 1.0
+    "end": "original"
   },
   {
     "slug": "welding",

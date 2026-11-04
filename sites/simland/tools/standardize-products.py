@@ -8,7 +8,8 @@ For every photo listed in source/mapping.json:
      earlier along a true ellipse.
   2. Separate the product from the pure-black studio background (known-
      background matting) and write a trimmed RGBA master to
-     source/standardized/<slug>.png.
+     source/standardized/<slug>.png. A photo the client already supplied as a
+     transparent PNG keeps its own alpha and colours (only trimmed).
   3. Write QC sheets (before / after, on black, white and grey) to
      source/standardized/qc/.
 
@@ -124,6 +125,18 @@ def matte(img):
     return colour, alpha
 
 
+def cut_out(path):
+    """A photo supplied already cut out (RGBA with a transparent background): its own
+    colours and alpha, untouched. None for an opaque photo (matted from black)."""
+    im = Image.open(path)
+    if im.mode not in ("RGBA", "LA", "PA") and "transparency" not in im.info:
+        return None
+    rgba = np.asarray(im.convert("RGBA")).astype(np.float32) / 255.0
+    if rgba[..., 3].min() > 0.5:
+        return None
+    return rgba[..., :3], rgba[..., 3]
+
+
 def trim(colour, alpha, pad=2):
     ys, xs = np.where(alpha > 0.04)
     y0, y1 = max(0, ys.min() - pad), min(alpha.shape[0], ys.max() + pad + 1)
@@ -149,12 +162,16 @@ def main():
     tiles = []
     for p in mapping:
         photo = p["photo"]
-        img = load(SRC / photo)
         info = None
-        if photo in retouch["ends"]:
-            spec = retouch["ends"][photo]
-            img, info = rebuild_end(img, spec["rimY"], spec["length"])
-        colour, alpha = matte(img)
+        cut = cut_out(SRC / photo)
+        if cut is not None:
+            colour, alpha = cut
+        else:
+            img = load(SRC / photo)
+            if photo in retouch["ends"]:
+                spec = retouch["ends"][photo]
+                img, info = rebuild_end(img, spec["rimY"], spec["length"])
+            colour, alpha = matte(img)
         colour, alpha, box = trim(colour, alpha)
         master = to_rgba(colour, alpha)
         master.save(OUT / f"{p['slug']}.png", optimize=True)

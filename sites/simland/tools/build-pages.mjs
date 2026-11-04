@@ -72,7 +72,7 @@ async function productCards(single) {
           <article class="pcard-in" aria-labelledby="prod-${p.slug}">
             <div class="pcard-media" aria-hidden="true">
               <svg class="pcard-mark"><use href="#p-${p.icon}"/></svg>
-              <img src="${src}" alt="" width="${width}" height="${height}" loading="lazy" decoding="async" draggable="false">
+              <img src="${src}" alt="" width="${width}" height="${height}"${p.scale ? ` style="--s: ${p.scale}"` : ''} loading="lazy" decoding="async" draggable="false">
             </div>
             <div class="pcard-body">
               <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-${p.icon}"/></svg></span>

@@ -4,7 +4,29 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-11-04, instrumentation cable pages delivered, waiting for the user's approval)
+## Exact stop point (2026-11-04, product cards: elevator / telecom / solar photo, waiting for the user's approval)
+
+- Branch: `ccr-2cd3266d-qpjs3p`.
+- Done in this step («FINAL EXECUTION PROMPT — SIMLAND PRODUCT CARDS», surgical):
+  - position 4 «کابل فشار ضعیف» → «کابل آسانسوری» (slug `elevator`, photo `source/products/elevator-cable.png`,
+    symbol `p-elevator`: car on its rope between two guide rails); position 6 «کابل قدرت» → «کابل مخابراتی»
+    (slug `telecom`, `telecom-cable.png`, `p-telecom`: signal node with waves both ways); «کابل سولار»: photo only
+    (`solar-cable.png`, slug/name/icon/tone untouched). Tones stay with the positions (blue / green).
+  - card texts for the two new cards are mine (the brief gave none): «مخصوص اتصال کابین و سیستم‌های کنترل
+    آسانسور», «مناسب برای شبکه‌های ارتباطی و انتقال داده» — tell the user, replace if the client has wording.
+  - `standardize-products.py`: a photo supplied as a transparent PNG keeps its own colours/alpha (only trimmed);
+    the solar photo (opaque, black studio background) is matted like the original ten. The other seven masters
+    and card images are byte-identical; old `aluminium` / `armoured` masters and images removed; `p-lv`, `p-bolt`
+    removed (no other user).
+  - size rule: one height for all; `max-width: 92%` + `object-fit: contain` (bottom centre) so a very wide photo
+    (telecom fan in the side-by-side layout, 0.79 wide per height) is fitted, never cut; optional `scale` per
+    photo in mapping.json (`--s`), only the elevator (0.86: a flat block much bulkier than the rest).
+  - QA: `products.cjs` checks names, symbols (corner + mark), new photos, pictures as drawn (inside the box),
+    one height except declared scale / 92% fit, 15 widths; a pixel diff of the seven other cards against the
+    previous build.
+- **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`).
+
+### Previous step (2026-11-04): instrumentation cable pages
 
 - Branch: `ccr-2cd3266d-qpjs3p`.
 - Done in this step («FINAL IMPLEMENTATION PROMPT — SIMLAND INSTRUMENTATION CABLE», then the user's
