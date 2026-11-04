@@ -2504,6 +2504,32 @@ h2[tabindex='-1']:focus {
   letter-spacing: 0.04em;
 }
 
+/* sizes («کابل آلومینیومی»): one chip per size, each left to right («cores×section»), wrapping in rows */
+.pdetail-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 40em;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pdetail-sizes li {
+  min-width: 4.4em;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background: #f1f4f8;
+  box-shadow: inset 0 0 0 1px rgba(16, 42, 84, 0.08);
+  color: var(--navy);
+  font-size: clamp(0.88rem, 3.3cqi, 0.96rem);
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+}
+
 /* sub-headings inside a long text (the accordion of «کابل سولار») */
 .pdetail-sub {
   margin-top: 20px;
@@ -2596,10 +2622,11 @@ html:not(.js) .pdetail-acc[open] .pdetail-acc-icon {
   }
 }
 
-/* «کابل ابزار دقیق», «کابل سولار» and «کابل مخابراتی» pages: the codes in grey, the section titles in the site's blue */
+/* «کابل ابزار دقیق», «کابل سولار», «کابل مخابراتی» and «کابل آلومینیومی» pages: the codes in grey, the section titles in the site's blue */
 .pdetail[data-category='instrumentation'] .pdetail-codes span,
 .pdetail[data-category='solar'] .pdetail-codes span,
-.pdetail[data-category='telecom'] .pdetail-codes span {
+.pdetail[data-category='telecom'] .pdetail-codes span,
+.pdetail[data-category='aluminium'] .pdetail-codes span {
   background: #f1f4f8;
   color: #5b6a80;
   box-shadow: inset 0 0 0 1px rgba(16, 42, 84, 0.08);
@@ -2607,7 +2634,8 @@ html:not(.js) .pdetail-acc[open] .pdetail-acc-icon {
 
 .pdetail[data-category='instrumentation'] .pdetail-h,
 .pdetail[data-category='solar'] .pdetail-h,
-.pdetail[data-category='telecom'] .pdetail-h {
+.pdetail[data-category='telecom'] .pdetail-h,
+.pdetail[data-category='aluminium'] .pdetail-h {
   color: var(--brand);
 }
 

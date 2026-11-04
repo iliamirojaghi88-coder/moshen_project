@@ -206,7 +206,8 @@ async function catalogPages(single) {
     return height / width > 5;
   };
   // a section of the product page: a paragraph (text), a list (items), left-to-right code lines (code: one
-  // or a list, each may break after a «/» on a narrow phone), a table (specs: label, value, ltr?) or a run
+  // or a list, each may break after a «/» on a narrow phone), a table (specs: label, value, ltr?), size chips
+  // (sizes: a list of «cores×section» strings, each kept left to right) or a run
   // of blocks (content: {h} sub-heading, {p} paragraph, {list}); collapsible: an accordion, closed at first
   const list = (items, pad = '            ') => `<ul class="pdetail-list" role="list">\n${items.map((t) => `${pad}  <li>${esc(t)}</li>`).join('\n')}\n${pad}</ul>`;
   const section = (p, s) => {
@@ -217,7 +218,9 @@ async function catalogPages(single) {
         ? codes.map((c) => `<p class="pdetail-structure-line"><span class="pdetail-structure" dir="ltr" lang="en">${esc(c).replace(/\//g, '/<wbr>')}</span></p>`).join('\n            ')
         : s.specs
           ? `<dl class="pdetail-specs">\n${s.specs.map((r) => `              <div class="pdetail-spec"><dt>${esc(r.label)}</dt><dd${r.ltr ? ' dir="ltr" lang="en"' : ''}>${esc(r.value)}</dd></div>`).join('\n')}\n            </dl>`
-          : s.content
+          : s.sizes
+            ? `<ul class="pdetail-sizes" role="list">\n${s.sizes.map((t) => `              <li dir="ltr">${esc(t)}</li>`).join('\n')}\n            </ul>`
+            : s.content
             ? s.content.map((b) => (b.h ? `<h3 class="pdetail-sub">${esc(b.h)}</h3>` : b.list ? list(b.list, '              ') : `<p class="pdetail-text">${esc(b.p)}</p>`)).join('\n              ')
             : `<p class="pdetail-text">${esc(s.text)}</p>`;
     if (s.collapsible) {

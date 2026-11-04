@@ -132,6 +132,14 @@
           "adapted": true
         }
       ]
+    },
+    {
+      "id": "aluminium",
+      "name": "کابل آلومینیومی",
+      "accent": "آلومینیومی",
+      "description": "",
+      "homeCard": "solar",
+      "sourceNote": "Product data read from the client's three screenshots of ariancable.com (category, «کابل آلومینیومی چند رشته» and «تک رشته»); the site itself was unreachable from the container. Names without «آرین ابهر». Sizes: every value of the reference lists (34 multi-core, 13 single-core), shown as cores×section in ascending order. Standards: the reference lists ISIRI 607-02, ISIRI 3084, IEC 60227 and IEC 60228 for both; only IEC 60228 (conductors, includes aluminium) is published: IEC 60227 / ISIRI 607 cover PVC-insulated cables (these are XLPE) and ISIRI 3084 could not be verified. Photos: the client's own SIMLAND photos photo-07 (multi-core) and photo-01 (single-core, also the home card) via tools/aluminium-cutouts.py."
     }
   ],
   "products": [
@@ -337,6 +345,169 @@
           "id": "build",
           "title": "ساختار:",
           "code": "Cu/HDPE/OSCR/HDPE"
+        }
+      ]
+    },
+    {
+      "id": "aluminium-multi-core-cable",
+      "category": "aluminium",
+      "name": "کابل آلومینیومی چند رشته",
+      "image": "aluminium-multi-core-cable",
+      "imageAlt": "کابل آلومینیومی چند رشته سیم‌لند: چهار هادی آلومینیومی رشته‌ای با عایق‌های مجزا درون روکش بیرونی",
+      "description": "کابل آلومینیومی چند رشته بر اساس متراژ قیمت‌گذاری می‌شود.",
+      "sections": [
+        {
+          "id": "specs",
+          "title": "مشخصات فنی",
+          "specs": [
+            {
+              "label": "جنس عایق",
+              "value": "XLPE",
+              "ltr": true
+            },
+            {
+              "label": "نوع هادی",
+              "value": "آلومینیومی چند رشته"
+            }
+          ]
+        },
+        {
+          "id": "look",
+          "title": "ساختار ظاهری",
+          "text": "چند هادی فلزی با عایق‌های رنگی مجزا درون یک روکش بیرونی."
+        },
+        {
+          "id": "sizes",
+          "title": "سایزها",
+          "sizes": [
+            "۲×۶",
+            "۲×۱۰",
+            "۳×۱۰",
+            "۴×۱۰",
+            "۵×۱۰",
+            "۲×۱۶",
+            "۳×۱۶",
+            "۴×۱۶",
+            "۵×۱۶",
+            "۲×۲۵",
+            "۳×۲۵",
+            "۴×۲۵",
+            "۵×۲۵",
+            "۲×۳۵",
+            "۳×۳۵",
+            "۴×۳۵",
+            "۵×۳۵",
+            "۲×۵۰",
+            "۳×۵۰",
+            "۴×۵۰",
+            "۵×۵۰",
+            "۲×۷۰",
+            "۳×۷۰",
+            "۴×۷۰",
+            "۵×۷۰",
+            "۲×۹۵",
+            "۳×۹۵",
+            "۴×۹۵",
+            "۵×۹۵",
+            "۴×۱۲۰",
+            "۴×۱۵۰",
+            "۴×۱۸۵",
+            "۴×۲۴۰",
+            "۴×۳۰۰"
+          ]
+        },
+        {
+          "id": "more",
+          "title": "توضیحات",
+          "collapsible": true,
+          "afterInquiry": true,
+          "content": [
+            {
+              "h": "کابل آلومینیومی چند رشته"
+            },
+            {
+              "p": "XLPE"
+            },
+            {
+              "h": "استاندارد ملی کابل آلومینیومی چند رشته"
+            },
+            {
+              "list": [
+                "IEC 60228"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aluminium-single-core-cable",
+      "category": "aluminium",
+      "name": "کابل آلومینیومی تک رشته",
+      "image": "aluminium-single-core-cable",
+      "imageAlt": "کابل آلومینیومی تک رشته سیم‌لند: هادی آلومینیومی رشته‌ای فشرده با عایق و روکش مشکی",
+      "description": "کابل آلومینیومی تک رشته بر اساس متراژ قیمت‌گذاری می‌شود.",
+      "sections": [
+        {
+          "id": "specs",
+          "title": "مشخصات فنی",
+          "specs": [
+            {
+              "label": "جنس عایق",
+              "value": "XLPE",
+              "ltr": true
+            },
+            {
+              "label": "نوع هادی",
+              "value": "آلومینیومی تک رشته"
+            }
+          ]
+        },
+        {
+          "id": "look",
+          "title": "ساختار ظاهری",
+          "text": "هادی آلومینیومی رشته‌ای فشرده درون عایق و روکش مشکی."
+        },
+        {
+          "id": "sizes",
+          "title": "سایزها",
+          "sizes": [
+            "۱×۱۶",
+            "۱×۲۵",
+            "۱×۳۵",
+            "۱×۵۰",
+            "۱×۷۰",
+            "۱×۹۵",
+            "۱×۱۲۰",
+            "۱×۱۵۰",
+            "۱×۱۸۵",
+            "۱×۲۴۰",
+            "۱×۳۰۰",
+            "۱×۴۰۰",
+            "۱×۵۰۰"
+          ]
+        },
+        {
+          "id": "more",
+          "title": "توضیحات",
+          "collapsible": true,
+          "afterInquiry": true,
+          "content": [
+            {
+              "h": "کابل آلومینیومی تک رشته"
+            },
+            {
+              "p": "XLPE"
+            },
+            {
+              "h": "استاندارد ملی کابل آلومینیومی تک رشته"
+            },
+            {
+              "list": [
+                "IEC 60228"
+              ]
+            }
+          ]
         }
       ]
     }
