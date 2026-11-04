@@ -15,7 +15,13 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
   - images: `tools/cutout-model.py` (IS-Net ONNX in ~/.cache/simland-models, onnxruntime already installed).
 - Supply note: mapping `supply: "pending"` (نسوز, جوش, آسانسوری) → card click / Enter shows `#supply-toast` 2 s
   (fade 180 ms inside the 2 s; re-click restarts). Cards look identical (same `<a class="pcard-cta">`).
-- **Next action:** wait for the user's verdict. Still open: a verified map link (`mapUrl`); telecom sizes.
+- Delivered `SIMLAND-site-2026-11-04-1931f45.zip` + standalone (sent). Full sequential QA all PASS: catalog 4 cats ×
+  10 widths, supply 6/6 (also on the standalone), all 10 home cards pixel-identical, products, contact (test now
+  ignores `#supply-toast`, commit 1931f45), nav-spy, motion-nav, why, responsive, interact, fallback.
+- Report given to the user (Persian): sizes + outdoor insulation unpublished, «فکس» vs «کنترل» asked, Arian
+  sentence «خرید مستقیم از کارخانه...» removed, last section adapted for SimLand.
+- **Next action:** user is continuing in a new chat — wait for their verdict / next directive. Still open: a
+  verified map link (`mapUrl`); telecom sizes; «فکس»/«کنترل» answer.
 
 ### Previous step (2026-11-04): solar product page
 
