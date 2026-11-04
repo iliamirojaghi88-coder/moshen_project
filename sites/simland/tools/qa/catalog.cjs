@@ -1,25 +1,47 @@
-// node catalog.cjs <dist/index.html> <outdir>   (VP='[[w,h,dpr],…]')
-// The catalogue pages and the contact panel, as a visitor uses them (mouse or touch):
-// the home «کابل آرموردار» card opens its page; the grid (2 / 3 / 4 columns); the card
-// (whole photo, name, full-width «استعلام قیمت»); the product page; the panel from
-// both buttons (three tel: rows, each clickable over its whole area, × / Escape /
-// outside closes it, page behind does not scroll, focus returns); Back, Forward,
-// Refresh, direct links; the menu and «بازگشت» links back to the home page; the
-// live hero after coming back; no horizontal overflow, no console errors.
+// node catalog.cjs <dist/index.html> <outdir>   (VP='[[w,h,dpr],…]', CAT='armored,instrumentation')
+// The catalogue pages and the contact panel, as a visitor uses them (mouse or touch),
+// for every category: the home card opens its page; the grid (2 / 3 / 4 columns); the
+// card (whole photo, name, full-width «استعلام قیمت»); the product page and its exact
+// texts; the panel from both buttons (three tel: rows, each clickable over its whole
+// area, × / Escape / outside closes it, page behind does not scroll, focus returns);
+// Back, Forward, Refresh, direct links; the menu and «بازگشت» links back to the home
+// page; the live hero after coming back; no horizontal overflow, no console errors.
 const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
 const [file, out] = process.argv.slice(2);
 fs.mkdirSync(out, { recursive: true });
-const VP = process.env.VP ? JSON.parse(process.env.VP) : [[320, 640, 2], [375, 812, 3], [390, 844, 3], [430, 932, 3], [768, 1024, 2], [1024, 768, 2], [1440, 900, 1]];
+const VP = process.env.VP ? JSON.parse(process.env.VP) : [[320, 640, 2], [360, 780, 3], [375, 812, 3], [390, 844, 3], [430, 932, 3], [768, 1024, 2], [1024, 768, 2], [1280, 800, 1], [1440, 900, 1], [1536, 864, 1.25]];
 const URL0 = 'file://' + path.resolve(file);
 const TELS = ['tel:09123520415', 'tel:09127473187', 'tel:02533551111'];
 const LABELS = ['مشاوره و خرید', 'مشاوره و خرید', 'دفتر مرکزی'];
 const NUMBERS = ['0912 352 0415', '0912 747 3187', '025 3355 1111'];
-const NAME = "کابل تک رشته و چند رشته مسلح (زره دار)"; // the client's locked texts
-const CODES = "N2XRY, NYRY, N2XBY, NYBY";
-const STRUCT = "Cu/PVC/Bd/SWA/PVC";
-const USE = "این نوع کابل‌ها در تاسیسات داخل یا خارج ساختمان به صورت نصب ثابت در زیرزمین و در داکت‌ها و فضای باز که نیاز به حفاظت مکانیکی زیادی از کابل وجود دارد به کار می‌روند. در مکان‌هایی که احتمال آتش سوزی وجود دارد برای جلوگیری از آزاد شدن گازهای سمی و گازهای خورنده، از مواد LSZH استفاده می‌شود.";
+const HINT = 'برای تماس، روی شماره دلخواه ضربه بزنید';
+// the client's texts, exactly as given (rendered texts of the product page, in order)
+const CATS = {
+  armored: {
+    title: 'کابل آرموردار',
+    product: 'armored-copper-cable',
+    name: 'کابل تک رشته و چند رشته مسلح (زره دار)',
+    ltr: true,
+    texts: ['کابل تک رشته و چند رشته مسلح (زره دار)', 'کدهای فنی', 'N2XRY, NYRY, N2XBY, NYBY', 'کاربرد:',
+      'این نوع کابل‌ها در تاسیسات داخل یا خارج ساختمان به صورت نصب ثابت در زیرزمین و در داکت‌ها و فضای باز که نیاز به حفاظت مکانیکی زیادی از کابل وجود دارد به کار می‌روند. در مکان‌هایی که احتمال آتش سوزی وجود دارد برای جلوگیری از آزاد شدن گازهای سمی و گازهای خورنده، از مواد LSZH استفاده می‌شود.',
+      'ساختار:', 'Cu/PVC/Bd/SWA/PVC'],
+  },
+  instrumentation: {
+    title: 'کابل ابزار دقیق',
+    product: 'instrumentation-armored-cable',
+    name: 'کابل ابزار دقیق زره دار',
+    ltr: true,
+    muted: true, // codes in grey, section titles in the site's blue
+    accordion: 'توضیحات',
+    texts: ['کابل ابزار دقیق زره دار', 'کدهای فنی', 'REY(ST)Y, REY(ST)YRY', 'کاربرد:',
+      'این کابل‌ها در اتاق کنترل دستگاه‌های صنعتی و پست‌های برق به منظور انتقال سیگنال‌های آنالوگ و دیجیتال استفاده می‌شوند.',
+      'ساختار:', 'Cu/PVC/ISCR/OSCR/Bd/SWA/PVC', 'توضیحات',
+      'این نوع کابل‌ها جهت انتقال اطلاعات مناسب بوده و می‌توانند در اتاق‌های کنترل دستگاه‌های صنعتی و پست‌های برق به کار روند. حفاظ الکترواستاتیکی می‌تواند مدارها را در برابر تداخل الکتریکی محافظت کند. استفاده از ساختار کابل‌های زوجی باعث کاهش همشنوایی می‌شود. این کابل‌ها برای ارتباط مستقیم با منابعی مانند برق شهر که امپدانس پایینی دارند مناسب نیستند.'],
+  },
+};
+const RUN = (process.env.CAT || 'armored,instrumentation').split(',');
 
 (async () => {
   const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
@@ -46,29 +68,40 @@ const USE = "این نوع کابل‌ها در تاسیسات داخل یا خ�
     await page.goto(URL0, { waitUntil: 'load' });
     await page.waitForFunction(() => document.querySelector('[data-scene]').classList.contains('is-live'), null, { timeout: 120000 }).catch(() => fails.push('hero never went live'));
     await page.evaluate(() => window.__hero && window.__hero.pause());
+    const sums = [];
+    for (const key of RUN) {
+    const C = CATS[key];
+    const CAT = '#/products/' + key;
+    const PROD = CAT + '/' + C.product;
+    const HOMECARD = `.pcard.is-linked:has(a[href="${CAT}"])`;
+    const tag = `${w}-${key}`;
+    // start from the home page (its address without a hash), the hero live
+    if ((await state()).view) await page.goto(URL0, { waitUntil: 'load' });
+    else await page.evaluate(() => history.pushState(null, '', location.pathname + location.search));
+    await page.waitForFunction(() => document.querySelector('[data-scene]').classList.contains('is-live'), null, { timeout: 120000 }).catch(() => fails.push(key + ': hero not live'));
 
     // 1. the home card opens the category page (a tap/click on the card itself, not only its link)
-    await page.evaluate(async () => {
+    await page.evaluate(async (sel) => {
       document.documentElement.style.scrollBehavior = 'auto';
-      const c = document.querySelector('.pcard.is-linked');
+      const c = document.querySelector(sel);
       c.scrollIntoView({ block: 'center' });
       for (let k = 0; k < 100 && !c.classList.contains('is-in'); k++) await new Promise((r) => setTimeout(r, 100));
       await new Promise((r) => setTimeout(r, 1200));
       document.documentElement.style.scrollBehavior = '';
-    });
-    const cardBox = await page.locator('.pcard.is-linked .pcard-media').boundingBox();
+    }, HOMECARD);
+    const cardBox = await page.locator(HOMECARD + ' .pcard-media').boundingBox();
     const homeY = await page.evaluate(() => scrollY);
     if (touch) await page.touchscreen.tap(cardBox.x + cardBox.width / 2, cardBox.y + cardBox.height / 2);
     else await page.mouse.click(cardBox.x + cardBox.width / 2, cardBox.y + cardBox.height / 2);
     await page.waitForTimeout(400);
     let s = await state();
-    if (s.hash !== '#/products/armored' || s.home || s.view !== '/products/armored') fails.push('home card did not open the category: ' + JSON.stringify(s));
-    if (s.h1 !== 'کابل آرموردار' || !s.title.startsWith('کابل آرموردار')) fails.push('category title ' + s.h1 + ' / ' + s.title);
+    if (s.hash !== CAT || s.home || s.view !== CAT.slice(1)) fails.push('home card did not open the category: ' + JSON.stringify(s));
+    if (s.h1 !== C.title || !s.title.startsWith(C.title)) fails.push('category title ' + s.h1 + ' / ' + s.title);
     if (s.active !== '#products') fails.push('menu active ' + s.active);
     if (s.y > 2) fails.push('category not at the top: ' + s.y);
 
     // 2. the grid and the card
-    await page.waitForFunction(() => { const i = document.querySelector('.acard-img'); return i && i.complete && i.naturalWidth; }, null, { timeout: 15000 }).catch(() => fails.push('card photo not loaded'));
+    await page.waitForFunction(() => { const i = document.querySelector('.rv-category:not([hidden]) .acard-img'); return i && i.complete && i.naturalWidth; }, null, { timeout: 15000 }).catch(() => fails.push('card photo not loaded'));
     const g = await page.evaluate(() => {
       const R = (e) => e.getBoundingClientRect();
       const grid = document.querySelector('.rv-category:not([hidden]) .agrid');
@@ -97,10 +130,10 @@ const USE = "این نوع کابل‌ها در تاسیسات داخل یا خ�
     if (w < 600 && g.cols !== 2) fails.push('phone grid not 2 columns');
     if (g.n !== 1) fails.push(g.n + ' cards (one product)');
     if (g.fit !== 'contain' || !g.imgInside) fails.push('card photo not whole in its box');
-    if (g.titleText !== NAME || !g.titleClear || g.titleOverflow) fails.push('card title ' + JSON.stringify([g.titleText === NAME, g.titleClear, g.titleOverflow]));
+    if (g.titleText !== C.name || !g.titleClear || g.titleOverflow) fails.push('card title ' + JSON.stringify([g.titleText === C.name, g.titleClear, g.titleOverflow]));
     if (!g.btnFull || g.btnTall < 44 || g.btnText !== 'استعلام قیمت' || !g.btnBigger || g.btnInLink) fails.push('inquiry bar ' + JSON.stringify(g));
     if ((await state()).overflow > 0) fails.push('horizontal overflow on the category page');
-    await page.screenshot({ path: path.join(out, `${w}-category.png`), fullPage: true, timeout: 60000 });
+    await page.screenshot({ path: path.join(out, `${tag}-category.png`), fullPage: true, timeout: 60000 });
 
     // 3. the panel from the card's «استعلام قیمت»
     const panelCheck = async (label) => {
@@ -126,7 +159,7 @@ const USE = "این نوع کابل‌ها در تاسیسات داخل یا خ�
       if (r.hrefs.join() !== TELS.join() || r.labels.join() !== LABELS.join() || r.numbers.join() !== NUMBERS.join()) fails.push(label + ': rows ' + JSON.stringify([r.hrefs, r.labels, r.numbers]));
       if (!r.hits.every(Boolean)) fails.push(label + ': a row is not clickable over its whole area ' + r.hits);
       if (!r.numberFits) fails.push(label + ': a number does not fit');
-      if (r.title !== 'تماس با ما' || r.hint !== 'برای تماس، روی شماره دلخواه بزنید' || r.address) fails.push(label + ': panel texts');
+      if (r.title !== 'تماس با ما' || r.hint !== HINT || r.address) fails.push(label + ': panel texts');
       if (w < 600 ? (Math.abs(r.box.bottom) > 1 || Math.abs(r.box.width - w) > 1) : (Math.abs(r.box.left - r.box.right) > 2 || r.box.top < 0)) fails.push(label + ': panel position ' + JSON.stringify(r.box));
       if (!r.locked || !r.focusInside) fails.push(label + ': scroll lock / focus ' + JSON.stringify([r.locked, r.focusInside]));
       // the page behind does not move
@@ -143,8 +176,8 @@ const USE = "این نوع کابل‌ها در تاسیسات داخل یا خ�
     await press('.rv-category:not([hidden]) .acard-inquiry');
     await page.waitForTimeout(500);
     const p1 = await panelCheck('card «استعلام قیمت»');
-    if (p1.hash !== '#/products/armored') fails.push('the card button navigated: ' + p1.hash);
-    await page.screenshot({ path: path.join(out, `${w}-panel.png`), timeout: 60000 });
+    if (p1.hash !== CAT) fails.push('the card button navigated: ' + p1.hash);
+    await page.screenshot({ path: path.join(out, `${tag}-panel.png`), timeout: 60000 });
     await page.keyboard.press('Escape');
     await page.waitForTimeout(300);
     await closedOk('Escape', '.rv-category:not([hidden]) .acard-inquiry');
@@ -165,39 +198,84 @@ const USE = "این نوع کابل‌ها در تاسیسات داخل یا خ�
     await press('.rv-category:not([hidden]) .acard-link');
     await page.waitForTimeout(400);
     s = await state();
-    if (s.hash !== '#/products/armored/armored-copper-cable' || s.h1 !== NAME) fails.push('product page did not open: ' + JSON.stringify(s));
+    if (s.hash !== PROD || s.h1 !== C.name) fails.push('product page did not open: ' + JSON.stringify(s));
     await page.waitForFunction(() => { const i = document.querySelector('.rv-product:not([hidden]) .pdetail-img'); return i && i.complete && i.naturalWidth; }, null, { timeout: 15000 }).catch(() => fails.push('product photo not loaded'));
     const d = await page.evaluate(() => {
       const v = document.querySelector('.rv-product:not([hidden])');
       const R = (e) => e.getBoundingClientRect();
       const img = v.querySelector('.pdetail-img');
       const ib = R(img), mb = R(v.querySelector('.pdetail-media')), info = R(v.querySelector('.pdetail-info'));
-      const big = [...v.querySelectorAll('.pdetail-title, .pdetail-text, .pdetail-structure, .pdetail-codes li')].filter((e) => e.scrollWidth > e.clientWidth + 1).length;
+      const ib0 = R(v.querySelector('.pdetail-info'));
+      const outside = [...v.querySelectorAll('.pdetail-info *')].filter((e) => { const b = R(e); return b.width && (b.left < ib0.left - 1 || b.right > ib0.right + 1); }).length;
+      const big = [...v.querySelectorAll('.pdetail-title, .pdetail-text, .pdetail-structure, .pdetail-codes span, .pdetail-list li')].filter((e) => e.scrollWidth > e.clientWidth + 1).length;
       return {
         // every text of the details, in order, exactly (the button aside)
-        texts: [...v.querySelector('.pdetail-info').querySelectorAll('h1, h2, p')].map((x) => x.textContent),
+        texts: [...v.querySelector('.pdetail-info').querySelectorAll('h1, h2, p, li')].map((x) => x.textContent),
+        codeColor: getComputedStyle(v.querySelector('.pdetail-codes span')).color, hColor: getComputedStyle(v.querySelector('.pdetail-h')).color,
         codesDir: getComputedStyle(v.querySelector('.pdetail-codes span')).direction, structDir: getComputedStyle(v.querySelector('.pdetail-structure')).direction,
         codesRight: (() => { const a = v.querySelector('.pdetail-codes span').getBoundingClientRect(), b = v.querySelector('.pdetail-info').getBoundingClientRect(); return Math.abs(a.right - b.right) < 1.5; })(),
-        rtl: getComputedStyle(v.querySelector('.pdetail-text')).direction === 'rtl' && getComputedStyle(v.querySelector('.pdetail-text')).textAlign === 'right',
-        fonts: [...v.querySelectorAll('.pdetail-info h1, .pdetail-info h2, .pdetail-info p')].every((x) => getComputedStyle(x).fontFamily.replace(/["']/g, '').startsWith('Estedad')),
+        rtl: [...v.querySelectorAll('.pdetail-text, .pdetail-list li')].every((x) => getComputedStyle(x).direction === 'rtl' && getComputedStyle(x).textAlign === 'right'),
+        fonts: [...v.querySelectorAll('.pdetail-info h1, .pdetail-info h2, .pdetail-info p, .pdetail-info li')].every((x) => getComputedStyle(x).fontFamily.replace(/["']/g, '').startsWith('Estedad')),
         side: ib.right <= info.left + 0.5 || mb.right <= info.left + 0.5, above: mb.bottom <= info.top + 0.5,
         whole: ib.left >= mb.left - 0.5 && ib.right <= mb.right + 0.5 && ib.top >= mb.top - 0.5 && ib.bottom <= mb.bottom + 0.5,
         ratio: Math.abs(ib.width / ib.height - img.naturalWidth / img.naturalHeight) < 0.01, enlarged: ib.height * devicePixelRatio > img.naturalHeight + 1,
-        big, wide: R(v.querySelector('.rv-wrap')).width,
+        big, outside, wide: R(v.querySelector('.rv-wrap')).width,
       };
     });
-    const WANT = [NAME, 'کدهای فنی', CODES, 'کاربرد:', USE, 'ساختار:', STRUCT];
-    if (JSON.stringify(d.texts) !== JSON.stringify(WANT)) fails.push('product texts differ: ' + JSON.stringify(d.texts).slice(0, 300));
+    if (JSON.stringify(d.texts) !== JSON.stringify(C.texts)) fails.push('product texts differ: ' + JSON.stringify(d.texts).slice(0, 300));
+    if (d.outside) fails.push(d.outside + ' elements stick out of the details column');
+    const lines = await page.evaluate(() => [...document.querySelectorAll('.rv-product:not([hidden]) .pdetail-structure, .rv-product:not([hidden]) .pdetail-codes span')].map((e) => { const r = document.createRange(); r.selectNodeContents(e); return new Set([...r.getClientRects()].filter((x) => x.width).map((x) => Math.round(x.top / 4))).size === 1; }));
+    if (!lines.every(Boolean)) fails.push('a code line wraps ' + lines);
+    const rgb = (c) => c.match(/[\d.]+/g).slice(0, 3).map(Number);
+    const [cr, cg, cb] = rgb(d.codeColor);
+    if (C.muted ? Math.max(cr, cg, cb) - Math.min(cr, cg, cb) > 45 || cr < 60 : cb - cr < 100) fails.push('codes colour ' + d.codeColor);
+    if (C.muted && d.hColor !== 'rgb(8, 120, 249)') fails.push('section title colour ' + d.hColor);
+    if (!C.muted && d.hColor !== 'rgb(7, 28, 75)') fails.push('armored section title colour changed ' + d.hColor);
     if (d.codesDir !== 'ltr' || d.structDir !== 'ltr' || !d.codesRight || !d.rtl || !d.fonts) fails.push('direction / alignment / font ' + JSON.stringify([d.codesDir, d.structDir, d.codesRight, d.rtl, d.fonts]));
     if (d.wide >= 860 ? !d.side : !d.above) fails.push('product layout ' + JSON.stringify({ side: d.side, above: d.above, wide: d.wide }));
     if (!d.whole || !d.ratio || d.enlarged) fails.push('product photo ' + JSON.stringify(d));
     if (d.big) fails.push(d.big + ' texts overflow on the product page');
     if ((await state()).overflow > 0) fails.push('horizontal overflow on the product page');
-    await page.screenshot({ path: path.join(out, `${w}-product.png`), fullPage: true, timeout: 60000 });
+    // the accordion: closed at first, slides open (height in between), text readable, closes again
+    if (C.accordion) {
+      const acc = '.rv-product:not([hidden]) details.pdetail-acc';
+      const st = () => page.evaluate((sel) => { const a = document.querySelector(sel); const b = a.querySelector('.pdetail-acc-body'); const t = a.querySelector('.pdetail-text'); const r = t.getBoundingClientRect(); return { open: a.open, cls: a.classList.contains('is-open'), h: Math.round(b.getBoundingClientRect().height), full: b.scrollHeight, shown: !!t.getClientRects().length && r.height > 20, title: a.querySelector('summary').textContent.trim() }; }, acc);
+      let a0 = await st();
+      if (a0.open || a0.cls || a0.title !== C.accordion) fails.push('accordion not closed at first ' + JSON.stringify(a0));
+      await page.locator(acc + ' summary').scrollIntoViewIfNeeded();
+      await press(acc + ' summary');
+      await page.waitForTimeout(120);
+      const mid = await st();
+      await page.waitForTimeout(600);
+      const a1 = await st();
+      if (!a1.open || !a1.cls || !a1.shown || Math.abs(a1.h - a1.full) > 1) fails.push('accordion did not open ' + JSON.stringify(a1));
+      if (!(mid.h > 0 && mid.h < a1.full - 2)) fails.push('accordion opened without sliding ' + JSON.stringify(mid));
+      if ((await state()).overflow > 0) fails.push('horizontal overflow with the accordion open');
+      await page.screenshot({ path: path.join(out, `${tag}-product-open.png`), fullPage: true, timeout: 60000 });
+      await press(acc + ' summary');
+      await page.waitForTimeout(120);
+      const mid2 = await st();
+      await page.waitForTimeout(600);
+      const a2 = await st();
+      if (a2.open || a2.cls) fails.push('accordion did not close ' + JSON.stringify(a2));
+      if (!(mid2.open && mid2.h > 0 && mid2.h < a1.full - 2)) fails.push('accordion closed without sliding ' + JSON.stringify(mid2));
+      if (!touch) {
+        await page.focus(acc + ' summary');
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(600);
+        const k = await st();
+        if (!k.open) fails.push('accordion: Enter did not open it');
+        await page.keyboard.press(' ');
+        await page.waitForTimeout(600);
+        if ((await st()).open) fails.push('accordion: Space did not close it');
+      }
+      await page.evaluate(() => scrollTo(0, 0));
+    }
+    await page.screenshot({ path: path.join(out, `${tag}-product.png`), fullPage: true, timeout: 60000 });
     await press('.rv-product:not([hidden]) .pdetail-inquiry');
     await page.waitForTimeout(500);
     const p2 = await panelCheck('product «استعلام قیمت»');
-    if (p2.hash !== '#/products/armored/armored-copper-cable') fails.push('the product button navigated');
+    if (p2.hash !== PROD) fails.push('the product button navigated');
     await page.keyboard.press('Escape');
     await page.waitForTimeout(300);
     await closedOk('Escape (product)', '.rv-product:not([hidden]) .pdetail-inquiry');
@@ -205,21 +283,21 @@ const USE = "این نوع کابل‌ها در تاسیسات داخل یا خ�
     // 5. Back / Forward / Refresh / direct link
     await page.goBack(); await page.waitForTimeout(300);
     s = await state();
-    if (s.view !== '/products/armored') fails.push('Back: ' + JSON.stringify(s));
+    if (s.view !== CAT.slice(1)) fails.push('Back: ' + JSON.stringify(s));
     await page.goBack(); await page.waitForTimeout(500);
     s = await state();
     // back where it was left (a tap may first nudge the focused link fully into view), the card in sight
-    const cardSeen = await page.evaluate(() => { const r = document.querySelector('.pcard.is-linked').getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; });
-    if (!s.home || s.view || Math.abs(s.y - homeY) > 16 || !cardSeen || s.title.includes('آرموردار')) fails.push(`Back to home: ${JSON.stringify(s)} (was at ${Math.round(homeY)}, card in view ${cardSeen})`);
+    const cardSeen = await page.evaluate((sel) => { const r = document.querySelector(sel).getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; }, HOMECARD);
+    if (!s.home || s.view || Math.abs(s.y - homeY) > 16 || !cardSeen || s.title.includes(C.title)) fails.push(`Back to home: ${JSON.stringify(s)} (was at ${Math.round(homeY)}, card in view ${cardSeen})`);
     const heroOk = await page.evaluate(() => { const c = document.querySelector('.scene-live'); return document.querySelector('[data-scene]').classList.contains('is-live') && c && c.width > 0; });
     if (!heroOk) fails.push('hero not live after coming back');
     await page.goForward(); await page.waitForTimeout(300);
     await page.goForward(); await page.waitForTimeout(300);
     s = await state();
-    if (s.view !== '/products/armored/armored-copper-cable') fails.push('Forward: ' + JSON.stringify(s));
+    if (s.view !== PROD.slice(1)) fails.push('Forward: ' + JSON.stringify(s));
     await page.reload({ waitUntil: 'load' }); await page.waitForTimeout(600);
     s = await state();
-    if (s.view !== '/products/armored/armored-copper-cable' || s.h1 !== NAME) fails.push('Refresh: ' + JSON.stringify(s));
+    if (s.view !== PROD.slice(1) || s.h1 !== C.name) fails.push('Refresh: ' + JSON.stringify(s));
     // 6. the menu from a catalogue page, and Back to it
     await press('.topnav-item[href="#contact"]');
     await page.waitForTimeout(800);
@@ -227,20 +305,22 @@ const USE = "این نوع کابل‌ها در تاسیسات داخل یا خ�
     const contactSeen = await page.evaluate(() => { const r = document.getElementById('contact-title').getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight; });
     if (!s.home || !contactSeen) fails.push('menu «ارتباط با ما» from the product page: ' + JSON.stringify(s));
     await page.goBack(); await page.waitForTimeout(400);
-    if ((await state()).view !== '/products/armored/armored-copper-cable') fails.push('Back after the menu');
+    if ((await state()).view !== PROD.slice(1)) fails.push('Back after the menu');
     // 7. a direct link to the category, and its «بازگشت به محصولات»
-    await page.goto(URL0 + '#/products/armored', { waitUntil: 'load' }); await page.waitForTimeout(500);
+    await page.goto(URL0 + CAT, { waitUntil: 'load' }); await page.waitForTimeout(500);
     s = await state();
-    if (s.view !== '/products/armored') fails.push('direct link: ' + JSON.stringify(s));
+    if (s.view !== CAT.slice(1)) fails.push('direct link: ' + JSON.stringify(s));
     await press('.rv-category:not([hidden]) .rv-back');
     await page.waitForTimeout(800);
     s = await state();
     const prodSeen = await page.evaluate(() => { const r = document.getElementById('products-title').getBoundingClientRect(); const bar = document.querySelector('.topbar').getBoundingClientRect(); return r.top >= bar.bottom - 1 && r.bottom <= innerHeight; });
     if (!s.home || !prodSeen) fails.push('«بازگشت به محصولات»: ' + JSON.stringify(s));
+    sums.push(`${key}: ${g.cols} cols, card ${g.card.join('x')}, product ${d.side ? 'side by side' : 'stacked'}`);
+    }
 
     const all = fails.concat(errors);
     if (all.length) failed++;
-    console.log(`${all.length ? 'FAIL' : 'PASS'} ${w}x${h}@${dpr} grid ${g.cols} cols, card ${g.card.join('x')}, product ${d.side ? 'side by side' : 'stacked'} ${all.join('; ')}`);
+    console.log(`${all.length ? 'FAIL' : 'PASS'} ${w}x${h}@${dpr} ${sums.join(' | ')} ${all.join('; ')}`);
     await ctx.close();
   }
   await browser.close();

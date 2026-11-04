@@ -4,26 +4,35 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-11-03, armored cable pages + contact panel delivered, waiting for the user's approval)
+## Exact stop point (2026-11-04, instrumentation cable pages delivered, waiting for the user's approval)
 
 - Branch: `ccr-2cd3266d-qpjs3p`.
-- Done in this step («SIMLAND — Armored Cable Product System»): the home «کابل آرموردار» card links (whole card) to
-  `#/products/armored`; category page + product page `#/products/armored/armored-copper-cable` built from
-  `assets/data/catalog.json` (hash routes inside the same page: work on a server, from disk, in the one-file page and
-  from a phone's file manager; Back/Refresh/direct links); product cards with a full-width «استعلام قیمت» bar; one
-  reusable contact panel (`<dialog id="contact-panel">`, numbers from site-config.js, tel: rows) opened by every
-  `[data-inquiry]`. See «Catalogue pages» below and README «صفحات محصولات».
-- Name: the brief wrote «آرمودار»; the approved home card and the client's reference image say «آرموردار» — used
-  everywhere for consistency (tell the user).
-- Then («اصلاح دقیق محتوای صفحه جزئیات کابل آرمودار», commit 09fc1a7): the product page carries the client's locked
-  texts word for word — title «کابل تک رشته و چند رشته مسلح (زره دار)», «کدهای فنی» `N2XRY, NYRY, N2XBY, NYBY`
-  (LTR), «کاربرد:» + the locked paragraph, «ساختار:» `Cu/PVC/Bd/SWA/PVC` (LTR); the English kicker and the
-  structure note are gone. `tools/qa/catalog.cjs` compares the rendered h1/h2/p text with the locked strings.
-- Delivered: `SIMLAND-site-2026-11-03-09fc1a7.zip` (folder with index.html + assets/resume/simland-resume.pdf +
-  راهنما.txt) and `SIMLAND-standalone-2026-11-03-09fc1a7.html`, byte-identical to `dist/` and `dist-standalone/`.
-  Tests on the build: catalog 7/7, contact 11/11, products 12/12, nav-spy 8/8, motion-nav 9/9, why 9/9, résumé 11/11,
-  responsive 11/11, interact, fallback; on the delivered files: catalog (375/1440) and resume-open, zip + standalone.
+- Done in this step («FINAL IMPLEMENTATION PROMPT — SIMLAND INSTRUMENTATION CABLE», then the user's
+  «دستور تکمیلی قطعی» that replaced the product texts):
+  - the home «کابل ابزار دقیق» card (slug `flexible-control`) links to `#/products/instrumentation`; one product
+    `#/products/instrumentation/instrumentation-armored-cable`;
+  - photo: the client's PNG `source/catalog/instrumentation-armored-cable.png` → lossless WebP 298×2072 (only the
+    empty transparent margin trimmed, visible pixels identical); very slim, so its product-page frame is taller
+    (`.pdetail-media.is-slim`, set by the build when height/width > 5);
+  - texts (locked, word for word; the final directive wins over the first prompt): title «کابل ابزار دقیق زره دار»
+    (with a space, as given), «کدهای فنی» `REY(ST)Y, REY(ST)YRY`, «کاربرد:» + paragraph, «ساختار:»
+    `Cu/PVC/ISCR/OSCR/Bd/SWA/PVC`, accordion «توضیحات» (closed at first). The first prompt's provisional «نوع محصول»,
+    «ویژگی‌ها» and «datasheet» note were dropped (the final directive defines the page; tell the user, offer to restore);
+  - category-scoped look (`.pdetail[data-category='instrumentation']`): grey codes chip, section titles in the brand
+    blue, the long structure code on one line down to 320 px. The armored page keeps its look;
+  - panel hint now «برای تماس، روی شماره دلخواه ضربه بزنید» (first prompt's exact text; same single panel);
+  - router: Back to the exact home address a catalogue page was opened from restores the scroll position
+    (`homeHash` from hashchange `oldURL`), also when that address was `#products`.
+- Grid stays 2 / 3 / 4 columns (the first prompt allowed 4–5; 4 kept so the armored page is unchanged).
 - **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`).
+
+### Previous step (2026-11-03): armored cable pages + contact panel
+
+- The home «کابل آرموردار» card links (whole card) to `#/products/armored`; category page + product page
+  `#/products/armored/armored-copper-cable` from `assets/data/catalog.json`; product cards with a full-width
+  «استعلام قیمت» bar; one reusable contact panel (`<dialog id="contact-panel">`) opened by every `[data-inquiry]`.
+- Locked texts (commit 09fc1a7): «کابل تک رشته و چند رشته مسلح (زره دار)», `N2XRY, NYRY, N2XBY, NYBY`, «کاربرد:»,
+  «ساختار:» `Cu/PVC/Bd/SWA/PVC`. Name «آرموردار» (brief wrote «آرمودار»; the approved card says «آرموردار»).
 
 ### Approved — do not change
 
@@ -255,7 +264,8 @@ Its requirements (all must hold):
 ### Catalogue pages (done, tested)
 
 - Data `assets/data/catalog.json` (categories: id, name, accent, description, homeCard = mapping.json slug;
-  products: id, category, name, nameEn, image, imageAlt, codes, description, application, structure, structureNote).
+  products: id, category, name, image, imageAlt, optional type / codesText / description, and `sections`
+  [{id, title, text | items | code, collapsible?}] in page order; see its `_doc`).
 - `build-pages.mjs`: `catalogPages(single)` → `<main class="route-view" data-route data-title hidden>` blocks after
   the home `<main id="top">` (`<!-- catalog-pages -->`); one-file page: photos once in `#media-data` (JSON of data
   URIs), `<img data-media>` filled by home.js when the page is shown. `contactPanel()` → `<dialog id="contact-panel">`
@@ -270,7 +280,8 @@ Its requirements (all must hold):
   `acard`, `cpanel`; sheet below 600 px).
 - Photo: `source/catalog/armored-copper-cable.png` → `assets/images/catalog/armored-copper-cable.webp` (lossless, 428×1693
   after trimming, 1357 invisible specks removed). References kept in `source/catalog/reference-*`.
-- QA `tools/qa/catalog.cjs` (320/375/390/430/768/1024/1440).
+- QA `tools/qa/catalog.cjs`: both categories (`CAT=` to pick one) at 320/360/375/390/430/768/1024/1280/1440/1536;
+  locked texts compared with the rendered h1/h2/p/li text; accordion slides open and shut (mouse, touch, Enter, Space).
 
 ### Résumé, sparks, hero line (done, tested)
 

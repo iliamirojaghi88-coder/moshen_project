@@ -1,5 +1,5 @@
 {
-  "_doc": "Product categories and products of the catalogue pages (built by tools/build-pages.mjs). A category with homeCard links the home page card of that slug (source/mapping.json) to its page. Each product: id, category, name, nameEn, image (assets/images/catalog/<image>.webp), imageAlt, codes, description, application, structure; codesText is the codes line exactly as shown; its page is #/products/<category>/<id>.",
+  "_doc": "Product categories and products of the catalogue pages (built by tools/build-pages.mjs). A category with homeCard links the home page card of that slug (source/mapping.json) to its page (#/products/<category>); its grid lists every product of that category. Each product: id, category, name, image (assets/images/catalog/<image>.webp, made by tools/build-cutouts.py from source/catalog/<image>.png), imageAlt; optional type (shown under «نوع محصول»), codesText (shown under «کدهای فنی», left to right), description; sections: [{id, title, text | items | code, collapsible?}] in page order (text: a paragraph, items: a list, code: a left-to-right code line; collapsible: an accordion, closed at first). Its page is #/products/<category>/<id>.",
   "categories": [
     {
       "id": "armored",
@@ -7,6 +7,13 @@
       "accent": "آرموردار",
       "description": "انواع کابل‌های آرموردار با ساختار مقاوم و مناسب کاربردهای صنعتی",
       "homeCard": "power"
+    },
+    {
+      "id": "instrumentation",
+      "name": "کابل ابزار دقیق",
+      "accent": "ابزار دقیق",
+      "description": "انتقال دقیق سیگنال‌ها در سیستم‌های اندازه‌گیری و کنترل",
+      "homeCard": "flexible-control"
     }
   ],
   "products": [
@@ -17,16 +24,46 @@
       "nameEn": "Armored Copper Cable",
       "image": "armored-copper-cable",
       "imageAlt": "کابل مسلح سیم‌لند: هادی مسی چندلایه، زره فلزی و روکش مشکی",
-      "codes": [
-        "N2XRY",
-        "NYRY",
-        "N2XBY",
-        "NYBY"
-      ],
-      "description": "",
-      "application": "این نوع کابل‌ها در تاسیسات داخل یا خارج ساختمان به صورت نصب ثابت در زیرزمین و در داکت‌ها و فضای باز که نیاز به حفاظت مکانیکی زیادی از کابل وجود دارد به کار می‌روند. در مکان‌هایی که احتمال آتش سوزی وجود دارد برای جلوگیری از آزاد شدن گازهای سمی و گازهای خورنده، از مواد LSZH استفاده می‌شود.",
-      "structure": "Cu/PVC/Bd/SWA/PVC",
-      "codesText": "N2XRY, NYRY, N2XBY, NYBY"
+      "codesText": "N2XRY, NYRY, N2XBY, NYBY",
+      "sections": [
+        {
+          "id": "use",
+          "title": "کاربرد:",
+          "text": "این نوع کابل‌ها در تاسیسات داخل یا خارج ساختمان به صورت نصب ثابت در زیرزمین و در داکت‌ها و فضای باز که نیاز به حفاظت مکانیکی زیادی از کابل وجود دارد به کار می‌روند. در مکان‌هایی که احتمال آتش سوزی وجود دارد برای جلوگیری از آزاد شدن گازهای سمی و گازهای خورنده، از مواد LSZH استفاده می‌شود."
+        },
+        {
+          "id": "build",
+          "title": "ساختار:",
+          "code": "Cu/PVC/Bd/SWA/PVC"
+        }
+      ]
+    },
+    {
+      "id": "instrumentation-armored-cable",
+      "category": "instrumentation",
+      "name": "کابل ابزار دقیق زره دار",
+      "nameEn": "Armored Instrumentation Cable",
+      "image": "instrumentation-armored-cable",
+      "imageAlt": "کابل ابزار دقیق زره‌دار سیم‌لند: هادی‌های مسی، رشته‌های رنگی، لایه‌های شفاف و زرد، زره فلزی و روکش مشکی",
+      "codesText": "REY(ST)Y, REY(ST)YRY",
+      "sections": [
+        {
+          "id": "use",
+          "title": "کاربرد:",
+          "text": "این کابل‌ها در اتاق کنترل دستگاه‌های صنعتی و پست‌های برق به منظور انتقال سیگنال‌های آنالوگ و دیجیتال استفاده می‌شوند."
+        },
+        {
+          "id": "build",
+          "title": "ساختار:",
+          "code": "Cu/PVC/ISCR/OSCR/Bd/SWA/PVC"
+        },
+        {
+          "id": "more",
+          "title": "توضیحات",
+          "collapsible": true,
+          "text": "این نوع کابل‌ها جهت انتقال اطلاعات مناسب بوده و می‌توانند در اتاق‌های کنترل دستگاه‌های صنعتی و پست‌های برق به کار روند. حفاظ الکترواستاتیکی می‌تواند مدارها را در برابر تداخل الکتریکی محافظت کند. استفاده از ساختار کابل‌های زوجی باعث کاهش همشنوایی می‌شود. این کابل‌ها برای ارتباط مستقیم با منابعی مانند برق شهر که امپدانس پایینی دارند مناسب نیستند."
+        }
+      ]
     }
   ]
 }

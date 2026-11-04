@@ -196,6 +196,7 @@ const homeMain = document.getElementById('top');
 const routeViews = [...document.querySelectorAll('.route-view')];
 const homeTitle = document.title;
 let homeY = 0;
+let homeHash = null; // the home page's address when a catalogue page was opened from it
 let mediaData = null;
 
 // in the one-file page each product photo is embedded once (#media-data)
@@ -211,11 +212,14 @@ function showMedia(view) {
   });
 }
 
-function showRoute() {
+function showRoute(e) {
   const path = location.hash.startsWith('#/') ? location.hash.slice(1) : '';
   const view = routeViews.find((v) => v.dataset.route === path);
   if (view) {
-    if (!routeView) homeY = scrollY;
+    if (!routeView) {
+      homeY = scrollY;
+      homeHash = e && e.oldURL ? new URL(e.oldURL).hash : null;
+    }
     homeMain.hidden = true;
     routeViews.forEach((v) => (v.hidden = v !== view));
     routeView = view;
@@ -233,13 +237,47 @@ function showRoute() {
   document.title = homeTitle;
   const id = location.hash.slice(1);
   const section = id && document.getElementById(id);
-  if (id === 'top') goTo('top', 'instant');
+  // Back (or a link) to the very address the page was opened from: where the visitor was
+  if (e && location.hash === homeHash) scrollTo({ top: homeY, behavior: 'instant' });
+  else if (id === 'top') goTo('top', 'instant');
   else if (section && homeMain.contains(section)) goTo(id, 'instant');
   else scrollTo({ top: homeY, behavior: 'instant' });
 }
 
 addEventListener('hashchange', showRoute);
 showRoute();
+
+// ---------------------------------------------------------------- «توضیحات» (accordion)
+// A <details> (works, and is found by search-in-page, without this script): its height
+// slides open and shut; reduced motion: it just opens and closes.
+document.querySelectorAll('details.pdetail-acc').forEach((acc) => {
+  const sum = acc.querySelector('summary');
+  const body = acc.querySelector('.pdetail-acc-body');
+  let open = acc.open;
+  let anim = null;
+  acc.classList.toggle('is-open', open);
+  sum.addEventListener('click', (e) => {
+    e.preventDefault();
+    open = !open;
+    acc.classList.toggle('is-open', open);
+    const from = acc.open ? body.getBoundingClientRect().height : 0;
+    if (anim) anim.cancel();
+    acc.open = true;
+    const to = open ? body.scrollHeight : 0;
+    if (reducedMotion) {
+      acc.open = open;
+      return;
+    }
+    anim = body.animate(
+      { height: [`${from}px`, `${to}px`], opacity: open ? [from ? 1 : 0.2, 1] : [1, 0.2] },
+      { duration: 380, easing: 'cubic-bezier(0.22, 0.7, 0.2, 1)' },
+    );
+    anim.onfinish = () => {
+      anim = null;
+      acc.open = open;
+    };
+  });
+});
 
 // ---------------------------------------------------------------- the contact panel («استعلام قیمت»)
 // One <dialog> for the whole site (#contact-panel): every [data-inquiry] button opens

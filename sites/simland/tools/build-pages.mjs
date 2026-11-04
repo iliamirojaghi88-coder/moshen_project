@@ -191,6 +191,32 @@ async function catalogPages(single) {
     const src = single ? `data-media="${p.image}"` : `src="assets/images/catalog/${p.image}.webp"`;
     return `<img class="${cls}" ${src} alt="${esc(p.imageAlt)}" width="${width}" height="${height}" decoding="async"${eager ? '' : ' loading="lazy"'} draggable="false">`;
   };
+  // a very slim photo (more than 5× as tall as wide) gets a taller frame on the product page
+  const slim = async (p) => {
+    const { width, height } = await sharp(at('assets/images/catalog', `${p.image}.webp`)).metadata();
+    return height / width > 5;
+  };
+  // a section of the product page: a paragraph (text), a list (items) or a left-to-right code line
+  // (code, which may break after a «/» on a narrow phone); collapsible: an accordion, closed at first
+  const section = (p, s) => {
+    const body = s.items
+      ? `<ul class="pdetail-list" role="list">\n${s.items.map((t) => `              <li>${esc(t)}</li>`).join('\n')}\n            </ul>`
+      : s.code
+        ? `<p class="pdetail-structure-line"><span class="pdetail-structure" dir="ltr" lang="en">${esc(s.code).replace(/\//g, '/<wbr>')}</span></p>`
+        : `<p class="pdetail-text">${esc(s.text)}</p>`;
+    if (s.collapsible) {
+      return `          <details class="pdetail-block pdetail-acc">
+            <summary class="pdetail-acc-sum"><h2 class="pdetail-h" id="pd-${p.id}-${s.id}">${esc(s.title)}</h2><span class="pdetail-acc-icon" aria-hidden="true"><svg><use href="#c-chevron"/></svg></span></summary>
+            <div class="pdetail-acc-body" role="region" aria-labelledby="pd-${p.id}-${s.id}">${body}</div>
+          </details>
+`;
+    }
+    return `          <section class="pdetail-block" aria-labelledby="pd-${p.id}-${s.id}">
+            <h2 class="pdetail-h" id="pd-${p.id}-${s.id}">${esc(s.title)}</h2>
+            ${body}
+          </section>
+`;
+  };
   const crumbs = (items) => `      <nav class="rv-crumbs" aria-label="مسیر صفحه">
         ${items.map(([text, href]) => (href ? `<a href="${href}">${esc(text)}</a>` : `<span aria-current="page">${esc(text)}</span>`)).join('<span class="rv-sep" aria-hidden="true">/</span>')}
       </nav>`;
@@ -230,23 +256,17 @@ ${cards.join('\n')}
       pages.push(`<main class="route-view rv-product" data-route="/products/${c.id}/${p.id}" data-title="${esc(p.name)} | سیم‌لند" aria-labelledby="pd-${p.id}" hidden>
     <div class="rv-wrap">
 ${crumbs([['خانه', '#top'], ['محصولات', '#products'], [c.name, `#/products/${c.id}`], [p.name]])}
-      <article class="pdetail">
+      <article class="pdetail" data-category="${c.id}">
         <div class="pdetail-info">
           <h1 class="pdetail-title" id="pd-${p.id}" tabindex="-1">${esc(p.name)}</h1>
-          <h2 class="pdetail-label" id="pd-${p.id}-codes">کدهای فنی</h2>
-          <p class="pdetail-codes" aria-labelledby="pd-${p.id}-codes"><span dir="ltr" lang="en">${esc(p.codesText || p.codes.join(', '))}</span></p>
-${p.description ? `          <p class="pdetail-desc">${esc(p.description)}</p>
-` : ''}          <section class="pdetail-block" aria-labelledby="pd-${p.id}-use">
-            <h2 class="pdetail-h" id="pd-${p.id}-use">کاربرد:</h2>
-            <p class="pdetail-text">${esc(p.application)}</p>
-          </section>
-          <section class="pdetail-block" aria-labelledby="pd-${p.id}-build">
-            <h2 class="pdetail-h" id="pd-${p.id}-build">ساختار:</h2>
-            <p class="pdetail-structure-line"><span class="pdetail-structure" dir="ltr" lang="en">${esc(p.structure)}</span></p>${p.structureNote ? `\n            <p class="pdetail-note">${esc(p.structureNote)}</p>` : ''}
-          </section>
-          ${inquiry(p, 'btn btn-primary pdetail-inquiry')}
+${p.type ? `          <h2 class="pdetail-label" id="pd-${p.id}-type">نوع محصول</h2>
+          <p class="pdetail-type" aria-labelledby="pd-${p.id}-type"><span>${esc(p.type)}</span></p>
+` : ''}${p.codesText ? `          <h2 class="pdetail-label" id="pd-${p.id}-codes">کدهای فنی</h2>
+          <p class="pdetail-codes" aria-labelledby="pd-${p.id}-codes"><span dir="ltr" lang="en">${esc(p.codesText)}</span></p>
+` : ''}${p.description ? `          <p class="pdetail-desc">${esc(p.description)}</p>
+` : ''}${(p.sections || []).map((x) => section(p, x)).join('')}          ${inquiry(p, 'btn btn-primary pdetail-inquiry')}
         </div>
-        <div class="pdetail-media">${await img(p, 'pdetail-img', true)}</div>
+        <div class="pdetail-media${(await slim(p)) ? ' is-slim' : ''}">${await img(p, 'pdetail-img', true)}</div>
       </article>
       <a class="rv-back" href="#/products/${c.id}"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>بازگشت به ${esc(c.name)}</span></a>
     </div>
@@ -279,7 +299,7 @@ async function contactPanel() {
       <span class="cpanel-badge" aria-hidden="true"><svg><use href="#c-ring"/></svg></span>
       <h2 class="cpanel-title" id="cpanel-title">تماس با ما</h2>
     </header>
-    <p class="cpanel-hint" id="cpanel-hint">برای تماس، روی شماره دلخواه بزنید</p>
+    <p class="cpanel-hint" id="cpanel-hint">برای تماس، روی شماره دلخواه ضربه بزنید</p>
     <ul class="cpanel-list" role="list">
 ${rows.join('\n')}
     </ul>
