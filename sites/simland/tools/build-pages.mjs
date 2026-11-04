@@ -198,7 +198,9 @@ async function catalogPages(single) {
     const src = single ? `data-media="${p.image}"` : `src="assets/images/catalog/${p.image}.webp"`;
     // a photo with fewer pixels than the product frame was drawn for (1692 px high): never shown larger than them
     const low = cls === 'pdetail-img' && height < 1692 ? ` style="--native-h: ${height}px"` : '';
-    return `<img class="${cls}${low ? ' is-low' : ''}" ${src} alt="${esc(p.imageAlt)}" width="${width}" height="${height}"${low} decoding="async"${eager ? '' : ' loading="lazy"'} draggable="false">`;
+    // a landscape photo (the aluminium cables) is sized by the column width, its own ratio kept
+    const wide = cls === 'pdetail-img' && width > height ? ' is-landscape' : '';
+    return `<img class="${cls}${low ? ' is-low' : ''}${wide}" ${src} alt="${esc(p.imageAlt)}" width="${width}" height="${height}"${low} decoding="async"${eager ? '' : ' loading="lazy"'} draggable="false">`;
   };
   // a very slim photo (more than 5× as tall as wide) gets a taller frame on the product page
   const slim = async (p) => {
@@ -208,7 +210,7 @@ async function catalogPages(single) {
   // a section of the product page: a paragraph (text), a list (items), left-to-right code lines (code: one
   // or a list, each may break after a «/» on a narrow phone), a table (specs: label, value, ltr?) or a run
   // of blocks (content: {h} sub-heading, {p} paragraph, {list}); collapsible: an accordion, closed at first
-  const list = (items, pad = '            ') => `<ul class="pdetail-list" role="list">\n${items.map((t) => `${pad}  <li>${esc(t)}</li>`).join('\n')}\n${pad}</ul>`;
+  const list = (items, pad = '            ', ltr = false) => `<ul class="pdetail-list" role="list">\n${items.map((t) => `${pad}  <li${ltr ? ' lang="en"' : ''}>${ltr ? `<bdi dir="ltr">${esc(t)}</bdi>` : esc(t)}</li>`).join('\n')}\n${pad}</ul>`;
   const section = (p, s) => {
     const codes = [].concat(s.code || []);
     const body = s.items
@@ -216,9 +218,11 @@ async function catalogPages(single) {
       : codes.length
         ? codes.map((c) => `<p class="pdetail-structure-line"><span class="pdetail-structure" dir="ltr" lang="en">${esc(c).replace(/\//g, '/<wbr>')}</span></p>`).join('\n            ')
         : s.specs
-          ? `<dl class="pdetail-specs">\n${s.specs.map((r) => `              <div class="pdetail-spec"><dt>${esc(r.label)}</dt><dd${r.ltr ? ' dir="ltr" lang="en"' : ''}>${esc(r.value)}</dd></div>`).join('\n')}\n            </dl>`
+          ? `<dl class="pdetail-specs">\n${s.specs.map((r) => (r.values
+            ? `              <div class="pdetail-spec is-sizes"><dt>${esc(r.label)}${r.note ? ` <span class="pdetail-spec-note">${esc(r.note)}</span>` : ''}</dt><dd><ul class="pdetail-sizes" role="list">${r.values.map((v) => `<li dir="ltr">${esc(v)}</li>`).join('')}</ul></dd></div>`
+            : `              <div class="pdetail-spec"><dt>${esc(r.label)}</dt><dd${r.ltr ? ' dir="ltr" lang="en"' : ''}>${esc(r.value)}</dd></div>`)).join('\n')}\n            </dl>`
           : s.content
-            ? s.content.map((b) => (b.h ? `<h3 class="pdetail-sub">${esc(b.h)}</h3>` : b.list ? list(b.list, '              ') : `<p class="pdetail-text">${esc(b.p)}</p>`)).join('\n              ')
+            ? s.content.map((b) => (b.h ? `<h3 class="pdetail-sub">${esc(b.h)}</h3>` : b.list ? list(b.list, '              ', b.ltr) : `<p class="pdetail-text"${b.ltr ? ' lang="en"' : ''}>${b.ltr ? `<bdi dir="ltr">${esc(b.p)}</bdi>` : esc(b.p)}</p>`)).join('\n              ')
             : `<p class="pdetail-text">${esc(s.text)}</p>`;
     if (s.collapsible) {
       return `          <details class="pdetail-block pdetail-acc">

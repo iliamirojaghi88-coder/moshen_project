@@ -116,7 +116,21 @@ CATS.telecom = {
     'ساختار:', 'Cu/HDPE/OSCR/HDPE'] }],
   about: ABOUT_TELECOM,
 };
-const RUN = (process.env.CAT || 'armored,instrumentation,solar,telecom').split(',');
+// «کابل آلومینیومی»: the directive's texts; sizes read from the client's screenshots of the reference
+// (34 multi-core values, 13 single-core values), shown as cores×section
+CATS.aluminum = {
+  title: 'کابل آلومینیومی',
+  product: 'aluminum-multi-core-cable',
+  name: 'کابل آلومینیومی چند رشته',
+  count: 2,
+  ltr: true,
+  muted: true,
+  noCodes: true,
+  accordion: 'توضیحات',
+  texts: ["کابل آلومینیومی چند رشته", "کابل آلومینیومی چند رشته بر اساس متراژ قیمت‌گذاری می‌شود.", "مشخصات فنی", "جنس عایق", "XLPE", "نوع هادی", "آلومینیومی چند رشته", "ساختار ظاهری", "چند هادی فلزی با عایق‌های رنگی مجزا درون یک روکش بیرونی مشکی.", "سایز تعداد رشته × سطح مقطع (میلی‌متر مربع)", "۲×۶۲×۱۰۳×۱۰۴×۱۰۵×۱۰۲×۱۶۳×۱۶۴×۱۶۵×۱۶۲×۲۵۳×۲۵۴×۲۵۵×۲۵۲×۳۵۳×۳۵۴×۳۵۵×۳۵۲×۵۰۳×۵۰۴×۵۰۵×۵۰۲×۷۰۳×۷۰۴×۷۰۵×۷۰۲×۹۵۳×۹۵۴×۹۵۵×۹۵۴×۱۲۰۴×۱۵۰۴×۱۸۵۴×۲۴۰۴×۳۰۰", "۲×۶", "۲×۱۰", "۳×۱۰", "۴×۱۰", "۵×۱۰", "۲×۱۶", "۳×۱۶", "۴×۱۶", "۵×۱۶", "۲×۲۵", "۳×۲۵", "۴×۲۵", "۵×۲۵", "۲×۳۵", "۳×۳۵", "۴×۳۵", "۵×۳۵", "۲×۵۰", "۳×۵۰", "۴×۵۰", "۵×۵۰", "۲×۷۰", "۳×۷۰", "۴×۷۰", "۵×۷۰", "۲×۹۵", "۳×۹۵", "۴×۹۵", "۵×۹۵", "۴×۱۲۰", "۴×۱۵۰", "۴×۱۸۵", "۴×۲۴۰", "۴×۳۰۰", "توضیحات", "کابل آلومینیومی چند رشته", "XLPE", "استاندارد ملی کابل آلومینیومی چند رشته", "IEC 60228", "ISIRI 3084"],
+  extra: [{ product: 'aluminum-single-core-cable', name: 'کابل آلومینیومی تک رشته', texts: ["کابل آلومینیومی تک رشته", "کابل آلومینیومی تک رشته بر اساس متراژ قیمت‌گذاری می‌شود.", "مشخصات فنی", "جنس عایق", "XLPE", "نوع هادی", "آلومینیومی تک رشته", "ساختار ظاهری", "هادی آلومینیومی رشته‌ای فشرده درون عایق و روکش مشکی.", "سایز تعداد رشته × سطح مقطع (میلی‌متر مربع)", "۱×۱۶۱×۲۵۱×۳۵۱×۵۰۱×۷۰۱×۹۵۱×۱۲۰۱×۱۵۰۱×۱۸۵۱×۲۴۰۱×۳۰۰۱×۴۰۰۱×۵۰۰", "۱×۱۶", "۱×۲۵", "۱×۳۵", "۱×۵۰", "۱×۷۰", "۱×۹۵", "۱×۱۲۰", "۱×۱۵۰", "۱×۱۸۵", "۱×۲۴۰", "۱×۳۰۰", "۱×۴۰۰", "۱×۵۰۰", "توضیحات", "کابل آلومینیومی تک رشته", "XLPE", "استاندارد ملی کابل آلومینیومی تک رشته", "IEC 60228", "ISIRI 3084"] }],
+};
+const RUN = (process.env.CAT || 'armored,instrumentation,solar,telecom,aluminum').split(',');
 
 (async () => {
   const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
@@ -305,9 +319,9 @@ const RUN = (process.env.CAT || 'armored,instrumentation,solar,telecom').split('
         // every text of the details, in order, exactly (the button aside)
         texts: [...v.querySelector('.pdetail-info').querySelectorAll('h1, h2, h3, p, li, dt, dd')].map((x) => x.textContent),
         specs: [...v.querySelectorAll('.pdetail-spec dd')].every((dd) => getComputedStyle(dd).direction === (dd.dir === 'ltr' ? 'ltr' : 'rtl')),
-        codeColor: getComputedStyle(v.querySelector('.pdetail-codes span')).color, hColor: getComputedStyle(v.querySelector('.pdetail-h')).color,
-        codesDir: getComputedStyle(v.querySelector('.pdetail-codes span')).direction, structDir: getComputedStyle(v.querySelector('.pdetail-structure')).direction,
-        codesRight: (() => { const a = v.querySelector('.pdetail-codes span').getBoundingClientRect(), b = v.querySelector('.pdetail-info').getBoundingClientRect(); return Math.abs(a.right - b.right) < 1.5; })(),
+        codeColor: v.querySelector('.pdetail-codes span') && getComputedStyle(v.querySelector('.pdetail-codes span')).color, hColor: getComputedStyle(v.querySelector('.pdetail-h')).color,
+        codesDir: v.querySelector('.pdetail-codes span') ? getComputedStyle(v.querySelector('.pdetail-codes span')).direction : 'ltr', structDir: v.querySelector('.pdetail-structure') ? getComputedStyle(v.querySelector('.pdetail-structure')).direction : 'ltr',
+        codesRight: (() => { if (!v.querySelector('.pdetail-codes span')) return true; const a = v.querySelector('.pdetail-codes span').getBoundingClientRect(), b = v.querySelector('.pdetail-info').getBoundingClientRect(); return Math.abs(a.right - b.right) < 1.5; })(),
         rtl: [...v.querySelectorAll('.pdetail-text, .pdetail-sub, .pdetail-kicker, .pdetail-list li')].every((x) => getComputedStyle(x).direction === 'rtl' && ['right', 'start'].includes(getComputedStyle(x).textAlign)),
         fonts: [...v.querySelectorAll('.pdetail-info h1, .pdetail-info h2, .pdetail-info h3, .pdetail-info p, .pdetail-info li, .pdetail-info dt, .pdetail-info dd')].every((x) => getComputedStyle(x).fontFamily.replace(/["']/g, '').startsWith('Estedad')),
         side: ib.right <= info.left + 0.5 || mb.right <= info.left + 0.5, above: mb.bottom <= info.top + 0.5,
@@ -321,7 +335,8 @@ const RUN = (process.env.CAT || 'armored,instrumentation,solar,telecom').split('
     const lines = await page.evaluate(() => [...document.querySelectorAll('.rv-product:not([hidden]) .pdetail-structure, .rv-product:not([hidden]) .pdetail-codes span')].map((e) => { const r = document.createRange(); r.selectNodeContents(e); return new Set([...r.getClientRects()].filter((x) => x.width).map((x) => Math.round(x.top / 4))).size === 1; }));
     if (!lines.every(Boolean)) fails.push('a code line wraps ' + lines);
     const rgb = (c) => c.match(/[\d.]+/g).slice(0, 3).map(Number);
-    const [cr, cg, cb] = rgb(d.codeColor);
+    const [cr, cg, cb] = d.codeColor ? rgb(d.codeColor) : [100, 100, 100];
+    if (!d.codeColor !== !!C.noCodes) fails.push('codes line presence');
     if (C.muted ? Math.max(cr, cg, cb) - Math.min(cr, cg, cb) > 45 || cr < 60 : cb - cr < 100) fails.push('codes colour ' + d.codeColor);
     if (C.muted && d.hColor !== 'rgb(8, 120, 249)') fails.push('section title colour ' + d.hColor);
     if (!C.muted && d.hColor !== 'rgb(7, 28, 75)') fails.push('armored section title colour changed ' + d.hColor);

@@ -4,7 +4,24 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-11-04, telecom category + «در انتظار تأمین», waiting for the user's approval)
+## Exact stop point (2026-11-04, aluminium category, waiting for the user's approval)
+
+- Branch: `ccr-2cd3266d-qpjs3p`. Home card «کابل آلومینیومی» (slug `solar` in mapping.json) → category
+  `aluminum` (`#/products/aluminum`): `aluminum-multi-core-cable` «کابل آلومینیومی چند رشته» and
+  `aluminum-single-core-cable` «کابل آلومینیومی تک رشته» (no «آرین ابهر» anywhere).
+  - texts: the directive's; specs table جنس عایق XLPE / نوع هادی / ساختار ظاهری / سایز (chips, LTR,
+    cores×section — the reference stores «section * cores», bidi-reordered; 34 multi values, 13 single).
+  - standards: published IEC 60228 + ISIRI 3084; held back ISIRI 607-02 and IEC 60227 (PVC-insulated cable
+    standards, conflict with XLPE). ariancable.com unreachable (connection reset): all from screenshots.
+  - images: the client's SimLand renders → `tools/cutout-aluminum.py` (IS-Net + colour mask for the blue/red
+    cores + measured straight sheath edges; the sheath, cut by the render's frame, continued along each
+    body's own axis row by row with its own colours and ended with the cylinder's elliptical outline — no
+    fade). Previous version (with fade) backed up in the session scratchpad only.
+  - template: spec rows may carry `values` (chips) + `note`; content `{p, ltr}` / `{list, ltr}`;
+    `.pdetail-img.is-landscape` for landscape photos; QA `CATS.aluminum` (`noCodes`).
+- **Next action:** wait for the user's verdict. Still open: «فکس»/«کنترل», telecom sizes, `mapUrl`.
+
+### Previous step (2026-11-04): telecom category + «در انتظار تأمین»
 
 - Branch: `ccr-2cd3266d-qpjs3p`.
 - Telecom (`#/products/telecom`): products `telecom-indoor-cable` (JY (ST) Y, Cu/PVC/OSCR/PVC, جنس عایق PVC) and

@@ -2504,6 +2504,40 @@ h2[tabindex='-1']:focus {
   letter-spacing: 0.04em;
 }
 
+/* a list of sizes in the specs table («کابل آلومینیومی»): the label above, the sizes as small LTR chips that wrap */
+.pdetail-spec.is-sizes {
+  display: block;
+}
+
+.pdetail-spec-note {
+  display: block;
+  margin-top: 2px;
+  color: #8a97aa;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.pdetail-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pdetail-sizes li {
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: #f1f4f8;
+  color: var(--navy);
+  font-size: clamp(0.84rem, 3.3cqi, 0.95rem);
+  font-weight: 800;
+  line-height: 1.5;
+  box-shadow: inset 0 0 0 1px rgba(16, 42, 84, 0.08);
+  unicode-bidi: isolate;
+}
+
 /* sub-headings inside a long text (the accordion of «کابل سولار») */
 .pdetail-sub {
   margin-top: 20px;
@@ -2596,10 +2630,11 @@ html:not(.js) .pdetail-acc[open] .pdetail-acc-icon {
   }
 }
 
-/* «کابل ابزار دقیق», «کابل سولار» and «کابل مخابراتی» pages: the codes in grey, the section titles in the site's blue */
+/* «کابل ابزار دقیق», «کابل سولار», «کابل مخابراتی» and «کابل آلومینیومی» pages: the codes in grey, the section titles in the site's blue */
 .pdetail[data-category='instrumentation'] .pdetail-codes span,
 .pdetail[data-category='solar'] .pdetail-codes span,
-.pdetail[data-category='telecom'] .pdetail-codes span {
+.pdetail[data-category='telecom'] .pdetail-codes span,
+.pdetail[data-category='aluminum'] .pdetail-codes span {
   background: #f1f4f8;
   color: #5b6a80;
   box-shadow: inset 0 0 0 1px rgba(16, 42, 84, 0.08);
@@ -2607,7 +2642,8 @@ html:not(.js) .pdetail-acc[open] .pdetail-acc-icon {
 
 .pdetail[data-category='instrumentation'] .pdetail-h,
 .pdetail[data-category='solar'] .pdetail-h,
-.pdetail[data-category='telecom'] .pdetail-h {
+.pdetail[data-category='telecom'] .pdetail-h,
+.pdetail[data-category='aluminum'] .pdetail-h {
   color: var(--brand);
 }
 
@@ -2670,6 +2706,14 @@ html:not(.js) .pdetail-acc[open] .pdetail-acc-icon {
     min-width: 260px;
     padding: 0 34px;
   }
+}
+
+/* a landscape photo (the aluminium cables): as wide as the column allows, its own ratio, never taller than a
+   portrait photo's frame */
+.pdetail-img.is-landscape {
+  width: auto;
+  height: auto;
+  max-width: 100%;
 }
 
 /* a product photo with few pixels (.is-low, --native-h set by the build): never drawn with more device

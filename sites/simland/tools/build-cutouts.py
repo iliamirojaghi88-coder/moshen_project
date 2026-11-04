@@ -19,7 +19,7 @@ import numpy as np
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
-JOBS = [('why', n) for n in ('shield', 'variety', 'headset', 'box')] + [('contact', 'phone'), ('resume', 'folder'), ('catalog', 'armored-copper-cable'), ('catalog', 'instrumentation-armored-cable'), ('catalog', 'solar-panel-cable'), ('catalog', 'telecom-indoor-cable'), ('catalog', 'telecom-outdoor-cable')]
+JOBS = [('why', n) for n in ('shield', 'variety', 'headset', 'box')] + [('contact', 'phone'), ('resume', 'folder'), ('catalog', 'armored-copper-cable'), ('catalog', 'instrumentation-armored-cable'), ('catalog', 'solar-panel-cable'), ('catalog', 'telecom-indoor-cable'), ('catalog', 'telecom-outdoor-cable'), ('catalog', 'aluminum-multi-core-cable'), ('catalog', 'aluminum-single-core-cable')]
 SPECK_ALPHA = 12  # a stray component this faint (and small, and apart) is background residue
 PAD = 6
 
