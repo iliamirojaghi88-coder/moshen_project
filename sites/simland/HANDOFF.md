@@ -30,6 +30,17 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
   without mica (table XLPE vs list PVC, PVC sheath under an LSZH name, 300/500 V, +70 °C). Low-resolution reads to
   confirm: LSZH wire standards (EN 50525 / IEC 60331) and their application line. The reference calls «سیم کیسه‌ای»
   «(حلقه)» but prices it per metre (both kept).
+- Queued fixes done after the main work (same step):
+  1. Solar: new product `solar-cable-simland` «کابل سولار سیم‌لند» (second card of `#/products/solar`, the first
+     product untouched): the client's SimLand render via `tools/cutout-upright.py solar-cable-simland` (glow removed,
+     geometric sheath, `open_end` 1440 → card/page run it off the bottom). No name / data came with it: the page
+     lists only what the photo shows + «ارتباط با ما». Ask the client for its name and specs.
+  2. Light box behind the control-cable photos on first display (user's phone): the two files held the render's
+     glow colours (up to white) under alpha 0; a GPU path that composites unpremultiplied (with the cards'
+     drop-shadow) showed them until the next raster. Root fix in `tools/build-cutouts.py`: RGB 0 under alpha 0 for
+     every lossless photo, saved with `exact=True` (visible pixels byte-identical, checked); lossy building-* photos:
+     residual colour only within ~8 px of the cable (codec ringing), 99.97 % of the box is 0. Not reproducible in
+     headless software rendering (first frames identical to the settled one): confirm on the phone.
 - **Next action:** wait for the user's verdict.
 
 ## Previous stop point (2026-11-04, control cable category + upright aluminium images)

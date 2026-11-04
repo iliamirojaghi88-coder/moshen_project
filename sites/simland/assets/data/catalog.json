@@ -2357,6 +2357,38 @@
           ]
         }
       ]
+    },
+    {
+      "id": "solar-cable-simland",
+      "category": "solar",
+      "name": "کابل سولار سیم‌لند",
+      "image": "solar-cable-simland",
+      "bleed": "bottom",
+      "imageAlt": "کابل سولار سیم‌لند: هادی مسی رشته‌ای، عایق صورتی و روکش مشکی",
+      "sourceNote": "the client's SimLand render only (2026-11-04); name and every technical value to be supplied by the client",
+      "sections": [
+        {
+          "id": "specs",
+          "title": "مشخصات فنی",
+          "specs": [
+            {
+              "label": "ساختار ظاهری",
+              "value": "هادی مسی رشته‌ای، عایق صورتی و روکش مشکی"
+            }
+          ]
+        },
+        {
+          "id": "ask",
+          "title": "مشخصات و قیمت",
+          "content": [
+            {
+              "p": "برای دریافت مشخصات فنی، سایزها و قیمت روز این کابل، روی",
+              "cta": "ارتباط با ما",
+              "after": "بزنید."
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -40,6 +40,9 @@ SS = 4
 JOBS = {
     'control-flexible-cable': dict(holes_from=260, bundle_from=320, sheath_from=740, fit=(800, 1420)),
     'control-flexible-shielded-cable': dict(holes_from=260, bundle_from=320, sheath_from=880, fit=(900, 1420)),
+    # the SimLand solar cable (pink insulation, black sheath): runs on past the bottom of the render, so it has no
+    # end of its own: the picture stops at open_end (a straight row of the sheath) and the page runs it off the edge
+    'solar-cable-simland': dict(holes_from=10**6, bundle_from=0, sheath_from=660, fit=(700, 1400), open_end=1440),
     'aluminum-multi-core-cable': dict(src='upright-original', holes_from=200, bundle_from=0, sheath_from=760, fit=(800, 1400)),
     # three single-core cables, black on black (the model cannot see them, not even on a lifted copy): each sheath
     # is a cylinder measured on the render (luminance steps of a gamma-0.35 copy): sides L/R, the top rim's
@@ -144,12 +147,18 @@ def sheath_job(job, a, au, lum):
     ys = np.arange(h, dtype=np.float64)[:, None]
     xx = np.arange(w, dtype=np.float64)[None, :]
     Lr, Rr = Lf(ys), Rf(ys)
-    yb = h - 1 - 140
-    xc, ha, yc, hb = end_ellipse(lum, float(Lf(yb)), float(Rf(yb)), h - 140)
-    print(f'  sides {Lf(1000):.1f}..{Rf(1000):.1f}, end yc {yc:.1f} hb {hb:.1f} (ratio {hb / ha:.2f})')
-    endy = yc + hb * np.sqrt(np.clip(1 - ((xx - xc) / ha) ** 2, 0, 1))
+    if job.get('open_end'):
+        endy = np.full((1, w), float(job['open_end']))
+        print(f'  sides {Lf(1000):.1f}..{Rf(1000):.1f}, open end at row {job["open_end"]}')
+    else:
+        yb = h - 1 - 140
+        xc, ha, yc, hb = end_ellipse(lum, float(Lf(yb)), float(Rf(yb)), h - 140)
+        print(f'  sides {Lf(1000):.1f}..{Rf(1000):.1f}, end yc {yc:.1f} hb {hb:.1f} (ratio {hb / ha:.2f})')
+        endy = yc + hb * np.sqrt(np.clip(1 - ((xx - xc) / ha) ** 2, 0, 1))
     side = np.minimum(xx - Lr, Rr - xx)
     sheath = np.clip(np.minimum(side, endy - ys) + 0.5, 0, 1)
+    if job.get('open_end'):
+        sheath[int(job['open_end']):] = 0  # a straight cut: no soft last row
     sf = job['sheath_from']
     alpha = au.copy()
     alpha[sf:] = sheath[sf:]
@@ -181,7 +190,10 @@ def edge_colours(rgb, alpha):
     return out
 
 
+import sys
 for name, job in JOBS.items():
+    if len(sys.argv) > 1 and name not in sys.argv[1:]:
+        continue
     im = Image.open(CAT / f"{name}-{job.get('src', 'original')}.png").convert('RGB')
     rgb = np.asarray(im).astype(np.float32)
     a, au = model_shape(im, job)
@@ -189,6 +201,6 @@ for name, job in JOBS.items():
     out = edge_colours(rgb, alpha)
     rgba = np.dstack([np.clip(out + 0.5, 0, 255).astype(np.uint8), (alpha * 255 + 0.5).astype(np.uint8)])
     yy, xs = np.nonzero(rgba[..., 3] > 2)
-    rgba = rgba[max(0, yy.min() - 2):yy.max() + 3, max(0, xs.min() - 2):xs.max() + 3]
+    rgba = rgba[max(0, yy.min() - 2):yy.max() + (1 if job.get('open_end') else 3), max(0, xs.min() - 2):xs.max() + 3]
     Image.fromarray(rgba, 'RGBA').save(CAT / f'{name}.png', optimize=True)
     print(name, rgba.shape[1], 'x', rgba.shape[0])
