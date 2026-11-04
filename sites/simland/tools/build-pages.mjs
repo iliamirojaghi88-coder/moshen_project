@@ -68,11 +68,13 @@ async function productCards(single) {
     const file = at('assets/images/products', `${p.slug}.webp`);
     const { width, height } = await sharp(file).metadata();
     const src = single ? await dataUri(file) : `assets/images/products/${p.slug}.webp`;
+    // wider than the widest cable the card layouts were drawn for (0.63 as wide as tall)
+    const wide = (width / height) * (p.scale || 1) > 0.66;
     cards.push(`        <li class="pcard${category ? ' is-linked' : ''}" data-tone="${p.tone}" data-reveal="up">
           <article class="pcard-in" aria-labelledby="prod-${p.slug}">
             <div class="pcard-media" aria-hidden="true">
               <svg class="pcard-mark"><use href="#p-${p.icon}"/></svg>
-              <img src="${src}" alt="" width="${width}" height="${height}"${p.scale ? ` style="--s: ${p.scale}"` : ''} loading="lazy" decoding="async" draggable="false">
+              <img${wide ? ' class="is-wide"' : ''} src="${src}" alt="" width="${width}" height="${height}"${p.scale ? ` style="--s: ${p.scale}"` : ''} loading="lazy" decoding="async" draggable="false">
             </div>
             <div class="pcard-body">
               <span class="pcard-icon" aria-hidden="true"><svg><use href="#p-${p.icon}"/></svg></span>

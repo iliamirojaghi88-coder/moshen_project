@@ -18,9 +18,10 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
     the solar photo (opaque, black studio background) is matted like the original ten. The other seven masters
     and card images are byte-identical; old `aluminium` / `armoured` masters and images removed; `p-lv`, `p-bolt`
     removed (no other user).
-  - size rule: one height for all; `max-width: 92%` + `object-fit: contain` (bottom centre) so a very wide photo
-    (telecom fan in the side-by-side layout, 0.79 wide per height) is fitted, never cut; optional `scale` per
-    photo in mapping.json (`--s`), only the elevator (0.86: a flat block much bulkier than the rest).
+  - size rule: one height for all; a photo wider than the layouts were drawn for (w/h × scale > 0.66) gets
+    `.is-wide` at build: `max-width: 92%` + `object-fit: contain` (bottom centre), fitted, never cut (only the
+    telecom fan, 0.79). Scoped on purpose: a global object-fit resampled «ابزار دقیق» a sub-pixel differently.
+    Optional `scale` per photo in mapping.json (`--s`), only the elevator (0.86: a flat block much bulkier).
   - QA: `products.cjs` checks names, symbols (corner + mark), new photos, pictures as drawn (inside the box),
     one height except declared scale / 92% fit, 15 widths; a pixel diff of the seven other cards against the
     previous build.
