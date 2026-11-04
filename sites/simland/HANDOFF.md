@@ -21,6 +21,12 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
     دسته» before a list of four — kept verbatim.
   - template (build-pages.mjs): `subtitle`, `codesLabel`, `code` as a list, `specs` table, `content` blocks,
     `afterInquiry`; armored and instrumentation pages byte-identical. Solar shares the grey-code / blue-title look.
+  - the client's solar photo is small (227×732): `.pdetail-img.is-low` + `--native-h` caps it per screen-density
+    band so it is never upscaled (slightly smaller frame fill on 2–3× screens). Ask for a larger file if wanted.
+- Delivered `SIMLAND-site-2026-11-04-739d3af.zip` + standalone. Tests: catalog 10/10 widths × 3 categories
+  (solar re-run after the cap), all 10 home cards pixel-identical to the previous build, products 15/15,
+  contact 11/11, nav-spy 8/8, motion-nav 9/9, why 9/9, responsive 11/11, interact (7 locked + 3 linked),
+  fallback 2/2; delivered zip + standalone: solar 375/1440, resume-open — all PASS.
 - **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`).
 
 ### Previous step (2026-11-04): product cards elevator / telecom / solar photo
