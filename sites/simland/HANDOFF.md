@@ -25,6 +25,11 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
   - QA: `products.cjs` checks names, symbols (corner + mark), new photos, pictures as drawn (inside the box),
     one height except declared scale / 92% fit, 15 widths; a pixel diff of the seven other cards against the
     previous build.
+- Delivered: `SIMLAND-site-2026-11-04-779e2dc.zip` + `SIMLAND-standalone-2026-11-04-779e2dc.html` (byte-identical to
+  the build of 779e2dc). Tests: products 15/15 (320–1920 incl. 412/1280/1440), the seven other cards pixel-identical
+  to the previous build at 375/768/1440/1920, catalog (375/1440), contact 11/11, nav-spy 8/8, motion-nav 9/9,
+  why 9/9, responsive 11/11, interact (8 locked + 2 linked), fallback 2/2; delivered zip + standalone: products
+  375/1440, catalog 375, resume-open — all PASS.
 - **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`).
 
 ### Previous step (2026-11-04): instrumentation cable pages
