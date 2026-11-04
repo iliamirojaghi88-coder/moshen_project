@@ -24,10 +24,10 @@ const path = require('path');
     const bar = document.querySelector('.topbar').getBoundingClientRect();
     return { titleTop: Math.round(t.top), clearOfHeader: t.top >= bar.bottom, inView: t.bottom <= innerHeight };
   });
-  // the product buttons are locked for now (no product pages yet): no navigation
-  await p.locator('.pcard-cta').first().click({ force: true });
+  // the product buttons without a catalogue page yet are locked: no navigation
+  await p.locator('.pcard:not(.is-linked) .pcard-cta').first().click({ force: true });
   await p.waitForTimeout(300);
-  const cardsLocked = p.url().split('#')[0] === before.split('#')[0] && !(await p.evaluate(() => document.querySelector('.pcard-cta').hasAttribute('href')));
+  const cardsLocked = p.url().split('#')[0] === before.split('#')[0] && !(await p.evaluate(() => document.querySelector('.pcard:not(.is-linked) .pcard-cta').hasAttribute('href')));
   await p.evaluate(() => scrollTo(0, 0));
   await p.locator('.hero-actions .btn-soft').click();
   // smooth scrolling is slow in software rendering: wait for the landing itself
