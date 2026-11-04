@@ -4,7 +4,35 @@ Branch: `ccr-d2e3e0ff-1uszuu` (latest). Deliverable: `sites/simland/dist/index.h
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-11-04, control cable category + upright aluminium images)
+## Exact stop point (2026-11-04, «سیم و کابل ساختمانی»: 16 cards, gallery, colours, sizes, «ارتباط با ما» links)
+
+- Branch: `ccr-d2e3e0ff-1uszuu`. Home card «سیم و کابل ساختمانی» (slug `fire-resistant`) → category `building`
+  (`#/products/building`): 14 products of its own + the two telecom cables (listed through the category's `items`,
+  their pages stay under `#/products/telecom/…`, no duplicates). Data written by `tools/data-building.py` (re-run it,
+  then `node tools/build-pages.mjs`); sources: the client's ~40 screenshots + SimLand renders, copies in
+  `source/catalog/reference-building-*`.
+- Order: سیم افشان (حلقه) · سیم افشان (متراژ) NYAF · سیم مفتول (حلقه) NYA · سیم مفتول (متراژ) · سیم نایلونی (حلقه) ·
+  سیم کیسه‌ای (حلقه) · سیم افشان LSZH بدون/با نوار میکا · کابل افشان · کابل کولری · کابل قدرت افشان · کابل افشان
+  شیلددار LSZH بدون/با نوار میکا · کابل مخابراتی داخل/خارج · کابل کواکسیال.
+- Images: `tools/cutout-black.py` (renders on pure black: model ∪ luminance shape, colour = pixel / alpha, upright
+  cables lose their bottom cap: `open_end`), the cooler PNG cleaned of stray specks; `tools/build-cutouts.py`:
+  building-* lossy q92 + lossless alpha (dist 29.6 → 19.9 MB), `OPEN` sides keep no margin, `TECH` labelled
+  pictures stay opaque (q90). Duplicates the user sent twice (red LSZH wire, red mica wire) used once.
+- Template: `bleed` (cable runs off that frame edge: card `--l/--r/--t/--b` + object-position, product page negative
+  margins `--pm`), `cardZoom` (NYA 1.35, flat twin 1.3), `gallery` (stage + thumbnails, technical slides on black),
+  colour swatches (`colors`, `slide` = own photo: آبی → blue wire, زرد → yellow NYA/متراژ), selectable sizes
+  (`selectable`), `pchoice-summary`, `#cpanel-choice` (panel names product + choice), content `{p, cta, after}` →
+  `.text-cta` «ارتباط با ما» opening the contact panel; category `items`; control products got their labelled diagrams.
+- Brand: every manufacturer sentence rewritten for SimLand as supplier (never maker), the manufacturer's phone
+  replaced by «ارتباط با ما»; the category text's «buy direct from the factory» line neutralised.
+- Held back (contradictory / unreadable in the reference): sizes of کابل افشان (wrapped list) and کابل قدرت افشان
+  (single-core sizes next to a five-core cable); insulation / sheath / voltage / temperature of the shielded LSZH cable
+  without mica (table XLPE vs list PVC, PVC sheath under an LSZH name, 300/500 V, +70 °C). Low-resolution reads to
+  confirm: LSZH wire standards (EN 50525 / IEC 60331) and their application line. The reference calls «سیم کیسه‌ای»
+  «(حلقه)» but prices it per metre (both kept).
+- **Next action:** wait for the user's verdict.
+
+## Previous stop point (2026-11-04, control cable category + upright aluminium images)
 
 - Branch: `ccr-d2e3e0ff-1uszuu` (= `ccr-2cd3266d-qpjs3p` merged into main; the parallel
   `ccr-f66cc10f-dhtfd8` aluminium attempt was NOT merged: superseded by 2cd3's build).

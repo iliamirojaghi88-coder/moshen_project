@@ -191,16 +191,23 @@ async function catalog() {
 async function catalogPages(single) {
   const { categories, products } = await catalog();
   const media = {};
+  // a photo of a product, a gallery item ({image, imageAlt, bleed, kind}) or a card's photo. bleed: the sides where
+  // the cable runs on past the render's frame (tools/build-cutouts.py OPEN), drawn against that edge of the frame
   const img = async (p, cls, eager) => {
     const file = at('assets/images/catalog', `${p.image}.webp`);
     const { width, height } = await sharp(file).metadata();
     if (single) media[p.image] = await dataUri(file);
     const src = single ? `data-media="${p.image}"` : `src="assets/images/catalog/${p.image}.webp"`;
+    const tech = p.kind === 'technical';
     // a photo with fewer pixels than the product frame was drawn for (1692 px high): never shown larger than them
-    const low = cls === 'pdetail-img' && height < 1692 ? ` style="--native-h: ${height}px"` : '';
+    const low = cls === 'pdetail-img' && !tech && height < 1692 ? ` style="--native-h: ${height}px"` : '';
     // a landscape photo (the aluminium cables) is sized by the column width, its own ratio kept
-    const wide = cls === 'pdetail-img' && width > height ? ' is-landscape' : '';
-    return `<img class="${cls}${low ? ' is-low' : ''}${wide}" ${src} alt="${esc(p.imageAlt)}" width="${width}" height="${height}"${low} decoding="async"${eager ? '' : ' loading="lazy"'} draggable="false">`;
+    // (also a near-square one, wider than 0.8 of its height: the cable fans of «سیم و کابل ساختمانی»)
+    const wide = cls === 'pdetail-img' && width > 0.8 * height ? ' is-landscape' : '';
+    const bleed = (p.bleed || '').split(/\s+/).filter(Boolean).map((b) => ` bl-${b}`).join('');
+    // cardZoom: a long lying cable is enlarged in its card, away from its cut side (the rest runs off that edge)
+    const zoom = cls === 'acard-img' && p.cardZoom ? ` style="--zoom: ${p.cardZoom}"` : '';
+    return `<img class="${cls}${low ? ' is-low' : ''}${wide}${tech ? ' is-tech' : ''}${bleed}${zoom ? ' is-zoom' : ''}" ${src} alt="${esc(p.imageAlt)}" width="${width}" height="${height}"${low}${zoom} decoding="async"${eager ? '' : ' loading="lazy"'} draggable="false">`;
   };
   // a very slim photo (more than 5× as tall as wide) gets a taller frame on the product page
   const slim = async (p) => {
@@ -211,6 +218,8 @@ async function catalogPages(single) {
   // or a list, each may break after a «/» on a narrow phone), a table (specs: label, value, ltr?) or a run
   // of blocks (content: {h} sub-heading, {p} paragraph, {list}); collapsible: an accordion, closed at first
   const list = (items, pad = '            ', ltr = false) => `<ul class="pdetail-list" role="list">\n${items.map((t) => `${pad}  <li${ltr ? ' lang="en"' : ''}>${ltr ? `<bdi dir="ltr">${esc(t)}</bdi>` : esc(t)}</li>`).join('\n')}\n${pad}</ul>`;
+  // a paragraph, optionally with a text link to the contact panel: {p, cta, after} → «p [cta] after»
+  const ctaLink = (b) => (b.cta ? ` <button type="button" class="text-cta" data-inquiry aria-haspopup="dialog">${esc(b.cta)}</button>${b.after ? ` ${esc(b.after)}` : ''}` : '');
   const section = (p, s) => {
     const codes = [].concat(s.code || []);
     const body = s.items
@@ -218,11 +227,15 @@ async function catalogPages(single) {
       : codes.length
         ? codes.map((c) => `<p class="pdetail-structure-line"><span class="pdetail-structure" dir="ltr" lang="en">${esc(c).replace(/\//g, '/<wbr>')}</span></p>`).join('\n            ')
         : s.specs
-          ? `<dl class="pdetail-specs">\n${s.specs.map((r) => (r.values
+          ? `<dl class="pdetail-specs">\n${s.specs.map((r) => (r.colors
+            ? `              <div class="pdetail-spec is-sizes is-colors"><dt id="pd-${p.id}-color">${esc(r.label)}${r.note ? ` <span class="pdetail-spec-note">${esc(r.note)}</span>` : ''}</dt><dd><div class="pcolors" role="radiogroup" aria-labelledby="pd-${p.id}-color">${r.colors.map((c) => `<label class="pcolor"><input type="radio" name="color-${p.id}" value="${esc(c.name)}" data-choice="رنگ"${c.slide !== undefined && p.gallery ? ` data-slide="${c.slide}"` : ''}><span class="pcolor-dot" style="--sw: ${c.hex}" aria-hidden="true"></span><span class="pcolor-name">${esc(c.name)}</span></label>`).join('')}</div></dd></div>`
+            : r.values && r.selectable
+            ? `              <div class="pdetail-spec is-sizes"><dt id="pd-${p.id}-size">${esc(r.label)}${r.note ? ` <span class="pdetail-spec-note">${esc(r.note)}</span>` : ''}</dt><dd><div class="pdetail-sizes is-pick" role="radiogroup" aria-labelledby="pd-${p.id}-size">${r.values.map((v) => `<label class="psize"><input type="radio" name="size-${p.id}" value="${esc(v)}" data-choice="سایز"><span dir="ltr">${esc(v)}</span></label>`).join('')}</div></dd></div>`
+            : r.values
             ? `              <div class="pdetail-spec is-sizes"><dt>${esc(r.label)}${r.note ? ` <span class="pdetail-spec-note">${esc(r.note)}</span>` : ''}</dt><dd><ul class="pdetail-sizes" role="list">${r.values.map((v) => `<li dir="ltr">${esc(v)}</li>`).join('')}</ul></dd></div>`
             : `              <div class="pdetail-spec"><dt>${esc(r.label)}</dt><dd${r.ltr ? ' dir="ltr" lang="en"' : ''}>${esc(r.value)}</dd></div>`)).join('\n')}\n            </dl>`
           : s.content
-            ? s.content.map((b) => (b.h ? `<h3 class="pdetail-sub">${esc(b.h)}</h3>` : b.list ? list(b.list, '              ', b.ltr) : `<p class="pdetail-text"${b.ltr ? ' lang="en"' : ''}>${b.ltr ? `<bdi dir="ltr">${esc(b.p)}</bdi>` : esc(b.p)}</p>`)).join('\n              ')
+            ? s.content.map((b) => (b.h ? `<h3 class="pdetail-sub">${esc(b.h)}</h3>` : b.list ? list(b.list, '              ', b.ltr) : `<p class="pdetail-text"${b.ltr ? ' lang="en"' : ''}>${b.ltr ? `<bdi dir="ltr">${esc(b.p)}</bdi>` : esc(b.p)}${ctaLink(b)}</p>`)).join('\n              ')
             : `<p class="pdetail-text">${esc(s.text)}</p>`;
     if (s.collapsible) {
       return `          <details class="pdetail-block pdetail-acc">
@@ -245,7 +258,7 @@ async function catalogPages(single) {
   };
   // a category's general text, under its grid: {h} heading, {p, lead?} paragraph (lead: bold lead-in), {list}
   const about = (c) => `      <section class="rv-about" aria-labelledby="about-${c.id}">
-${c.about.map((b, i) => (b.h ? `        <h2 class="rv-about-h"${i === 0 ? ` id="about-${c.id}"` : ''}>${esc(b.h)}</h2>` : b.list ? `        ${list(b.list, '        ')}` : `        <p class="pdetail-text">${b.lead ? `<strong>${esc(b.lead)}</strong> ` : ''}${esc(b.p)}</p>`)).join('\n')}
+${c.about.map((b, i) => (b.h ? `        <h2 class="rv-about-h"${i === 0 ? ` id="about-${c.id}"` : ''}>${esc(b.h)}</h2>` : b.list ? `        ${list(b.list, '        ')}` : `        <p class="pdetail-text">${b.lead ? `<strong>${esc(b.lead)}</strong> ` : ''}${esc(b.p)}${ctaLink(b)}</p>`)).join('\n')}
       </section>
 `;
   const crumbs = (items) => `      <nav class="rv-crumbs" aria-label="مسیر صفحه">
@@ -253,14 +266,33 @@ ${c.about.map((b, i) => (b.h ? `        <h2 class="rv-about-h"${i === 0 ? ` id="
       </nav>`;
   const inquiry = (p, cls) => `<button type="button" class="${cls}" data-inquiry aria-haspopup="dialog" aria-label="استعلام قیمت ${esc(p.name)}"><svg aria-hidden="true"><use href="#i-tag"/></svg><span>استعلام قیمت</span></button>`;
   const titled = (name, accent) => (accent && name.includes(accent) ? esc(name).replace(esc(accent), `<span class="accent">${esc(accent)}</span>`) : esc(name));
+  const choosable = (p) => (p.sections || []).some((x) => (x.specs || []).some((r) => r.colors || r.selectable));
+  // the product picture: one photo, or a gallery (the main photo, then p.gallery) with a row of thumbnails; a
+  // technical picture (labels on black) turns the frame black and is shown whole
+  const visual = async (p) => {
+    const media = (x) => `pdetail-media${x.kind === 'technical' ? ' is-tech' : ''}${x.bleed ? ' has-bleed' : ''}`;
+    if (!p.gallery) return `        <div class="${media(p)}${(await slim(p)) ? ' is-slim' : ''}">${await img(p, 'pdetail-img', true)}</div>`;
+    const all = [p, ...p.gallery];
+    const slides = [];
+    const thumbs = [];
+    for (const [i, x] of all.entries()) {
+      slides.push(`<figure class="pgal-slide${i ? '' : ' is-active'}" data-slide="${i}" data-frame="${media(x)}"${i ? ' aria-hidden="true"' : ''}>${await img(x, 'pdetail-img', !i)}</figure>`);
+      thumbs.push(`<button type="button" class="pgal-thumb${x.kind === 'technical' ? ' is-tech' : ''}" data-go="${i}" aria-pressed="${i ? 'false' : 'true'}" aria-label="تصویر ${String(i + 1).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d])} از ${String(all.length).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d])}: ${esc(x.imageAlt)}">${await img(x, 'pgal-thumb-img', false)}</button>`);
+    }
+    return `        <div class="pdetail-visual" data-gallery>
+          <div class="${media(p)} has-gallery${(await slim(p)) ? ' is-slim' : ''}"><div class="pgal-stage">${slides.join('')}</div></div>
+          <div class="pgal-thumbs" role="group" aria-label="تصاویر ${esc(p.name)}">${thumbs.join('')}</div>
+        </div>`;
+  };
   const pages = [];
   for (const c of categories) {
-    const items = products.filter((p) => p.category === c.id);
+    // c.items: the grid in this order, may list products of another category (their own page is kept: one page each)
+    const items = c.items ? c.items.map((id) => products.find((p) => p.id === id)) : products.filter((p) => p.category === c.id);
     const cards = [];
     for (const p of items) {
       cards.push(`          <li class="acard">
             <article class="acard-in" aria-labelledby="acard-${p.id}">
-              <a class="acard-link" href="#/products/${c.id}/${p.id}">
+              <a class="acard-link" href="#/products/${p.category}/${p.id}">
                 <span class="acard-media">${await img(p, 'acard-img', false)}</span>
                 <span class="acard-body"><span class="acard-title" id="acard-${p.id}" role="heading" aria-level="2">${esc(p.name)}</span></span>
               </a>
@@ -283,7 +315,7 @@ ${cards.join('\n')}
       </div>
 ${c.about ? about(c) : ''}    </div>
   </main>`);
-    for (const p of items) {
+    for (const p of items.filter((x) => x.category === c.id)) {
       pages.push(`<main class="route-view rv-product" data-route="/products/${c.id}/${p.id}" data-title="${esc(p.name)} | سیم‌لند" aria-labelledby="pd-${p.id}" hidden>
     <div class="rv-wrap">
 ${crumbs([['خانه', '#top'], ['محصولات', '#products'], [c.name, `#/products/${c.id}`], [p.name]])}
@@ -296,9 +328,10 @@ ${p.type ? `          <h2 class="pdetail-label" id="pd-${p.id}-type">نوع مح
 ` : ''}${p.codesText ? `          <h2 class="pdetail-label" id="pd-${p.id}-codes">${esc(p.codesLabel || 'کدهای فنی')}</h2>
           <p class="pdetail-codes" aria-labelledby="pd-${p.id}-codes"><span dir="ltr" lang="en">${esc(p.codesText)}</span></p>
 ` : ''}${p.description ? `          <p class="pdetail-desc">${esc(p.description)}</p>
-` : ''}${(p.sections || []).filter((x) => !x.afterInquiry).map((x) => section(p, x)).join('')}          ${inquiry(p, 'btn btn-primary pdetail-inquiry')}
+` : ''}${(p.sections || []).filter((x) => !x.afterInquiry).map((x) => section(p, x)).join('')}${choosable(p) ? `          <p class="pchoice-summary" data-choice-summary aria-live="polite" hidden></p>
+` : ''}          ${inquiry(p, 'btn btn-primary pdetail-inquiry')}
 ${(p.sections || []).filter((x) => x.afterInquiry).map((x) => section(p, x)).join('')}        </div>
-        <div class="pdetail-media${(await slim(p)) ? ' is-slim' : ''}">${await img(p, 'pdetail-img', true)}</div>
+${await visual(p)}
       </article>
       <a class="rv-back" href="#/products/${c.id}"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>بازگشت به ${esc(c.name)}</span></a>
     </div>
@@ -332,6 +365,7 @@ async function contactPanel() {
       <h2 class="cpanel-title" id="cpanel-title">تماس با ما</h2>
     </header>
     <p class="cpanel-hint" id="cpanel-hint">برای تماس، روی شماره دلخواه ضربه بزنید</p>
+    <p class="cpanel-choice" id="cpanel-choice" aria-live="polite" hidden></p>
     <ul class="cpanel-list" role="list">
 ${rows.join('\n')}
     </ul>

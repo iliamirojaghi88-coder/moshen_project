@@ -10,6 +10,10 @@ in ~/.cache/simland-models/, run with onnxruntime). Then:
 Colours are the render's own pixels: nothing is painted, recoloured or reshaped.
 
     python3 -I tools/cutout-model.py
+
+Superseded for the site (2026-11-04): the telecom photos now come from the client's newer SimLand renders via
+tools/cutout-black.py; this script writes its results as *-previous.png so it never overwrites them. Its
+functions (model_alpha, solid) are still used by the other cut-out tools.
 """
 from pathlib import Path
 
@@ -57,5 +61,5 @@ for im, a, name in [(white, aw, 'telecom-indoor-cable'), (black, ab, 'telecom-ou
     rgba = np.dstack([np.asarray(im), (a * 255 + 0.5).astype(np.uint8)])
     ys, xs = np.nonzero(rgba[..., 3] > 2)
     rgba = rgba[max(0, ys.min() - 2):ys.max() + 3, max(0, xs.min() - 2):xs.max() + 3]
-    Image.fromarray(rgba, 'RGBA').save(CAT / f'{name}.png', optimize=True)
+    Image.fromarray(rgba, 'RGBA').save(CAT / f'{name}-previous.png', optimize=True)
     print(name, rgba.shape[1], 'x', rgba.shape[0])

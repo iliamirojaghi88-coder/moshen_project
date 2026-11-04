@@ -329,6 +329,7 @@ if (panel) {
       return;
     }
     opener = trigger;
+    fillChoice(trigger);
     document.documentElement.classList.add('panel-open');
     panel.showModal();
   });
@@ -341,6 +342,70 @@ if (panel) {
     if (opener) opener.focus({ preventScroll: true });
     opener = null;
   });
+}
+
+// ---------------------------------------------------------------- product pages: gallery and choices
+// Gallery: a thumbnail shows its picture in the frame (the frame takes the picture's look: technical pictures on
+// black). Choices: colour and size are radio buttons; the choice is summed up under the specs; a colour with its
+// own photo (data-slide) shows that photo, another colour goes back to the main photo. The contact panel names
+// the product and the choice it was opened with.
+function showSlide(visual, i) {
+  if (!visual) return;
+  const slides = visual.querySelectorAll('.pgal-slide');
+  const slide = slides[i];
+  if (!slide) return;
+  slides.forEach((s, k) => {
+    s.classList.toggle('is-active', k === i);
+    if (k === i) s.removeAttribute('aria-hidden');
+    else s.setAttribute('aria-hidden', 'true');
+  });
+  visual.querySelectorAll('.pgal-thumb').forEach((t, k) => t.setAttribute('aria-pressed', String(k === i)));
+  const media = visual.querySelector('.pdetail-media');
+  const frame = slide.dataset.frame || '';
+  media.classList.toggle('is-tech', /\bis-tech\b/.test(frame));
+  media.classList.toggle('has-bleed', /\bhas-bleed\b/.test(frame));
+}
+
+function choiceText(article) {
+  const parts = [...article.querySelectorAll('input[data-choice]:checked')].map((i) => `${i.dataset.choice}: ${i.value}`);
+  return parts.join('، ');
+}
+
+document.addEventListener('click', (e) => {
+  const thumb = e.target.closest('.pgal-thumb');
+  if (!thumb) return;
+  showSlide(thumb.closest('[data-gallery]'), Number(thumb.dataset.go));
+});
+
+document.addEventListener('change', (e) => {
+  const input = e.target.closest('input[data-choice]');
+  if (!input) return;
+  const article = input.closest('.pdetail');
+  if (!article) return;
+  article.querySelectorAll(`input[name="${input.name}"]`).forEach((i) => i.closest('label').classList.toggle('is-on', i.checked));
+  const summary = article.querySelector('[data-choice-summary]');
+  if (summary) {
+    const text = choiceText(article);
+    summary.textContent = text ? `انتخاب شما — ${text}` : '';
+    summary.hidden = !text;
+  }
+  const visual = article.querySelector('[data-gallery]');
+  if (visual && input.dataset.choice === 'رنگ') showSlide(visual, input.dataset.slide !== undefined ? Number(input.dataset.slide) : 0);
+});
+
+function fillChoice(trigger) {
+  const box = document.getElementById('cpanel-choice');
+  if (!box) return;
+  const article = trigger.closest('.pdetail');
+  const name = article && article.querySelector('.pdetail-title');
+  if (!name) {
+    box.hidden = true;
+    box.textContent = '';
+    return;
+  }
+  const text = choiceText(article);
+  box.textContent = `محصول: ${name.textContent.trim()}${text ? `، ${text}` : ''}`;
+  box.hidden = false;
 }
 
 // opened with #products or #contact: land on the section once the fonts have settled the layout
