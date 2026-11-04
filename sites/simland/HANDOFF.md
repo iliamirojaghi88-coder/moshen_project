@@ -4,7 +4,20 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-11-04, solar product page, waiting for the user's approval)
+## Exact stop point (2026-11-04, telecom category + «در انتظار تأمین», waiting for the user's approval)
+
+- Branch: `ccr-2cd3266d-qpjs3p`.
+- Telecom (`#/products/telecom`): products `telecom-indoor-cable` (JY (ST) Y, Cu/PVC/OSCR/PVC, جنس عایق PVC) and
+  `telecom-outdoor-cable` (A2Y (ST) 2Y, Cu/HDPE/OSCR/HDPE); category `about` blocks under the grid.
+  - ariancable.com unreachable from the container (503 / connection reset): everything read from the client's
+    screenshots. Indoor «کاربرد» uses «تلفن، فکس» as in the reference (the directive typed «تلفن، کنترل») — tell
+    the user. Sizes (bidi-garbled in the reference) and the outdoor insulation (PVC vs HDPE) NOT published.
+  - images: `tools/cutout-model.py` (IS-Net ONNX in ~/.cache/simland-models, onnxruntime already installed).
+- Supply note: mapping `supply: "pending"` (نسوز, جوش, آسانسوری) → card click / Enter shows `#supply-toast` 2 s
+  (fade 180 ms inside the 2 s; re-click restarts). Cards look identical (same `<a class="pcard-cta">`).
+- **Next action:** wait for the user's verdict. Still open: a verified map link (`mapUrl`); telecom sizes.
+
+### Previous step (2026-11-04): solar product page
 
 - Branch: `ccr-2cd3266d-qpjs3p`.
 - Done in this step («دستور نهایی تکمیل کابل سولار»):
