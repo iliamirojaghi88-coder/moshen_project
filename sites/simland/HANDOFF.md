@@ -24,6 +24,13 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
   - router: Back to the exact home address a catalogue page was opened from restores the scroll position
     (`homeHash` from hashchange `oldURL`), also when that address was `#products`.
 - Grid stays 2 / 3 / 4 columns (the first prompt allowed 4–5; 4 kept so the armored page is unchanged).
+- Delivered: `SIMLAND-site-2026-11-04-7526880.zip` (index.html + assets/resume/simland-resume.pdf + راهنما.txt with
+  all five routes) and `SIMLAND-standalone-2026-11-04-7526880.html`, byte-identical to the build of commit 7526880.
+- Tests (sequential): catalog 10/10 widths × both categories (320/360/375/390/430/768/1024/1280/1440/1536);
+  products 12/12, nav-spy 8/8, motion-nav 9/9, why 9/9, responsive 11/11, résumé 11/11, interact (8 locked + 2 linked
+  cards), fallback 2/2; contact 10/11 then 375 re-run 2/2 PASS (the «چرا سیم‌لند؟» seam check reads 3–4 against a
+  limit of 3 — the same pre-existing hairline seen in earlier runs, not this change). On the delivered files:
+  catalog at 375/1440 (zip folder + standalone) and resume-open (zip + standalone) PASS.
 - **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`).
 
 ### Previous step (2026-11-03): armored cable pages + contact panel
