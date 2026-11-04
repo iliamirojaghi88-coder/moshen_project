@@ -139,6 +139,13 @@
       "accent": "آلومینیومی",
       "description": "",
       "homeCard": "solar"
+    },
+    {
+      "id": "control",
+      "name": "کابل کنترل افشان",
+      "accent": "کنترل افشان",
+      "description": "",
+      "homeCard": "building"
     }
   ],
   "products": [
@@ -352,7 +359,7 @@
       "category": "aluminum",
       "name": "کابل آلومینیومی چند رشته",
       "image": "aluminum-multi-core-cable",
-      "imageAlt": "کابل آلومینیومی چند رشته سیم‌لند: هادی‌های آلومینیومی با عایق‌های آبی، قرمز، سبز و زرد در روکش مشکی",
+      "imageAlt": "کابل آلومینیومی چند رشته سیم‌لند، ایستاده: هادی‌های آلومینیومی با عایق‌های آبی، قرمز، سبز و زرد در روکش مشکی",
       "description": "کابل آلومینیومی چند رشته بر اساس متراژ قیمت‌گذاری می‌شود.",
       "sizesSource": "ariancable.com screenshot (client), product «کابل آلومینیومی چند رشته»: 34 values «section * cores», read from the bidi-reordered list; standards on the page: ISIRI 607-02, ISIRI 3084, IEC 60227, IEC 60228 — 607-02 and 60227 (PVC-insulated cables) held back against XLPE.",
       "sections": [
@@ -433,21 +440,22 @@
             },
             {
               "list": [
-                "IEC 60228",
+                "IEC 60228 — هادی‌های کابل‌های عایق‌دار",
                 "ISIRI 3084"
               ],
               "ltr": true
             }
           ]
         }
-      ]
+      ],
+      "imageSource": "SimLand upright render (client, 2026-11-04) → tools/cutout-upright.py"
     },
     {
       "id": "aluminum-single-core-cable",
       "category": "aluminum",
       "name": "کابل آلومینیومی تک رشته",
       "image": "aluminum-single-core-cable",
-      "imageAlt": "کابل آلومینیومی تک رشته سیم‌لند: هادی‌های آلومینیومی رشته‌ای فشرده در عایق و روکش مشکی با خط زرد",
+      "imageAlt": "کابل آلومینیومی تک رشته سیم‌لند، ایستاده: سه کابل تک‌هادی با هادی آلومینیومی رشته‌ای در روکش مشکی، یکی با خط زرد",
       "description": "کابل آلومینیومی تک رشته بر اساس متراژ قیمت‌گذاری می‌شود.",
       "sizesSource": "ariancable.com screenshot (client), product «کابل آلومینیومی تک رشته»: 13 values «section*1»; standards as for the multi-core page, same hold-back.",
       "sections": [
@@ -466,7 +474,7 @@
             },
             {
               "label": "ساختار ظاهری",
-              "value": "هادی آلومینیومی رشته‌ای فشرده درون عایق و روکش مشکی."
+              "value": "یک هادی آلومینیومی رشته‌ای درون عایق و روکش مشکی."
             },
             {
               "label": "سایز",
@@ -507,10 +515,235 @@
             },
             {
               "list": [
-                "IEC 60228",
+                "IEC 60228 — هادی‌های کابل‌های عایق‌دار",
                 "ISIRI 3084"
               ],
               "ltr": true
+            }
+          ]
+        }
+      ],
+      "imageSource": "SimLand upright render (client, 2026-11-04) → tools/cutout-upright.py"
+    },
+    {
+      "id": "control-flexible-cable",
+      "category": "control",
+      "name": "کابل کنترل افشان",
+      "image": "control-flexible-cable",
+      "imageAlt": "کابل کنترل افشان سیم‌لند: رشته‌های سفید عایق‌دار و یک رشته ارت سبز و زرد با هادی مسی افشان، در روکش مشکی، بدون شیلد",
+      "description": "کابل کنترل افشان برای انتقال سیگنال‌های کنترلی و فرمان در تجهیزات و سیستم‌های صنعتی استفاده می‌شود.",
+      "sizesSource": "client screenshot of the manufacturer page (ariancable.com, unreachable from the container): sizes «cores*section», bidi-reordered; standards, conductor class and voltages as the manufacturer lists them for this model.",
+      "sections": [
+        {
+          "id": "specs",
+          "title": "مشخصات فنی",
+          "specs": [
+            {
+              "label": "جنس عایق",
+              "value": "PVC",
+              "ltr": true
+            },
+            {
+              "label": "نوع هادی",
+              "value": "مسی افشان"
+            },
+            {
+              "label": "شیلد",
+              "value": "بدون شیلد"
+            },
+            {
+              "label": "کاربرد",
+              "value": "مدارهای فرمان و کنترل"
+            },
+            {
+              "label": "سایز",
+              "values": [
+                "۷×۱",
+                "۱۲×۱",
+                "۲۰×۱",
+                "۲۴×۱",
+                "۳۰×۱",
+                "۴×۱.۵",
+                "۷×۱.۵",
+                "۱۰×۱.۵",
+                "۱۲×۱.۵",
+                "۲۰×۱.۵",
+                "۲۴×۱.۵",
+                "۳۰×۱.۵",
+                "۷×۲.۵",
+                "۱۰×۲.۵"
+              ],
+              "note": "تعداد رشته × سطح مقطع (میلی‌متر مربع)"
+            }
+          ]
+        },
+        {
+          "id": "more",
+          "title": "توضیحات",
+          "collapsible": true,
+          "afterInquiry": true,
+          "content": [
+            {
+              "h": "کابل کنترل افشان"
+            },
+            {
+              "p": "PVC",
+              "ltr": true
+            },
+            {
+              "h": "استاندارد ملی کابل کنترل افشان"
+            },
+            {
+              "list": [
+                "IEC 60227",
+                "IEC 60228",
+                "VDE 0250"
+              ],
+              "ltr": true
+            },
+            {
+              "h": "کلاس هادی کابل کنترل افشان"
+            },
+            {
+              "p": "مس خالص نرم استرند شده کلاس ۵"
+            },
+            {
+              "h": "ولتاژ اسمی کابل کنترل افشان"
+            },
+            {
+              "list": [
+                "300/500 V",
+                "450/750 V"
+              ],
+              "ltr": true
+            },
+            {
+              "h": "کاربرد کابل کنترل افشان"
+            },
+            {
+              "p": "این کابل برای انتقال فرمان و سیگنال‌های کنترلی در تابلوهای برق، تجهیزات صنعتی، ماشین‌آلات و سیستم‌های اتوماسیون کاربرد دارد. انتخاب سایز و تعداد رشته‌ها باید بر اساس شرایط نصب و نیاز مدار انجام شود."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control-flexible-shielded-cable",
+      "category": "control",
+      "name": "کابل کنترل افشان شیلددار",
+      "image": "control-flexible-shielded-cable",
+      "imageAlt": "کابل کنترل افشان شیلددار سیم‌لند: رشته‌های سفید و ارت سبز و زرد با هادی مسی افشان، زیر فویل و شیلد بافته فلزی، در روکش مشکی",
+      "description": "کابل کنترل افشان شیلددار برای انتقال سیگنال‌های کنترلی در محیط‌هایی که کاهش اثر تداخل الکترومغناطیسی اهمیت دارد، استفاده می‌شود.",
+      "sizesSource": "client screenshot of the manufacturer page (ariancable.com, unreachable from the container): sizes «cores*section», bidi-reordered; standards, conductor class and voltages as the manufacturer lists them for this model.",
+      "sections": [
+        {
+          "id": "specs",
+          "title": "مشخصات فنی",
+          "specs": [
+            {
+              "label": "جنس عایق",
+              "value": "PVC",
+              "ltr": true
+            },
+            {
+              "label": "نوع هادی",
+              "value": "مسی افشان"
+            },
+            {
+              "label": "شیلد",
+              "value": "بافته فلزی"
+            },
+            {
+              "label": "کاربرد",
+              "value": "مدارهای کنترل و فرمان در محیط‌های دارای نویز"
+            },
+            {
+              "label": "سایز",
+              "values": [
+                "۲×۱",
+                "۳×۱",
+                "۴×۱",
+                "۷×۱",
+                "۱۰×۱",
+                "۱۲×۱",
+                "۲۰×۱",
+                "۲۴×۱",
+                "۳۰×۱",
+                "۲×۱.۵",
+                "۳×۱.۵",
+                "۴×۱.۵",
+                "۷×۱.۵",
+                "۱۰×۱.۵",
+                "۱۲×۱.۵",
+                "۲۰×۱.۵",
+                "۲۴×۱.۵",
+                "۳۰×۱.۵",
+                "۲×۲.۵",
+                "۳×۲.۵",
+                "۴×۲.۵",
+                "۷×۲.۵"
+              ],
+              "note": "تعداد رشته × سطح مقطع (میلی‌متر مربع)"
+            }
+          ]
+        },
+        {
+          "id": "more",
+          "title": "توضیحات",
+          "collapsible": true,
+          "afterInquiry": true,
+          "content": [
+            {
+              "h": "کابل کنترل افشان شیلددار"
+            },
+            {
+              "p": "PVC",
+              "ltr": true
+            },
+            {
+              "h": "استاندارد ملی کابل کنترل افشان شیلددار"
+            },
+            {
+              "list": [
+                "IEC 60227",
+                "IEC 60228",
+                "VDE 0250"
+              ],
+              "ltr": true
+            },
+            {
+              "h": "کلاس هادی کابل کنترل افشان شیلددار"
+            },
+            {
+              "p": "مس خالص نرم استرند شده کلاس ۵"
+            },
+            {
+              "h": "ولتاژ اسمی کابل کنترل افشان شیلددار"
+            },
+            {
+              "list": [
+                "300/500 V",
+                "450/750 V"
+              ],
+              "ltr": true
+            },
+            {
+              "h": "شیلد کابل کنترل افشان شیلددار"
+            },
+            {
+              "p": "رشته‌های مسی نرم بافته‌شده با پوشش ۸۵٪"
+            },
+            {
+              "h": "ساختار شیلد"
+            },
+            {
+              "p": "این کابل دارای لایه شیلد فلزی بافته‌شده است که با نصب و اتصال صحیح می‌تواند به کاهش اثر تداخل الکترومغناطیسی بر سیگنال‌های کنترلی کمک کند."
+            },
+            {
+              "h": "کاربرد کابل کنترل افشان شیلددار"
+            },
+            {
+              "p": "این کابل در مدارهای فرمان، تابلوهای کنترل، تجهیزات صنعتی و سیستم‌هایی که در معرض نویز الکترومغناطیسی قرار دارند استفاده می‌شود. نوع شیلد، نحوه اتصال آن و انتخاب سایز باید با شرایط مدار و نصب مطابقت داشته باشد."
             }
           ]
         }

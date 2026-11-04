@@ -1,10 +1,33 @@
 # SIMLAND — handoff (read this first when the user says «ادامه پروژه»)
 
-Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/index.html` (single file).
+Branch: `ccr-d2e3e0ff-1uszuu` (latest). Deliverable: `sites/simland/dist/index.html` (single file).
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-11-04, aluminium category, waiting for the user's approval)
+## Exact stop point (2026-11-04, control cable category + upright aluminium images)
+
+- Branch: `ccr-d2e3e0ff-1uszuu` (= `ccr-2cd3266d-qpjs3p` merged into main; the parallel
+  `ccr-f66cc10f-dhtfd8` aluminium attempt was NOT merged: superseded by 2cd3's build).
+- Home card «کابل کنترل افشان» (slug `building`) → category `control` (`#/products/control`):
+  `control-flexible-cable` «کابل کنترل افشان» (right) and `control-flexible-shielded-cable`
+  «کابل کنترل افشان شیلددار» (left). No «آرین ابهر» in names. Specs: جنس عایق PVC / نوع هادی مسی افشان / شیلد
+  (بدون شیلد | بافته فلزی) / کاربرد / سایز chips (14 without shield, 22 with — read from the client's
+  screenshots of the manufacturer page, cores*section, sorted by section then cores; the unshielded list has
+  no 10×1 and only 7×2.5, 10×2.5 in 2.5 — exactly as the reference). Accordion «توضیحات»: PVC, standards
+  IEC 60227 / IEC 60228 / VDE 0250 (as the manufacturer lists them), class 5 soft stranded copper,
+  300/500 V + 450/750 V (the manufacturer does not say which size has which: not mapped), shield «رشته‌های مسی
+  نرم بافته‌شده با پوشش ۸۵٪» + the directive's shield text, the directive's application texts.
+- Images: ALL FOUR catalogue cables now come from the client's upright renders via `tools/cutout-upright.py`
+  (IS-Net + stretched alpha + filled bundle gaps + geometric sheaths with the render's own elliptical ends +
+  nearest-solid edge colours). Aluminium uses `*-upright-original.png` (sent by the user in this step); the
+  old diagonal renders and `tools/cutout-aluminum.py` are kept but no longer feed the site.
+- Aluminium data: single-core «ساختار ظاهری» = the directive's wording; standards list «IEC 60228 — هادی‌های
+  کابل‌های عایق‌دار», «ISIRI 3084» (not verifiable from the container; ISIRI 607-02 / IEC 60227 still held back).
+- QA `CATS.control` added to `tools/qa/catalog.cjs` (texts generated from catalog.json at the time of the step).
+- **Next action:** wait for the user's verdict. Still open: «فکس»/«کنترل», telecom sizes, `mapUrl`, ISIRI 3084
+  confirmation, voltage per size for the control cables.
+
+## Previous stop point (2026-11-04, aluminium category)
 
 - Branch: `ccr-2cd3266d-qpjs3p`. Home card «کابل آلومینیومی» (slug `solar` in mapping.json) → category
   `aluminum` (`#/products/aluminum`): `aluminum-multi-core-cable` «کابل آلومینیومی چند رشته» and
