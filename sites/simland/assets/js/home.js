@@ -279,6 +279,38 @@ document.querySelectorAll('details.pdetail-acc').forEach((acc) => {
   });
 });
 
+// ---------------------------------------------------------------- «در انتظار تأمین»
+// Cards marked supply: pending: a click (or Enter / Space on the card's button) shows one small note in
+// the middle of the screen for 2 s; another click restarts the 2 s. The text is set anew each time so
+// screen readers announce it again (role=status, aria-live=polite).
+const toast = document.getElementById('supply-toast');
+if (toast) {
+  const text = toast.querySelector('.supply-toast-text');
+  const SHOW = 2000;
+  const FADE = 180;
+  let timer = 0;
+  const show = () => {
+    clearTimeout(timer);
+    text.textContent = '';
+    toast.classList.add('is-on');
+    requestAnimationFrame(() => (text.textContent = 'در انتظار تأمین'));
+    timer = setTimeout(() => toast.classList.remove('is-on'), SHOW - FADE);
+  };
+  document.querySelectorAll('.pcard[data-supply]').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      show();
+    });
+    const cta = card.querySelector('[data-supply]');
+    cta.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        show();
+      }
+    });
+  });
+}
+
 // ---------------------------------------------------------------- the contact panel («استعلام قیمت»)
 // One <dialog> for the whole site (#contact-panel): every [data-inquiry] button opens
 // it. A centred card on larger screens, a sheet from the bottom on phones; closed by

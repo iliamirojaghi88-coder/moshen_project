@@ -68,7 +68,55 @@ CATS.solar = {
     'از آن جایی که در پنل‌های خورشیدی تبدیل انرژی خورشیدی به انرژی الکتریکی با سرعت پایینی انجام می‌شود، ولتاژ برق در پنل‌های خورشیدی پایین است و میزان جریان در آنها زیاد می‌باشد. همین موضوع باعث می‌شود که میزان اتلاف انرژی الکتریکی در این سیستم‌ها زیاد باشد. بنابراین کابل پنل خورشیدی باید به نوعی طراحی شود که کمترین اتلاف انرژی الکتریکی در آن رخ دهد.',
     'از طرف دیگر با توجه به اینکه کابل‌های پنل خورشیدی باید مستقیماً در مقابل تابش نور آفتاب و در فضای باز قرار گیرند، مقاومت در برابر آب و هوا و اشعه ماوراء بنفش از مهم‌ترین ویژگی این نوع کابل‌ها است. این کابل‌ها همچنین به علت احتمال آتش‌سوزی در فضای باز باید در مقابل دماهای بالا هم توانایی مقاومت داشته باشند.'],
 };
-const RUN = (process.env.CAT || 'armored,instrumentation,solar').split(',');
+// the general text under the telecom grid, as read from the client's reference screenshot (last section adapted for SimLand)
+const ABOUT_TELECOM = [
+  "کابل مخابراتی",
+  "کابل مخابراتی کابلی برای انتقال سیگنال‌های صوتی و داده در شبکه‌های تلفن و ارتباطات است. هادی‌های این کابل معمولاً از مس نازک ساخته می‌شوند و به‌صورت جفت‌های به‌هم‌تابیده داخل یک روکش مشترک قرار می‌گیرند. تاباندن هادی‌ها به‌صورت جفت، تداخل بین مسیرها و نویز بیرونی را کاهش می‌دهد و کیفیت سیگنال را حفظ می‌کند.",
+  "کابل مخابراتی در شبکه‌های تلفن ثابت، مراکز مخابرات، ساختمان‌های اداری و مسکونی و پروژه‌های ارتباطی استفاده می‌شود. برخلاف کابل‌های برق که برای انتقال انرژی ساخته می‌شوند، کابل مخابراتی برای انتقال سیگنال ضعیف با کمترین افت و تداخل طراحی شده است.",
+  "ویژگی‌های کابل مخابراتی",
+  "جفت‌های تابیده: هر دو هادی به‌هم تابیده می‌شوند تا نویز و تداخل بین جفت‌ها کم شود.",
+  "تعداد جفت‌های متنوع: کابل مخابراتی در ظرفیت‌های مختلف، از چند جفت تا صدها جفت، ساخته می‌شود و برای شبکه‌های کوچک و بزرگ مناسب است.",
+  "محافظت در برابر رطوبت: در برخی انواع، فضای خالی داخل کابل با ماده‌ی ضدآب پر می‌شود تا نفوذ رطوبت و آب جلوگیری شود.",
+  "روکش مقاوم: غلاف بیرونی کابل را در برابر سایش، رطوبت و شرایط محیطی محافظت می‌کند.",
+  "انواع کابل مخابراتی",
+  "کابل مخابراتی داخلی: برای نصب داخل ساختمان، ساختمان‌های اداری و مسکونی و اتصال تلفن و تجهیزات ارتباطی استفاده می‌شود.",
+  "کابل مخابراتی خارجی (زمینی): با غلاف ضخیم‌تر و محافظت بیشتر در برابر رطوبت، برای کابل‌کشی بیرونی، کانال‌کشی و دفن در زمین کاربرد دارد.",
+  "کابل مخابراتی هوایی: برای نصب روی تیر و مسیرهای هوایی ساخته می‌شود و معمولاً دارای عنصر نگهدارنده است.",
+  "کابل مخابراتی شیلددار: دارای لایه‌ی محافظ فلزی است و برای محیط‌های پرنویز و نیاز به کیفیت بالاتر سیگنال مناسب است.",
+  "کاربردهای کابل مخابراتی",
+  "شبکه‌ی تلفن ثابت ساختمان‌ها و مجتمع‌ها",
+  "ارتباط بین مراکز مخابرات و تجهیزات ارتباطی",
+  "کابل‌کشی ساختمان‌های اداری و تجاری",
+  "سیستم‌های اینترکام و تلفن داخلی",
+  "پروژه‌های ارتباطی و شبکه‌های داده‌ی سبک",
+  "راهنمای انتخاب کابل مخابراتی",
+  "تعداد جفت را بر اساس نیاز انتخاب کنید: ظرفیت کابل باید با تعداد خطوط فعلی و نیاز آینده هماهنگ باشد. در نظر گرفتن ظرفیت اضافه، توسعه‌ی بعدی شبکه را ساده‌تر می‌کند.",
+  "محل نصب را مشخص کنید: برای فضای داخلی، کابل سبک‌تر کافی است. برای مسیر بیرونی و دفن در زمین، کابل با غلاف مقاوم و محافظت در برابر رطوبت لازم است.",
+  "قطر هادی را بررسی کنید: هادی با قطر کافی، افت سیگنال را در مسافت‌های بلندتر کم می‌کند. هادی نازک‌تر از استاندارد، کیفیت ارتباط را کاهش می‌دهد.",
+  "جنس هادی را در نظر بگیرید: هادی مس خالص انتقال سیگنال بهتر و ماندگاری بیشتری دارد.",
+  "کیفیت عایق و روکش را بسنجید: عایق و روکش مرغوب، نویز و تداخل را کاهش می‌دهد و عمر کابل را بالا می‌برد.",
+  "عوامل مؤثر بر قیمت کابل مخابراتی",
+  "قیمت کابل مخابراتی به تعداد جفت‌ها، قطر و جنس هادی، نوع کابل (داخلی، خارجی، هوایی)، وجود شیلد و محافظت در برابر رطوبت، کیفیت عایق و روکش و قیمت روز مس بستگی دارد. هرچه ظرفیت و مشخصات حفاظتی کابل بیشتر باشد، قیمت آن هم بالاتر است.",
+  "خرید کابل مخابراتی از سیم‌لند",
+  "سیم‌لند، نمایندگی سیم و کابل آرین ابهر در استان قم، انواع کابل مخابراتی را ارائه می‌کند.",
+  "برای مشاوره‌ی انتخاب نوع و ظرفیت کابل مناسب پروژه‌ی خود و دریافت قیمت روز، با کارشناسان سیم‌لند تماس بگیرید."
+];
+CATS.telecom = {
+  title: 'کابل مخابراتی',
+  product: 'telecom-indoor-cable',
+  name: 'کابل مخابراتی داخل ساختمانی (هوایی)',
+  count: 2,
+  ltr: true,
+  muted: true,
+  texts: ['کابل مخابراتی داخل ساختمانی (هوایی)', 'کد محصول', 'JY (ST) Y', 'کاربرد:',
+    'این نوع کابل‌ها برای انتقال سیگنال‌های آنالوگ یا دیجیتال در تلفن، فکس، سیستم‌های اعلام سرقت یا اعلام حریق و سیستم‌های مخابراتی کاربرد دارند.',
+    'ساختار:', 'Cu/PVC/OSCR/PVC', 'جنس عایق', 'PVC'],
+  extra: [{ product: 'telecom-outdoor-cable', name: 'کابل مخابراتی خارج ساختمانی (زمینی)', texts: ['کابل مخابراتی خارج ساختمانی (زمینی)', 'کد محصول', 'A2Y (ST) 2Y', 'کاربرد:',
+    'این نوع کابل‌ها برای استفاده در قسمت‌های بیرونی ساختمان کاربرد دارند. هیچ‌کدام از این کابل‌ها جهت عبور الکتریسیته مناسب نبوده و در فرکانس‌های پایین در مدار کار می‌کنند.',
+    'ساختار:', 'Cu/HDPE/OSCR/HDPE'] }],
+  about: ABOUT_TELECOM,
+};
+const RUN = (process.env.CAT || 'armored,instrumentation,solar,telecom').split(',');
 
 (async () => {
   const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
@@ -150,12 +198,30 @@ const RUN = (process.env.CAT || 'armored,instrumentation,solar').split(',');
         btnFull: Math.abs(bb.left - card.left) <= 1.5 && Math.abs(bb.right - card.right) <= 1.5 && Math.abs(bb.bottom - card.bottom) <= 1.5,
         btnTall: bb.height, btnText: btn.textContent.trim(), btnBigger: parseFloat(getComputedStyle(btn).fontSize) >= parseFloat(getComputedStyle(title).fontSize),
         btnInLink: !!btn.closest('a'),
+        sameCards: (() => { const all = [...grid.querySelectorAll('.acard-in')].map((c) => c.getBoundingClientRect()); const bt = [...grid.querySelectorAll('.acard-inquiry')].map((b) => b.getBoundingClientRect()); return all.length < 2 || (all.every((r) => Math.abs(r.width - all[0].width) < 0.6 && (Math.abs(r.top - all[0].top) > 1 || Math.abs(r.height - all[0].height) < 0.6)) && bt.every((r) => Math.abs(r.height - bt[0].height) < 0.6 && (Math.abs(all[bt.indexOf(r)].top - all[0].top) > 1 || Math.abs(r.top - bt[0].top) < 0.6))); })(),
       };
     });
     const wantCols = g.wrap < 560 ? 2 : g.wrap < 900 ? 3 : 4;
     if (g.cols !== wantCols) fails.push(`grid ${g.cols} columns (want ${wantCols})`);
     if (w < 600 && g.cols !== 2) fails.push('phone grid not 2 columns');
-    if (g.n !== 1) fails.push(g.n + ' cards (one product)');
+    if (g.n !== (C.count || 1)) fails.push(g.n + ' cards');
+    if (C.count > 1 && !g.sameCards) fails.push('cards of one row differ ' + JSON.stringify(g.sameCards));
+    if (C.about) {
+      const ab = await page.evaluate(() => {
+        const v = document.querySelector('.rv-category:not([hidden])');
+        const a = v.querySelector('.rv-about');
+        if (!a) return null;
+        const grid = v.querySelector('.agrid').getBoundingClientRect();
+        return { texts: [...a.querySelectorAll('h2, p, li')].map((x) => x.textContent), below: a.getBoundingClientRect().top >= grid.bottom, inCard: !!a.closest('.acard'),
+          rtl: [...a.querySelectorAll('h2, p, li')].every((x) => getComputedStyle(x).direction === 'rtl' && ['right', 'start'].includes(getComputedStyle(x).textAlign) && getComputedStyle(x).fontFamily.replace(/["']/g, '').startsWith('Estedad')),
+          wide: [...a.querySelectorAll('*')].some((e) => e.getBoundingClientRect().right > innerWidth + 0.5 || e.getBoundingClientRect().left < -0.5) };
+      });
+      if (!ab) fails.push('no general text under the grid');
+      else {
+        if (JSON.stringify(ab.texts) !== JSON.stringify(C.about)) fails.push('general text differs: ' + ab.texts.findIndex((t, i) => t !== C.about[i]));
+        if (!ab.below || ab.inCard || !ab.rtl || ab.wide) fails.push('general text placement ' + JSON.stringify(ab));
+      }
+    }
     if (g.fit !== 'contain' || !g.imgInside) fails.push('card photo not whole in its box');
     if (g.titleText !== C.name || !g.titleClear || g.titleOverflow) fails.push('card title ' + JSON.stringify([g.titleText === C.name, g.titleClear, g.titleOverflow]));
     if (!g.btnFull || g.btnTall < 44 || g.btnText !== 'استعلام قیمت' || !g.btnBigger || g.btnInLink) fails.push('inquiry bar ' + JSON.stringify(g));
@@ -343,6 +409,22 @@ const RUN = (process.env.CAT || 'armored,instrumentation,solar').split(',');
     s = await state();
     const prodSeen = await page.evaluate(() => { const r = document.getElementById('products-title').getBoundingClientRect(); const bar = document.querySelector('.topbar').getBoundingClientRect(); return r.top >= bar.bottom - 1 && r.bottom <= innerHeight; });
     if (!s.home || !prodSeen) fails.push('«بازگشت به محصولات»: ' + JSON.stringify(s));
+    // the other products of the category: their own page by a direct link, texts exact
+    for (const x of C.extra || []) {
+      await page.goto(URL0 + CAT + '/' + x.product, { waitUntil: 'load' }); await page.waitForTimeout(600);
+      await page.waitForFunction(() => { const i = document.querySelector('.rv-product:not([hidden]) .pdetail-img'); return i && i.complete && i.naturalWidth; }, null, { timeout: 15000 }).catch(() => fails.push(x.product + ': photo not loaded'));
+      const e = await page.evaluate(() => {
+        const v = document.querySelector('.rv-product:not([hidden])');
+        const R = (q) => q.getBoundingClientRect();
+        const img = v.querySelector('.pdetail-img'), ib = R(img), mb = R(v.querySelector('.pdetail-media'));
+        return { h1: v.querySelector('h1').textContent, texts: [...v.querySelector('.pdetail-info').querySelectorAll('h1, h2, h3, p, li, dt, dd')].map((t) => t.textContent),
+          whole: ib.left >= mb.left - 0.5 && ib.right <= mb.right + 0.5 && ib.top >= mb.top - 0.5 && ib.bottom <= mb.bottom + 0.5,
+          ratio: Math.abs(ib.width / ib.height - img.naturalWidth / img.naturalHeight) < 0.01, enlarged: ib.height * devicePixelRatio > img.naturalHeight + 1,
+          overflow: document.documentElement.scrollWidth - innerWidth };
+      });
+      if (JSON.stringify(e.texts) !== JSON.stringify(x.texts)) fails.push(x.product + ' texts differ: ' + JSON.stringify(e.texts).slice(0, 200));
+      if (!e.whole || !e.ratio || e.enlarged || e.overflow > 0) fails.push(x.product + ' photo/overflow ' + JSON.stringify(e));
+    }
     sums.push(`${key}: ${g.cols} cols, card ${g.card.join('x')}, product ${d.side ? 'side by side' : 'stacked'}`);
     }
 

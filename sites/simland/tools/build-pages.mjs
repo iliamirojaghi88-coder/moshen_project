@@ -61,7 +61,12 @@ async function productCards(single) {
                 <span>مشاهده محصولات</span><span class="sr-only"> ${esc(category.name)}</span>
                 <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
               </a>`
-      : `<a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
+      : p.supply === 'pending'
+        ? `<a class="pcard-cta" role="button" tabindex="0" data-supply>
+                <span>مشاهده محصولات</span><span class="sr-only"> ${esc(p.name)}</span>
+                <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
+              </a>`
+        : `<a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
                 <span>مشاهده محصولات</span>
                 <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
               </a>`;
@@ -70,7 +75,7 @@ async function productCards(single) {
     const src = single ? await dataUri(file) : `assets/images/products/${p.slug}.webp`;
     // wider than the widest cable the card layouts were drawn for (0.63 as wide as tall)
     const wide = (width / height) * (p.scale || 1) > 0.66;
-    cards.push(`        <li class="pcard${category ? ' is-linked' : ''}" data-tone="${p.tone}" data-reveal="up">
+    cards.push(`        <li class="pcard${category ? ' is-linked' : ''}"${!category && p.supply === 'pending' ? ' data-supply' : ''} data-tone="${p.tone}" data-reveal="up">
           <article class="pcard-in" aria-labelledby="prod-${p.slug}">
             <div class="pcard-media" aria-hidden="true">
               <svg class="pcard-mark"><use href="#p-${p.icon}"/></svg>
@@ -222,12 +227,23 @@ async function catalogPages(single) {
           </details>
 `;
     }
+    if (!s.title) {
+      return `          <section class="pdetail-block" aria-label="مشخصات فنی">
+            ${body}
+          </section>
+`;
+    }
     return `          <section class="pdetail-block" aria-labelledby="pd-${p.id}-${s.id}">
             <h2 class="pdetail-h" id="pd-${p.id}-${s.id}">${esc(s.title)}</h2>
             ${body}
           </section>
 `;
   };
+  // a category's general text, under its grid: {h} heading, {p, lead?} paragraph (lead: bold lead-in), {list}
+  const about = (c) => `      <section class="rv-about" aria-labelledby="about-${c.id}">
+${c.about.map((b, i) => (b.h ? `        <h2 class="rv-about-h"${i === 0 ? ` id="about-${c.id}"` : ''}>${esc(b.h)}</h2>` : b.list ? `        ${list(b.list, '        ')}` : `        <p class="pdetail-text">${b.lead ? `<strong>${esc(b.lead)}</strong> ` : ''}${esc(b.p)}</p>`)).join('\n')}
+      </section>
+`;
   const crumbs = (items) => `      <nav class="rv-crumbs" aria-label="مسیر صفحه">
         ${items.map(([text, href]) => (href ? `<a href="${href}">${esc(text)}</a>` : `<span aria-current="page">${esc(text)}</span>`)).join('<span class="rv-sep" aria-hidden="true">/</span>')}
       </nav>`;
@@ -253,15 +269,15 @@ async function catalogPages(single) {
 ${crumbs([['خانه', '#top'], ['محصولات', '#products'], [c.name]])}
       <header class="rv-head">
         <h1 class="rv-title" id="cat-${c.id}-title" tabindex="-1">${titled(c.name, c.accent)}</h1>
-        <p class="rv-lede">${esc(c.description)}</p>
-        <a class="rv-back" href="#products"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>بازگشت به محصولات</span></a>
+${c.description ? `        <p class="rv-lede">${esc(c.description)}</p>
+` : ''}        <a class="rv-back" href="#products"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>بازگشت به محصولات</span></a>
       </header>
       <div class="agrid-wrap">
         <ul class="agrid" role="list">
 ${cards.join('\n')}
         </ul>
       </div>
-    </div>
+${c.about ? about(c) : ''}    </div>
   </main>`);
     for (const p of items) {
       pages.push(`<main class="route-view rv-product" data-route="/products/${c.id}/${p.id}" data-title="${esc(p.name)} | سیم‌لند" aria-labelledby="pd-${p.id}" hidden>
@@ -316,7 +332,8 @@ async function contactPanel() {
 ${rows.join('\n')}
     </ul>
   </div>
-</dialog>`;
+</dialog>
+<div class="supply-toast" id="supply-toast" role="status" aria-live="polite" aria-atomic="true"><span class="supply-toast-in"><span class="supply-toast-icon" aria-hidden="true"><svg><use href="#i-supply"/></svg></span><span class="supply-toast-text"></span></span></div>`;
 }
 
 // the SIMLAND folder of the résumé section (the client's 3D image, tools/build-cutouts.py)

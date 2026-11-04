@@ -87,6 +87,11 @@
   <symbol id="c-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
     <path d="m5 12.5 4.4 4.4L19 7.4"/>
   </symbol>
+  <!-- «در انتظار تأمین»: an hourglass -->
+  <symbol id="i-supply" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6.5 3h11M6.5 21h11M8 3c0 4.2 4 5.3 4 9s-4 4.8-4 9M16 3c0 4.2-4 5.3-4 9s4 4.8 4 9"/>
+    <path d="M9.6 18.4h4.8"/>
+  </symbol>
   <symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
     <path d="M3.6 12.2V5.2c0-.9.7-1.6 1.6-1.6h7c.4 0 .8.2 1.1.5l7.4 7.4c.6.6.6 1.6 0 2.3l-7 7c-.6.6-1.6.6-2.3 0l-7.4-7.4c-.3-.3-.4-.7-.4-1.2Z"/><circle cx="8.3" cy="8.3" r="1.5"/>
   </symbol>
@@ -206,7 +211,7 @@
             </div>
           </article>
         </li>
-        <li class="pcard" data-tone="blue" data-reveal="up">
+        <li class="pcard" data-supply data-tone="blue" data-reveal="up">
           <article class="pcard-in" aria-labelledby="prod-elevator">
             <div class="pcard-media" aria-hidden="true">
               <svg class="pcard-mark"><use href="#p-elevator"/></svg>
@@ -217,8 +222,8 @@
               <span class="pcard-dash" aria-hidden="true"></span>
               <h3 class="pcard-title" id="prod-elevator">کابل آسانسوری</h3>
               <p class="pcard-text">مخصوص اتصال کابین و سیستم‌های کنترل آسانسور</p>
-              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
-                <span>مشاهده محصولات</span>
+              <a class="pcard-cta" role="button" tabindex="0" data-supply>
+                <span>مشاهده محصولات</span><span class="sr-only"> کابل آسانسوری</span>
                 <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
               </a>
             </div>
@@ -242,7 +247,7 @@
             </div>
           </article>
         </li>
-        <li class="pcard" data-tone="green" data-reveal="up">
+        <li class="pcard is-linked" data-tone="green" data-reveal="up">
           <article class="pcard-in" aria-labelledby="prod-telecom">
             <div class="pcard-media" aria-hidden="true">
               <svg class="pcard-mark"><use href="#p-telecom"/></svg>
@@ -253,14 +258,14 @@
               <span class="pcard-dash" aria-hidden="true"></span>
               <h3 class="pcard-title" id="prod-telecom">کابل مخابراتی</h3>
               <p class="pcard-text">مناسب برای شبکه‌های ارتباطی و انتقال داده</p>
-              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
-                <span>مشاهده محصولات</span>
+              <a class="pcard-cta" href="#/products/telecom">
+                <span>مشاهده محصولات</span><span class="sr-only"> کابل مخابراتی</span>
                 <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
               </a>
             </div>
           </article>
         </li>
-        <li class="pcard" data-tone="green" data-reveal="up">
+        <li class="pcard" data-supply data-tone="green" data-reveal="up">
           <article class="pcard-in" aria-labelledby="prod-instrumentation">
             <div class="pcard-media" aria-hidden="true">
               <svg class="pcard-mark"><use href="#p-flame"/></svg>
@@ -271,8 +276,8 @@
               <span class="pcard-dash" aria-hidden="true"></span>
               <h3 class="pcard-title" id="prod-instrumentation">کابل نسوز</h3>
               <p class="pcard-text">مقاوم در برابر حرارت و شرایط سخت محیطی</p>
-              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
-                <span>مشاهده محصولات</span>
+              <a class="pcard-cta" role="button" tabindex="0" data-supply>
+                <span>مشاهده محصولات</span><span class="sr-only"> کابل نسوز</span>
                 <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
               </a>
             </div>
@@ -314,7 +319,7 @@
             </div>
           </article>
         </li>
-        <li class="pcard" data-tone="green" data-reveal="up">
+        <li class="pcard" data-supply data-tone="green" data-reveal="up">
           <article class="pcard-in" aria-labelledby="prod-welding">
             <div class="pcard-media" aria-hidden="true">
               <svg class="pcard-mark"><use href="#p-spark"/></svg>
@@ -325,8 +330,8 @@
               <span class="pcard-dash" aria-hidden="true"></span>
               <h3 class="pcard-title" id="prod-welding">کابل جوش</h3>
               <p class="pcard-text">مخصوص دستگاه‌های جوشکاری با انعطاف و تحمل جریان بالا</p>
-              <a class="pcard-cta" role="link" aria-disabled="true" title="به‌زودی">
-                <span>مشاهده محصولات</span>
+              <a class="pcard-cta" role="button" tabindex="0" data-supply>
+                <span>مشاهده محصولات</span><span class="sr-only"> کابل جوش</span>
                 <span class="pcard-go" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
               </a>
             </div>
@@ -652,6 +657,131 @@
     </div>
   </main>
 
+<main class="route-view rv-category" data-route="/products/telecom" data-title="کابل مخابراتی | سیم‌لند" aria-labelledby="cat-telecom-title" hidden>
+    <div class="rv-wrap">
+      <nav class="rv-crumbs" aria-label="مسیر صفحه">
+        <a href="#top">خانه</a><span class="rv-sep" aria-hidden="true">/</span><a href="#products">محصولات</a><span class="rv-sep" aria-hidden="true">/</span><span aria-current="page">کابل مخابراتی</span>
+      </nav>
+      <header class="rv-head">
+        <h1 class="rv-title" id="cat-telecom-title" tabindex="-1">کابل <span class="accent">مخابراتی</span></h1>
+        <a class="rv-back" href="#products"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>بازگشت به محصولات</span></a>
+      </header>
+      <div class="agrid-wrap">
+        <ul class="agrid" role="list">
+          <li class="acard">
+            <article class="acard-in" aria-labelledby="acard-telecom-indoor-cable">
+              <a class="acard-link" href="#/products/telecom/telecom-indoor-cable">
+                <span class="acard-media"><img class="acard-img" src="assets/images/catalog/telecom-indoor-cable.webp" alt="کابل مخابراتی داخل ساختمانی سیم‌لند با روکش سفید: زوج‌های رنگی به‌هم‌تابیده، لایه‌ی شفاف و نوار زرد" width="214" height="1511" decoding="async" loading="lazy" draggable="false"></span>
+                <span class="acard-body"><span class="acard-title" id="acard-telecom-indoor-cable" role="heading" aria-level="2">کابل مخابراتی داخل ساختمانی (هوایی)</span></span>
+              </a>
+              <button type="button" class="acard-inquiry" data-inquiry aria-haspopup="dialog" aria-label="استعلام قیمت کابل مخابراتی داخل ساختمانی (هوایی)"><svg aria-hidden="true"><use href="#i-tag"/></svg><span>استعلام قیمت</span></button>
+            </article>
+          </li>
+          <li class="acard">
+            <article class="acard-in" aria-labelledby="acard-telecom-outdoor-cable">
+              <a class="acard-link" href="#/products/telecom/telecom-outdoor-cable">
+                <span class="acard-media"><img class="acard-img" src="assets/images/catalog/telecom-outdoor-cable.webp" alt="کابل مخابراتی خارج ساختمانی سیم‌لند با روکش مشکی: زوج‌های رنگی به‌هم‌تابیده، لایه‌ی شفاف و نوار زرد" width="217" height="1514" decoding="async" loading="lazy" draggable="false"></span>
+                <span class="acard-body"><span class="acard-title" id="acard-telecom-outdoor-cable" role="heading" aria-level="2">کابل مخابراتی خارج ساختمانی (زمینی)</span></span>
+              </a>
+              <button type="button" class="acard-inquiry" data-inquiry aria-haspopup="dialog" aria-label="استعلام قیمت کابل مخابراتی خارج ساختمانی (زمینی)"><svg aria-hidden="true"><use href="#i-tag"/></svg><span>استعلام قیمت</span></button>
+            </article>
+          </li>
+        </ul>
+      </div>
+      <section class="rv-about" aria-labelledby="about-telecom">
+        <h2 class="rv-about-h" id="about-telecom">کابل مخابراتی</h2>
+        <p class="pdetail-text"><strong>کابل مخابراتی</strong> کابلی برای انتقال سیگنال‌های صوتی و داده در شبکه‌های تلفن و ارتباطات است. هادی‌های این کابل معمولاً از مس نازک ساخته می‌شوند و به‌صورت جفت‌های به‌هم‌تابیده داخل یک روکش مشترک قرار می‌گیرند. تاباندن هادی‌ها به‌صورت جفت، تداخل بین مسیرها و نویز بیرونی را کاهش می‌دهد و کیفیت سیگنال را حفظ می‌کند.</p>
+        <p class="pdetail-text">کابل مخابراتی در شبکه‌های تلفن ثابت، مراکز مخابرات، ساختمان‌های اداری و مسکونی و پروژه‌های ارتباطی استفاده می‌شود. برخلاف کابل‌های برق که برای انتقال انرژی ساخته می‌شوند، کابل مخابراتی برای انتقال سیگنال ضعیف با کمترین افت و تداخل طراحی شده است.</p>
+        <h2 class="rv-about-h">ویژگی‌های کابل مخابراتی</h2>
+        <p class="pdetail-text"><strong>جفت‌های تابیده:</strong> هر دو هادی به‌هم تابیده می‌شوند تا نویز و تداخل بین جفت‌ها کم شود.</p>
+        <p class="pdetail-text"><strong>تعداد جفت‌های متنوع:</strong> کابل مخابراتی در ظرفیت‌های مختلف، از چند جفت تا صدها جفت، ساخته می‌شود و برای شبکه‌های کوچک و بزرگ مناسب است.</p>
+        <p class="pdetail-text"><strong>محافظت در برابر رطوبت:</strong> در برخی انواع، فضای خالی داخل کابل با ماده‌ی ضدآب پر می‌شود تا نفوذ رطوبت و آب جلوگیری شود.</p>
+        <p class="pdetail-text"><strong>روکش مقاوم:</strong> غلاف بیرونی کابل را در برابر سایش، رطوبت و شرایط محیطی محافظت می‌کند.</p>
+        <h2 class="rv-about-h">انواع کابل مخابراتی</h2>
+        <p class="pdetail-text"><strong>کابل مخابراتی داخلی:</strong> برای نصب داخل ساختمان، ساختمان‌های اداری و مسکونی و اتصال تلفن و تجهیزات ارتباطی استفاده می‌شود.</p>
+        <p class="pdetail-text"><strong>کابل مخابراتی خارجی (زمینی):</strong> با غلاف ضخیم‌تر و محافظت بیشتر در برابر رطوبت، برای کابل‌کشی بیرونی، کانال‌کشی و دفن در زمین کاربرد دارد.</p>
+        <p class="pdetail-text"><strong>کابل مخابراتی هوایی:</strong> برای نصب روی تیر و مسیرهای هوایی ساخته می‌شود و معمولاً دارای عنصر نگهدارنده است.</p>
+        <p class="pdetail-text"><strong>کابل مخابراتی شیلددار:</strong> دارای لایه‌ی محافظ فلزی است و برای محیط‌های پرنویز و نیاز به کیفیت بالاتر سیگنال مناسب است.</p>
+        <h2 class="rv-about-h">کاربردهای کابل مخابراتی</h2>
+        <ul class="pdetail-list" role="list">
+          <li>شبکه‌ی تلفن ثابت ساختمان‌ها و مجتمع‌ها</li>
+          <li>ارتباط بین مراکز مخابرات و تجهیزات ارتباطی</li>
+          <li>کابل‌کشی ساختمان‌های اداری و تجاری</li>
+          <li>سیستم‌های اینترکام و تلفن داخلی</li>
+          <li>پروژه‌های ارتباطی و شبکه‌های داده‌ی سبک</li>
+        </ul>
+        <h2 class="rv-about-h">راهنمای انتخاب کابل مخابراتی</h2>
+        <p class="pdetail-text"><strong>تعداد جفت را بر اساس نیاز انتخاب کنید:</strong> ظرفیت کابل باید با تعداد خطوط فعلی و نیاز آینده هماهنگ باشد. در نظر گرفتن ظرفیت اضافه، توسعه‌ی بعدی شبکه را ساده‌تر می‌کند.</p>
+        <p class="pdetail-text"><strong>محل نصب را مشخص کنید:</strong> برای فضای داخلی، کابل سبک‌تر کافی است. برای مسیر بیرونی و دفن در زمین، کابل با غلاف مقاوم و محافظت در برابر رطوبت لازم است.</p>
+        <p class="pdetail-text"><strong>قطر هادی را بررسی کنید:</strong> هادی با قطر کافی، افت سیگنال را در مسافت‌های بلندتر کم می‌کند. هادی نازک‌تر از استاندارد، کیفیت ارتباط را کاهش می‌دهد.</p>
+        <p class="pdetail-text"><strong>جنس هادی را در نظر بگیرید:</strong> هادی مس خالص انتقال سیگنال بهتر و ماندگاری بیشتری دارد.</p>
+        <p class="pdetail-text"><strong>کیفیت عایق و روکش را بسنجید:</strong> عایق و روکش مرغوب، نویز و تداخل را کاهش می‌دهد و عمر کابل را بالا می‌برد.</p>
+        <h2 class="rv-about-h">عوامل مؤثر بر قیمت کابل مخابراتی</h2>
+        <p class="pdetail-text">قیمت کابل مخابراتی به تعداد جفت‌ها، قطر و جنس هادی، نوع کابل (داخلی، خارجی، هوایی)، وجود شیلد و محافظت در برابر رطوبت، کیفیت عایق و روکش و قیمت روز مس بستگی دارد. هرچه ظرفیت و مشخصات حفاظتی کابل بیشتر باشد، قیمت آن هم بالاتر است.</p>
+        <h2 class="rv-about-h">خرید کابل مخابراتی از سیم‌لند</h2>
+        <p class="pdetail-text">سیم‌لند، نمایندگی سیم و کابل آرین ابهر در استان قم، انواع کابل مخابراتی را ارائه می‌کند.</p>
+        <p class="pdetail-text">برای مشاوره‌ی انتخاب نوع و ظرفیت کابل مناسب پروژه‌ی خود و دریافت قیمت روز، با کارشناسان سیم‌لند تماس بگیرید.</p>
+      </section>
+    </div>
+  </main>
+
+<main class="route-view rv-product" data-route="/products/telecom/telecom-indoor-cable" data-title="کابل مخابراتی داخل ساختمانی (هوایی) | سیم‌لند" aria-labelledby="pd-telecom-indoor-cable" hidden>
+    <div class="rv-wrap">
+      <nav class="rv-crumbs" aria-label="مسیر صفحه">
+        <a href="#top">خانه</a><span class="rv-sep" aria-hidden="true">/</span><a href="#products">محصولات</a><span class="rv-sep" aria-hidden="true">/</span><a href="#/products/telecom">کابل مخابراتی</a><span class="rv-sep" aria-hidden="true">/</span><span aria-current="page">کابل مخابراتی داخل ساختمانی (هوایی)</span>
+      </nav>
+      <article class="pdetail" data-category="telecom">
+        <div class="pdetail-info">
+          <h1 class="pdetail-title" id="pd-telecom-indoor-cable" tabindex="-1">کابل مخابراتی داخل ساختمانی (هوایی)</h1>
+          <h2 class="pdetail-label" id="pd-telecom-indoor-cable-codes">کد محصول</h2>
+          <p class="pdetail-codes" aria-labelledby="pd-telecom-indoor-cable-codes"><span dir="ltr" lang="en">JY (ST) Y</span></p>
+          <section class="pdetail-block" aria-labelledby="pd-telecom-indoor-cable-use">
+            <h2 class="pdetail-h" id="pd-telecom-indoor-cable-use">کاربرد:</h2>
+            <p class="pdetail-text">این نوع کابل‌ها برای انتقال سیگنال‌های آنالوگ یا دیجیتال در تلفن، فکس، سیستم‌های اعلام سرقت یا اعلام حریق و سیستم‌های مخابراتی کاربرد دارند.</p>
+          </section>
+          <section class="pdetail-block" aria-labelledby="pd-telecom-indoor-cable-build">
+            <h2 class="pdetail-h" id="pd-telecom-indoor-cable-build">ساختار:</h2>
+            <p class="pdetail-structure-line"><span class="pdetail-structure" dir="ltr" lang="en">Cu/<wbr>PVC/<wbr>OSCR/<wbr>PVC</span></p>
+          </section>
+          <section class="pdetail-block" aria-label="مشخصات فنی">
+            <dl class="pdetail-specs">
+              <div class="pdetail-spec"><dt>جنس عایق</dt><dd dir="ltr" lang="en">PVC</dd></div>
+            </dl>
+          </section>
+          <button type="button" class="btn btn-primary pdetail-inquiry" data-inquiry aria-haspopup="dialog" aria-label="استعلام قیمت کابل مخابراتی داخل ساختمانی (هوایی)"><svg aria-hidden="true"><use href="#i-tag"/></svg><span>استعلام قیمت</span></button>
+        </div>
+        <div class="pdetail-media is-slim"><img class="pdetail-img is-low" src="assets/images/catalog/telecom-indoor-cable.webp" alt="کابل مخابراتی داخل ساختمانی سیم‌لند با روکش سفید: زوج‌های رنگی به‌هم‌تابیده، لایه‌ی شفاف و نوار زرد" width="214" height="1511" style="--native-h: 1511px" decoding="async" draggable="false"></div>
+      </article>
+      <a class="rv-back" href="#/products/telecom"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>بازگشت به کابل مخابراتی</span></a>
+    </div>
+  </main>
+
+<main class="route-view rv-product" data-route="/products/telecom/telecom-outdoor-cable" data-title="کابل مخابراتی خارج ساختمانی (زمینی) | سیم‌لند" aria-labelledby="pd-telecom-outdoor-cable" hidden>
+    <div class="rv-wrap">
+      <nav class="rv-crumbs" aria-label="مسیر صفحه">
+        <a href="#top">خانه</a><span class="rv-sep" aria-hidden="true">/</span><a href="#products">محصولات</a><span class="rv-sep" aria-hidden="true">/</span><a href="#/products/telecom">کابل مخابراتی</a><span class="rv-sep" aria-hidden="true">/</span><span aria-current="page">کابل مخابراتی خارج ساختمانی (زمینی)</span>
+      </nav>
+      <article class="pdetail" data-category="telecom">
+        <div class="pdetail-info">
+          <h1 class="pdetail-title" id="pd-telecom-outdoor-cable" tabindex="-1">کابل مخابراتی خارج ساختمانی (زمینی)</h1>
+          <h2 class="pdetail-label" id="pd-telecom-outdoor-cable-codes">کد محصول</h2>
+          <p class="pdetail-codes" aria-labelledby="pd-telecom-outdoor-cable-codes"><span dir="ltr" lang="en">A2Y (ST) 2Y</span></p>
+          <section class="pdetail-block" aria-labelledby="pd-telecom-outdoor-cable-use">
+            <h2 class="pdetail-h" id="pd-telecom-outdoor-cable-use">کاربرد:</h2>
+            <p class="pdetail-text">این نوع کابل‌ها برای استفاده در قسمت‌های بیرونی ساختمان کاربرد دارند. هیچ‌کدام از این کابل‌ها جهت عبور الکتریسیته مناسب نبوده و در فرکانس‌های پایین در مدار کار می‌کنند.</p>
+          </section>
+          <section class="pdetail-block" aria-labelledby="pd-telecom-outdoor-cable-build">
+            <h2 class="pdetail-h" id="pd-telecom-outdoor-cable-build">ساختار:</h2>
+            <p class="pdetail-structure-line"><span class="pdetail-structure" dir="ltr" lang="en">Cu/<wbr>HDPE/<wbr>OSCR/<wbr>HDPE</span></p>
+          </section>
+          <button type="button" class="btn btn-primary pdetail-inquiry" data-inquiry aria-haspopup="dialog" aria-label="استعلام قیمت کابل مخابراتی خارج ساختمانی (زمینی)"><svg aria-hidden="true"><use href="#i-tag"/></svg><span>استعلام قیمت</span></button>
+        </div>
+        <div class="pdetail-media is-slim"><img class="pdetail-img is-low" src="assets/images/catalog/telecom-outdoor-cable.webp" alt="کابل مخابراتی خارج ساختمانی سیم‌لند با روکش مشکی: زوج‌های رنگی به‌هم‌تابیده، لایه‌ی شفاف و نوار زرد" width="217" height="1514" style="--native-h: 1514px" decoding="async" draggable="false"></div>
+      </article>
+      <a class="rv-back" href="#/products/telecom"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>بازگشت به کابل مخابراتی</span></a>
+    </div>
+  </main>
+
 <dialog class="cpanel" id="contact-panel" aria-labelledby="cpanel-title" aria-describedby="cpanel-hint">
   <div class="cpanel-in">
     <span class="cpanel-grip" aria-hidden="true"></span>
@@ -668,6 +798,7 @@
     </ul>
   </div>
 </dialog>
+<div class="supply-toast" id="supply-toast" role="status" aria-live="polite" aria-atomic="true"><span class="supply-toast-in"><span class="supply-toast-icon" aria-hidden="true"><svg><use href="#i-supply"/></svg></span><span class="supply-toast-text"></span></span></div>
 
 <script type="application/json" id="hero-data">{"scene":{"width":1774,"height":887,"turbines":[{"id":"a","hub":[296,147],"m":[[140.87346568226866,-5.333333333333333],[-9.23760430703401,140.66666666666666]],"blades":[139,0,315,305],"cap":[271,124,50,45],"speed":0.86,"phase":0,"occluded":true},{"id":"b","hub":[716,233],"m":[[101.0362971081845,33],[-1.7320508075688785,107.66666666666666]],"blades":[597,113,239,241],"cap":[693,216,42,37],"speed":0.94,"phase":1.7,"occluded":true},{"id":"c","hub":[876,307],"m":[[83.1384387633061,-21.999999999999996],[22.5166604983954,96.33333333333333]],"blades":[780,197,193,221],"cap":[856,291,34,31],"speed":1,"phase":3.1,"occluded":false}],"chimneys":[{"x":498,"y":101,"r":25,"d":1},{"x":584,"y":141,"r":22,"d":0.88}]},"masks":"assets/hero/masks.png","power":{"wires":[{"name":"R1","k":[-0.00028542261030676803,1.3808094133557285,-1355.8345128200963],"from":1774,"to":1512,"gain":0.65,"rms":0.089},{"name":"R2","k":[-0.0003573923088955619,1.5668074632241964,-1419.3729429279294],"from":1774,"to":1570,"gain":1,"rms":0.09},{"name":"R3","k":[-0.0001914100098087467,0.9663966709742833,-864.7960075153524],"from":1774,"to":1570,"gain":1,"rms":0.089},{"name":"R4","k":[-0.00047573924528188685,1.89687799080993,-1568.589448651346],"from":1774,"to":1579,"gain":1,"rms":0.081},{"name":"R5","k":[-0.0003541686844499111,1.4396042757303449,-1129.1109001842865],"from":1774,"to":1579,"gain":1,"rms":0.102},{"name":"L1","k":[-0.00006336615266836996,-0.38438699917470714,805.164626886075],"from":1510,"to":1262,"gain":0.65,"rms":0.108},{"name":"L2","k":[0.00003439991396332777,-0.6023770785202843,962.3253923325872],"from":1462,"to":1365,"gain":1,"rms":0.096},{"name":"L3","k":[-0.000192816825035284,0.09558324010750202,446.92530541913766],"from":1462,"to":1375,"gain":1,"rms":0.072}],"emitters":[[243,682,36,50],[238,792,37,52]],"mask":"assets/hero/power.png"}}</script>
 <script type="module" src="assets/js/home.js"></script>

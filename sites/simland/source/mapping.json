@@ -1,5 +1,5 @@
 {
-  "_note": "Page order (right to left) of the ten cards. Each entry: the image (slug, photo) and the card's tone stay with the position; name, text, icon and category follow what the image shows, matched to the client's labelled reference photo. Images: node tools/build-images.mjs; page: node tools/build-pages.mjs Optional scale: a per-photo visual weight (1 = the common height), for a cable much bulkier than the rest.",
+  "_note": "Page order (right to left) of the ten cards. Each entry: the image (slug, photo) and the card's tone stay with the position; name, text, icon and category follow what the image shows, matched to the client's labelled reference photo. Images: node tools/build-images.mjs; page: node tools/build-pages.mjs Optional scale: a per-photo visual weight (1 = the common height), for a cable much bulkier than the rest. Optional supply: \"pending\" — a click on the card shows «در انتظار تأمین» for 2 s instead of a page.",
   "products": [
     {
       "slug": "building",
@@ -36,7 +36,8 @@
       "text": "مخصوص اتصال کابین و سیستم‌های کنترل آسانسور",
       "icon": "elevator",
       "tone": "blue",
-      "scale": 0.86
+      "scale": 0.86,
+      "supply": "pending"
     },
     {
       "slug": "flexible-control",
@@ -63,7 +64,8 @@
       "category": "building",
       "text": "مقاوم در برابر حرارت و شرایط سخت محیطی",
       "icon": "flame",
-      "tone": "green"
+      "tone": "green",
+      "supply": "pending"
     },
     {
       "slug": "solar",
@@ -90,7 +92,8 @@
       "category": "industrial",
       "text": "مخصوص دستگاه‌های جوشکاری با انعطاف و تحمل جریان بالا",
       "icon": "spark",
-      "tone": "green"
+      "tone": "green",
+      "supply": "pending"
     }
   ],
   "categories": [
