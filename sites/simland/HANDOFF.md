@@ -4,7 +4,26 @@ Branch: `claude/simland-3d-website-vbz3vl`. Deliverable: `sites/simland/dist/ind
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-11-04, product cards: elevator / telecom / solar photo, waiting for the user's approval)
+## Exact stop point (2026-11-04, solar product page, waiting for the user's approval)
+
+- Branch: `ccr-2cd3266d-qpjs3p`.
+- Done in this step («دستور نهایی تکمیل کابل سولار»):
+  - the home «کابل سولار» card (slug `low-voltage`) now links to `#/products/solar`; product
+    `#/products/solar/solar-panel-cable`. The home card keeps the two-cable photo (Arian's category picture is
+    also the pair; their product picture is the single cable) — tell the user, swap on request.
+  - photo: the client's JPEG on white `source/catalog/solar-panel-cable.jpg` → `tools/cutout-white.py` (the
+    black-background matte of standardize-products.py run on the inverted photo; near-white JPEG noise reached
+    from the frame edge = background; product pixels within 1 level) → `solar-panel-cable.png` → lossless WebP.
+  - texts exactly as given, in the reference order: subtitle (small) + name «کابل پنل خورشیدی (سولار)»,
+    «کد محصول» `H1Z2Z2-K` (grey chip), «ویژگی کابل پنل خورشیدی» list, «ساختار» two LTR lines, «مشخصات فنی»
+    table (جنس عایق XLPE LTR, سایز ۱×۴ / ۱×۶ RTL), «استعلام قیمت», then the «توضیحات» accordion (4 sub-headings,
+    10 paragraphs, 1 list). No «نظرات» / «دیتا شیت» (not in the site's structure). The client's text says «سه
+    دسته» before a list of four — kept verbatim.
+  - template (build-pages.mjs): `subtitle`, `codesLabel`, `code` as a list, `specs` table, `content` blocks,
+    `afterInquiry`; armored and instrumentation pages byte-identical. Solar shares the grey-code / blue-title look.
+- **Next action:** wait for the user's verdict. Still open: a verified map link for the branch (`mapUrl`).
+
+### Previous step (2026-11-04): product cards elevator / telecom / solar photo
 
 - Branch: `ccr-2cd3266d-qpjs3p`.
 - Done in this step («FINAL EXECUTION PROMPT — SIMLAND PRODUCT CARDS», surgical):

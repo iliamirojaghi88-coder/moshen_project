@@ -41,7 +41,34 @@ const CATS = {
       'این نوع کابل‌ها جهت انتقال اطلاعات مناسب بوده و می‌توانند در اتاق‌های کنترل دستگاه‌های صنعتی و پست‌های برق به کار روند. حفاظ الکترواستاتیکی می‌تواند مدارها را در برابر تداخل الکتریکی محافظت کند. استفاده از ساختار کابل‌های زوجی باعث کاهش همشنوایی می‌شود. این کابل‌ها برای ارتباط مستقیم با منابعی مانند برق شهر که امپدانس پایینی دارند مناسب نیستند.'],
   },
 };
-const RUN = (process.env.CAT || 'armored,instrumentation').split(',');
+CATS.solar = {
+  title: 'کابل سولار',
+  product: 'solar-panel-cable',
+  name: 'کابل پنل خورشیدی (سولار)',
+  ltr: true,
+  muted: true,
+  accordion: 'توضیحات',
+  texts: ['کابل پنل خورشیدی (سولار)', 'کابل پنل خورشیدی (سولار)', 'کد محصول', 'H1Z2Z2-K',
+    'ویژگی کابل پنل خورشیدی', 'مقاوم در برابر تنش‌های مکانیکی و اقلیمی', 'برای نصب در زیر زمین و همچنین در فضای باز زیر نور مستقیم خورشید مناسب است', 'دارای دو غلاف برای کابل‌کشی سیستم‌های فتوولتائیک',
+    'ساختار', 'TinCu / HFFR / HFFR', 'Cu / XLPE / XLPE',
+    'مشخصات فنی', 'جنس عایق', 'XLPE', 'سایز', '۱×۴ / ۱×۶',
+    'توضیحات', 'انواع کابل پنل خورشیدی',
+    'کابل پنل خورشیدی که با عناوین کابل فتوولتائیک (photovoltaic) یا کابل PV هم شناخته می‌شود برای اتصال بخش‌های مختلف یک سیستم تولید برق خورشیدی استفاده می‌شود. یک سیستم خورشیدی معمولاً شامل چند پنل خورشیدی، به علاوه کنترلر (Controller)، اینورتر (Inverter)، باتری و مصرف‌کنندگان نهایی یا همان وسایل الکتریکی مثل کامپیوتر یا مایکروویو می‌باشد.',
+    'در سیم‌کشی پنل خورشیدی با توجه به دو بخش ابتدا و انتها که باید توسط کابل به هم متصل شوند، ممکن است ویژگی‌های لازم برای کابل مربوطه تغییر کند. دقت در میزان قطر و طول هر کابل یکی از مهم‌ترین مؤلفه‌هایی است که باید در نظر بگیریم. بنابراین با توجه به بخش‌های مختلف سیستم، می‌توان کابل پنل خورشیدی را به سه دسته زیر تقسیم کرد:',
+    'کابل‌های متصل به پنل‌های خورشیدی', 'کابل‌های متصل به باتری‌ها', 'کابل‌های متصل به اینورتر', 'کابل‌های متصل به وسایل الکتریکی مصرف‌کننده',
+    'کابل‌های متصل به پنل‌های خورشیدی در واقع نقش اتصال پنل‌ها به همدیگر و اتصال مجموعه‌ی آنها به کنترل‌کننده را بازی می‌کنند. این کابل‌ها باید در برابر اشعه فرابنفش خورشید و رطوبت ناشی از برف و باران مقاوم باشند.',
+    'برای انتخاب سطح مقطع کابل‌هایی که کنترل‌کننده و باتری‌ها را به هم متصل می‌کنند، باید میزان جریانی که از طرف پنل به باتری‌های مورد نظر و جریانی که توسط باتری‌ها کشیده می‌شود، در نظر گرفته شود. معمولاً بیشترین جریان که در شارژ باتری استفاده می‌شود از جریانی که از باتری کشیده می‌شود، باید خیلی بیشتر باشد.',
+    'در گزینش کابل‌هایی هم که برای اتصال باتری‌ها و اینورترها استفاده می‌شود به علت بالا بودن شدت جریان در آنها، بهتر است از قطورترین انواع موجود استفاده شود.',
+    'کابلی که برای اتصال باتری و اینورتر استفاده می‌شود علاوه بر قطر بزرگ، باید حتی‌الامکان کوتاه هم باشد و بهتر است بیش از ۲ متر نباشد چون اینورتر باید میزان زیادی از جریان را از باتری‌ها دریافت کند.',
+    'ساختار کابل پنل خورشیدی',
+    'کابل پنل خورشیدی معمولاً به نام کابل فتوولتائیک یا PV هم نامیده می‌شود و به صورت تک‌رشته تولید می‌شود. عبارت انگلیسی photovoltaic معمولاً روی این نوع کابل‌ها حک می‌شود و معیار خوبی برای تشخیص آنهاست. کابل پنل خورشیدی معمولاً دارای یک روکش دولایه از جنس XLPE هست که لایه خارجی در مقابل اشعه فرابنفش و لایه داخلی مقابل حرارت مقاوم است. با توجه به اینکه در یک سیستم خورشیدی میزان مقاومت و تلفات انرژی بالاست، معمولاً از کابل‌های قطور در آن استفاده می‌شود. در صورت استفاده از کابل‌های با قطر کم، احتمال آتش‌سوزی به دلیل ایجاد گرمای زیاد دور از ذهن نیست. اندازه قطر کابل‌ها، بستگی به ظرفیت تولید سیستم و فاصله دو بخشی است که قرار است کابل مورد نظر به هم متصل کند. میزان طول کابل هم از ویژگی‌هایی است که باید با توجه به استانداردها و نیازهای سیستم توسط شما تعیین شود.',
+    'قیمت کابل پنل خورشیدی',
+    'قیمت کابل پنل‌های خورشیدی به عوامل مختلفی از جمله جنس روکش، قطر و سایر مشخصات بستگی دارد.',
+    'کابل‌کشی پنل خورشیدی',
+    'از آن جایی که در پنل‌های خورشیدی تبدیل انرژی خورشیدی به انرژی الکتریکی با سرعت پایینی انجام می‌شود، ولتاژ برق در پنل‌های خورشیدی پایین است و میزان جریان در آنها زیاد می‌باشد. همین موضوع باعث می‌شود که میزان اتلاف انرژی الکتریکی در این سیستم‌ها زیاد باشد. بنابراین کابل پنل خورشیدی باید به نوعی طراحی شود که کمترین اتلاف انرژی الکتریکی در آن رخ دهد.',
+    'از طرف دیگر با توجه به اینکه کابل‌های پنل خورشیدی باید مستقیماً در مقابل تابش نور آفتاب و در فضای باز قرار گیرند، مقاومت در برابر آب و هوا و اشعه ماوراء بنفش از مهم‌ترین ویژگی این نوع کابل‌ها است. این کابل‌ها همچنین به علت احتمال آتش‌سوزی در فضای باز باید در مقابل دماهای بالا هم توانایی مقاومت داشته باشند.'],
+};
+const RUN = (process.env.CAT || 'armored,instrumentation,solar').split(',');
 
 (async () => {
   const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
@@ -207,15 +234,16 @@ const RUN = (process.env.CAT || 'armored,instrumentation').split(',');
       const ib = R(img), mb = R(v.querySelector('.pdetail-media')), info = R(v.querySelector('.pdetail-info'));
       const ib0 = R(v.querySelector('.pdetail-info'));
       const outside = [...v.querySelectorAll('.pdetail-info *')].filter((e) => { const b = R(e); return b.width && (b.left < ib0.left - 1 || b.right > ib0.right + 1); }).length;
-      const big = [...v.querySelectorAll('.pdetail-title, .pdetail-text, .pdetail-structure, .pdetail-codes span, .pdetail-list li')].filter((e) => e.scrollWidth > e.clientWidth + 1).length;
+      const big = [...v.querySelectorAll('.pdetail-title, .pdetail-kicker, .pdetail-text, .pdetail-sub, .pdetail-structure, .pdetail-codes span, .pdetail-list li, .pdetail-spec')].filter((e) => e.scrollWidth > e.clientWidth + 1).length;
       return {
         // every text of the details, in order, exactly (the button aside)
-        texts: [...v.querySelector('.pdetail-info').querySelectorAll('h1, h2, p, li')].map((x) => x.textContent),
+        texts: [...v.querySelector('.pdetail-info').querySelectorAll('h1, h2, h3, p, li, dt, dd')].map((x) => x.textContent),
+        specs: [...v.querySelectorAll('.pdetail-spec dd')].every((dd) => getComputedStyle(dd).direction === (dd.dir === 'ltr' ? 'ltr' : 'rtl')),
         codeColor: getComputedStyle(v.querySelector('.pdetail-codes span')).color, hColor: getComputedStyle(v.querySelector('.pdetail-h')).color,
         codesDir: getComputedStyle(v.querySelector('.pdetail-codes span')).direction, structDir: getComputedStyle(v.querySelector('.pdetail-structure')).direction,
         codesRight: (() => { const a = v.querySelector('.pdetail-codes span').getBoundingClientRect(), b = v.querySelector('.pdetail-info').getBoundingClientRect(); return Math.abs(a.right - b.right) < 1.5; })(),
-        rtl: [...v.querySelectorAll('.pdetail-text, .pdetail-list li')].every((x) => getComputedStyle(x).direction === 'rtl' && getComputedStyle(x).textAlign === 'right'),
-        fonts: [...v.querySelectorAll('.pdetail-info h1, .pdetail-info h2, .pdetail-info p, .pdetail-info li')].every((x) => getComputedStyle(x).fontFamily.replace(/["']/g, '').startsWith('Estedad')),
+        rtl: [...v.querySelectorAll('.pdetail-text, .pdetail-sub, .pdetail-kicker, .pdetail-list li')].every((x) => getComputedStyle(x).direction === 'rtl' && ['right', 'start'].includes(getComputedStyle(x).textAlign)),
+        fonts: [...v.querySelectorAll('.pdetail-info h1, .pdetail-info h2, .pdetail-info h3, .pdetail-info p, .pdetail-info li, .pdetail-info dt, .pdetail-info dd')].every((x) => getComputedStyle(x).fontFamily.replace(/["']/g, '').startsWith('Estedad')),
         side: ib.right <= info.left + 0.5 || mb.right <= info.left + 0.5, above: mb.bottom <= info.top + 0.5,
         whole: ib.left >= mb.left - 0.5 && ib.right <= mb.right + 0.5 && ib.top >= mb.top - 0.5 && ib.bottom <= mb.bottom + 0.5,
         ratio: Math.abs(ib.width / ib.height - img.naturalWidth / img.naturalHeight) < 0.01, enlarged: ib.height * devicePixelRatio > img.naturalHeight + 1,
@@ -231,7 +259,7 @@ const RUN = (process.env.CAT || 'armored,instrumentation').split(',');
     if (C.muted ? Math.max(cr, cg, cb) - Math.min(cr, cg, cb) > 45 || cr < 60 : cb - cr < 100) fails.push('codes colour ' + d.codeColor);
     if (C.muted && d.hColor !== 'rgb(8, 120, 249)') fails.push('section title colour ' + d.hColor);
     if (!C.muted && d.hColor !== 'rgb(7, 28, 75)') fails.push('armored section title colour changed ' + d.hColor);
-    if (d.codesDir !== 'ltr' || d.structDir !== 'ltr' || !d.codesRight || !d.rtl || !d.fonts) fails.push('direction / alignment / font ' + JSON.stringify([d.codesDir, d.structDir, d.codesRight, d.rtl, d.fonts]));
+    if (d.codesDir !== 'ltr' || d.structDir !== 'ltr' || !d.codesRight || !d.rtl || !d.specs || !d.fonts) fails.push('direction / alignment / font ' + JSON.stringify([d.codesDir, d.structDir, d.codesRight, d.rtl, d.specs, d.fonts]));
     if (d.wide >= 860 ? !d.side : !d.above) fails.push('product layout ' + JSON.stringify({ side: d.side, above: d.above, wide: d.wide }));
     if (!d.whole || !d.ratio || d.enlarged) fails.push('product photo ' + JSON.stringify(d));
     if (d.big) fails.push(d.big + ' texts overflow on the product page');

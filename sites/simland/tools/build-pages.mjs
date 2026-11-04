@@ -198,14 +198,21 @@ async function catalogPages(single) {
     const { width, height } = await sharp(at('assets/images/catalog', `${p.image}.webp`)).metadata();
     return height / width > 5;
   };
-  // a section of the product page: a paragraph (text), a list (items) or a left-to-right code line
-  // (code, which may break after a «/» on a narrow phone); collapsible: an accordion, closed at first
+  // a section of the product page: a paragraph (text), a list (items), left-to-right code lines (code: one
+  // or a list, each may break after a «/» on a narrow phone), a table (specs: label, value, ltr?) or a run
+  // of blocks (content: {h} sub-heading, {p} paragraph, {list}); collapsible: an accordion, closed at first
+  const list = (items, pad = '            ') => `<ul class="pdetail-list" role="list">\n${items.map((t) => `${pad}  <li>${esc(t)}</li>`).join('\n')}\n${pad}</ul>`;
   const section = (p, s) => {
+    const codes = [].concat(s.code || []);
     const body = s.items
-      ? `<ul class="pdetail-list" role="list">\n${s.items.map((t) => `              <li>${esc(t)}</li>`).join('\n')}\n            </ul>`
-      : s.code
-        ? `<p class="pdetail-structure-line"><span class="pdetail-structure" dir="ltr" lang="en">${esc(s.code).replace(/\//g, '/<wbr>')}</span></p>`
-        : `<p class="pdetail-text">${esc(s.text)}</p>`;
+      ? list(s.items)
+      : codes.length
+        ? codes.map((c) => `<p class="pdetail-structure-line"><span class="pdetail-structure" dir="ltr" lang="en">${esc(c).replace(/\//g, '/<wbr>')}</span></p>`).join('\n            ')
+        : s.specs
+          ? `<dl class="pdetail-specs">\n${s.specs.map((r) => `              <div class="pdetail-spec"><dt>${esc(r.label)}</dt><dd${r.ltr ? ' dir="ltr" lang="en"' : ''}>${esc(r.value)}</dd></div>`).join('\n')}\n            </dl>`
+          : s.content
+            ? s.content.map((b) => (b.h ? `<h3 class="pdetail-sub">${esc(b.h)}</h3>` : b.list ? list(b.list, '              ') : `<p class="pdetail-text">${esc(b.p)}</p>`)).join('\n              ')
+            : `<p class="pdetail-text">${esc(s.text)}</p>`;
     if (s.collapsible) {
       return `          <details class="pdetail-block pdetail-acc">
             <summary class="pdetail-acc-sum"><h2 class="pdetail-h" id="pd-${p.id}-${s.id}">${esc(s.title)}</h2><span class="pdetail-acc-icon" aria-hidden="true"><svg><use href="#c-chevron"/></svg></span></summary>
@@ -260,14 +267,15 @@ ${cards.join('\n')}
 ${crumbs([['خانه', '#top'], ['محصولات', '#products'], [c.name, `#/products/${c.id}`], [p.name]])}
       <article class="pdetail" data-category="${c.id}">
         <div class="pdetail-info">
-          <h1 class="pdetail-title" id="pd-${p.id}" tabindex="-1">${esc(p.name)}</h1>
+${p.subtitle ? `          <p class="pdetail-kicker">${esc(p.subtitle)}</p>
+` : ''}          <h1 class="pdetail-title" id="pd-${p.id}" tabindex="-1">${esc(p.name)}</h1>
 ${p.type ? `          <h2 class="pdetail-label" id="pd-${p.id}-type">نوع محصول</h2>
           <p class="pdetail-type" aria-labelledby="pd-${p.id}-type"><span>${esc(p.type)}</span></p>
-` : ''}${p.codesText ? `          <h2 class="pdetail-label" id="pd-${p.id}-codes">کدهای فنی</h2>
+` : ''}${p.codesText ? `          <h2 class="pdetail-label" id="pd-${p.id}-codes">${esc(p.codesLabel || 'کدهای فنی')}</h2>
           <p class="pdetail-codes" aria-labelledby="pd-${p.id}-codes"><span dir="ltr" lang="en">${esc(p.codesText)}</span></p>
 ` : ''}${p.description ? `          <p class="pdetail-desc">${esc(p.description)}</p>
-` : ''}${(p.sections || []).map((x) => section(p, x)).join('')}          ${inquiry(p, 'btn btn-primary pdetail-inquiry')}
-        </div>
+` : ''}${(p.sections || []).filter((x) => !x.afterInquiry).map((x) => section(p, x)).join('')}          ${inquiry(p, 'btn btn-primary pdetail-inquiry')}
+${(p.sections || []).filter((x) => x.afterInquiry).map((x) => section(p, x)).join('')}        </div>
         <div class="pdetail-media${(await slim(p)) ? ' is-slim' : ''}">${await img(p, 'pdetail-img', true)}</div>
       </article>
       <a class="rv-back" href="#/products/${c.id}"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>بازگشت به ${esc(c.name)}</span></a>
