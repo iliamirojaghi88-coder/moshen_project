@@ -19,7 +19,12 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
     fade). Previous version (with fade) backed up in the session scratchpad only.
   - template: spec rows may carry `values` (chips) + `note`; content `{p, ltr}` / `{list, ltr}`;
     `.pdetail-img.is-landscape` for landscape photos; QA `CATS.aluminum` (`noCodes`).
-- **Next action:** wait for the user's verdict. Still open: «فکس»/«کنترل», telecom sizes, `mapUrl`.
+- Delivered `SIMLAND-site-2026-11-04-2523091.zip` + standalone (sent). QA: catalog aluminum 8/8 widths
+  (320–1536); home cards pixel-identical; supply 6/6; armored/instrumentation/solar/telecom at 375 + 1440 PASS.
+  Not re-run this time (user asked for speed): full 10-width catalog for the older categories, products,
+  contact, nav-spy, motion-nav, why, responsive, interact, fallback (scratchpad reg10/run.sh, sequential).
+- **Next action:** user continues in a new chat — wait for their verdict / next directive. Still open:
+  «فکس»/«کنترل», telecom sizes, `mapUrl`, ISIRI 607-02 / IEC 60227 for aluminium (held back).
 
 ### Previous step (2026-11-04): telecom category + «در انتظار تأمین»
 
