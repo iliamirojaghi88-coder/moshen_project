@@ -1,0 +1,3 @@
+dist/*.zip
+build/out/
+__pycache__/

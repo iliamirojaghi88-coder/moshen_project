@@ -10183,7 +10183,7 @@
    "tested": "در این نشست نصب نبود (setup متوقف شد)",
    "notes": "ابزار امنیتی تهاجمی: فقط روی سیستم‌های تحت مالکیت یا با مجوز کتبی؛ پیش از نصب بررسی امنیتی.",
    "restore": {
-    "phase": 5,
+    "phase": 7,
     "method": "command",
     "check": "command -v strix",
     "commands": {

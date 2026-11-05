@@ -545,7 +545,7 @@ cli("cli:skillui", "skillui", "configured-missing", "استخراج سیستم �
     "در این نشست نصب نبود (setup متوقف شد)", optional=True, deps=["runtime:node"])
 cli("cli:strix", "strix (strix-agent)", "configured-missing", "ایجنت تست نفوذ مجاز (Docker + کلید LLM کاربر)", "https://github.com/usestrix/strix", "1.7.0", "Apache-2.0",
     {"posix": "pip install strix-agent==1.7.0", "windows": "pip install strix-agent==1.7.0"}, "command -v strix",
-    "در این نشست نصب نبود (setup متوقف شد)", sensitive=True, optional=True, deps=["runtime:python", "runtime:docker"],
+    "در این نشست نصب نبود (setup متوقف شد)", phase=7, sensitive=True, optional=True, deps=["runtime:python", "runtime:docker"],
     auth="key:LLM_API_KEY + STRIX_LLM", notes="ابزار امنیتی تهاجمی: فقط روی سیستم‌های تحت مالکیت یا با مجوز کتبی؛ پیش از نصب بررسی امنیتی.")
 cli("cli:ui-ux-pro-max-cli", "ui-ux-pro-max-cli (نصب سراسری اختیاری)", "optional", "نصب رسمی سراسری هفت اسکیل UI/UX در ~/.claude/skills",
     "https://www.npmjs.com/package/ui-ux-pro-max-cli", "2.15.0", "MIT",
