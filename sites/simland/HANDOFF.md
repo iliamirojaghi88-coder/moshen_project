@@ -6,7 +6,7 @@ Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/s
 
 ## Exact stop point (2026-11-05, pre-launch hardening + hero headline)
 
-- Branch: `ccr-d2e3e0ff-1uszuu`; rollback tag `simland-pre-hardening-919fed9` (state before this step).
+- Branch: `ccr-d2e3e0ff-1uszuu`; rollback point: commit `919fed9` (state before this step; the local tag `simland-pre-hardening-919fed9` could not be pushed: the session's git proxy only accepts the branch).
 - Solar: the extra product `solar-cable-simland` is gone; `solar-panel-cable` (same id, name, code H1Z2Z2-K,
   texts, URL) now shows the SimLand render `solar-cable-simland.webp` with `bleed: bottom` (tools/data-building.py).
 - Security (static single-file site: no backend, forms, auth, DB, uploads or API exist):

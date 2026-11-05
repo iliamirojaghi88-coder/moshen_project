@@ -250,7 +250,7 @@ curl -s -o /dev/null -w "%{http_code} %{size_download}\n" https://<دامنه>/a
 **بازگشت به نسخه‌ی قبل:**
 
 - روی هاست: بسته‌ی zip نسخه‌ی قبلی را دوباره بارگذاری کنید. هر بسته کامل و مستقل است.
-- در git: هر نسخه‌ی تحویلی یک commit است و `simland-pre-hardening-919fed9` وضعیت پیش از مرحله‌ی آماده‌سازی انتشار را نگه می‌دارد. برای ساختن نسخه‌ی قبل: `git checkout <commit> -- sites/simland` و بعد `node tools/build-pages.mjs`.
+- در git: هر نسخه‌ی تحویلی یک commit است. commit `919fed9` وضعیت پیش از مرحله‌ی آماده‌سازی انتشار را نگه می‌دارد. برای ساختن نسخه‌ی قبل: `git checkout <commit> -- sites/simland` و بعد `node tools/build-pages.mjs`.
 
 ## مجوزها
 
