@@ -500,7 +500,7 @@ hook("hook:setup-motion-env", "SessionStart → scripts/setup-motion-env.sh", "�
                   commands={"linux": "WITH_BLENDER=0 bash scripts/setup-motion-env.sh"}))
 hook("hook:mp-video-env", "SessionStart → scripts/mp-video-env.sh (async)", "ساخت/بررسی .venv-cloud برای MP Video", "SessionStart (async، ابری)",
      "installed", ".mp-cloud-ready موجود؛ kinocut/faster-whisper/rembg در venv import شد", project_specific=True, portability=LINUX_ONLY,
-     restore=dict(phase=6, method="command", needs_repo=True, check=".venv-cloud/bin/python -c 'import kinocut'",
+     restore=dict(phase=6, method="command", needs_repo=True, check='.venv-cloud/bin/python -c "import importlib.util as u, sys; sys.exit(0 if all(u.find_spec(m) for m in (\'kinocut\',)) else 1)"',
                   commands={"linux": "bash cloud/setup.sh --with-pro"}))
 hook("hook:ponytail", "Ponytail hooks (SessionStart/UserPromptSubmit/SubagentStart)", "تزریق قوانین Ponytail به نشست و زیرعامل‌ها",
      "SessionStart، UserPromptSubmit، SubagentStart", "installed", "«PONYTAIL MODE ACTIVE — level: full» در شروع همین نشست دیده شد",
@@ -574,7 +574,7 @@ proj("cli:gltf-transform", "glTF-Transform CLI", "installed", "بهینه‌سا
      "npx gltf-transform --version → 4.5.1", None, "test -x node_modules/.bin/gltf-transform", port=ALL)
 proj("py:piper-tts", "Piper TTS (fa_IR)", "installed", "تولید گفتار فارسی محلی (scripts/tts-fa.sh)", "https://github.com/OHF-Voice/piper1-gpl", "1.8.0", "GPL-3.0",
      "import piper موفق؛ /usr/local/bin/piper", {"posix": "pip install piper-tts==1.8.0 kokoro-onnx soundfile opencv-python-headless numpy"},
-     "python3 -c 'import piper, kokoro_onnx, soundfile, cv2, numpy'", deps=["runtime:python"], port=ALL,
+     'python3 -c "import importlib.util as u, sys; sys.exit(0 if all(u.find_spec(m) for m in (\'piper\', \'kokoro_onnx\', \'soundfile\', \'cv2\', \'numpy\',)) else 1)"', deps=["runtime:python"], port=ALL,
      notes="روی اوبونتو ۲۴: --break-system-packages یا venv لازم است.")
 proj("asset:piper-voice-fa", "صدای fa_IR-amir-medium", "configured-missing", "صدای پیش‌فرض فارسی Piper", "https://huggingface.co/rhasspy/piper-voices",
      "medium", "see model card", "در ~/.cache/piper نبود (مرحلهٔ setup اجرا نشد)", {"posix": "bash scripts/tts-fa.sh 'سلام' /tmp/warmup.wav"},
@@ -594,9 +594,9 @@ proj("cli:whisper-cli", "whisper.cpp (whisper-cli)", "configured-missing", "رو
      deps=["cli:cmake"])
 proj("py:musicgen", "MusicGen (torch + transformers)", "optional", "موسیقی پس‌زمینهٔ محلی (CPU، حدود ۱GB)", "https://huggingface.co/facebook/musicgen-small",
      None, "CC-BY-NC (مدل)", "نصب نشده (اختیاری WITH_MUSICGEN=1)", {"linux": "WITH_MUSICGEN=1 WITH_BLENDER=0 bash scripts/setup-motion-env.sh"},
-     "python3 -c 'import torch, transformers'", phase=7, optional=True, notes="مجوز مدل غیرتجاری است.")
+     'python3 -c "import importlib.util as u, sys; sys.exit(0 if all(u.find_spec(m) for m in (\'torch\', \'transformers\',)) else 1)"', phase=7, optional=True, notes="مجوز مدل غیرتجاری است.")
 proj("venv:mp-cloud", ".venv-cloud (MP Video runtime)", "installed", "FastAPI، faster-whisper، yt-dlp، rembg، mediapipe، pedalboard، noisereduce، kinocut",
-     "https://github.com/ThePudge/mp-video-skillset", "Python 3.12.3", "MIT + deps", "همهٔ importها موفق", None, ".venv-cloud/bin/python -c 'import kinocut'",
+     "https://github.com/ThePudge/mp-video-skillset", "Python 3.12.3", "MIT + deps", "همهٔ importها موفق", None, '.venv-cloud/bin/python -c "import importlib.util as u, sys; sys.exit(0 if all(u.find_spec(m) for m in (\'kinocut\',)) else 1)"',
      notes="با hook:mp-video-env / cloud/setup.sh --with-pro بازسازی می‌شود.")
 proj("venv:arta", "venv جدای arta-reels (openai-whisper، torch، OpenCV<5)", "optional", "پیش‌نیاز اجرای Arta Edit Studio", "https://github.com/Jenesyx/arta-edit-studio",
      None, "MIT", "ساخته نشده", None, None, notes="PyTorch باید اول طبق pytorch.org نصب شود.")

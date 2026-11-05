@@ -357,8 +357,8 @@ Claude در اکوسیستم باز اسکیل‌ها (skills.sh) جست‌وج�
 | بازیابی | `scripts/setup-motion-env.sh` (هوک SessionStart) نسخهٔ ریپو را بدون شبکه در `~/.claude/skills/` کپی می‌کند؛ بازنصب از منبع: `npx skills experimental_install` از روی `skills-lock.json` |
 | بررسی | `npx skills list -a claude-code` (پروژه) و `npx skills list -g -a claude-code` (سراسری) باید `find-skills … Source: vercel-labs/skills` نشان دهند؛ `npx skills check` باید «up to date» بگوید؛ خط `✓ find-skills` در لاگ راه‌اندازی |
 
-> Recovery Kit هنوز در ریپو ساخته نشده است؛ این جدول همان ورودی موجودی (inventory) است که هنگام
-> ساختن آن باید برداشته شود.
+> این جدول در Recovery Kit برداشته شده است: `docs/claude-code-recovery/` (فهرست JSON، اسکریپت بازیابی،
+> گزارش PDF و آزمون‌ها).
 
 ### رفتار کشف خودکار (خلاصهٔ قوانین CLAUDE.md)
 

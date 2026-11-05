@@ -139,13 +139,16 @@ mcp_rows = "".join(
     for i in items if i.get("tools"))
 
 if tests:
-    test_rows = "".join(f"<tr><td class='num'>{t['n']}</td><td>{E(t['title'])}</td><td><span class='chip {dict(PASS='ok', FAIL='bad').get(t['status'], 'warn')}'>{E(t['status'])}</span></td><td class='t'>{E(t['details'])}</td></tr>" for t in tests["results"])
-    test_block = f"<p class='sub'>اجرا: {E(tests['ran_at'])} · {E(tests['environment'])}</p><table class='full'><thead><tr><th>#</th><th>آزمون</th><th>نتیجه</th><th>جزئیات</th></tr></thead><tbody>{test_rows}</tbody></table>"
+    test_rows = "".join(f"<tr><td class='num'>{t['n']}</td><td>{E(t['title'])}</td><td><span class='chip {dict(PASS='ok', FAIL='bad').get(t['status'], 'warn')}'>{E(t['status'])}</span></td><td class='t' dir='ltr' style='text-align:left'>{E(t['details'] if len(t['details']) <= 900 else t['details'][:900] + ' … (full text: TEST-RESULTS.md)')}</td></tr>" for t in tests["results"])
+    test_block = f"<p class='sub'>اجرا: <span dir='ltr'>{E(tests['ran_at'])}</span> · <span dir='ltr'>{E(tests['environment'])}</span> · خلاصه: <span dir='ltr'>{E(', '.join(f'{k}={v}' for k, v in tests['summary'].items()))}</span></p><table class='tests'><thead><tr><th>#</th><th>آزمون</th><th>نتیجه</th><th>جزئیات</th></tr></thead><tbody>{test_rows}</tbody></table>"
 else:
     test_block = "<p>NOT TESTED — این نسخهٔ گزارش پیش از اجرای tests/run_tests.py ساخته شده است.</p>"
 
 sensitive = [i for i in items if i["sensitive"]]
-nontransfer = [i for i in items if i["recoverable"] in ("no", "manual") and i["category"] not in ("builtin-tool", "builtin-skill", "builtin-agent", "candidate", "project-tool", "image-cli", "account-skill")]
+nontransfer = [i for i in items if i["recoverable"] in ("no", "manual") and i["auth"] != "بدون کلید"
+               and i["category"] not in ("builtin-tool", "builtin-skill", "builtin-agent", "candidate", "project-tool", "image-cli", "account-skill")]
+li_nt = lambda xs: "".join(f"<li><b dir='auto'>{E(i['name'])}</b> — {E(REC_FA.get(i['recoverable']))}"
+                           f"{(' · احراز هویت: ' + E(i['auth'])) if i['auth'] != 'none' else ''} · {E(i['install'] or '')}</li>" for i in xs)
 missing = [i for i in items if i["status"] in ("configured-missing", "failed-connect")]
 li = lambda xs: "".join(f"<li><b dir='auto'>{E(i['name'])}</b> — {E(i.get('notes') or i.get('tested') or i['purpose_fa'])}</li>" for i in xs)
 
@@ -187,6 +190,7 @@ td.tools {{ font-size:6.9pt; text-align:left; color:#344054; }}
 .two {{ display:grid; grid-template-columns:1fr 1fr; gap:6mm; }}
 .box {{ border:1px solid var(--line); border-radius:2mm; padding:2mm 4mm; break-inside:avoid; }}
 .pb {{ break-before:page; }}
+table.tests tr {{ break-inside:auto; }} table.tests th:nth-child(1) {{ width:7mm; }} table.tests th:nth-child(2) {{ width:52mm; }} table.tests th:nth-child(3) {{ width:18mm; }}
 </style></head><body>
 
 <section class="cover">
@@ -268,7 +272,7 @@ UI/UX Pro Max؛ LLM Council؛ پنج ابزار سراسری؛ اسکیل‌ها
 <b>اختصاصی (📁):</b> {E('، '.join(i['name'] for i in items if i['project_specific'] and i['category'] in ('skill', 'hook')))}؛ ابزارهای <span dir="ltr">tools/</span>، <span dir="ltr">scripts/</span>، <span dir="ltr">cloud/</span> و <span dir="ltr">mp-studio/</span>؛ کتابخانه‌های npm پروژه؛ محیط Motion-Production.</p>
 
 <h2>۷. موارد غیرقابل‌انتقال یا نیازمند اقدام دستی</h2>
-<ul>{li(nontransfer)}
+<ul>{li_nt(nontransfer)}
 <li><b>پایگاه حافظهٔ claude-mem</b> (<span dir="ltr">~/.claude-mem</span>) — محلی در کانتینر؛ snapshot با <span dir="ltr">backup-setup</span> ساخته نشده و منتقل نمی‌شود.</li>
 <li><b>اشتراک و پلن حساب Claude</b> — در دسترس‌بودن اسکیل‌های حساب، پلاگین‌ها و Cowork به پلن حساب جدید بستگی دارد.</li></ul>
 

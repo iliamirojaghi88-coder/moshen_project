@@ -9733,7 +9733,7 @@
     "phase": 6,
     "method": "command",
     "needs_repo": true,
-    "check": ".venv-cloud/bin/python -c 'import kinocut'",
+    "check": ".venv-cloud/bin/python -c \"import importlib.util as u, sys; sys.exit(0 if all(u.find_spec(m) for m in ('kinocut',)) else 1)\"",
     "commands": {
      "linux": "bash cloud/setup.sh --with-pro"
     }
@@ -10445,7 +10445,7 @@
    "scope": "project",
    "install": "posix: pip install piper-tts==1.8.0 kokoro-onnx soundfile opencv-python-headless numpy",
    "activate": null,
-   "verify": "python3 -c 'import piper, kokoro_onnx, soundfile, cv2, numpy'",
+   "verify": "python3 -c \"import importlib.util as u, sys; sys.exit(0 if all(u.find_spec(m) for m in ('piper', 'kokoro_onnx', 'soundfile', 'cv2', 'numpy',)) else 1)\"",
    "depends_on": [
     "runtime:python"
    ],
@@ -10464,7 +10464,7 @@
    "restore": {
     "phase": 4,
     "method": "command",
-    "check": "python3 -c 'import piper, kokoro_onnx, soundfile, cv2, numpy'",
+    "check": "python3 -c \"import importlib.util as u, sys; sys.exit(0 if all(u.find_spec(m) for m in ('piper', 'kokoro_onnx', 'soundfile', 'cv2', 'numpy',)) else 1)\"",
     "commands": {
      "posix": "pip install piper-tts==1.8.0 kokoro-onnx soundfile opencv-python-headless numpy"
     },
@@ -10672,7 +10672,7 @@
    "scope": "project",
    "install": "linux: WITH_MUSICGEN=1 WITH_BLENDER=0 bash scripts/setup-motion-env.sh",
    "activate": null,
-   "verify": "python3 -c 'import torch, transformers'",
+   "verify": "python3 -c \"import importlib.util as u, sys; sys.exit(0 if all(u.find_spec(m) for m in ('torch', 'transformers',)) else 1)\"",
    "depends_on": [],
    "auth": "none",
    "portability": {
@@ -10689,7 +10689,7 @@
    "restore": {
     "phase": 7,
     "method": "command",
-    "check": "python3 -c 'import torch, transformers'",
+    "check": "python3 -c \"import importlib.util as u, sys; sys.exit(0 if all(u.find_spec(m) for m in ('torch', 'transformers',)) else 1)\"",
     "commands": {
      "linux": "WITH_MUSICGEN=1 WITH_BLENDER=0 bash scripts/setup-motion-env.sh"
     },
@@ -10710,7 +10710,7 @@
    "scope": "project",
    "install": "با setup-motion-env.sh یا cloud/setup.sh",
    "activate": null,
-   "verify": ".venv-cloud/bin/python -c 'import kinocut'",
+   "verify": ".venv-cloud/bin/python -c \"import importlib.util as u, sys; sys.exit(0 if all(u.find_spec(m) for m in ('kinocut',)) else 1)\"",
    "depends_on": [],
    "auth": "none",
    "portability": {

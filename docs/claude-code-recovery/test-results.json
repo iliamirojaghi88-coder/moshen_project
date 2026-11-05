@@ -1,0 +1,71 @@
+{
+ "ran_at": "2026-11-05 20:55 UTC",
+ "environment": "Claude Code cloud container, Linux 6.18.44-fc-v236, Python 3.13.18, environment 'Default' (limited network)",
+ "results": [
+  {
+   "n": 1,
+   "title": "صحت JSON و شِمای فهرست",
+   "status": "PASS",
+   "details": "6 JSON files parsed; 368 items, schema/legend/phase checks: no errors"
+  },
+  {
+   "n": 2,
+   "title": "Syntax اسکریپت‌های Shell (و Python/Node)",
+   "status": "PASS",
+   "details": "bash -n on 14 scripts, py_compile on 4, node --check on 1; shellcheck -S warning (kit): clean; -S error (repo scripts): clean"
+  },
+  {
+   "n": 3,
+   "title": "اعتبار لینک‌ها، بسته‌ها و کامیت‌های ثابت",
+   "status": "PASS",
+   "details": "67 PASS, 0 FAIL, 48 NOT TESTED (github repos via git ls-remote: 37; web URLs via curl: 54; npm pins: 10; PyPI pins: 5; pinned commits: 9) | NOT TESTED: https://adobe-creativity.adobe.io/mcp (blocked by this environment's network policy); https://ai.google.dev (blocked by this environment's network policy); https://astral.sh/uv/install.ps1 (blocked by this environment's network policy); https://astral.sh/uv/install.sh (blocked by this environment's network policy); https://bun.sh (blocked by this environment's network policy); https://bun.sh/install (blocked by this environment's network policy); https://claude.ai (HTTP 403: login/anti-bot, not a dead link); https://claude.ai/connect-github (HTTP 403: login/anti-bot, not a dead link); https://claude.ai/customize/connectors (HTTP 403: login/anti-bot, not a dead link); https://claude.ai/install.ps1 (blocked by this environment's network policy); https://claude.ai/install.sh (blocked by this environment's network policy); https://cli.github.com (blocked by this environment's network policy); https://cloud.google.com/bigquery/docs/bq-command-line-tool (blocked by this environment's network policy); https://cloud.google.com/storage/docs/gsutil (blocked by this environment's network policy); https://cmake.org (blocked by this environment's network policy); https://deb.nodesource.com/setup_22.x (blocked by this environment's network policy); https://developers.google.com/drive (blocked by this environment's network policy); https://docs.astral.sh/uv/ (blocked by this environment's network policy); https://docs.docker.com/get-docker/ (blocked by this environment's network policy); https://elevenlabs.io (blocked by this environment's network policy); https://ffmpeg.org (blocked by this environment's network policy); https://git-scm.com (blocked by this environment's network policy); https://github.com/apps/claude (HTTP 403: login/anti-bot, not a dead link); https://github.com/apps/claude/installations/select_target (HTTP 403: login/anti-bot, not a dead link); https://gltf-transform.dev (blocked by this environment's network policy); https://gsap.com (blocked by this environment's network policy); https://help.figma.com/hc/en-us/articles/32132100833559 (blocked by this environment's network policy); https://huggingface.co/facebook/musicgen-small (blocked by this environment's network policy); https://huggingface.co/rhasspy/piper-voices (blocked by this environment's network policy); https://jqlang.github.io/jq/ (blocked by this environment's network policy); https://lucide.dev (blocked by this environment's network policy); https://muapi.ai (blocked by this environment's network policy); https://pandoc.org (blocked by this environment's network policy); https://platform.openai.com (blocked by this environment's network policy); https://playwright.dev (blocked by this environment's network policy); https://polyhaven.com (blocked by this environment's network policy); https://sketchfab.com/developers (blocked by this environment's network policy); https://skills.sh (blocked by this environment's network policy); https://threejs.org (blocked by this environment's network policy); https://www.atlascloud.ai (blocked by this environment's network policy); https://www.blender.org (blocked by this environment's network policy); https://www.heygen.com (blocked by this environment's network policy); https://www.libreoffice.org (blocked by this environment's network policy); https://www.npmjs.com/package/skillui (HTTP 403: login/anti-bot, not a dead link); https://www.npmjs.com/package/ui-ux-pro-max-cli (HTTP 403: login/anti-bot, not a dead link); https://www.pexels.com/api/ (blocked by this environment's network policy); https://www.python.org (blocked by this environment's network policy); https://www.remotion.dev (blocked by this environment's network policy)"
+  },
+  {
+   "n": 4,
+   "title": "وابستگی‌ها و ترتیب نصب",
+   "status": "PASS",
+   "details": "285 dependency edges resolved, no cycles, every dependency restores in an earlier or same phase, commands have read-only checks, CLI pins match install commands, dry-run plan ordered over 32 steps"
+  },
+  {
+   "n": 5,
+   "title": "تداخل ابزارها",
+   "status": "PASS",
+   "details": "166 skill names, 9 commands, 10 agents, 4 project MCP + 0 user MCP + 4 connectors: no hard conflicts. browser-testing-with-devtools needs chrome-devtools MCP (not configured): dependency gap, not a clash functional overlaps (routing, not clashes): code review: builtin code-review, code-review-and-quality, ponytail-review, agent code-reviewer, /quality-review | simplification: builtin simplify, code-simplification, ponytail, unslop, /code-simplify | security: builtin security-review, security-and-hardening, strix-security, agent security-auditor | PDF/Office: anthropic-skills pdf/docx/pptx/xlsx, adobe-anypdf/anydocx/anypptx/anyexcel, Adobe MCP pdf_* | frontend/UI design: frontend-design, frontend-ui-engineering, ui-ux-pro-max bundle, Figma connector | video editing: pro-edit, video-use, fav-edit-video, kinocut MCP, adobe-edit-quick-cut, hyperframes | Remotion: remotion:* plugin (4.0.528) vs remotion-studio workspace (4.0.538) vs remotion-to-hyperframes | memory/handoff: claude-mem (mem-search, handoff), graphify for structure (division of labour documented) | browser: playwright MCP + skill, anthropic-skills built-in-browser/chrome-browser, browser-testing-with-devtools"
+  },
+  {
+   "n": 6,
+   "title": "کامل‌بودن فهرست نسبت به منابع کشف‌شده",
+   "status": "PASS",
+   "details": "compared disk/config/session sources with 368 JSON ids: skills, licence file, agents, commands, .mcp.json, settings hooks, synced account plugins/skills, installed plugins, npm deps, scripts/tools/cloud, 50 session tools, 10 session MCP servers, discovery-log candidates: nothing missing"
+  },
+  {
+   "n": 7,
+   "title": "PDF: فارسی، RTL، جدول، لینک",
+   "status": "PASS",
+   "details": "49 pages, A4 landscape; fonts embedded: 4 Vazirmatn subsets; Persian probes extractable (6/6); RTL root (lang=fa dir=rtl); 21 tables with repeating headers; 653 clickable URI annotations (≥ 82 distinct hrefs); visual check of rendered pages (cover, summary, quick start, bundles, full and compact tables) by the agent"
+  },
+  {
+   "n": 8,
+   "title": "باز کردن و بررسی ZIP",
+   "status": "PASS",
+   "details": "zip test OK, no unsafe paths; 2105 files, 11.7 MB; 14 required files present; 2089 payload files match MANIFEST.sha256 and equal the git-tracked .claude layer; 99 skills; secret scan clean"
+  },
+  {
+   "n": 9,
+   "title": "اجرای Dry Run اسکریپت بازیابی",
+   "status": "PASS",
+   "details": "6 dry runs (all/optional/sensitive, --generic, macOS plan, Windows plan, --verify, real repo): exit 0, 58 planned steps printed, zero files changed in isolated HOME/target and in the repo"
+  },
+  {
+   "n": 10,
+   "title": "بازیابی در محیط آزمایشی ایزوله",
+   "status": "PASS",
+   "details": "temp HOME + empty git repos: payload restore → 99 skills, settings/.mcp.json identical, 89 general skills mirrored to isolated ~/.claude/skills; re-run idempotent (0 new files); --generic installs templates; verify 99/99 skills PASS; graphify graphify 0.9.102 installed into isolated uv tool dir; skillui 1.3.4 installed into isolated npm prefix. Not a fresh OS image: system packages (apt/Blender/Docker) and account steps were not exercised"
+  }
+ ],
+ "summary": {
+  "PASS": 10,
+  "FAIL": 0,
+  "NOT TESTED": 0
+ }
+}

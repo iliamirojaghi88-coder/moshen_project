@@ -495,7 +495,7 @@ def t9_dryrun():
         if sh(["git", "-C", str(REPO), "status", "--porcelain"])[1] != repo_status:
             errs.append("dry run changed the repository")
         return ("FAIL" if errs else "PASS"), (f"{len(runs) + 1} dry runs (all/optional/sensitive, --generic, macOS plan, Windows plan, --verify, real repo): "
-                                              f"exit 0, {plans} planned steps printed, zero files changed in isolated HOME/target and in the repo"
+                                              f"exit 0, {plans} planned steps printed, " + ("files changed (see problems)" if errs else "zero files changed in isolated HOME/target and in the repo")
                                               + ("; problems: " + "; ".join(errs) if errs else ""))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
