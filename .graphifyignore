@@ -6,6 +6,9 @@
 # Vendored minified libraries (three.js, gsap, loaders).
 **/assets/vendor/
 
+# Vendored third-party app (Arta Edit Studio inside the MP video skillset).
+mp-studio/vendor/
+
 # Asset data, not code: catalogues, licence ledger, per-asset metadata, textures.
 library/
 

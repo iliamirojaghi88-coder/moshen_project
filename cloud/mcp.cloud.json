@@ -1,0 +1,1 @@
+{"mcpServers":{"kinocut":{"command":".venv-cloud/bin/python","args":["-m","kinocut","--mcp"]}}}

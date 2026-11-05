@@ -10,4 +10,6 @@ npm run tts:fa -- "متن" out.wav   # صداگذاری فارسی محلی (Pip
 npx hyperframes render            # رندر محلی MP4 (رایگان)
 ```
 
+ادیت ویدیوی خام و ساخت موشن‌گرافیک از روی صدا (MP Video Skillset): `docs/MP-VIDEO-fa.md`.
+
 جزئیات و قوانین کار: `CLAUDE.md`.

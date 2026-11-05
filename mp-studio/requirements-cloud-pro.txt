@@ -1,0 +1,8 @@
+# Pro extras on Linux CPU (installed by `cloud/setup.sh --with-pro`; each one is probed by `cloud/doctor.py`).
+# If a wheel fails to build, setup continues and doctor reports the feature as UNAVAILABLE with a fallback.
+rembg
+mediapipe
+pedalboard
+noisereduce
+kinocut>=1.16
+opencv-python-headless

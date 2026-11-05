@@ -20,6 +20,12 @@
         ".claude/hooks/claude-mem.sh",
         "mcp"
       ]
+    },
+    "kinocut": {
+      "command": "bash",
+      "args": [
+        ".claude/hooks/kinocut-mcp.sh"
+      ]
     }
   }
 }

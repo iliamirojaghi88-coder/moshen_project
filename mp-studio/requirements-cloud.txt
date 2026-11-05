@@ -1,0 +1,17 @@
+# Cloud / Linux CPU install (cloud/setup.sh). No GPU, no DirectML, no Windows-only wheels.
+# Lite path + transcripts + delivery. Pro extras are in requirements-cloud-pro.txt.
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9
+faster-whisper>=1.2,<1.3
+# faster-whisper 1.2.x passes args that PyAV 16+ removed
+av<16
+requests
+yt-dlp
+librosa
+matplotlib
+pillow
+numpy
+onnxruntime
+# Google Drive delivery (cloud/deliver.py)
+google-auth>=2.30

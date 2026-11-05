@@ -1,0 +1,5 @@
+[0:v]lut3d=grade/clean.cube,eq=contrast=1.08:gamma=0.97,format=gbrp,split[p][b];
+[1:v]format=gray,lut=y='clip((val-30)*255/190,0,255)',gblur=sigma=2.5[m];
+[p]eq=saturation=1.07,unsharp=5:5:0.35[pp];
+[b]eq=brightness=-0.035:saturation=0.85,format=gbrp[bb];
+[bb][pp][m]maskedmerge,format=yuv420p,vignette=angle=PI/5.5:mode=forward

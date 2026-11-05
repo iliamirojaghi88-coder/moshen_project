@@ -14,6 +14,17 @@ research engine with a licence ledger, a Blender/glTF 3D pipeline, Persian
   - **Graphify** (`Graphify-Labs/graphify`, CLI `graphify`): `/graphify .` builds `graphify-out/`; see the graphify section below.
   - **Agent Skills** (`addyosmani/agent-skills`): 25 lifecycle skills, agents `code-reviewer`, `security-auditor`, `test-engineer`, `web-performance-auditor`; commands `/spec`, `/planning`, `/build`, `/test`, `/quality-review`, `/code-simplify`, `/ship`, `/constraints`, `/webperf` (`/plan` and `/review` stay the built-ins).
   - **claude-mem** (`thedotmack/claude-mem`): automatic memory of each session's work, injected at the next session start; search with `/mem-search` or the `claude-mem` MCP tools. Memory lives in `~/.claude-mem` of the container. Wrap secrets in `<private>…</private>` so they are not stored.
+- Editing real footage or a voice note into a reel: the **MP video skillset** section below.
+
+## MP video skillset (footage / voice → finished reel)
+
+Vendored from `ThePudge/mp-video-skillset` (`mp-studio/UPSTREAM.md`, licences in `.claude/licenses/`): 33 skills + 5 GSAP skills in `.claude/skills/`, pipeline in `mp-studio/` and `cloud/`, Kinocut MCP (`mcp__kinocut__*`). Persian guide: `docs/MP-VIDEO-fa.md`.
+
+- Before an MP edit read `mp-studio/CLAUDE.md` (Path A = cloud) and `.claude/skills/pro-edit/FEATURES.md`. Python is `.venv-cloud/bin/python` (built in the background by `scripts/mp-video-env.sh` at session start); `bash cloud/setup.sh --with-pro` waits for or repairs it, `.venv-cloud/bin/python cloud/doctor.py` writes `mp-studio/work/capabilities.json`.
+- Owner's raw media goes in `mp-studio/input/<project>/` (references in `…/ref/`), never in git; outputs in `mp-studio/output/`.
+- Routing: edit footage / remove pauses → `pro-edit` (+`video-use`; quick path `pro-edit/lite_edit.py`) · Persian/English animated subtitles → pro-edit captions, `pro-edit/templates/ass-motion` or HyperFrames captions (`scripts/captions-fa-from-script.py` when the script is known) · audio clarity → `pro-edit/audio/voice_clean.py`, then `scripts/audio-master.sh` · voice recording → motion graphics → `voice-motion` · cinematic reel / transitions / a named look → `fav-edit-video` + one style skill (`style-scout` when none), `hyperframes-registry` transitions · product ad → `fav-product-motion-ads` with real assets from `tools/assets` · reference video style → `motion-reference` (+`scripts/analyze-reference.sh`; style only) · text behind the speaker → `subject-cutout` · one-off trim/convert/resize → Kinocut MCP or ffmpeg · hooks, scripts, captions, hashtags → content skills (`viral-hook-writer`, `reel-scripter`, `caption-and-hashtags`, …).
+- Formats: 9:16 1080×1920 (default), 1:1 1080×1080, 16:9 1920×1080; profiles in `render-profiles.json`.
+- Approval gate: plan + storyboard/sample in chat first; the final render only after the owner says approved (`handoff.py approve`). Then `scripts/qc-video.sh` and send the file in chat. Drive upload (`cloud/deliver.py`), link downloads, `content-factory` posting, Kinocut AI/vision, HeyGen cloud and any paid API only with the owner's explicit OK.
 
 ## Layout
 

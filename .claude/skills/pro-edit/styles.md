@@ -1,0 +1,269 @@
+# Style library (approved and learned looks)
+
+pro-edit picks from these when a project has no `mp-studio/input/<project>/ref/` folder. `motion-reference`
+and `learn-update` add new recipes here (reusable ones only; a project's own ref notes stay in
+`mp-studio/work/<project>/ref_style.md`). The source videos are in `mp-studio/learn/done/`.
+
+## Analyzed
+- 4012950191610839212.mp4 (6.5 MB, from mp-studio/learn/, 2026-10-22): 35 s 9:16 talking head, "16 video effects Claude can create" showcase; a new effect every 1–2 s, persistent list HUD, emphasis captions, Instagram comment/DM CTA
+- (mp-studio/learn/) 4001236891292805512.mp4 (3.4 MB): 35 s "Claude Motion Tips" — clean white cards, one-word captions; lessons logged in mp-studio/learn/LOG.md
+
+- 4009793604077813282.mp4 (10.1 MB, from mp-studio/learn/, 2026-10-22): 75 s 9:16, SAME script as project one by another creator; split explainer layout — UI-mock illustration panel on top, speaker below, a new visual every ~2.5 s, boxed seam captions
+
+- 3935263589509299675.mp4 (6.9 MB, from mp-studio/learn/, 2026-10-22): 77 s 9:16 English "how to write viral scripts" reel; alternates full-frame talking head and a pop-out window under a tall dark graphics canvas every ~4.5 s; single-word captions; script/list cards
+
+## Pacing
+- Showcase reels: avg shot 1.8–2.5 s; something changes on screen every 1–2 s (effect, caption size jump, overlay)
+- Talking-head sections keep the speaker centred; overlays live in the top third, captions on the chest
+
+- Explainer reels (tool/app/process topics): a new top-panel visual for every sentence (~2.5 s); with a visual per item the FULL list holds attention (75 s with all 6 tools kept)
+
+- Pop-out rhythm: switch between full-frame and pop-out window on cuts every ~4–5 s; b-roll inserts full-frame
+- Pattern interrupt every 8–12 s in short-form (a transition, a 2–3 s punch-in, a graphic, a speed/sound change); hook text
+  in the first 3 s; silence threshold ~0.3 s for reels (research 2026-11-02, clippie / joyspace / vidpros)
+
+## Recipes
+
+### depth moves (behind + in front of the speaker) — depth.py, built and tested 2026-10-23
+- When: one signature moment per ~10–15 s, on the spoken word: tools named → logo orbit; a prompt/answer → Claude window from behind the head; a result number → 3D growth chart; "my reels/work" → reel fan; a transformation → before/after studio wipe; a section title → pixel title
+- Look: dark tiles with white logos orbit on a tilted ellipse, far side blurred behind the head; light app window swings out at −12°; orange 3D bars + big counter; white-bordered reel cards fan 100°; white studio wipes in; title assembles from dots
+- Build: `motion-kit/depth.py` + `depth.json`, matte bluekey (blue wall) or ai
+- Seen in: synthetic test (mp-studio/work/dtest), confidence: medium (not yet approved by the owner)
+
+### editorial + camera (restrained) — motion-kit, built 2026-10-23
+- When: news, data, serious or premium topics; when "futuristic" would feel like an AI demo
+- Look: paper #F3F0EA or charcoal #1C1C1E, flat brand accent, no glow/glass/gradients; article cards with a muted-yellow hand-drawn marker behind key phrases
+- Motion: scenes rise in; `"camera": true` glides between scenes in one world, slow push on holds, overview at the end
+- Seen in: mp-studio/work/camtest, confidence: medium
+
+### full motion reel (voice only) — motion-kit, built and tested 2026-10-22
+- When: the owner sends only a voice note / voice-over, or wants a faceless reel
+- Look: `futuristic` = deep-space background (aurora blobs, perspective grid floor, HUD corners, particles, scan line), glass cards with a thin cyan edge and glow, cyan icons + brand-yellow keywords; `apple-dark/light` = SF-style glass cards, segmented tabs, soft blobs
+- Motion: scene enters with blur 18 px → 0 + scale 1.06 → 1 (380 ms, expo.out), exits blur + scale 0.96 (240 ms); words blur-rise on a 70 ms stagger; icons draw on (700 ms); grids stagger 83 ms; tab pill slides 420 ms expo.inOut on the spoken word
+- Density: a new scene every 2–4 s; captions (emphasis) under the stage, y ≈ 1500–1650
+- Build: `voice-motion` skill → `motion-kit/kit.py` scene list (components: title, icon_card, icon_grid, tabs, stat, list, chat, notify, compare, flow, bars, quote, cta)
+- Seen in: kit demo + mp-studio/work/vtest (synthetic voice), confidence: medium (not yet approved by the owner)
+### dark title + accent pill (approved on project one, 2026-10-22)
+- When: naming the product/tool; a "free"/benefit tag right after
+- Look: dark #111111 box with white Vazirmatn Bold ~80 px, yellow #FFC400 pill with dark text ~88 px, centred at y 300 / 465 (1080x1920), on the background above the head
+- Motion: pop — scale 70% → 106% in 220 ms → 100% at 320 ms, fade in 120 ms, fade out 200 ms; pill enters ~0.5 s after the title
+- Density: once, on the name
+- Build: ass-motion `{"type": "dark", ...}` + `{"type": "pill", ...}`, enter "pop"
+- Seen in: project one, confidence: high (owner approved)
+
+### number counter
+- When: a spoken number ("11 tools")
+- Look: huge yellow Persian digits ~300 px at y 380, white label under it
+- Motion: counts up over 0.5 s landing on the spoken number, lands at 125% → 100% in 180 ms; label fades in 150 ms later
+- Build: ass-motion `{"type": "counter", "to": N, "label": "..."}`
+- Seen in: project one, confidence: high (owner approved)
+
+### follow + comment CTA
+- When: the CTA lines
+- Look: dark box "follow" at y 300, yellow pill with the comment keyword at y ~475
+- Motion: dark box drops 120 px in 250 ms; pill pops on the spoken keyword; both hold to the end
+- Build: ass-motion `{"type": "dark", "enter": "drop"}` + `{"type": "pill"}`
+- Seen in: project one, confidence: high (owner approved)
+
+### list HUD (progress overlay) — from mp-studio/learn/ showcase
+- When: list videos ("16 effects", "11 tools"), whole list section
+- Look: small title (2 lines, white bold) + two-column list in the top ~20%, items small white; the item being spoken turns accent yellow
+- Motion: list fades in once; highlight jumps item to item on the spoken word (no animation needed)
+- Build: ass-motion — one small `label` line per item at fixed positions (`"tags": "\\fs34"`), highlight = a second event with `"tags": "\\fs34\\c&H00C4FF&"` over the spoken window; or HyperFrames for a polished panel
+- Seen in: 4012950191610839212, confidence: medium (not yet approved by owner)
+
+### emphasis captions (lead-in + keyword) — DEFAULT caption style (owner, 2026-10-22)
+- When: all social captions on talking heads
+- Look: lead-in words small white (72 px) on the line above; the keyword big, bold, accent yellow (124 px) below ("10 trial reels.", "automatically.", "carousels"); cues without a keyword plain white 84 px; block at MarginV 410 (1080x1920), on the chest
+- Motion: keyword pops in (88→100% in 120 ms); lead-in just appears
+- Build: ass-motion, `caption_mode: "emphasis"` (default); mark the keyword in caption_fixes.json with stars: `"کاملاً *رایگانه*"`
+- Picking keywords: one per cue at most, on ~1 cue in 2–3: numbers, product/tool names, payoff and benefit words, the CTA keyword; never fillers or verbs like "is/has"
+- Seen in: 4012950191610839212, confidence: high (owner chose it as default)
+
+### big number with lead-in
+- When: a number is spoken ("46", "11")
+- Look: small white lead-in ("to get all") above a huge yellow number, centred on the chest
+- Motion: number pops; holds while the sentence lasts
+- Build: ass-motion `counter` (or `big`) + a `label` above; same family as the approved counter
+- Seen in: 4012950191610839212, confidence: medium
+
+### word behind the speaker ("depth")
+- When: one emphasis word per video
+- Look: huge accent word whose first half sits behind the head/body and second word in front ("depth" behind, "scatter" in front)
+- Build: plain blue wall → `finish.py` cut-out window + ass-motion `"layer": "behind"` (title ~y 690 size 190, giant number ~y 560 size 640); other backgrounds → `subject-cutout`
+- Seen in: 4012950191610839212; approved on project one v2 (2026-10-22), confidence: high
+
+### comment-box CTA
+- When: "comment X and I'll send it"
+- Look: fake Instagram comment field ("Add a comment…") appears, then a DM bubble ("Sent it to you")
+- Motion: field slides up, keyword types in, DM bubble pops in
+- Build: HyperFrames (UI mock + typing); ass-motion fallback = `dark` box "Add a comment…" then `pill` with the keyword
+- Seen in: 4012950191610839212, confidence: medium
+
+### numbered chapter card
+- When: tips/list videos, between items
+- Look: full white screen, "No.1" small, then the item title large in a thin serif/sans; next beat shows the visual
+- Motion: hard cut in, ~1 s hold, hard cut out; captions continue as single centred words
+- Build: ass-motion `label` on a white full-frame box, or a 1 s white still with text in the EDL
+- Seen in: 4001236891292805512, confidence: low
+
+Other effects named in the showcase, to build with HyperFrames/subject-cutout when asked: headline wall (torn-paper newspaper strips), green screen (person over another clip), phone mockup (screen inserted next to speaker), digital zoom (camera viewfinder HUD + zoom), UI world (person inside an app frame), frame break (object breaking out of a frame), doodle boil (hand-drawn wobbling outline around the person), sticky text (label stuck to a moving hand), before/after light wipe, pullback reveal (zoom out into the editor UI), orbit.
+
+### spotlight (best-part section)
+- When: the strongest moment / "the craziest part"
+- Look: wall darkened (-0.38) and desaturated, blurred; soft yellow glow circle behind the speaker; the key word huge behind the head
+- Motion: flash + impact on entry, zoom-out reveal 1.2→1.0 in 0.7 s, 2-frame glitch on the key word
+- Build: `finish.py` cut-out window (brightness -0.38, saturation 0.35, blur 16) + ass-motion `glow` (radius 430, blur 90, alpha 70) + `big` behind
+- Seen in: project one v2, confidence: high (owner approved)
+
+### split explainer layout
+- When: explaining a tool, app, workflow or list (e.g. "Instagram Agent Skill", "11 skills")
+- Look: top ~40% = light canvas (off-white #F4F2EE, faint grid-paper lines, soft orange radial glow centre); bottom ~60% = speaker, cropped; seam between them carries the captions
+- Motion: the top panel changes on every sentence; elements enter with a short rise (≈20 px) + fade + slight overshoot, 150–250 ms
+- Build: HyperFrames (HTML/CSS composition 1080x768 for the panel, rendered to video) stacked over the speaker crop with ffmpeg `vstack`; speaker cropped to 1080x1152 around the face
+- Seen in: 4009793604077813282, confidence: medium (not yet approved by owner)
+
+### UI-mock illustration per sentence
+- When: inside the split layout, one per sentence, matched to its meaning
+- Look: clean flat UI cards with soft shadows, rounded 16–24 px, small orange tag chips ("جدید", "۲۰ فرمول تست‌شده"), real-looking app icons/logos
+- Library seen (maps 1:1 to the project one script): Claude logo ↔ Instagram logo with a connecting line and a check; to-do card whose rows tick; "Instagram Agent Skill" app card + green «رایگان» badge; 4-column skill-icon grid with a live "N مهارت" counter; new-post card with hook text; comment thread typing replies; profile card with stats + optimise buttons; weekly content calendar; question list ("چی/چه زمانی/با چه افرادی منتشر کنی") ticking one by one; reels thumbnail grid with "TOP" badges; reel → scenario arrow; hook/content/CTA scenario cards fanning out; dark Claude chat with the link pasted; profile card whose Follow button turns to "Following" + comment field with the keyword
+- Build: HyperFrames, one HTML card component per idea, reused across videos (save each to mp-studio/assets/templates/ when approved)
+- Seen in: 4009793604077813282, confidence: medium
+
+### staggered icon grid + live counter
+- When: a spoken count of things ("یازده تا اسکیل")
+- Look: 4-column grid of rounded coloured app icons with tiny labels; an orange tag chip above showing "N مهارت"
+- Motion: icons pop one every ~83 ms (rise + fade + slight scale), label fades just after its icon; the tag counts up with each icon; whole grid ≈ 0.9 s, landing on the spoken number
+- Build: HyperFrames (GSAP stagger 0.083 s); ass-motion fallback = counter + label only
+- Seen in: 4009793604077813282 (measured with a 12 fps strip), confidence: high on timing
+
+### boxed seam captions (variant)
+- When: split layout only (captions sit on the seam between panel and speaker)
+- Look: 1–2 words in a dark rounded box (#1E1E1E ~90%), white bold Vazirmatn; keyword in the same box in yellow/orange (not bigger)
+- Motion: box swaps per cue, no animation
+- Build: ass-motion `Dark` style with per-word `\c` on the keyword, positioned at the seam y
+- Seen in: 4009793604077813282, confidence: medium — differs from the default emphasis captions; ask the owner which to use in split layouts
+
+### pop-out window (head breaks the frame)
+- When: while showing graphics (scripts, lists, cards) — the upper ~65% becomes a graphics canvas; alternate with full-frame every ~4–5 s for rhythm
+- Look: dark canvas #0E0E0E with a faint dot grid; speaker in a rounded window (radius ~40 px) across the bottom ~30%; the speaker's head top breaks out ABOVE the window edge (background removed above the edge); one word caption centred just above the window
+- Build: `finish.py` `"layout": {"type": "popout", "windows": [[t0, t1], ...]}` (scale 0.9, box_y 1240, anchor_y 790 = eyebrows on the window edge for vertical footage; needs the blue-wall matte); captions `motion.json` `"caption_mode": "word"`; canvas graphics as ass-motion moments or a HyperFrames `"panel"`
+- Seen in: 3935263589509299675, confidence: medium (built and tested on project one, not yet approved)
+
+### script / list cards on a dark canvas
+- Look: glassy dark card with a thin light border, title mixing bold sans + italic serif ("The *Desire Hook* Method"), red accent bars (#C8102E); numbered list where upcoming items are blurred and the current item has a red left edge + lighter row
+- Motion: highlight steps to the item being spoken; blurred items un-blur when reached
+- Build: HyperFrames card in the pop-out canvas (Persian: Farhang/Abar for the contrasting title word, Peyda/Kalameh bold for the rest)
+- Seen in: 3935263589509299675, confidence: medium
+
+### CTA card, light
+- Look: switch to a light background for the last 6 s: "Comment «X» to get the video" with the keyword in a red highlight box, a preview card of the freebie
+- Seen in: 3935263589509299675, confidence: low
+
+### window + panel (project one v4 — owner's preferred layout, 2026-10-22)
+- When: explainer / list reels by default; ~88–90% of the video
+- Look: dark dotted canvas; a HyperFrames illustration panel (1080x768, dark theme: white cards on #0E0E0E) at y≈140; speaker in the rounded bottom window with the head top breaking out; word captions (keyword in Lalezar yellow) between panel and window
+- Full frame only 2–3 times: the hook (first ~3 s), the strongest line (spotlight + behind word + glitch), the CTA at the end
+- Motion: window slides up from the bottom (0.4 s, ease-out) + whoosh each time the edit enters the layout; a new panel scene or beat at least every 3 s (`npx hyperframes check` flags stillness > 3 s)
+- Build: panel = `templates/split-explainer/build_panel_example.py` with `THEME = "dark"`; `finish.py` `"layout": {"type": "popout", "windows": [...], "panel": "../panel/panel_dark.mp4", "panel_y": 140, "enter": "slide"}`; captions `"caption_mode": "emphasis"` + `"word_windows"` = the pop-out windows
+- Seam: the head layer overlaps the window by 12 px and sits on even rows, or a line shows across the forehead
+- Seen in: project one v4 (owner approved, final delivered 2026-10-22), confidence: high
+
+### light pop-out + glass captions (new-video, owner approved 2026-10-23)
+- When: explainer/tool reels on a plain light (non-blue) wall; the owner asked for "top of my head outside the box" and a bigger graphics area
+- Look: light panel 1080x940 at y 40 (apple-light theme, paper cards, stage y 175–830 so nothing sits under Instagram's top bar); speaker in a rounded window (box_y 1260, 960x560, radius 44, eyebrows on the top edge, scale 0.9) with the head top breaking out; canvas #F5F5F7
+- Captions: light frosted-glass pills inside the panel at y 875 (just above the head), dark text, keyword on a soft accent pill (motion-kit `"captions"` track)
+- Matte: AI person matte (`finish.py` `"matte": {"type": "video"}`) — u2net_human_seg via `hyperframes remove-background`, or onnxruntime-directml on the Intel GPU (~4x faster than CPU on this laptop); punch-in zooms off (the matte doesn't follow them)
+- Flows: horizontal, right to left, scaled to fit (vertical columns overflow a 940 px panel)
+- Seen in: new-video final, confidence: high (owner approved)
+
+### glass captions — light and futuristic (owner request, 2026-10-24)
+- When: any caption track; MP Studio → برند و استایل → زیرنویس «شیشه‌ای» / «شیشه‌ای فضایی»
+- Look (glass): rounded box sized to the line (corner ≈ 38 % of height), white frost ~78 % with a thin white edge, dark text, keyword deep orange #E8590C
+- Look (glass-futuristic): dark navy frost ~67 %, neon cyan edge (#4DD8FF) with a soft outer glow, white text, keyword in the brand accent with a faint halo
+- Real frost: the video is blurred only inside the boxes (glass_mask.ass → finish.py / storyframe.py), so the background shows through softly
+- Motion: fade 90 ms in/out per cue; at glass_y 1440 on full frame, word_y 1060 inside pop-out windows
+- Build: ass-motion `"caption_mode": "glass"` or `"glass-futuristic"` (`glass_size` 70 px)
+- Seen in: tested on project one copies, confidence: medium until approved on a delivered video
+
+### two of me — clone in the other chair (owner request, 2026-10-25)
+- When: the owner films the same locked-off wide shot twice, sitting in a different chair each time (a dialogue, or "two of me")
+- Look: one of him talks in colour; the other is a frozen grayscale still in the next chair (owner, 2026-10-26), with live «در حال صحبت» /
+  paused «⏸ مکث» tags over the heads, a slow camera push toward the speaker, a glitch + flash + light sweep when the roles swap
+- Motion: the clone materializes with a top-down scan-line wipe (0.5 s, RGB split + a cyan scan line in the front layer); joins between
+  listening pieces sit on the take's own jump cuts, the rest get a 4-frame hologram glitch (RGB shift + alpha dip)
+- Build: `subject-cutout/rvm_matte.py` on both takes → per-project `clone.py` (listener = seated silent stretches of the other take,
+  slowed 0.7–1.0×, forward/back; speaker re-laid on top with its own matte) → clone files with the take's stem, EDL sources point to them
+- Seen in: project video mp skill set insta, confidence: medium until approved
+
+### editorial ref remake — one HyperFrames layer for everything (owner request, 2026-10-25)
+- When: the owner wants a reference reel matched closely ("same as the ref as much as possible")
+- Look: the ref's palette (forest green #1F3A2C / cream #F2EAD3 / gold #C9A45C), Persian equivalents of its type (Amiri ↔ serif,
+  Vazirmatn Black ↔ heavy sans, Noto Naskh ↔ serif captions, Instrument Serif for Latin italics), karaoke captions in a green box
+- Pieces: hook roll + timecode on a flat colour bg; real app icons struck through; prompt bar that types and turns into a status;
+  floating reels out of the hands; magazine-cover title behind the head; NLE timeline; upload card with the real file name; blooper
+  frames stamped «برداشت اشتباه»; timer → the video inside a phone frame; wall of posts with the speaker live in a tile; storyboard
+  window → zoomed entry; comment card + Claude reply; giant word + struck apps; boxed «بزرگ‌تر»; word chips; video card with real
+  app screens by chapter; comment-keyword CTA + DM reply; follow pill
+- Build: build_hf.py generates index.html (front) + hf_behind/index.html from words.json (cut timeline, remapped to the rendered
+  base's real segment lengths); alpha WebM; finish.py `front_video` / `behind_video` / `grades`; real icons from the App Store
+  (iTunes Search API), real screens via headless Edge
+- Seen in: project video mp skill set insta, confidence: medium until approved
+
+### page-logo outro (owner request, 2026-10-26)
+- When: the last 3 s of a reel, right after the last word (starts ~0.45 s before the cut ends: no black gap)
+- Look: black #0B0B0B, the page's profile photo in an Instagram story ring (gradient #FEDA75 → #FA7E1E → #D62976 → #962FBF →
+  #4F5BD5) that draws itself, soft glow; name (Vazirmatn Black), handle with the real Instagram icon, bio, Follow → Following
+- Motion: photo pops (back.out 0.6 s), ring draws 0.8 s, name / handle / bio rise in steps of 0.15 s, Follow clicks at ~2 s
+- Build: per-project make_outro.py → its own HyperFrames layer (alpha WebM), finish.py front_video {"file", "t"}; SFX whoosh +
+  impact on the photo, click + ding on Follow. Use the PAGE's logo (profile photo), not the MP Studio badge
+- Seen in: project video mp skill set insta, confidence: medium until approved
+
+### transitions on section cuts (research + built 2026-11-02)
+- When: 1–3 per reel, only where the TOPIC changes (new category, new step, into the CTA); hard cut + punch-in stays the
+  default between same-shot cuts. Pair every one with a sound: whip → whoosh just before the cut, zoom-blur → whoosh +
+  impact on the cut, light leak → riser ending on the cut, shake → impact on the word
+- Look: whip = 0.28 s sideways smear out of the old shot and into the new (dir left/right — match the next graphic's
+  side); zoom-blur = 0.36 s punch to ~1.35x with blur through the cut; light leak = 0.6 s warm/pink/cyan film burn sweeping
+  across (emotional high, a reveal, before the CTA); shake = 0.45 s decaying jitter after an impact word
+- Build: finish.py `"transitions": [{"t", "type": whip|zoomblur|leak|shake, "dir", "d", "zoom", "color", "amp"}]` (runs on the
+  whole composed frame, after the layout); demo: mp-studio/work/compare tools/edit/demo_transitions.mp4
+- Seen in: research (vidpros, premiumbeat, nofilmschool), confidence: medium until the owner approves
+
+### visible progress bar (research + built 2026-11-02)
+- When: list / tier / step reels, so viewers see how much is left; pairs with the list HUD
+- Look: 8 px accent line at the very top filling left→right over the whole video
+- Build: finish.py `"progress": {"color", "h", "y"}`
+- Seen in: research (clippie 2026), confidence: medium
+
+### energy profiles: "dynamic minimal" vs "full energy" (research 2026-11-02)
+- Dynamic minimal (premium, B2B, high-ticket): every pause cut, word captions in white + ONE brand-colour keyword, slow push-in
+  on serious lines then cut out to reset, big hook text only in the first 3 s, quiet whoosh/pop/click as bullet cues, fades
+  instead of pops, no emoji overlays, ≤ 1 transition, music ~12 dB under the voice
+- Full energy (owner's "very rich" ask, motion-only cut of compare tools): punch-in + flash + glitch on every reveal, a sound on
+  every visual change, spoken word slammed big, screen shake, light sweeps, 2–3 transitions, music ~8 dB under the voice
+- Contrast cut (before/after, bad/good): desaturate the "before" (finish.py `grades`), full colour on the "after", cut on a beat
+- Speed ramps / slow motion: only on b-roll or silent moments (never under speech: breaks lip sync); 0.25–0.5x for ≤ 3 s
+- Seen in: research (joyspace "Hormozi 2.0", clippie, vidpros), confidence: medium
+
+### tier list — Bad / Good / Great (compare tools, delivered 2026-11-01)
+- When: ranking / comparison reels ("for X: this is bad, this is ok, this is the best")
+- Look: dark neon canvas, header chip + "n / 5" counter, three cards (bad red ✕ + grey-out, good amber, great green glow +
+  crown + shockwave), category title in Lalezar yellow; owner in a pop-out box at the bottom with a neon rim, head breaking out
+- Build: `templates/tier-list/` (README) — cards on the side the owner points to
+- Seen in: input/compare tools/ref/reference.mp4, confidence: high (owner approved)
+
+### motion-only cut (no face) — same edit, heavier (2026-11-01)
+- When: an extra version of a reel without the speaker; the owner asked for "very high and too much effects and sounds"
+- Look: graphics stage scaled up, the spoken verdict word slammed huge at the bottom, voice waveform, screen shake, colour
+  flash and punch-in on every reveal, light sweeps, scanlines, ~3 SFX per second, music ~8 dB under the voice
+- Build: `build_panel.py --noface` + ffmpeg `showwaves` overlay + `make_fx_noface.py`
+- Seen in: compare tools, confidence: medium
+
+### cinematic grade matched to a photo (owner-approved look, 2026-11-01)
+- When: the "cinematic" version of any talking head; owner wants it soft and clean, not yellow/teal-heavy, no crushed blacks
+- Look: natural skin, wall a little darker and less saturated than the person, +8% contrast, light vignette
+- Build: download one well-lit free photo (Unsplash) → `grade_match.py <photo> <base.mp4> grade/clean.cube --strength 0.45
+  --split 0.2` → ffmpeg with the AI matte and `templates/grade_split_clean.txt` (person and wall graded apart) → base_clean.mp4
+  with the audio copied. (`grade_split_warm_lamp.txt` = the rejected warm-lamp look, kept for reference)
+- Seen in: compare tools, confidence: high (owner approved the softer one)

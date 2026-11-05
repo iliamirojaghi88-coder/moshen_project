@@ -21,3 +21,32 @@ __pycache__/
 
 # project knowledge graph: rebuilt locally by scripts/graph-sync.sh, never committed
 graphify-out/
+
+# MP video skillset (cloud/setup.sh): per-container runtime, private media, secrets
+.venv/
+.venv-cloud/
+.mp-cloud-ready
+.favstash-studio/
+mp-studio/input/
+mp-studio/work/
+mp-studio/output/
+mp-studio/assets/
+mp-studio/models/
+mp-studio/bin/
+mp-studio/learn/inbox/
+mp-studio/learn/done/
+mp-studio/fonts/*
+!mp-studio/fonts/README.md
+!mp-studio/fonts/Vazirmatn-*.ttf
+!mp-studio/fonts/Lalezar-Regular.ttf
+!mp-studio/fonts/OFL-*.txt
+# fetched only when the account's Remotion plugin is missing (no licence to redistribute)
+.claude/skills/remotion-best-practices/
+*.mkv
+*.m4v
+cookies*.txt
+*.cookies
+gdrive*.json
+*service-account*.json
+client_secret*.json
+cloud/*.log

@@ -1,0 +1,7 @@
+[0:v]format=gbrp,split[p][b];
+[1:v]format=gray,lut=y='clip((val-30)*255/190,0,255)',gblur=sigma=2.5[m];
+[p]colorbalance=rs=-0.03:gs=0.0:bs=0.04:rm=0.03:gm=0.0:bm=-0.03:rh=0.03:gh=0.015:bh=-0.04,curves=all='0/0.02 0.25/0.20 0.5/0.52 0.75/0.80 1/0.96',eq=saturation=0.98[pp];
+[b]hue=h=-38:s=0.55,eq=brightness=-0.10:gamma=0.78:contrast=1.08,format=gbrp[bb];
+[2:v]format=gbrp,loop=loop=-1:size=1,setpts=N/30/TB[gl];
+[bb][gl]blend=all_mode=screen:all_opacity=0.5:shortest=1,gblur=sigma=14[bg];
+[bg][pp][m]maskedmerge,format=yuv420p,vignette=angle=PI/4.2:mode=forward
