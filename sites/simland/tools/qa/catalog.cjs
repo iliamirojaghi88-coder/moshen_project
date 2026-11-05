@@ -412,7 +412,9 @@ const RUN = (process.env.CAT || 'armored,instrumentation,solar,telecom,aluminum,
     await page.goForward(); await page.waitForTimeout(300);
     s = await state();
     if (s.view !== PROD.slice(1)) fails.push('Forward: ' + JSON.stringify(s));
-    await page.reload({ waitUntil: 'load' }); await page.waitForTimeout(600);
+    // software WebGL (SwiftShader) sets the hero up again on a reload: up to ~30 s at 2x here, so a longer limit;
+    // the check itself (the same product page after a refresh) is unchanged
+    await page.reload({ waitUntil: 'load', timeout: 120000 }); await page.waitForTimeout(600);
     s = await state();
     if (s.view !== PROD.slice(1) || s.h1 !== C.name) fails.push('Refresh: ' + JSON.stringify(s));
     // 6. the menu from a catalogue page, and Back to it

@@ -18,7 +18,7 @@ import random
 import sys
 
 import bpy
-from mathutils import Euler, Matrix, Vector
+from mathutils import Euler, Vector
 
 argv = sys.argv[sys.argv.index("--") + 1 :]
 SHOT, CABLES, OUT = argv[0], argv[1], argv[2]
@@ -374,7 +374,6 @@ def shot_tray():
     """Illustrative installation: a ladder cable tray under a modern ceiling."""
     render_setup(1600, 1000, 160, transparent=False)
     world(0.35, rotation=0.4)
-    sc = bpy.context.scene
     steel = principled("galv", srgb("#c3c8cf"), metallic=1, rough=0.32, bump=("grain", 60, 0.05))
     concrete = principled("concrete", srgb("#e9edf2"), rough=0.85, bump=("grain", 8, 0.25))
     wall = principled("wall", srgb("#f3f6fa"), rough=0.7)
@@ -651,7 +650,7 @@ def shot_icon_support():
               (-1.25, -1.0), (-1.9, -1.0), (-2.15, -0.75), (-2.15, 1.05)]
     b = extrude_curve("bubble", bubble, 0.3, 0.12, g)
     b.rotation_euler = (math.radians(70), 0, math.radians(-10))
-    for k, x in enumerate((-0.9, 0.0, 0.9)):
+    for x in (-0.9, 0.0, 0.9):
         bpy.ops.mesh.primitive_uv_sphere_add(radius=0.3, segments=48, ring_count=24, location=(x, -0.62, 0.32 + 0.0))
         o = bpy.context.active_object
         o.data.materials.append(cu)

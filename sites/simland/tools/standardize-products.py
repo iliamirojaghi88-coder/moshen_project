@@ -217,7 +217,7 @@ def qc_sheets(tiles):
 
     for name, bg in [("black", (0, 0, 0, 255)), ("white", (255, 255, 255, 255)), ("grey", (128, 132, 140, 255))]:
         sheet = Image.new("RGB", (cell[0] * 5, cell[1] * 2), bg[:3])
-        for i, (p, _, master, _) in enumerate(tiles):
+        for i, (_, _, master, _) in enumerate(tiles):
             t = fit(over(master, bg))
             x, y = (i % 5) * cell[0], (i // 5) * cell[1]
             sheet.paste(t, (x + (cell[0] - t.width) // 2, y + (cell[1] - t.height) // 2))

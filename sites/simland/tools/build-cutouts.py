@@ -51,7 +51,8 @@ for section, name in JOBS:
     a[np.isin(lab, specks)] = 0
     ys, xs = np.nonzero(a > 2)
     op = OPEN.get(name, '').split()
-    pad = lambda side: 0 if side in op else PAD
+    def pad(side, op=op):
+        return 0 if side in op else PAD
     y0, y1 = max(0, ys.min() - pad('top')), min(a.shape[0], ys.max() + 1 + pad('bottom'))
     x0, x1 = max(0, xs.min() - pad('left')), min(a.shape[1], xs.max() + 1 + pad('right'))
     crop = im[y0:y1, x0:x1].copy()

@@ -226,6 +226,32 @@ tools/                   ابزارهای ساخت
 
 Chrome/Edge 111+، Safari 16.4+، Firefox 115+. هیروی زنده به WebGL 1 با دقت highp در شیدر نیاز دارد؛ در غیر این صورت تصویر ثابت نمایش داده می‌شود.
 
+## انتشار و بازگشت (rollback)
+
+**ساخت نسخه‌ی انتشار** (از یک checkout تمیز):
+
+```bash
+git lfs pull --include="sites/simland/assets/resume/simland-resume.pdf"   # PDF واقعی، نه اشاره‌گر LFS
+cd sites/simland
+node tools/build-pages.mjs        # dist/ و dist-standalone/؛ در هر ناسازگاری داده یا PDF متوقف می‌شود
+```
+
+**بارگذاری روی هاست:** کل محتوای `dist/` را با همین ساختار در ریشه‌ی سایت قرار دهید: `index.html`، `assets/resume/simland-resume.pdf`، `.htaccess` (Apache) و `_headers` (Netlify / Cloudflare Pages). فایل‌های نقطه‌دار را جا نیندازید. سایت به سرور برنامه، پایگاه داده یا متغیر محیطی نیاز ندارد. HTTPS را روی هاست فعال کنید؛ HSTS فقط روی پاسخ‌های HTTPS فرستاده می‌شود.
+
+**بررسی بعد از بارگذاری:**
+
+```bash
+curl -sI https://<دامنه>/ | grep -iE "^HTTP|x-frame|x-content|referrer|content-security|strict-transport|cache-control"
+curl -s -o /dev/null -w "%{http_code} %{size_download}\n" https://<دامنه>/assets/resume/simland-resume.pdf   # 200 28724812
+```
+
+اگر سایت بلافاصله بعد از بارگذاری خطای 500 داد، هاست دستور `Header` را در `.htaccess` نمی‌پذیرد: فقط `.htaccess` را حذف کنید.
+
+**بازگشت به نسخه‌ی قبل:**
+
+- روی هاست: بسته‌ی zip نسخه‌ی قبلی را دوباره بارگذاری کنید. هر بسته کامل و مستقل است.
+- در git: هر نسخه‌ی تحویلی یک commit است و `simland-pre-hardening-919fed9` وضعیت پیش از مرحله‌ی آماده‌سازی انتشار را نگه می‌دارد. برای ساختن نسخه‌ی قبل: `git checkout <commit> -- sites/simland` و بعد `node tools/build-pages.mjs`.
+
 ## مجوزها
 
 - فونت Estedad: SIL Open Font License 1.1 — `assets/fonts/OFL-Estedad.txt`

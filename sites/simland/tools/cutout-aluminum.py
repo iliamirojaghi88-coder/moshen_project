@@ -131,7 +131,6 @@ def continue_body(rgb, alpha, inframe, b, size):
         last[y] = xl
     ok = last >= 0
     ys = np.arange(H)
-    near = np.interp(ys, ys[ok], ys[ok]).round().astype(int)  # rows the body widens into: nearest rendered row
     idx = np.searchsorted(ys[ok], ys).clip(0, ok.sum() - 1)
     src = ys[ok][idx]
     src2 = ys[ok][(idx - 1).clip(0)]

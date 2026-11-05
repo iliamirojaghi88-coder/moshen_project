@@ -79,7 +79,7 @@ for name, (seed, (xf, xt), gain) in WIRES.items():
     vis = np.clip(vis / 0.42, 0, 1)
     vis = np.convolve(vis, np.ones(21) / 21, mode='same')  # ±2.5 px: smooth ends, no flicker at small gaps
     # a band of sky (or wire) around the visible parts may glow
-    for x, v in zip(xs, vis):
+    for x, v in zip(xs, vis, strict=True):
         if v < 0.03:
             continue
         xi = int(round(x))
