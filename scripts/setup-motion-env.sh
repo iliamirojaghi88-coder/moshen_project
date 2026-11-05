@@ -117,6 +117,8 @@ fi
 log "Agent plugins: graphify CLI (claude-mem installs from its own SessionStart hook)"
 # graphify — knowledge-graph CLI behind the /graphify skill and its PreToolUse hooks.
 command -v graphify >/dev/null || uv tool install -q "graphifyy==0.9.102" || true
+# Build/refresh the project graph (local AST, ~2 s) and install its git hooks.
+bash "$ROOT/scripts/graph-sync.sh" --hooks
 
 log "Health check"
 npx hyperframes doctor 2>&1 | grep -E "✓|✗" || true

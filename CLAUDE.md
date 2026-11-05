@@ -57,3 +57,11 @@ Rules:
 - Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
 - After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
 - A committed graphify-out/graph.json is rewritten whole on every build, so a large diff to it in a pull request is expected. Do not flag it as churn or suggest skipping the graph rebuild or its hooks.
+
+## Graph and memory workflow (token budget)
+
+- Per request: name the area → `graphify query "<file or symbol names>"` (depth 1; add `--depth 2` only if needed), `graphify explain "<symbol>"`, or `graphify affected "<symbol>"` for impact → read only the files and line ranges it cites → targeted grep/read only where the graph is silent. Matching is lexical, so query with identifiers or file names, not prose.
+- Skip the graph for a small area you already know (a few short files): reading them is cheaper. Measured: −70% tokens for a cross-file question, +20% for a 5-small-file one.
+- Not in the graph (`.graphifyignore`): HTML compositions (`videos/*/index.html`), data JSON (`render-profiles.json`, `styles/*.json`, `library/`), vendored `.claude/`. Read those directly.
+- Freshness is automatic: `scripts/graph-sync.sh` runs async after every turn (incremental; ~0.6 s and no writes when nothing changed) and graphify's git hooks rebuild after commits and branch switches. Run `graphify update .` yourself only when you need fresh answers mid-turn about code you just changed.
+- claude-mem holds history and decisions (`/mem-search`: "did we already…?"). It does not record reads, searches or single read-only commands; structure comes from the graph.

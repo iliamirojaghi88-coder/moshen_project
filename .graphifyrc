@@ -1,0 +1,4 @@
+# graphify project defaults (see .graphifyignore for what is indexed).
+# Depth 1 answers "where does X live / what touches it"; pass --depth 2 for wider questions.
+query_depth=1
+query_budget=1500

@@ -15,6 +15,12 @@ LAUNCHER="$HOME/.local/bin/claude-mem"
 CONFIG_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
 PLUGIN_ROOT="$CONFIG_DIR/plugins/cache/thedotmack/claude-mem/$VERSION"
 export CLAUDE_MEM_TELEMETRY=0
+# Division of labour with graphify (scripts/graph-sync.sh): the graph owns code
+# structure, so file reads/searches and single read-only commands are not sent
+# to the observer (each observation is one Haiku call). Edits, writes, real
+# commands, prompts and session summaries are still remembered.
+export CLAUDE_MEM_SKIP_TOOLS="ListMcpResourcesTool,SlashCommand,Skill,TodoWrite,AskUserQuestion,Read,Grep,Glob"
+export CLAUDE_MEM_SKIP_BASH_PATTERNS='^\s*(cd\s+[^;&|]+&&\s*)?(graphify\s+(query|path|explain|god-nodes|affected|update)|git\s+(status|log|diff|show|rev-parse|ls-files)|ls|pwd|wc)\b[^;&|>]*$'
 
 installed() { [[ -x "$LAUNCHER" && -f "$PLUGIN_ROOT/scripts/worker-service.cjs" ]]; }
 

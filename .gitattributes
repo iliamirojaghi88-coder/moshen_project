@@ -6,3 +6,4 @@ library/icons/**/*.png filter=lfs diff=lfs merge=lfs -text
 library/hdri/**/*.hdr filter=lfs diff=lfs merge=lfs -text
 library/**/*.exr filter=lfs diff=lfs merge=lfs -text
 library/**/*.blend filter=lfs diff=lfs merge=lfs -text
+graphify-out/graph.json merge=graphify

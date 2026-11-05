@@ -1,0 +1,49 @@
+# What graphify leaves out of the project graph (gitignore syntax; .gitignore applies too).
+
+# Vendored agent skills, hooks, agents and commands: third-party, loaded as skills anyway.
+.claude/
+
+# Vendored minified libraries (three.js, gsap, loaders).
+**/assets/vendor/
+
+# Asset data, not code: catalogues, licence ledger, per-asset metadata, textures.
+library/
+
+# Generated reference-analysis output (specs, transcripts, frame stats).
+references/analysis/
+
+# HyperFrames scaffold boilerplate, identical in every video/lab folder.
+videos/*/AGENTS.md
+videos/*/CLAUDE.md
+labs/*/AGENTS.md
+labs/*/CLAUDE.md
+
+# Tooling config whose every key would become a node and flood query answers.
+# package.json files stay: they carry the dependency graph.
+**/tsconfig.json
+**/meta.json
+**/hyperframes.json
+**/eslint.config.mjs
+.mcp.json
+
+# Binary media: the AST pass can't read them and vision extraction is paid.
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.svg
+*.gif
+*.hdr
+*.exr
+*.glb
+*.gltf
+*.blend
+*.wav
+*.mp3
+*.mp4
+
+# Secrets, never indexed even if someone drops one in.
+.env
+.env.*
+*.pem
+*.key
