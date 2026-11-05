@@ -70,8 +70,8 @@ Rules:
 
 `find-skills` (`vercel-labs/skills`, vendored in `.claude/skills/find-skills`, CLI `npx skills`) fills gaps; it is not a step of every task.
 - Search only when the task needs a specialised capability that installed skills, MCP servers and repo tools don't cover, and going without it would cost real quality or many turns. Any field: code, design, motion, video, 3D, audio/speech, security, QA, data, research, docs, DevOps, automation, AI. `using-agent-skills` routes among installed skills; find-skills is only for what is missing.
-- First `grep -i <keyword> .claude/skill-discovery-log.md` (and `/mem-search`): a need already searched is not searched again unless the user asks.
+- First `grep -i <keyword> docs/skill-discovery-log.md` (and `/mem-search`): a need already searched is not searched again unless the user asks.
 - One focused query, never a catalogue dump: `npx skills find "<2-3 keywords>"`. Shortlist ≤3 by fit, installs (prefer 1K+), source (official orgs first; <100 stars is suspect), last push, licence. Partner audit without installing: `curl -s "https://www.skills.sh/tele/audit?source=<owner/repo>&skills=<name>"`. Clone the pick into the scratchpad and read its SKILL.md, scripts, install steps and dependencies without running them.
 - Install only after the user approves that specific skill: give source, installs/stars, licence, audit, what its scripts and dependencies do and any cost (paid API, key, account). Don't ask just to search or compare. Then from the repo root `npx skills add <owner/repo> --skill <name> -a claude-code -y` (project copy + `skills-lock.json`; never `-g` alone, the container is ephemeral), confirm it shows in the skill list, add its licence to `.claude/licenses/`, commit, and continue the original task.
-- Log every search as one row in `.claude/skill-discovery-log.md` (date, need, query, candidates, decision).
+- Log every search as one row in `docs/skill-discovery-log.md` (date, need, query, candidates, decision).
 - Project rules stay on top: paid generators need per-use OK; Persian/RTL and `styles/` outrank skill defaults.
