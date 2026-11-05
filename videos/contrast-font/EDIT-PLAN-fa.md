@@ -92,3 +92,6 @@
 - `compositions/s1-hook.html` … `s7-cta.html`: هفت سکانس (لایهٔ پشت گوینده)، `fx-front.html` (نور، فلش، ترنزیشن، قلب، برچسب‌ها)، `captions.html` (ساخته‌شده از `edit/build_captions.py`).
 - `edit/`: `edl.json` + `build_base.py` (برش و گرید)، `make_words.py` (متن شما + زمان‌بندی)، `build_captions.py`، `sfx_cues.py` (برگهٔ افکت‌ها).
 - بازسازی: `build_base.py` → ماسک با `rvm_matte.py` → `cutout.webm` → `sfx_cues.py` → `scripts/audio-master.sh … --denoise --music-db -10 --duck 0.45` → `npx hyperframes render`.
+
+## ۱۰. کنترل کیفیت خروجی (روی فایل نهایی)
+`scripts/qc-video.sh … vertical-1080 --audio-ref assets/voice.wav`: ۱۰۸۰×۱۹۲۰، ۳۰ فریم، H.264/yuv420p، AAC؛ بدون فریم سیاه یا یخ‌زده؛ بلندی −۱۴٫۱ LUFS، پیک واقعی −۳٫۸ dBTP؛ همگامی صدا با گفتار اصلی ۰٫۰۰۰ ثانیه. ۲۶ فریم از فایل نهایی و برش ۱۰۰٪ لبهٔ سر روی تیترهای پشت سر بازبینی شد (بدون هاله یا درز رنگ).
