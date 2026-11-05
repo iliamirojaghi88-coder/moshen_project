@@ -243,7 +243,8 @@ svg {
 
 @media (max-width: 1199.98px) {
   .hero-title {
-    font-size: clamp(1.375rem, calc(100cqi / 12), 2.75rem);
+    /* the floor only matters below a 296 px screen, where the first line must still fit */
+    font-size: clamp(1rem, calc(100cqi / 12), 2.75rem);
   }
 }
 
@@ -407,6 +408,24 @@ svg {
   }
   .hero-actions {
     gap: 8px;
+  }
+}
+
+/* screens narrower than the smallest phones (below 300 px): the two hero buttons a little tighter so they stay on
+   one row; on anything narrower still they wrap rather than leave the screen */
+@media (max-width: 299.98px) {
+  .btn {
+    gap: 5px;
+    padding: 0 8px;
+    font-size: 0.78rem;
+  }
+  .btn-icon {
+    width: 15px;
+    height: 15px;
+  }
+  .hero-actions {
+    flex-wrap: wrap;
+    gap: 5px;
   }
 }
 
@@ -850,6 +869,22 @@ svg {
   .pcard-go svg {
     width: 13px;
     height: 13px;
+  }
+}
+
+/* cards narrower than any 320 px phone gives them (screens below ~303 px): the one-line title and the link text
+   scale with the card, so they never leave it */
+@container pcard (max-width: 129.98px) {
+  .pcard-title {
+    font-size: calc((100cqi - 18px) / 9.3);
+  }
+  .pcard-cta {
+    gap: 4px;
+    font-size: calc((100cqi - 40px) / 7.9);
+  }
+  .pcard-go {
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -1820,6 +1855,21 @@ a.ccard:active {
 @container clist (max-width: 310px) {
   .ccard-line .ccard-number {
     font-size: max(1.2rem, 6.9cqi);
+  }
+}
+
+/* screens below ~267 px: the sales card puts its icon above the numbers, so each number and its call button keep
+   the card's whole width (the number also follows the list's width there) */
+@container clist (max-width: 235.98px) {
+  .ccard-multi {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .ccard-multi .ccard-text {
+    width: 100%;
+  }
+  .ccard-line .ccard-number {
+    font-size: min(1.2rem, 8.1cqi);
   }
 }
 
