@@ -2231,6 +2231,22 @@ h2[tabindex='-1']:focus {
   transform: scaleX(-1);
 }
 
+/* screens below ~270 px: the longest back link («بازگشت به سیم و کابل ساختمانی») gets two lines instead of
+   leaving the screen */
+@container rv (max-width: 237.98px) {
+  .rv-back {
+    height: auto;
+    min-height: 42px;
+    max-width: 100%;
+    padding: 6px 14px;
+    line-height: 1.5;
+    text-align: center;
+  }
+  .rv-back svg {
+    flex: none;
+  }
+}
+
 .rv-back:focus-visible,
 .rv-crumbs a:focus-visible,
 .acard-link:focus-visible {
