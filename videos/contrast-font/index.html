@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #05070d; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+      /* two camera rigs share every move: footage below, the speaker cut-out above, text in between */
+      .cam { position: absolute; inset: 0; transform-origin: 540px 700px; }
+      .cam video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .layer { position: absolute; inset: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="76.6" data-width="1080" data-height="1920">
+      <div id="camA" class="cam" style="z-index: 1">
+        <video id="base" class="clip" src="assets/base.mp4" data-start="0" data-duration="76.6" data-track-index="0" muted playsinline></video>
+      </div>
+
+      <!-- behind the speaker (z 2): one scene per sequence -->
+      <div id="s1" class="layer" style="z-index: 2" data-composition-id="s1" data-composition-src="compositions/s1-hook.html" data-start="0" data-duration="11.75" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s2" class="layer" style="z-index: 2" data-composition-id="s2" data-composition-src="compositions/s2-matters.html" data-start="11.4" data-duration="6.6" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s3" class="layer" style="z-index: 2" data-composition-id="s3" data-composition-src="compositions/s3-contrast.html" data-start="17.75" data-duration="12.2" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s4" class="layer" style="z-index: 2" data-composition-id="s4" data-composition-src="compositions/s4-white.html" data-start="29.8" data-duration="15.1" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s5" class="layer" style="z-index: 2" data-composition-id="s5" data-composition-src="compositions/s5-font.html" data-start="44.75" data-duration="13.7" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s6" class="layer" style="z-index: 2" data-composition-id="s6" data-composition-src="compositions/s6-headline.html" data-start="58.3" data-duration="9.65" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s7" class="layer" style="z-index: 2" data-composition-id="s7" data-composition-src="compositions/s7-cta.html" data-start="67.85" data-duration="8.75" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+
+      <div id="camB" class="cam" style="z-index: 3">
+        <video id="cut" class="clip" src="assets/cutout.webm" data-start="0" data-duration="76.6" data-track-index="1" muted playsinline data-layout-allow-occlusion></video>
+      </div>
+
+      <!-- over the speaker: light, flashes, icons, tags (z 4); captions (z 5) -->
+      <div id="fx" class="layer" style="z-index: 4" data-composition-id="fx" data-composition-src="compositions/fx-front.html" data-start="0" data-duration="76.6" data-track-index="4" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="captions" class="layer" style="z-index: 5" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="76.6" data-track-index="5" data-track-kind="captions" data-width="1080" data-height="1920"></div>
+
+      <audio id="mix" src="assets/mix.m4a" data-start="0" data-duration="76.6" data-track-index="9"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const cams = ["#camA", "#camB"];
+      const F = (f) => f / 30; // jump-cut frames on the cut timeline (edit/edl.json)
+
+      // every jump cut changes the framing, so the cut reads as intended, never as a glitch
+      const cut = (t, scale, y = 0) => tl.set(cams, { scale, y, x: 0 }, t);
+      const punch = (t, scale, d = 0.22, ease = "expo.out") => tl.to(cams, { scale, duration: d, ease }, t);
+      const shake = (t, amp = 10, d = 0.32) => {
+        const k = [[1, -0.6], [-0.8, 0.9], [0.7, -0.4], [-0.4, 0.5], [0.2, -0.2], [0, 0]];
+        k.forEach(([x, y], i) => tl.to(cams, { x: x * amp, y: y * amp, duration: d / k.length, ease: "sine.inOut" }, t + (i * d) / k.length));
+      };
+
+      cut(0, 1.0);
+      punch(2.44, 1.07, 0.3);                     // «خواناست؟»
+      cut(F(97), 1.12);                           // jump cut
+      punch(5.99, 1.2, 0.2);  shake(6.0, 9);      // «خیلی بد»
+      cut(F(225), 1.04);                          // jump cut
+      punch(8.3, 1.1, 0.3);                       // «این فونت»
+      cut(F(303), 1.16);                          // jump cut
+      shake(10.84, 6, 0.26);                      // «نمی‌شد»
+      cut(F(344), 1.0);                           // S2: wide, room for two titles
+      punch(17.09, 1.1, 0.18);  shake(17.1, 12, 0.36); // «مهمه»
+      cut(F(535), 1.0);                           // S3: card above the head
+      punch(27.65, 1.1, 0.7, "power2.inOut");     // «توجهشو بیشتر…» focus
+      punch(28.78, 1.14, 0.18);
+      cut(F(895), 1.08);                          // S4
+      punch(36.15, 1.0, 0.8, "sine.inOut");       // open up for the three backgrounds
+      punch(40.07, 1.04, 0.25);
+      punch(43.35, 1.0, 0.25, "power3.out");
+      cut(F(1345), 1.0);                          // S5
+      punch(52.43, 1.1, 0.2);                     // «توپل»
+      punch(52.89, 1.16, 0.2);                    // «درشت»
+      punch(53.83, 1.21, 0.2);  shake(53.85, 8);  // «عجیب‌وغریب»
+      punch(55.15, 1.0, 0.55, "power2.inOut");    // «چون زیرنویسه»: calm again
+      cut(F(1750), 1.16);                         // S6: hard punch, the rhythm changes
+      shake(59.42, 13, 0.36);                     // «تیتر»
+      punch(62.69, 1.22, 0.16);  shake(62.7, 12); // «درشت»
+      punch(66.35, 1.0, 0.37, "power4.in");       // ramp out, lands on «کلمه»
+      cut(F(2037), 1.06);                         // S7
+      punch(71.08, 1.0, 0.7, "sine.inOut");
+      punch(74.24, 1.1, 0.18);                    // «لایک»
+      punch(74.6, 1.04, 0.5, "power2.out");
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

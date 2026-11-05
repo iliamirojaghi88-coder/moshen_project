@@ -1,0 +1,76 @@
+<template>
+  <style>
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Bold.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Black.woff2") format("woff2"); font-weight: 900; }
+    #s4 { position: absolute; inset: 0; direction: rtl; font-family: "Estedad"; }
+    #s4 .chip { position: absolute; top: 200px; left: 0; right: 0; margin: auto; width: max-content; display: flex; align-items: center; gap: 14px;
+                padding: 14px 30px 16px 26px; border-radius: 999px; font-weight: 900; font-size: 42px; color: #fff;
+                background: rgba(10, 14, 28, 0.6); border: 1.5px solid rgba(255, 255, 255, 0.25); backdrop-filter: blur(14px);
+                box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35); }
+    #s4 .chip svg { width: 46px; height: 46px; }
+    #s4 .glare { position: absolute; left: 40px; top: 40px; width: 1000px; height: 640px; border-radius: 50%;
+                 background: radial-gradient(closest-side, rgba(255, 255, 255, 1) 0%, rgba(246, 250, 255, 0.96) 52%, rgba(255, 255, 255, 0) 100%); }
+    #s4 .box { position: absolute; left: 240px; top: 240px; width: 600px; height: 210px; border-radius: 38px; }
+    #s4 .glass { background: linear-gradient(160deg, rgba(40, 52, 92, 0.62), rgba(12, 18, 40, 0.62)); backdrop-filter: blur(18px) saturate(1.4);
+                 border: 2px solid rgba(255, 255, 255, 0.55); box-shadow: 0 24px 60px rgba(10, 20, 60, 0.35), inset 0 2px 0 rgba(255, 255, 255, 0.6); }
+    #s4 .grad { background: linear-gradient(120deg, #1f5bff 0%, #7b2bff 55%, #ff3d9a 100%);
+                box-shadow: 0 20px 60px rgba(90, 40, 255, 0.55), inset 0 2px 0 rgba(255, 255, 255, 0.45); }
+    #s4 .solid { left: 260px; width: 560px; top: 252px; height: 186px; border-radius: 14px; background: #050608; }
+    #s4 .word { position: absolute; left: 0; right: 0; top: 236px; height: 220px; text-align: center; font-weight: 900; font-size: 180px;
+                line-height: 220px; color: #fff; text-shadow: 0 6px 22px rgba(0, 20, 60, 0.28), 0 0 34px rgba(255, 255, 255, 0.55); }
+    #s4 .x { position: absolute; left: 210px; top: 232px; width: 70px; height: 70px; border-radius: 50%; background: #ff4d5e; color: #fff;
+             display: grid; place-items: center; font-size: 40px; font-weight: 900; box-shadow: 0 0 26px rgba(255, 77, 94, 0.9); }
+    #s4 .tag { position: absolute; top: 186px; right: 228px; padding: 6px 20px 10px; border-radius: 14px; font-weight: 900; font-size: 32px;
+               color: #fff; background: rgba(8, 12, 26, 0.85); border: 1.5px solid rgba(255, 255, 255, 0.3); }
+    #s4 .tag b { color: #ffc94a; margin-left: 10px; }
+  </style>
+  <div id="s4" data-composition-id="s4" data-width="1080" data-height="1920">
+    <div id="s4-chip" class="chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#3be38c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="m9 12 2 2 4-4" /></svg>
+      کم‌ریسک‌ترین رنگ
+    </div>
+    <div id="s4-glare" class="glare"></div>
+    <div id="s4-glass" class="box glass"></div>
+    <div id="s4-grad" class="box grad"></div>
+    <div id="s4-solid" class="box solid"></div>
+    <div id="s4-word" class="word">سفید</div>
+    <div id="s4-x" class="x">✕</div>
+    <div id="s4-t1" class="tag"><b>۱</b>شیشه‌ای</div>
+    <div id="s4-t2" class="tag"><b>۲</b>گرادیانی</div>
+    <div id="s4-t3" class="tag"><b>۳</b>ساده</div>
+  </div>
+  <script>
+    (function () {
+      const T0 = 29.8, at = (t) => t - T0;
+      const tl = gsap.timeline({ paused: true, defaults: { immediateRender: false } });
+      const all = ["#s4-chip", "#s4-glare", "#s4-glass", "#s4-grad", "#s4-solid", "#s4-word", "#s4-x", "#s4-t1", "#s4-t2", "#s4-t3"];
+      gsap.set(all, { opacity: 0 });
+      const tagIn = (id, t) => tl.fromTo(id, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: "power3.out" }, t);
+      // «کم‌ریسک‌ترین رنگی…»
+      tl.fromTo("#s4-chip", { opacity: 0, y: -30, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out" }, at(29.98));
+      tl.to("#s4-chip", { opacity: 0, y: -24, filter: "blur(6px)", duration: 0.2, ease: "power2.in" }, at(32.95));
+      // «رنگ سفیده»: plain white text, readable on the blue wall
+      tl.fromTo("#s4-word", { opacity: 0, scale: 0.86, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.42, ease: "expo.out" }, at(33.12));
+      // «ولی اگه بازم ناخوانا بود»: a bright background washes it out
+      tl.fromTo("#s4-glare", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 1.3, ease: "power2.inOut" }, at(33.95));
+      tl.to("#s4-word", { textShadow: "0 0 0 rgba(0,20,60,0), 0 0 0 rgba(255,255,255,0)", duration: 1.0 }, at(34.2));
+      tl.fromTo("#s4-x", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.6)" }, at(35.35));
+      tl.to("#s4-x", { opacity: 0, scale: 0.6, duration: 0.15 }, at(37.15));
+      // background 1: frosted glass
+      tl.fromTo("#s4-glass", { opacity: 0, scale: 0.9, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.36, ease: "expo.out" }, at(37.29));
+      tagIn("#s4-t1", at(37.45));
+      // background 2: gradient box, wiping in right to left
+      tl.fromTo("#s4-grad", { opacity: 1, clipPath: "inset(0% 0% 0% 100% round 38px)" }, { clipPath: "inset(0% 0% 0% 0% round 38px)", duration: 0.34, ease: "power3.out" }, at(40.07));
+      tl.to(["#s4-glass", "#s4-t1"], { opacity: 0, duration: 0.2 }, at(40.3));
+      tagIn("#s4-t2", at(40.21));
+      // background 3: the simplest, a plain dark box snapping open
+      tl.fromTo("#s4-solid", { opacity: 1, scaleX: 0 }, { scaleX: 1, duration: 0.22, ease: "power4.out" }, at(43.35));
+      tl.to(["#s4-grad", "#s4-t2"], { opacity: 0, duration: 0.15 }, at(43.45));
+      tagIn("#s4-t3", at(43.49));
+      // out
+      tl.to(["#s4-solid", "#s4-word", "#s4-t3"], { opacity: 0, scale: 0.9, filter: "blur(8px)", duration: 0.24, ease: "power3.in", stagger: 0.03 }, at(44.55));
+      tl.to("#s4-glare", { opacity: 0, duration: 0.4 }, at(44.5));
+      window.__timelines["s4"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,10 @@
+# derived from the owner's footage/voice or regenerable: never in git
+assets/*.wav
+assets/*.m4a
+assets/music/*.wav
+assets/sfx/*.wav
+assets/sfx/cues.json
+.transcode-cache/
+.hyperframes/
+renders/
+snapshots/

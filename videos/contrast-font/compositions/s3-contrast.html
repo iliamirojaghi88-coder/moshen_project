@@ -1,0 +1,81 @@
+<template>
+  <style>
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Bold.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Black.woff2") format("woff2"); font-weight: 900; }
+    #s3 { position: absolute; inset: 0; direction: rtl; font-family: "Estedad"; }
+    #s3 .card { position: absolute; left: 60px; top: 172px; width: 960px; height: 400px; border-radius: 40px;
+                background: linear-gradient(160deg, rgba(22, 30, 58, 0.78), rgba(8, 11, 24, 0.82));
+                border: 1.5px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(20px);
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25); transform-origin: 50% 0%; }
+    #s3 .head { position: absolute; top: 20px; left: 0; right: 0; text-align: center; font-weight: 900; font-size: 40px; color: #dfe9ff; }
+    #s3 .lab { position: absolute; top: 24px; width: 420px; text-align: center; font-weight: 900; font-size: 36px; color: #fff; }
+    #s3 .lab i { display: inline-block; width: 18px; height: 18px; border-radius: 50%; margin-left: 12px; vertical-align: 2px; }
+    #s3 .panel { position: absolute; top: 92px; width: 420px; height: 220px; border-radius: 26px; overflow: visible;
+                 display: grid; place-items: center; background: #9aaec6; perspective: 600px;
+                 box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35); }
+    #s3 .panel b { font-weight: 900; font-size: 124px; line-height: 1; color: #b4c3d6; }
+    #s3 .divider { position: absolute; left: 479px; top: 96px; width: 3px; height: 212px; border-radius: 3px; transform-origin: 50% 0;
+                   background: linear-gradient(#55c8ff, #ffc94a); box-shadow: 0 0 16px #55c8ff, 0 0 30px rgba(255, 201, 74, 0.6); }
+    #s3 .sel { position: absolute; border: 3px solid var(--c); border-radius: 6px; }
+    #s3 .sel span { position: absolute; width: 16px; height: 16px; background: #fff; border: 3px solid var(--c); border-radius: 3px; }
+    #s3 .sel em { position: absolute; top: -50px; right: -3px; font-style: normal; font-weight: 900; font-size: 28px; color: #071022;
+                  background: var(--c); padding: 3px 14px 6px; border-radius: 8px 8px 8px 0; white-space: nowrap; }
+    #s3 .halo { position: absolute; width: 380px; height: 220px; left: 60px; top: 92px; border-radius: 50%; mix-blend-mode: screen;
+                background: radial-gradient(closest-side, rgba(255, 201, 74, 0.6), rgba(255, 201, 74, 0)); }
+    #s3 .sweep { position: absolute; left: 40px; top: 92px; width: 420px; height: 220px; border-radius: 26px; mix-blend-mode: screen;
+                 background: linear-gradient(105deg, transparent 0 40%, rgba(255, 255, 255, 0.55) 50%, transparent 60% 100%);
+                 background-size: 300% 100%; background-position: 100% 0; }
+  </style>
+  <div id="s3" data-composition-id="s3" data-width="1080" data-height="1920">
+    <div id="s3-card" class="card">
+      <div id="s3-head" class="head">کنتراست رنگی</div>
+      <div id="s3-labW" class="lab" style="left: 500px"><i style="background: #ff5468; box-shadow: 0 0 12px #ff5468"></i>کنتراست ضعیف</div>
+      <div id="s3-labS" class="lab" style="left: 40px"><i style="background: #3be38c; box-shadow: 0 0 12px #3be38c"></i>کنتراست قوی</div>
+      <div id="s3-weak" class="panel" style="left: 270px"><b>متن</b></div>
+      <div id="s3-strong" class="panel" style="left: 270px"><b id="s3-txt">متن</b></div>
+      <div id="s3-halo" class="halo"></div>
+      <div id="s3-sweep" class="sweep"></div>
+      <div id="s3-div" class="divider"></div>
+      <div id="s3-selBg" class="sel" style="--c: #55c8ff; left: 30px; top: 82px; width: 440px; height: 240px">
+        <span style="left: -10px; top: -10px"></span><span style="right: -10px; top: -10px"></span><span style="left: -10px; bottom: -10px"></span><span style="right: -10px; bottom: -10px"></span><em>پس‌زمینه</em>
+      </div>
+      <div id="s3-selTx" class="sel" style="--c: #ffc94a; left: 150px; top: 140px; width: 200px; height: 128px">
+        <span style="left: -10px; top: -10px"></span><span style="right: -10px; top: -10px"></span><span style="left: -10px; bottom: -10px"></span><span style="right: -10px; bottom: -10px"></span><em>متن</em>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const T0 = 17.75, at = (t) => t - T0;
+      const tl = gsap.timeline({ paused: true, defaults: { immediateRender: false } });
+      gsap.set(["#s3-card", "#s3-labW", "#s3-labS", "#s3-strong", "#s3-div", "#s3-selBg", "#s3-selTx", "#s3-halo", "#s3-sweep"], { opacity: 0 });
+      // card unfolds from the top; the head breaks out in front of its lower edge
+      tl.fromTo("#s3-card", { opacity: 0, scaleY: 0.08, rotationX: -35, filter: "blur(12px)" }, { opacity: 1, scaleY: 1, rotationX: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, at(17.86));
+      // «تمایزی»: one panel splits in two; the left one turns into strong contrast, live
+      tl.set("#s3-strong", { opacity: 1 }, at(21.29));
+      tl.to("#s3-weak", { x: 230, duration: 0.55, ease: "power3.inOut" }, at(21.29));
+      tl.to("#s3-strong", { x: -230, backgroundColor: "#0a1124", duration: 0.55, ease: "power3.inOut" }, at(21.29));
+      tl.fromTo("#s3-txt", { color: "#b4c3d6", y: 0, rotationX: 0, textShadow: "0 0 0 rgba(255,201,74,0)" },
+        { color: "#ffd25a", y: -10, textShadow: "0 18px 26px rgba(0,0,0,0.6), 0 0 34px rgba(255,201,74,0.7)", duration: 0.6, ease: "power3.inOut" }, at(21.4));
+      tl.to("#s3-head", { opacity: 0, y: -10, duration: 0.2 }, at(21.29));
+      tl.fromTo(["#s3-labW", "#s3-labS"], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out", stagger: 0.08 }, at(21.62));
+      tl.fromTo("#s3-div", { opacity: 1, scaleY: 0 }, { scaleY: 1, duration: 0.4, ease: "expo.out" }, at(21.7));
+      // «رنگ پس‌زمینه‌تون» / «خود متن»: design-tool selections guide the eye
+      tl.fromTo("#s3-selBg", { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 0.22, ease: "power3.out" }, at(22.21));
+      tl.to("#s3-selBg", { opacity: 0.3, duration: 0.2 }, at(23.8));
+      tl.fromTo("#s3-selTx", { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 0.22, ease: "power3.out" }, at(23.87));
+      tl.to(["#s3-selBg", "#s3-selTx"], { opacity: 0, duration: 0.25 }, at(25.2));
+      // «ارجحیت»: the strong text takes priority
+      tl.fromTo("#s3-halo", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.35, ease: "expo.out" }, at(26.51));
+      tl.fromTo("#s3-txt", { scale: 1 }, { keyframes: [{ scale: 1.16, duration: 0.12 }, { scale: 1.08, duration: 0.3, ease: "back.out(2)" }] }, at(26.51));
+      // «توجهشو بیشتر جلب می‌کنه»: the weak side fades back, light crosses the strong one
+      tl.to("#s3-weak", { opacity: 0.32, filter: "blur(5px)", scale: 0.94, duration: 0.6, ease: "power2.inOut" }, at(27.65));
+      tl.to("#s3-labW", { opacity: 0.35, duration: 0.6 }, at(27.65));
+      tl.to("#s3-strong", { scale: 1.06, duration: 0.6, ease: "power2.inOut" }, at(27.65));
+      tl.fromTo("#s3-sweep", { opacity: 1, backgroundPosition: "100% 0" }, { backgroundPosition: "0% 0", duration: 0.7, ease: "power2.inOut" }, at(28.7));
+      // fold away into sequence 4
+      tl.to("#s3-card", { scaleY: 0.05, opacity: 0, filter: "blur(10px)", duration: 0.3, ease: "power3.in" }, at(29.55));
+      window.__timelines["s3"] = tl;
+    })();
+  </script>
+</template>

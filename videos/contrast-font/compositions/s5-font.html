@@ -1,0 +1,81 @@
+<template>
+  <style>
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Medium.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Bold.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Black.woff2") format("woff2"); font-weight: 900; }
+    @font-face { font-family: "Blaka"; src: url("assets/fonts/Blaka-Regular.ttf") format("truetype"); }
+    @font-face { font-family: "Rakkas"; src: url("assets/fonts/Rakkas-Regular.ttf") format("truetype"); }
+    #s5 { position: absolute; inset: 0; direction: rtl; font-family: "Estedad"; }
+    #s5 .card { position: absolute; left: 90px; top: 182px; width: 900px; height: 300px; border-radius: 36px;
+                background: linear-gradient(160deg, rgba(24, 32, 60, 0.8), rgba(8, 11, 24, 0.84)); backdrop-filter: blur(20px);
+                border: 1.5px solid rgba(255, 255, 255, 0.2); box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25); }
+    #s5 .hd { position: absolute; top: 22px; right: 36px; display: flex; align-items: center; gap: 12px; font-weight: 900; font-size: 36px; color: #dfe9ff; }
+    #s5 .hd svg { width: 40px; height: 40px; }
+    #s5 .fc { position: absolute; top: 96px; width: 260px; height: 176px; border-radius: 24px; background: rgba(255, 255, 255, 0.07);
+              border: 1.5px solid rgba(255, 255, 255, 0.14); text-align: center; color: #fff; }
+    #s5 .fc b { display: block; margin-top: 10px; font-size: 86px; line-height: 104px; font-weight: 400; }
+    #s5 .fc small { display: block; direction: ltr; font-family: "Estedad"; font-weight: 700; font-size: 28px; color: rgba(220, 230, 255, 0.72); }
+    #s5 .ring { position: absolute; top: 90px; width: 272px; height: 188px; border-radius: 28px; border: 4px solid #55c8ff;
+                box-shadow: 0 0 22px rgba(85, 200, 255, 0.85), inset 0 0 18px rgba(85, 200, 255, 0.35); }
+    #s5 .ok { position: absolute; top: 72px; left: 26px; width: 52px; height: 52px; border-radius: 50%; background: #22d07a; color: #fff;
+              display: grid; place-items: center; font-size: 30px; font-weight: 900; box-shadow: 0 0 22px rgba(34, 208, 122, 0.9); }
+    #s5 .bubble { position: absolute; left: 330px; top: 214px; width: 420px; height: 200px; border-radius: 48px 48px 48px 12px;
+                  background: linear-gradient(135deg, #2f7bff, #1c4fe0 60%, #5a3bff); box-shadow: 0 24px 60px rgba(30, 80, 255, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.45);
+                  display: grid; place-items: center; font-weight: 900; font-size: 120px; color: #fff; }
+    #s5 .trail { position: absolute; left: 640px; top: 300px; width: 760px; height: 26px; border-radius: 26px; transform-origin: 0% 50%;
+                 background: linear-gradient(90deg, rgba(120, 200, 255, 0.95), rgba(120, 200, 255, 0)); filter: blur(4px); mix-blend-mode: screen; }
+    #s5 .dot { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: #dff4ff; box-shadow: 0 0 12px #8fd4ff; }
+    #s5 .calm { position: absolute; left: 0; right: 0; top: 246px; text-align: center; font-weight: 500; font-size: 104px; line-height: 150px; color: #fff;
+                text-shadow: 0 4px 22px rgba(0, 10, 40, 0.35); }
+    #s5 .calm span { display: inline-block; }
+    #s5 .thin { position: absolute; left: 330px; right: 330px; top: 410px; height: 3px; background: #fff; transform-origin: 100% 50%; box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
+  </style>
+  <div id="s5" data-composition-id="s5" data-width="1080" data-height="1920">
+    <div id="s5-card" class="card">
+      <div class="hd">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#55c8ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7" /><line x1="9" y1="20" x2="15" y2="20" /><line x1="12" y1="4" x2="12" y2="20" /></svg>
+        انتخاب فونت
+      </div>
+      <div class="fc" style="left: 600px"><b style="font-family: 'Blaka'">پیام</b><small>Blaka</small></div>
+      <div class="fc" style="left: 320px"><b style="font-family: 'Rakkas'">پیام</b><small>Rakkas</small></div>
+      <div class="fc" style="left: 40px"><b style="font-family: 'Estedad'; font-weight: 900">پیام</b><small>Estedad</small></div>
+      <div id="s5-ring" class="ring" style="left: 594px"></div>
+      <div id="s5-ok" class="ok">✓</div>
+    </div>
+    <div id="s5-trail" data-layout-allow-overflow class="trail"></div>
+    <div id="s5-d1" data-layout-allow-overflow class="dot" style="left: 820px; top: 290px"></div>
+    <div id="s5-d2" data-layout-allow-overflow class="dot" style="left: 900px; top: 322px"></div>
+    <div id="s5-d3" data-layout-allow-overflow class="dot" style="left: 1000px; top: 300px"></div>
+    <div id="s5-bubble" data-layout-allow-overflow class="bubble">پیام</div>
+    <div id="s5-calm" class="calm"><span id="s5-c1">روان</span> <span id="s5-c2">و</span> <span id="s5-c3">ساده</span></div>
+    <div id="s5-thin" class="thin"></div>
+  </div>
+  <script>
+    (function () {
+      const T0 = 44.75, at = (t) => t - T0;
+      const tl = gsap.timeline({ paused: true, defaults: { immediateRender: false } });
+      gsap.set(["#s5-card", "#s5-ok", "#s5-bubble", "#s5-trail", "#s5-d1", "#s5-d2", "#s5-d3", "#s5-c1", "#s5-c2", "#s5-c3", "#s5-thin"], { opacity: 0 });
+      // «انتخاب فونت درست»: the picker opens, the selection walks the fonts and lands on the right one
+      tl.fromTo("#s5-card", { opacity: 0, y: -40, scale: 0.94, filter: "blur(10px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, at(44.9));
+      tl.to("#s5-ring", { x: -280, duration: 0.24, ease: "power3.inOut" }, at(45.4));
+      tl.to("#s5-ring", { x: -560, duration: 0.24, ease: "power3.inOut" }, at(45.76));
+      tl.to("#s5-ring", { borderColor: "#3be38c", boxShadow: "0 0 26px rgba(59,227,140,0.9), inset 0 0 18px rgba(59,227,140,0.35)", duration: 0.15 }, at(45.98));
+      tl.fromTo("#s5-ok", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.6)" }, at(45.98));
+      // «پیام»: the picker gives way to the message itself
+      tl.to("#s5-card", { opacity: 0, scale: 0.92, filter: "blur(10px)", duration: 0.24, ease: "power3.in" }, at(46.5));
+      tl.fromTo("#s5-bubble", { opacity: 0, scale: 0.5, rotation: -6 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, at(46.7));
+      // «بهتر منتقل بکنه»: sent, with a light trail
+      tl.fromTo("#s5-trail", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.3, ease: "power3.out" }, at(48.45));
+      tl.to("#s5-bubble", { x: -900, scale: 0.7, rotation: -4, duration: 0.5, ease: "power3.in" }, at(48.6));
+      tl.to("#s5-trail", { x: -900, scaleX: 0.4, opacity: 0, duration: 0.55, ease: "power3.in" }, at(48.6));
+      [["#s5-d1", 0], ["#s5-d2", 0.06], ["#s5-d3", 0.12]].forEach(([d, o]) =>
+        tl.fromTo(d, { opacity: 0, x: 0 }, { keyframes: [{ opacity: 1, duration: 0.08 }, { x: -700, opacity: 0, duration: 0.5, ease: "power2.in" }] }, at(48.55) + o));
+      // «روان و ساده»: minimal type, no motion after landing
+      [["#s5-c1", 56.79], ["#s5-c2", 57.33], ["#s5-c3", 57.43]].forEach(([w, t]) =>
+        tl.fromTo(w, { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, at(t)));
+      tl.fromTo("#s5-thin", { opacity: 1, scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, at(57.5));
+      tl.to(["#s5-calm", "#s5-thin"], { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, at(58.25));
+      window.__timelines["s5"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,149 @@
+<template>
+  <style>
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Black.woff2") format("woff2"); font-weight: 900; }
+    #fx { position: absolute; inset: 0; direction: rtl; font-family: "Estedad"; overflow: hidden; }
+    #fx .flash { position: absolute; inset: 0; background: #fff; mix-blend-mode: screen; }
+    #fx .band { position: absolute; left: -400px; top: -300px; width: 420px; height: 2600px; mix-blend-mode: screen; filter: blur(10px); }
+    #fx .whip { position: absolute; height: 5px; border-radius: 5px; background: linear-gradient(90deg, rgba(255, 255, 255, 0), #fff, rgba(255, 255, 255, 0)); filter: blur(1.5px); mix-blend-mode: screen; }
+    #fx .leak { position: absolute; right: -520px; top: 120px; width: 1100px; height: 1100px; border-radius: 50%; mix-blend-mode: screen;
+                background: radial-gradient(closest-side, rgba(255, 150, 40, 0.75), rgba(255, 90, 0, 0.35) 45%, rgba(255, 60, 0, 0) 100%); }
+    #fx .zip { position: absolute; left: 0; top: 959px; width: 1080px; height: 4px; background: #9fe2ff; transform-origin: 100% 50%;
+               box-shadow: 0 0 14px #55c8ff, 0 0 40px rgba(85, 200, 255, 0.9), 0 0 90px rgba(40, 120, 255, 0.7); }
+    #fx svg { position: absolute; inset: 0; overflow: visible; }
+    #fx .tag { position: absolute; display: flex; align-items: center; gap: 10px; padding: 10px 22px 12px 18px; border-radius: 999px;
+               font-weight: 900; font-size: 34px; color: #fff; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
+    #fx .tag i { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; font-style: normal; font-size: 24px; }
+    #fx .heart { position: absolute; left: 425px; top: 186px; width: 230px; height: 230px; perspective: 700px; }
+    #fx .heart svg { position: relative; width: 230px; height: 230px; filter: drop-shadow(0 18px 26px rgba(120, 0, 30, 0.55)) drop-shadow(0 0 30px rgba(255, 60, 100, 0.55)); }
+    #fx .ring { position: absolute; left: 390px; top: 151px; width: 300px; height: 300px; border-radius: 50%; border: 6px solid #ff6b8a; box-shadow: 0 0 24px #ff3d6e; }
+    #fx .spark { position: absolute; left: 534px; top: 295px; width: 12px; height: 12px; border-radius: 50%; background: #ffd6e0; box-shadow: 0 0 14px #ff6b8a; }
+    #fx .ptr { position: absolute; left: 0; right: 0; margin: auto; top: 1222px; width: max-content; display: flex; align-items: center; gap: 12px;
+               padding: 12px 30px 14px 22px; border-radius: 999px; font-weight: 900; font-size: 40px; color: #fff;
+               background: rgba(10, 14, 28, 0.66); border: 1.5px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(14px); }
+    #fx .ptr svg { position: static; width: 44px; height: 44px; }
+    #fx .drop { position: absolute; left: 538px; top: 1312px; width: 4px; height: 300px; border-radius: 4px; transform-origin: 50% 0;
+                background: linear-gradient(#ffc94a, rgba(255, 201, 74, 0)); box-shadow: 0 0 14px rgba(255, 201, 74, 0.8); }
+  </style>
+  <div id="fx" data-composition-id="fx" data-width="1080" data-height="1920">
+    <div id="fx-leak" data-layout-allow-overflow class="leak"></div>
+    <div id="fx-bandA" data-layout-allow-overflow class="band" style="background: linear-gradient(90deg, rgba(255, 200, 80, 0), rgba(255, 226, 150, 0.85), rgba(255, 200, 80, 0))"></div>
+    <div id="fx-bandB" data-layout-allow-overflow class="band" style="background: linear-gradient(90deg, rgba(85, 200, 255, 0), rgba(190, 236, 255, 0.85), rgba(85, 200, 255, 0))"></div>
+    <div id="fx-w1" data-layout-allow-overflow class="whip" style="top: 420px; left: 0; width: 700px"></div>
+    <div id="fx-w2" data-layout-allow-overflow class="whip" style="top: 760px; left: 200px; width: 900px"></div>
+    <div id="fx-w3" data-layout-allow-overflow class="whip" style="top: 1080px; left: 0; width: 600px"></div>
+    <div id="fx-w4" data-layout-allow-overflow class="whip" style="top: 1400px; left: 300px; width: 800px"></div>
+    <div id="fx-zip" data-layout-allow-overflow class="zip"></div>
+    <svg viewBox="0 0 1080 1920">
+      <defs><filter id="fx-b" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4" /></filter></defs>
+      <!-- «تمام توجه‌ها … به سمت اون چند تا کلمه»: rays from the edges converge on the headline -->
+      <g id="fx-rays" stroke-linecap="round" fill="none">
+        <path class="ray" d="M -40 120 L 540 316" stroke="#ffd45c" stroke-width="5" />
+        <path class="ray" d="M 1120 140 L 540 316" stroke="#9fe2ff" stroke-width="5" />
+        <path class="ray" d="M -40 620 L 540 316" stroke="#9fe2ff" stroke-width="4" />
+        <path class="ray" d="M 1120 640 L 540 316" stroke="#ffd45c" stroke-width="4" />
+        <path class="ray" d="M 220 -40 L 540 316" stroke="#fff3c4" stroke-width="3" />
+        <path class="ray" d="M 880 -40 L 540 316" stroke="#fff3c4" stroke-width="3" />
+        <path class="ray" d="M -40 980 L 540 316" stroke="#ffd45c" stroke-width="3" />
+        <path class="ray" d="M 1120 1000 L 540 316" stroke="#9fe2ff" stroke-width="3" />
+      </g>
+      <g id="fx-raysG" stroke-linecap="round" fill="none" filter="url(#fx-b)" opacity="0.9">
+        <path class="rayg" d="M -40 120 L 540 316" stroke="#ffb627" stroke-width="16" />
+        <path class="rayg" d="M 1120 140 L 540 316" stroke="#55c8ff" stroke-width="16" />
+        <path class="rayg" d="M -40 620 L 540 316" stroke="#55c8ff" stroke-width="14" />
+        <path class="rayg" d="M 1120 640 L 540 316" stroke="#ffb627" stroke-width="14" />
+      </g>
+    </svg>
+    <div id="fx-tagBad" class="tag" style="left: 40px; top: 800px; background: #ff4d5e"><i style="background: rgba(0, 0, 0, 0.25)">✕</i>زیرنویس شلوغ</div>
+    <div id="fx-tagOk" class="tag" style="left: 50px; top: 972px; background: rgba(10, 14, 28, 0.72); border: 1.5px solid #3be38c"><i style="background: #22d07a">✓</i>زیرنویس ساده</div>
+    <div id="fx-tagSub" class="tag" style="left: 50px; top: 972px; color: #0b1022; background: #fff"><i style="background: #0b1022; color: #fff; font-size: 24px" data-layout-ignore>Aa</i>زیرنویس</div>
+    <div id="fx-ring" class="ring"></div>
+    <div id="fx-heart" class="heart">
+      <svg viewBox="0 0 24 24">
+        <defs>
+          <radialGradient id="fx-hg" cx="0.38" cy="0.32" r="0.8"><stop offset="0" stop-color="#ff9db2" /><stop offset="0.35" stop-color="#ff3d6e" /><stop offset="0.8" stop-color="#c8002f" /><stop offset="1" stop-color="#7d001c" /></radialGradient>
+          <linearGradient id="fx-hs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.85" /><stop offset="1" stop-color="#fff" stop-opacity="0" /></linearGradient>
+        </defs>
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="url(#fx-hg)" />
+        <ellipse cx="7.6" cy="7.4" rx="3.1" ry="2" fill="url(#fx-hs)" transform="rotate(-28 7.6 7.4)" />
+        <ellipse cx="16.8" cy="6.6" rx="1.2" ry="0.7" fill="#fff" opacity="0.55" transform="rotate(20 16.8 6.6)" />
+      </svg>
+    </div>
+    <div id="fx-sparks">
+      <div class="spark" data-a="0"></div><div class="spark" data-a="45"></div><div class="spark" data-a="90"></div><div class="spark" data-a="135"></div>
+      <div class="spark" data-a="180"></div><div class="spark" data-a="225"></div><div class="spark" data-a="270"></div><div class="spark" data-a="315"></div>
+    </div>
+    <div id="fx-ptr" class="ptr">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#ffc94a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="20" /><polyline points="6 14 12 20 18 14" /></svg>
+      کپشن
+    </div>
+    <div id="fx-drop" class="drop"></div>
+    <div id="fx-flash" class="flash"></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true, defaults: { immediateRender: false } });
+      const hide = ["#fx-flash", "#fx-leak", "#fx-bandA", "#fx-bandB", "#fx-w1", "#fx-w2", "#fx-w3", "#fx-w4", "#fx-zip", "#fx-rays", "#fx-raysG",
+        "#fx-tagBad", "#fx-tagOk", "#fx-tagSub", "#fx-ring", "#fx-heart", "#fx-ptr", "#fx-drop", "#fx .spark"];
+      gsap.set(hide, { opacity: 0 });
+      gsap.set("#fx-bandA", { rotation: 28 });
+      gsap.set("#fx-bandB", { rotation: -24 });
+      const flash = (t, o, color = "#ffffff", d = 0.22) => {
+        tl.set("#fx-flash", { backgroundColor: color }, t);
+        tl.fromTo("#fx-flash", { opacity: o }, { opacity: 0, duration: d, ease: "power2.out" }, t);
+      };
+      const tagIn = (id, t, out) => {
+        tl.fromTo(id, { opacity: 0, x: 30, filter: "blur(6px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.28, ease: "expo.out" }, t);
+        tl.to(id, { opacity: 0, x: 20, duration: 0.15, ease: "power2.in" }, out);
+      };
+
+      // flashes on the hits
+      flash(11.22, 0.42);                    // back to the professional title
+      flash(17.09, 0.4, "#ffe2a0");          // «مهمه»
+      flash(59.36, 0.3);                     // «تیتر»
+      flash(62.66, 0.5);                     // «درشت»
+      flash(66.72, 0.32, "#ffe2a0");         // «کلمه»
+
+      // transitions between sequences, each a different kind
+      tl.fromTo("#fx-bandA", { opacity: 1, x: -200 }, { x: 1700, duration: 0.42, ease: "power2.inOut" }, 11.3);
+      tl.set("#fx-bandA", { opacity: 0 }, 11.73);           // S1→S2 gold streak
+      ["#fx-w1", "#fx-w2", "#fx-w3", "#fx-w4"].forEach((w, i) =>                                                           // S2→S3 whip lines
+        tl.fromTo(w, { opacity: 1, x: 1100 }, { x: -1300, duration: 0.24, ease: "power2.in" }, 17.7 + i * 0.025));
+      tl.fromTo("#fx-leak", { opacity: 0, scale: 0.6 }, { keyframes: [{ opacity: 1, scale: 1, duration: 0.22, ease: "power2.out" }, { opacity: 0, duration: 0.55, ease: "power2.in" }] }, 29.68); // S3→S4 light leak
+      tl.fromTo("#fx-zip", { opacity: 1, scaleX: 0, y: -520 }, { keyframes: [{ scaleX: 1, duration: 0.2, ease: "expo.out" }, { opacity: 0, scaleY: 6, duration: 0.25 }] }, 44.72); // S4→S5 neon zip
+      flash(58.333, 0.35);                                                                                                 // S5→S6 hard cut
+      ["#fx-w2", "#fx-w4"].forEach((w, i) => tl.fromTo(w, { opacity: 1, x: -1300 }, { x: 1100, duration: 0.2, ease: "power2.out" }, 58.34 + i * 0.03));
+      tl.fromTo("#fx-bandB", { opacity: 1, x: 1500 }, { x: -700, duration: 0.42, ease: "power2.inOut" }, 67.72);
+      tl.set("#fx-bandB", { opacity: 0 }, 68.15);          // S6→S7 cyan streak
+
+      // «تمام توجه‌ها… جلب بکنی»: rays converge
+      tl.set(["#fx-rays", "#fx-raysG"], { opacity: 1 }, 64.3);
+      document.querySelectorAll("#fx .ray, #fx .rayg").forEach((p, i) => {
+        const L = p.getTotalLength();
+        gsap.set(p, { strokeDasharray: L, strokeDashoffset: L });
+        tl.to(p, { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut" }, 64.31 + (i % 8) * 0.05);
+      });
+      tl.to(["#fx-rays", "#fx-raysG"], { opacity: 0, duration: 0.35, ease: "power2.in" }, 66.0);
+
+      // subtitle vs headline comparison tags
+      tagIn("#fx-tagBad", 51.3, 55.1);
+      tagIn("#fx-tagOk", 55.62, 58.2);
+      tagIn("#fx-tagSub", 66.95, 67.7);
+
+      // «لایک»: a glossy heart pops with a spring and a ring of sparks
+      tl.fromTo("#fx-heart", { opacity: 0, scale: 0.2, rotationY: -60 }, { opacity: 1, scale: 1, rotationY: 0, duration: 0.55, ease: "elastic.out(1, 0.55)" }, 74.2);
+      tl.fromTo("#fx-ring", { opacity: 1, scale: 0.4 }, { opacity: 0, scale: 1.5, duration: 0.5, ease: "power2.out" }, 74.26);
+      document.querySelectorAll("#fx .spark").forEach((s) => {
+        const a = (+s.dataset.a * Math.PI) / 180;
+        tl.fromTo(s, { opacity: 1, x: Math.cos(a) * 95, y: Math.sin(a) * 95, scale: 1 }, { x: Math.cos(a) * 210, y: Math.sin(a) * 210, opacity: 0, scale: 0.4, duration: 0.55, ease: "power3.out" }, 74.26);
+      });
+      tl.to("#fx-heart", { scale: 0.62, x: 300, y: -10, duration: 0.4, ease: "power3.inOut" }, 74.86);
+      // «بعد کپشن رو بخون»: point down to the caption
+      tl.fromTo("#fx-ptr", { opacity: 0, y: -24, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, 74.86);
+      tl.fromTo("#fx-drop", { opacity: 1, scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "power2.out" }, 75.0);
+      tl.fromTo("#fx-ptr svg", { y: 0 }, { keyframes: [{ y: 10, duration: 0.18 }, { y: 0, duration: 0.2 }, { y: 10, duration: 0.18 }, { y: 0, duration: 0.2 }], ease: "sine.inOut" }, 75.1);
+      // clean, fast ending
+      tl.to(["#fx-heart", "#fx-ptr", "#fx-drop"], { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power2.in" }, 76.38);
+      window.__timelines["fx"] = tl;
+    })();
+  </script>
+</template>

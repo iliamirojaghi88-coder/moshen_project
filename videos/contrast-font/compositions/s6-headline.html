@@ -1,0 +1,83 @@
+<template>
+  <style>
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Black.woff2") format("woff2"); font-weight: 900; }
+    @font-face { font-family: "Lalezar"; src: url("assets/fonts/Lalezar-Regular.ttf") format("truetype"); }
+    @font-face { font-family: "Blaka"; src: url("assets/fonts/Blaka-Regular.ttf") format("truetype"); }
+    @font-face { font-family: "Rakkas"; src: url("assets/fonts/Rakkas-Regular.ttf") format("truetype"); }
+    @font-face { font-family: "Aref Ruqaa"; src: url("assets/fonts/ArefRuqaa-Regular.ttf") format("truetype"); }
+    #s6 { position: absolute; inset: 0; direction: rtl; }
+    #s6 .t { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap; }
+    #s6 .gold { background: linear-gradient(180deg, #fff3c4 0%, #ffd45c 42%, #f2a200 80%, #ffcf5a 100%);
+                -webkit-background-clip: text; background-clip: text; color: transparent;
+                filter: drop-shadow(0 6px 0 rgba(120, 60, 0, 0.55)) drop-shadow(0 0 30px rgba(255, 184, 40, 0.6)); }
+    #s6 .titr { top: 128px; height: 380px; font-family: "Lalezar"; font-size: 330px; line-height: 380px; }
+    #s6 .odd { top: 196px; height: 250px; font-size: 176px; line-height: 250px; }
+    #s6 .neon { color: #fff; filter: drop-shadow(0 0 10px #ff5cf0) drop-shadow(0 0 30px rgba(180, 60, 255, 0.85)); }
+    #s6 .big { top: 106px; height: 430px; font-family: "Lalezar"; font-size: 390px; line-height: 430px; color: #fff;
+               -webkit-text-stroke: 7px #ffc94a; paint-order: stroke fill; filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.4)); }
+    #s6 .few { top: 196px; height: 240px; font-family: "Lalezar"; font-size: 196px; line-height: 240px; }
+    #s6 .few span { display: inline-block; margin: 0 12px; }
+    #s6 .sweep { top: 196px; height: 240px; font-family: "Lalezar"; font-size: 196px; line-height: 240px; mix-blend-mode: screen;
+                 background: linear-gradient(105deg, transparent 0 42%, rgba(255, 255, 255, 0.95) 50%, transparent 58% 100%);
+                 background-size: 320% 100%; background-position: 100% 0; -webkit-background-clip: text; background-clip: text; color: transparent; }
+    #s6 .sweep span { display: inline-block; margin: 0 12px; }
+    #s6 .uline { position: absolute; top: 432px; left: 200px; right: 200px; height: 10px; border-radius: 10px; transform-origin: 100% 50%;
+                 background: linear-gradient(90deg, rgba(255, 200, 70, 0), #ffd45c 25%, #fff4cc 50%, #ffd45c 75%, rgba(255, 200, 70, 0));
+                 box-shadow: 0 0 22px rgba(255, 196, 64, 0.95), 0 0 54px rgba(255, 160, 0, 0.6); }
+    #s6 .streak { position: absolute; height: 8px; border-radius: 8px; mix-blend-mode: screen; filter: blur(1.5px);
+                  box-shadow: 0 0 18px rgba(255, 210, 120, 0.9); }
+    #s6 .tag { position: absolute; top: 172px; right: 120px; padding: 6px 22px 10px; border-radius: 14px; font-family: "Estedad"; font-weight: 900;
+               font-size: 32px; color: #1a1200; background: #ffc94a; box-shadow: 0 0 20px rgba(255, 201, 74, 0.7); }
+  </style>
+  <div id="s6" data-composition-id="s6" data-width="1080" data-height="1920">
+    <div id="s6-k1" data-layout-allow-overflow class="streak" style="left: 600px; top: 300px; width: 520px; transform-origin: 0 50%; background: linear-gradient(90deg, #fff7d6, rgba(255, 190, 60, 0))"></div>
+    <div id="s6-k2" data-layout-allow-overflow class="streak" style="left: 610px; top: 372px; width: 420px; transform-origin: 0 50%; background: linear-gradient(90deg, #bfe9ff, rgba(85, 200, 255, 0))"></div>
+    <div id="s6-k3" data-layout-allow-overflow class="streak" style="left: -40px; top: 316px; width: 520px; transform-origin: 100% 50%; background: linear-gradient(270deg, #fff7d6, rgba(255, 190, 60, 0))"></div>
+    <div id="s6-k4" data-layout-allow-overflow class="streak" style="left: 40px; top: 388px; width: 420px; transform-origin: 100% 50%; background: linear-gradient(270deg, #bfe9ff, rgba(85, 200, 255, 0))"></div>
+    <div id="s6-titr" class="t titr gold">تیتر</div>
+    <div id="s6-o1" class="t odd gold" style="font-family: 'Lalezar'">عجیب‌وغریب</div>
+    <div id="s6-o2" class="t odd gold" style="font-family: 'Rakkas'">عجیب‌وغریب</div>
+    <div id="s6-o3" class="t odd gold" style="font-family: 'Aref Ruqaa'; font-weight: 700">عجیب‌وغریب</div>
+    <div id="s6-o4" class="t odd neon" style="font-family: 'Blaka'; font-size: 196px">عجیب‌وغریب</div>
+    <div id="s6-big" class="t big">درشت</div>
+    <div id="s6-few" class="t few"><span id="s6-f1" class="gold">چند</span><span id="s6-f2" class="gold">تا</span><span id="s6-f3" class="gold">کلمه</span></div>
+    <div id="s6-sw" class="t sweep"><span>چند</span><span>تا</span><span>کلمه</span></div>
+    <div id="s6-u" class="uline"></div>
+    <div id="s6-tag" class="tag">تیتر</div>
+  </div>
+  <script>
+    (function () {
+      const T0 = 58.3, at = (t) => t - T0;
+      const tl = gsap.timeline({ paused: true, defaults: { immediateRender: false } });
+      const streaks = ["#s6-k1", "#s6-k2", "#s6-k3", "#s6-k4"];
+      gsap.set(["#s6-titr", "#s6-o1", "#s6-o2", "#s6-o3", "#s6-o4", "#s6-big", "#s6-f1", "#s6-f2", "#s6-f3", "#s6-sw", "#s6-u", "#s6-tag", ...streaks], { opacity: 0 });
+      const G = "drop-shadow(0 6px 0 rgba(120,60,0,0.55)) drop-shadow(0 0 30px rgba(255,184,40,0.6))";
+      const burst = (t) => streaks.forEach((k, i) =>
+        tl.fromTo(k, { opacity: 1, scaleX: 0 }, { keyframes: [{ scaleX: 1, duration: 0.22, ease: "expo.out" }, { opacity: 0, duration: 0.3, ease: "power2.in" }] }, t + i * 0.03));
+      // «تیتر»: slams in behind the head
+      tl.fromTo("#s6-titr", { opacity: 0, scale: 1.9, filter: "blur(18px) " + G }, { opacity: 1, scale: 1, filter: "blur(0px) " + G, duration: 0.3, ease: "expo.out" }, at(59.36));
+      burst(at(59.42));
+      tl.to("#s6-titr", { y: -40, scale: 0.8, opacity: 0, filter: "blur(10px) " + G, duration: 0.22, ease: "power3.in" }, at(61.45));
+      // «عجیب‌وغریب»: the font rolls like a slot machine and lands on the strangest one
+      [["#s6-o1", 61.66], ["#s6-o2", 61.75], ["#s6-o3", 61.84]].forEach(([o, t]) => {
+        tl.set(o, { opacity: 1 }, at(t));
+        tl.set(o, { opacity: 0 }, at(t + 0.09));
+      });
+      tl.fromTo("#s6-o4", { opacity: 1, scale: 1.12 }, { scale: 1, duration: 0.3, ease: "back.out(2.2)" }, at(61.93));
+      tl.to("#s6-o4", { y: -60, opacity: 0, filter: "blur(10px)", duration: 0.16, ease: "power3.in" }, at(62.56));
+      // «درشت»: the biggest hit of the film
+      tl.fromTo("#s6-big", { opacity: 0, scale: 2.3, filter: "blur(20px) drop-shadow(0 12px 30px rgba(0,0,0,0.4))" },
+        { opacity: 1, scale: 1, filter: "blur(0px) drop-shadow(0 12px 30px rgba(0,0,0,0.4))", duration: 0.26, ease: "expo.out" }, at(62.66));
+      burst(at(62.72));
+      tl.to("#s6-big", { scale: 0.86, opacity: 0, filter: "blur(12px) drop-shadow(0 12px 30px rgba(0,0,0,0.4))", duration: 0.3, ease: "power3.in" }, at(65.55));
+      // «چند تا کلمه»: lands on the camera ramp, light crosses it, underline glows
+      [["#s6-f1", 66.21], ["#s6-f2", 66.47], ["#s6-f3", 66.72]].forEach(([w, t]) =>
+        tl.fromTo(w, { opacity: 0, filter: "blur(8px) " + G, scale: 1.3 }, { opacity: 1, filter: "blur(0px) " + G, scale: 1, duration: 0.2, ease: "expo.out" }, at(t)));
+      tl.fromTo("#s6-sw", { opacity: 1, backgroundPosition: "100% 0" }, { backgroundPosition: "0% 0", duration: 0.6, ease: "power2.inOut" }, at(66.8));
+      tl.fromTo("#s6-u", { opacity: 1, scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "expo.out" }, at(66.76));
+      tl.fromTo("#s6-tag", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.25, ease: "power3.out" }, at(66.95));
+      tl.to(["#s6-few", "#s6-u", "#s6-tag"], { y: -80, opacity: 0, duration: 0.24, ease: "power3.in" }, at(67.66));
+      window.__timelines["s6"] = tl;
+    })();
+  </script>
+</template>

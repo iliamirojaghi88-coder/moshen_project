@@ -5482,6 +5482,134 @@
         }
       },
       "status": "ready"
+    },
+    {
+      "key": "incompetech:voxel-revolution",
+      "source": "incompetech",
+      "id": "voxel-revolution",
+      "kind": "music",
+      "title": "Voxel Revolution",
+      "authors": [
+        "Kevin MacLeod"
+      ],
+      "page": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Voxel%20Revolution.mp3",
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "commercial": true,
+        "attribution": true,
+        "shareAlike": false,
+        "url": "http://creativecommons.org/licenses/by/4.0/"
+      },
+      "status": "pending",
+      "durationS": 129.9,
+      "format": "mp3 \u2192 wav bed (videos/contrast-font/assets/music, not in git)",
+      "qc": {
+        "tempoBpm": 123,
+        "integratedLufs": -12.2,
+        "note": "measured, not listened to; credit required in the post caption"
+      },
+      "files": [
+        "mp-studio/work/contrast-font/music/voxel_revolution.mp3"
+      ],
+      "installedAt": "2026-11-05T16:33:11.000Z"
+    },
+    {
+      "key": "font:estedad",
+      "source": "github:aminabedi68/Estedad",
+      "id": "estedad",
+      "kind": "font",
+      "title": "Estedad (Medium/SemiBold/Bold/Black)",
+      "authors": [
+        "The Estedad Project Authors"
+      ],
+      "page": "https://github.com/aminabedi68/Estedad",
+      "license": {
+        "spdx": "OFL-1.1",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": "https://openfontlicense.org"
+      },
+      "status": "ready",
+      "files": [
+        "videos/contrast-font/assets/fonts/Estedad-Medium.woff2",
+        "videos/contrast-font/assets/fonts/Estedad-SemiBold.woff2",
+        "videos/contrast-font/assets/fonts/Estedad-Bold.woff2",
+        "videos/contrast-font/assets/fonts/Estedad-Black.woff2"
+      ],
+      "installedAt": "2026-11-05T16:33:11.000Z"
+    },
+    {
+      "key": "font:blaka",
+      "source": "github:google/fonts",
+      "id": "blaka",
+      "kind": "font",
+      "title": "Blaka",
+      "authors": [
+        "Mohamed Gaber"
+      ],
+      "page": "https://github.com/google/fonts/tree/main/ofl/blaka",
+      "license": {
+        "spdx": "OFL-1.1",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": "https://openfontlicense.org"
+      },
+      "status": "ready",
+      "files": [
+        "videos/contrast-font/assets/fonts/Blaka-Regular.ttf"
+      ],
+      "sha256": "5cd0ff67dcfbc371c6450afffe10f6e7027ffada0c31f436beb8865e57b781a3",
+      "installedAt": "2026-11-05T16:33:11.000Z"
+    },
+    {
+      "key": "font:rakkas",
+      "source": "github:google/fonts",
+      "id": "rakkas",
+      "kind": "font",
+      "title": "Rakkas",
+      "authors": [
+        "Zeynep Akay"
+      ],
+      "page": "https://github.com/google/fonts/tree/main/ofl/rakkas",
+      "license": {
+        "spdx": "OFL-1.1",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": "https://openfontlicense.org"
+      },
+      "status": "ready",
+      "files": [
+        "videos/contrast-font/assets/fonts/Rakkas-Regular.ttf"
+      ],
+      "sha256": "54278882e4774c14d50c3b555f127d0fe586366d5b787316ebbcbd8108829e60",
+      "installedAt": "2026-11-05T16:33:11.000Z"
+    },
+    {
+      "key": "font:arefruqaa",
+      "source": "github:google/fonts",
+      "id": "arefruqaa",
+      "kind": "font",
+      "title": "Aref Ruqaa",
+      "authors": [
+        "Abdullah Aref"
+      ],
+      "page": "https://github.com/google/fonts/tree/main/ofl/arefruqaa",
+      "license": {
+        "spdx": "OFL-1.1",
+        "commercial": true,
+        "attribution": false,
+        "shareAlike": false,
+        "url": "https://openfontlicense.org"
+      },
+      "status": "ready",
+      "files": [
+        "videos/contrast-font/assets/fonts/ArefRuqaa-Regular.ttf"
+      ],
+      "sha256": "ceb786d83ba92f35e96efcd8623c2858d288e0c543c8761ba35b1020989464f9",
+      "installedAt": "2026-11-05T16:33:11.000Z"
     }
   ]
 }

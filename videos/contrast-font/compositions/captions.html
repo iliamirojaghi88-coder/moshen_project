@@ -1,0 +1,170 @@
+<template>
+  <style>
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Bold.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Black.woff2") format("woff2"); font-weight: 900; }
+    @font-face { font-family: "Rakkas"; src: url("assets/fonts/Rakkas-Regular.ttf") format("truetype"); }
+    #captions { position: absolute; inset: 0; direction: rtl; font-family: "Estedad"; }
+    #captions .cg { position: absolute; left: 70px; right: 70px; top: 1048px; height: 150px;
+                     display: flex; align-items: center; justify-content: center; opacity: 0; }
+    #captions .line { text-align: center; font-weight: 700; font-size: 58px; line-height: 1.32; color: #fff;
+                       text-shadow: 0 3px 6px rgba(0,0,0,.55), 0 8px 26px rgba(0,0,0,.45); }
+    #captions .w { display: inline-block; opacity: .78; }
+    #captions .em { font-weight: 900; }
+    #captions .white { text-shadow: 0 0 18px rgba(255,255,255,.9), 0 3px 6px rgba(0,0,0,.5); }
+    #captions .navy, #captions .black { -webkit-text-stroke: 7px #fff; paint-order: stroke fill; }
+    /* the demo of what NOT to do: chunky, loud, tilted, crowded */
+    #captions .cg.bad { top: 880px; height: 440px; left: 64px; right: 64px; }
+    #captions .bad .line { font-family: "Rakkas"; font-weight: 400; font-size: 92px; line-height: 1.14; }
+    #captions .bw { opacity: 0; transform: rotate(var(--r)); -webkit-text-stroke: 10px #000; paint-order: stroke fill;
+                     text-shadow: 7px 7px 0 #000, 0 0 30px rgba(255,255,255,.35); margin: 0 6px; }
+  </style>
+  <div id="captions" data-composition-id="captions" data-width="1080" data-height="1920">
+      <div id="cg0" class="cg"><div class="line"><span id="cw0" class="w">این</span> <span id="cw1" class="w">متن</span> <span id="cw2" class="w em gold">طلایی</span></div></div>
+      <div id="cg1" class="cg"><div class="line"><span id="cw3" class="w">بالا</span> <span id="cw4" class="w">سرمو</span> <span id="cw5" class="w">می‌بینی</span></div></div>
+      <div id="cg2" class="cg"><div class="line"><span id="cw6" class="w">چقدر</span> <span id="cw7" class="w em gold">خواناست؟</span></div></div>
+      <div id="cg3" class="cg"><div class="line"><span id="cw8" class="w">اگه</span> <span id="cw9" class="w">اینو</span> <span id="cw10" class="w">با</span> <span id="cw11" class="w em navy">سرمه‌ای</span></div></div>
+      <div id="cg4" class="cg"><div class="line"><span id="cw12" class="w">یا</span> <span id="cw13" class="w em black">مشکی</span> <span id="cw14" class="w">می‌نوشتم</span> <span id="cw15" class="w">چی؟</span></div></div>
+      <div id="cg5" class="cg"><div class="line"><span id="cw16" class="w">خیلی</span> <span id="cw17" class="w em red">بد</span> <span id="cw18" class="w">می‌شد.</span></div></div>
+      <div id="cg6" class="cg"><div class="line"><span id="cw19" class="w">یا</span> <span id="cw20" class="w">اگه</span> <span id="cw21" class="w">اونو</span></div></div>
+      <div id="cg7" class="cg"><div class="line"><span id="cw22" class="w">با</span> <span id="cw23" class="w">این</span> <span id="cw24" class="w em blue">فونت</span></div></div>
+      <div id="cg8" class="cg"><div class="line"><span id="cw25" class="w">می‌نوشتم</span> <span id="cw26" class="w">چی؟</span></div></div>
+      <div id="cg9" class="cg"><div class="line"><span id="cw27" class="w">اصلاً</span> <span id="cw28" class="w em red">قشنگ</span> <span id="cw29" class="w">نمی‌شد.</span></div></div>
+      <div id="cg10" class="cg"><div class="line"><span id="cw30" class="w">پس</span> <span id="cw31" class="w">اینجا</span> <span id="cw32" class="w">می‌فهمیم</span> <span id="cw33" class="w">که</span></div></div>
+      <div id="cg11" class="cg"><div class="line"><span id="cw34" class="w">چقدر</span> <span id="cw35" class="w em blue">کنتراست</span> <span id="cw36" class="w em blue">رنگی</span></div></div>
+      <div id="cg12" class="cg"><div class="line"><span id="cw37" class="w">و</span> <span id="cw38" class="w em gold">انتخاب</span> <span id="cw39" class="w">ترکیب</span> <span id="cw40" class="w em gold">فونت</span> <span id="cw41" class="w">درست</span></div></div>
+      <div id="cg13" class="cg"><div class="line"><span id="cw42" class="w">توی</span> <span id="cw43" class="w">ویدیوهامون</span> <span id="cw44" class="w em gold">مهمه.</span></div></div>
+      <div id="cg14" class="cg"><div class="line"><span id="cw45" class="w em blue">کنتراست</span> <span id="cw46" class="w em blue">رنگی</span> <span id="cw47" class="w">یعنی</span></div></div>
+      <div id="cg15" class="cg"><div class="line"><span id="cw48" class="w">مخاطب</span> <span id="cw49" class="w">و</span> <span id="cw50" class="w">بینندهٔ</span> <span id="cw51" class="w">شما</span></div></div>
+      <div id="cg16" class="cg"><div class="line"><span id="cw52" class="w">یه</span> <span id="cw53" class="w em gold">تمایزی</span> <span id="cw54" class="w">بین</span></div></div>
+      <div id="cg17" class="cg"><div class="line"><span id="cw55" class="w">رنگ</span> <span id="cw56" class="w em blue">پس‌زمینه‌تون</span></div></div>
+      <div id="cg18" class="cg"><div class="line"><span id="cw57" class="w">و</span> <span id="cw58" class="w">خود</span> <span id="cw59" class="w em gold">متن</span> <span id="cw60" class="w">قائل</span> <span id="cw61" class="w">بشه</span></div></div>
+      <div id="cg19" class="cg"><div class="line"><span id="cw62" class="w">و</span> <span id="cw63" class="w">بدونه</span> <span id="cw64" class="w">که</span> <span id="cw65" class="w">این</span> <span id="cw66" class="w">متن</span></div></div>
+      <div id="cg20" class="cg"><div class="line"><span id="cw67" class="w em gold">ارجحیت</span> <span id="cw68" class="w">داره</span></div></div>
+      <div id="cg21" class="cg"><div class="line"><span id="cw69" class="w">و</span> <span id="cw70" class="w em gold">توجهشو</span> <span id="cw71" class="w">بیشتر</span></div></div>
+      <div id="cg22" class="cg"><div class="line"><span id="cw72" class="w em gold">جلب</span> <span id="cw73" class="w">می‌کنه.</span></div></div>
+      <div id="cg23" class="cg"><div class="line"><span id="cw74" class="w em gold">کم‌ریسک‌ترین</span> <span id="cw75" class="w">رنگی</span></div></div>
+      <div id="cg24" class="cg"><div class="line"><span id="cw76" class="w">که</span> <span id="cw77" class="w">شما</span> <span id="cw78" class="w">می‌تونین</span></div></div>
+      <div id="cg25" class="cg"><div class="line"><span id="cw79" class="w">استفاده</span> <span id="cw80" class="w">بکنین،</span></div></div>
+      <div id="cg26" class="cg"><div class="line"><span id="cw81" class="w">رنگ</span> <span id="cw82" class="w em white">سفیده.</span></div></div>
+      <div id="cg27" class="cg"><div class="line"><span id="cw83" class="w">ولی</span> <span id="cw84" class="w">اگه</span> <span id="cw85" class="w">بازم</span> <span id="cw86" class="w em red">ناخوانا</span> <span id="cw87" class="w">بود،</span></div></div>
+      <div id="cg28" class="cg"><div class="line"><span id="cw88" class="w em gold">بهترین</span> <span id="cw89" class="w">کار</span> <span id="cw90" class="w">اینه</span> <span id="cw91" class="w">که</span></div></div>
+      <div id="cg29" class="cg"><div class="line"><span id="cw92" class="w">از</span> <span id="cw93" class="w">این</span> <span id="cw94" class="w em blue">پس‌زمینه‌های</span></div></div>
+      <div id="cg30" class="cg"><div class="line"><span id="cw95" class="w em gold">خوشگل</span> <span id="cw96" class="w">براش</span> <span id="cw97" class="w">بذاری،</span></div></div>
+      <div id="cg31" class="cg"><div class="line"><span id="cw98" class="w">یا</span> <span id="cw99" class="w">از</span> <span id="cw100" class="w">این</span> <span id="cw101" class="w em blue">پس‌زمینه‌ها،</span></div></div>
+      <div id="cg32" class="cg"><div class="line"><span id="cw102" class="w">یا</span> <span id="cw103" class="w">در</span> <span id="cw104" class="w em gold">ساده‌ترین</span> <span id="cw105" class="w">حالت</span> <span id="cw106" class="w">ممکن</span></div></div>
+      <div id="cg33" class="cg"><div class="line"><span id="cw107" class="w">از</span> <span id="cw108" class="w">این</span> <span id="cw109" class="w em blue">پس‌زمینه‌ها</span> <span id="cw110" class="w">بذاری.</span></div></div>
+      <div id="cg34" class="cg"><div class="line"><span id="cw111" class="w">انتخاب</span> <span id="cw112" class="w em gold">فونت</span> <span id="cw113" class="w em gold">درست</span></div></div>
+      <div id="cg35" class="cg"><div class="line"><span id="cw114" class="w">می‌تونه</span> <span id="cw115" class="w em blue">پیام</span> <span id="cw116" class="w">شما</span> <span id="cw117" class="w">رو</span></div></div>
+      <div id="cg36" class="cg"><div class="line"><span id="cw118" class="w">خیلی</span> <span id="cw119" class="w em gold">بهتر</span> <span id="cw120" class="w">منتقل</span> <span id="cw121" class="w">بکنه.</span></div></div>
+      <div id="cg37" class="cg"><div class="line"><span id="cw122" class="w">اگه</span> <span id="cw123" class="w">داری</span> <span id="cw124" class="w em gold">زیرنویس</span> <span id="cw125" class="w">می‌ذاری،</span></div></div>
+      <div id="cg38" class="cg bad"><div class="line"><span id="cw126" class="w bw" style="color:#ff2bd6;--r:-5deg">پس</span> <span id="cw127" class="w bw" style="color:#39ff14;--r:4deg">نیا</span> <span id="cw128" class="w bw" style="color:#ffe600;--r:-3deg">از</span> <span id="cw129" class="w bw" style="color:#00e5ff;--r:6deg">فونت‌های</span> <span id="cw130" class="w bw" style="color:#ff7a00;--r:-4deg">توپل،</span> <span id="cw131" class="w bw" style="color:#b04bff;--r:3deg">درشت،</span></div></div>
+      <div id="cg39" class="cg bad"><div class="line"><span id="cw132" class="w bw" style="color:#ff2bd6;--r:-5deg">خیلی</span> <span id="cw133" class="w bw" style="color:#39ff14;--r:4deg">عجیب‌وغریب</span> <span id="cw134" class="w bw" style="color:#ffe600;--r:-3deg">استفاده</span> <span id="cw135" class="w bw" style="color:#00e5ff;--r:6deg">کن،</span></div></div>
+      <div id="cg40" class="cg"><div class="line"><span id="cw136" class="w">چون</span> <span id="cw137" class="w em green">زیرنویسه</span></div></div>
+      <div id="cg41" class="cg"><div class="line"><span id="cw138" class="w">و</span> <span id="cw139" class="w">باید</span> <span id="cw140" class="w em gold">روان</span> <span id="cw141" class="w">و</span> <span id="cw142" class="w em gold">ساده</span> <span id="cw143" class="w">باشه.</span></div></div>
+      <div id="cg42" class="cg"><div class="line"><span id="cw144" class="w">ولی</span> <span id="cw145" class="w">اگه</span> <span id="cw146" class="w">داری</span> <span id="cw147" class="w em gold">تیتر</span></div></div>
+      <div id="cg43" class="cg"><div class="line"><span id="cw148" class="w">می‌نویسی،</span> <span id="cw149" class="w em blue">اتفاقاً</span></div></div>
+      <div id="cg44" class="cg"><div class="line"><span id="cw150" class="w">از</span> <span id="cw151" class="w">فونت‌های</span> <span id="cw152" class="w em gold">عجیب‌وغریب</span></div></div>
+      <div id="cg45" class="cg"><div class="line"><span id="cw153" class="w">و</span> <span id="cw154" class="w em gold">درشت</span> <span id="cw155" class="w">استفاده</span> <span id="cw156" class="w">کن،</span></div></div>
+      <div id="cg46" class="cg"><div class="line"><span id="cw157" class="w">چون</span> <span id="cw158" class="w">می‌خوای</span> <span id="cw159" class="w em blue">تمام</span> <span id="cw160" class="w em blue">توجه‌ها</span></div></div>
+      <div id="cg47" class="cg"><div class="line"><span id="cw161" class="w">رو</span> <span id="cw162" class="w">به</span> <span id="cw163" class="w">سمت</span> <span id="cw164" class="w">اون</span></div></div>
+      <div id="cg48" class="cg"><div class="line"><span id="cw165" class="w">چند</span> <span id="cw166" class="w">تا</span> <span id="cw167" class="w em gold">کلمه</span> <span id="cw168" class="w">جلب</span> <span id="cw169" class="w">بکنی.</span></div></div>
+      <div id="cg49" class="cg"><div class="line"><span id="cw170" class="w">من</span> <span id="cw171" class="w em gold">آموزش</span> <span id="cw172" class="w em gold">ادیت</span> <span id="cw173" class="w em gold">با</span> <span id="cw174" class="w em gold">موبایل</span></div></div>
+      <div id="cg50" class="cg"><div class="line"><span id="cw175" class="w">می‌گم</span> <span id="cw176" class="w">و</span> <span id="cw177" class="w">اگه</span> <span id="cw178" class="w">می‌خوای</span> <span id="cw179" class="w">بدونی</span></div></div>
+      <div id="cg51" class="cg"><div class="line"><span id="cw180" class="w">چه</span> <span id="cw181" class="w em gold">فونتی</span> <span id="cw182" class="w em gold">مناسب</span></div></div>
+      <div id="cg52" class="cg"><div class="line"><span id="cw183" class="w em gold">حوزهٔ</span> <span id="cw184" class="w em gold">کاری</span> <span id="cw185" class="w em gold">توئه،</span></div></div>
+      <div id="cg53" class="cg"><div class="line"><span id="cw186" class="w">اول</span> <span id="cw187" class="w">این</span> <span id="cw188" class="w">پست رو</span> <span id="cw189" class="w em red">لایک</span> <span id="cw190" class="w">کن</span></div></div>
+      <div id="cg54" class="cg"><div class="line"><span id="cw191" class="w">و</span> <span id="cw192" class="w">بعد</span> <span id="cw193" class="w em blue">کپشن رو</span> <span id="cw194" class="w">بخون.</span></div></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true, defaults: { immediateRender: false } });
+      // [group, start, end, [[word, start]...], bad]
+      const G = [
+  [0,0.000,1.000,[[0,0.050,""],[1,0.120,""],[2,0.560,"#ffc94a"]],0],
+  [1,1.000,2.020,[[3,1.060,""],[4,1.380,""],[5,1.840,""]],0],
+  [2,2.020,3.243,[[6,2.080,""],[7,2.440,"#ffc94a"]],0],
+  [3,3.243,4.193,[[8,3.303,""],[9,3.423,""],[10,3.693,""],[11,3.813,"#1d2b66"]],0],
+  [4,4.193,5.933,[[12,4.253,""],[13,4.573,"#050608"],[14,5.013,""],[15,5.553,""]],0],
+  [5,5.933,7.500,[[16,5.993,""],[17,6.653,"#ff5468"],[18,6.833,""]],0],
+  [6,7.500,8.040,[[19,7.560,""],[20,7.640,""],[21,7.840,""]],0],
+  [7,8.040,8.780,[[22,8.100,""],[23,8.300,""],[24,8.500,"#55c8ff"]],0],
+  [8,8.780,9.920,[[25,8.840,""],[26,9.520,""]],0],
+  [9,9.920,11.497,[[27,9.980,""],[28,10.400,"#ff5468"],[29,10.840,""]],0],
+  [10,11.497,12.407,[[30,11.557,""],[31,11.647,""],[32,11.827,""],[33,12.327,""]],0],
+  [11,12.407,13.887,[[34,12.467,""],[35,12.867,"#55c8ff"],[36,13.467,"#55c8ff"]],0],
+  [12,13.887,16.177,[[37,13.947,""],[38,14.047,"#ffc94a"],[39,14.627,""],[40,15.267,"#ffc94a"],[41,15.707,""]],0],
+  [13,16.177,17.587,[[42,16.237,""],[43,16.387,""],[44,17.087,"#ffc94a"]],0],
+  [14,17.587,19.127,[[45,17.647,"#55c8ff"],[46,18.397,"#55c8ff"],[47,18.867,""]],0],
+  [15,19.127,20.927,[[48,19.187,""],[49,19.907,""],[50,20.067,""],[51,20.727,""]],0],
+  [16,20.927,22.147,[[52,20.987,""],[53,21.287,"#ffc94a"],[54,21.927,""]],0],
+  [17,22.147,23.447,[[55,22.207,""],[56,22.607,"#55c8ff"]],0],
+  [18,23.447,25.047,[[57,23.507,""],[58,23.867,""],[59,24.167,"#ffc94a"],[60,24.367,""],[61,24.847,""]],0],
+  [19,25.047,26.447,[[62,25.107,""],[63,25.447,""],[64,25.887,""],[65,26.117,""],[66,26.307,""]],0],
+  [20,26.447,27.467,[[67,26.507,"#ffc94a"],[68,27.267,""]],0],
+  [21,27.467,28.717,[[69,27.527,""],[70,27.647,"#ffc94a"],[71,28.447,""]],0],
+  [22,28.717,29.887,[[72,28.777,"#ffc94a"],[73,29.227,""]],0],
+  [23,29.887,31.187,[[74,29.947,"#ffc94a"],[75,30.827,""]],0],
+  [24,31.187,31.927,[[76,31.247,""],[77,31.407,""],[78,31.567,""]],0],
+  [25,31.927,32.787,[[79,31.987,""],[80,32.427,""]],0],
+  [26,32.787,33.787,[[81,32.847,""],[82,33.147,"#ffffff"]],0],
+  [27,33.787,36.087,[[83,33.847,""],[84,34.527,""],[85,34.807,""],[86,35.347,"#ff5468"],[87,35.907,""]],0],
+  [28,36.087,37.107,[[88,36.147,"#ffc94a"],[89,36.627,""],[90,36.847,""],[91,36.987,""]],0],
+  [29,37.107,38.087,[[92,37.167,""],[93,37.287,""],[94,37.447,"#55c8ff"]],0],
+  [30,38.087,39.187,[[95,38.147,"#ffc94a"],[96,38.587,""],[97,38.867,""]],0],
+  [31,39.187,40.907,[[98,39.247,""],[99,39.907,""],[100,40.067,""],[101,40.207,"#55c8ff"]],0],
+  [32,40.907,43.107,[[102,40.967,""],[103,41.507,""],[104,41.647,"#ffc94a"],[105,42.467,""],[106,42.877,""]],0],
+  [33,43.107,44.867,[[107,43.167,""],[108,43.347,""],[109,43.487,"#55c8ff"],[110,44.167,""]],0],
+  [34,44.867,46.207,[[111,44.927,""],[112,45.527,"#ffc94a"],[113,45.867,"#ffc94a"]],0],
+  [35,46.207,47.547,[[114,46.267,""],[115,46.707,"#55c8ff"],[116,47.087,""],[117,47.427,""]],0],
+  [36,47.547,49.347,[[118,47.607,""],[119,48.047,"#ffc94a"],[120,48.447,""],[121,49.027,""]],0],
+  [37,49.347,51.207,[[122,49.407,""],[123,49.927,""],[124,50.187,"#ffc94a"],[125,50.807,""]],0],
+  [38,51.207,53.427,[[126,51.267,""],[127,51.607,""],[128,51.807,""],[129,51.967,""],[130,52.427,""],[131,52.887,""]],1],
+  [39,53.427,55.087,[[132,53.487,""],[133,53.827,""],[134,54.507,""],[135,54.907,""]],1],
+  [40,55.087,56.207,[[136,55.147,""],[137,55.587,"#3be38c"]],0],
+  [41,56.207,58.387,[[138,56.267,""],[139,56.387,""],[140,56.787,"#ffc94a"],[141,57.327,""],[142,57.427,"#ffc94a"],[143,57.907,""]],0],
+  [42,58.387,59.887,[[144,58.447,""],[145,58.787,""],[146,59.127,""],[147,59.387,"#ffc94a"]],0],
+  [43,59.887,60.947,[[148,59.947,""],[149,60.397,"#55c8ff"]],0],
+  [44,60.947,62.507,[[150,61.007,""],[151,61.227,""],[152,61.687,"#ffc94a"]],0],
+  [45,62.507,63.767,[[153,62.567,""],[154,62.687,"#ffc94a"],[155,63.227,""],[156,63.587,""]],0],
+  [46,63.767,65.427,[[157,63.827,""],[158,64.027,""],[159,64.307,"#55c8ff"],[160,64.887,"#55c8ff"]],0],
+  [47,65.427,66.147,[[161,65.487,""],[162,65.667,""],[163,65.767,""],[164,66.027,""]],0],
+  [48,66.147,67.940,[[165,66.207,""],[166,66.467,""],[167,66.717,"#ffc94a"],[168,66.967,""],[169,67.327,""]],0],
+  [49,67.940,69.460,[[170,68.000,""],[171,68.020,"#ffc94a"],[172,68.580,"#ffc94a"],[173,68.980,"#ffc94a"],[174,69.180,"#ffc94a"]],0],
+  [50,69.460,70.740,[[175,69.520,""],[176,69.820,""],[177,69.920,""],[178,70.160,""],[179,70.420,""]],0],
+  [51,70.740,72.040,[[180,70.800,""],[181,71.080,"#ffc94a"],[182,71.470,"#ffc94a"]],0],
+  [52,72.040,73.060,[[183,72.100,"#ffc94a"],[184,72.520,"#ffc94a"],[185,72.800,"#ffc94a"]],0],
+  [53,73.060,74.480,[[186,73.120,""],[187,73.660,""],[188,73.840,""],[189,74.240,"#ff5468"],[190,74.390,""]],0],
+  [54,74.480,76.190,[[191,74.540,""],[192,74.640,""],[193,74.860,"#55c8ff"],[194,75.500,""]],0]
+      ];
+      gsap.set("#captions .cg", { opacity: 0, visibility: "hidden" });
+      G.forEach(([g, s, e, words, bad], n) => {
+        const el = "#cg" + g;
+        const prevBad = n > 0 && G[n - 1][4] && !bad;
+        tl.set(el, { visibility: "visible" }, s);
+        if (bad) tl.set(el, { opacity: 1 }, s);
+        else tl.fromTo(el, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: prevBad ? 0.22 : 0.15, ease: "power2.out" }, s);
+        words.forEach(([w, t, c]) => {
+          const we = "#cw" + w;
+          if (bad) {
+            tl.fromTo(we, { opacity: 0, scale: 1.9 }, { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2.6)" }, t);
+          } else if (c) {
+            tl.fromTo(we, { opacity: 0.78, scale: 1, color: "#ffffff" }, { keyframes: [{ opacity: 1, scale: 1.16, color: c, duration: 0.1, ease: "power2.out" }, { scale: 1, duration: 0.22, ease: "back.out(2)" }] }, t);
+          } else {
+            tl.fromTo(we, { opacity: 0.78 }, { opacity: 1, duration: 0.08 }, t);
+          }
+        });
+        const nextBad = G[n + 1] && G[n + 1][4];
+        if (bad && !nextBad) {
+          // glitch out of the bad subtitle into the clean one
+          tl.to(el, { keyframes: [{ x: -18, filter: "blur(2px)" }, { x: 14 }, { x: -8, opacity: 0.5 }, { x: 0, opacity: 0, filter: "blur(12px)", scale: 0.86 }], duration: 0.2, ease: "none" }, e - 0.2);
+        } else if (!bad || !nextBad) {
+          tl.to(el, { opacity: 0, duration: 0.1, ease: "power2.in" }, e - 0.1);
+        } else {
+          tl.set(el, { opacity: 0 }, e);
+        }
+        tl.set(el, { opacity: 0, visibility: "hidden" }, e);
+      });
+      window.__timelines["captions"] = tl;
+    })();
+  </script>
+</template>

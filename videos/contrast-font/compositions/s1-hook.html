@@ -1,0 +1,108 @@
+<template>
+  <style>
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Bold.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Black.woff2") format("woff2"); font-weight: 900; }
+    @font-face { font-family: "Lalezar"; src: url("assets/fonts/Lalezar-Regular.ttf") format("truetype"); }
+    @font-face { font-family: "Blaka"; src: url("assets/fonts/Blaka-Regular.ttf") format("truetype"); }
+    @font-face { font-family: "Rakkas"; src: url("assets/fonts/Rakkas-Regular.ttf") format("truetype"); }
+    @font-face { font-family: "Aref Ruqaa"; src: url("assets/fonts/ArefRuqaa-Regular.ttf") format("truetype"); }
+    #s1 { position: absolute; inset: 0; direction: rtl; font-family: "Estedad"; }
+    #s1 .title { position: absolute; left: 0; right: 0; top: 196px; height: 250px; perspective: 900px; }
+    #s1 .t { position: absolute; left: 0; right: 0; top: 0; text-align: center; white-space: nowrap;
+             font-family: "Lalezar"; font-size: 150px; line-height: 250px; }
+    #s1 .gold { background: linear-gradient(180deg, #fff3c4 0%, #ffd45c 42%, #f2a200 78%, #ffcf5a 100%);
+                -webkit-background-clip: text; background-clip: text; color: transparent;
+                filter: drop-shadow(0 4px 0 rgba(120, 60, 0, 0.55)) drop-shadow(0 0 26px rgba(255, 184, 40, 0.55)); }
+    #s1 .navy { color: #17224a; }
+    #s1 .black { color: #07080b; }
+    #s1 .sweep { background: linear-gradient(105deg, transparent 0 42%, rgba(255, 255, 255, 0.95) 50%, transparent 58% 100%);
+                 background-size: 320% 100%; background-position: 100% 0;
+                 -webkit-background-clip: text; background-clip: text; color: transparent; mix-blend-mode: screen; }
+    #s1 .roll { font-size: 138px; }
+    #s1 .f-rakkas { font-family: "Rakkas"; }
+    #s1 .f-ruqaa { font-family: "Aref Ruqaa"; font-weight: 700; }
+    #s1 .f-blaka { font-family: "Blaka"; }
+    #s1 .uline { position: absolute; top: 418px; left: 210px; right: 210px; height: 8px; border-radius: 8px;
+                 background: linear-gradient(90deg, rgba(255, 200, 70, 0), #ffd45c 30%, #fff4cc 50%, #ffd45c 70%, rgba(255, 200, 70, 0));
+                 box-shadow: 0 0 18px rgba(255, 196, 64, 0.9), 0 0 42px rgba(255, 160, 0, 0.5); transform-origin: 100% 50%; }
+    #s1 .chip { position: absolute; top: 620px; right: 44px; display: flex; align-items: center; gap: 12px;
+                padding: 14px 24px 14px 28px; border-radius: 999px; font-weight: 900; font-size: 40px; color: #fff;
+                background: rgba(10, 14, 28, 0.62); border: 1.5px solid rgba(255, 255, 255, 0.22);
+                box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35); backdrop-filter: blur(14px); }
+    #s1 .chip i { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; font-style: normal; font-size: 30px; }
+    #s1 .ok i { background: #22d07a; box-shadow: 0 0 22px rgba(34, 208, 122, 0.8); }
+    #s1 .bad i { background: #ff4d5e; box-shadow: 0 0 22px rgba(255, 77, 94, 0.85); }
+    #s1 .swatch { position: absolute; top: 600px; right: 40px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    #s1 .swatch b { width: 104px; height: 104px; border-radius: 50%; border: 4px solid rgba(255, 255, 255, 0.85);
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), inset 0 -10px 18px rgba(0, 0, 0, 0.35), inset 0 8px 14px rgba(255, 255, 255, 0.18); }
+    #s1 .swatch span { font-weight: 900; font-size: 34px; color: #fff; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6); }
+  </style>
+  <div id="s1" data-composition-id="s1" data-width="1080" data-height="1920">
+    <div class="title">
+      <div id="s1-gold" class="t gold">کنتراست و فونت</div>
+      <div id="s1-sweep" class="t sweep">کنتراست و فونت</div>
+      <div id="s1-navy" class="t navy">کنتراست و فونت</div>
+      <div id="s1-black" class="t black">کنتراست و فونت</div>
+      <div id="s1-r1" class="t gold roll f-rakkas">کنتراست و فونت</div>
+      <div id="s1-r2" class="t gold roll f-ruqaa">کنتراست و فونت</div>
+      <div id="s1-weird" class="t gold roll f-blaka">کنتراست و فونت</div>
+    </div>
+    <div id="s1-uline" class="uline"></div>
+    <div id="s1-ok" class="chip ok"><i>✓</i>خوانا</div>
+    <div id="s1-bad" class="chip bad"><i>✕</i>ناخوانا</div>
+    <div id="s1-bad2" class="chip bad"><i>✕</i>نامناسب</div>
+    <div id="s1-sw-navy" class="swatch"><b style="background: #17224a"></b><span>سرمه‌ای</span></div>
+    <div id="s1-sw-black" class="swatch"><b style="background: #07080b"></b><span>مشکی</span></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true, defaults: { immediateRender: false } });
+      const $ = (s) => "#s1-" + s;
+      const wipeIn = (el, t, d = 0.2) => tl.fromTo($(el), { opacity: 1, clipPath: "inset(0% 0% 0% 100%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: d, ease: "power3.out" }, t);
+      const pop = (el, t) => tl.fromTo($(el), { opacity: 0, scale: 0.6, filter: "blur(6px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.32, ease: "back.out(2.2)" }, t);
+      const GLOW = "drop-shadow(0 4px 0 rgba(120,60,0,0.55)) drop-shadow(0 0 26px rgba(255,184,40,0.55))";
+      const out = (el, t, d = 0.16) => tl.to($(el), { opacity: 0, scale: 0.9, filter: "blur(6px)", duration: d, ease: "power2.in" }, t);
+
+      gsap.set([$("uline"), $("navy"), $("black"), $("r1"), $("r2"), $("weird"), $("ok"), $("bad"), $("bad2"), $("sw-navy"), $("sw-black")], { opacity: 0 });
+      // frame 0 is the cover: the gold title is already there and settles while light crosses it
+      tl.fromTo($("gold"), { scale: 1.06 }, { scale: 1, duration: 0.7, ease: "expo.out" }, 0);
+      tl.fromTo($("sweep"), { backgroundPosition: "100% 0" }, { backgroundPosition: "0% 0", duration: 0.75, ease: "power2.inOut" }, 0.05);
+      // «خواناست؟»: glowing underline + check
+      tl.fromTo($("uline"), { opacity: 1, scaleX: 0 }, { scaleX: 1, duration: 0.42, ease: "expo.out" }, 2.44);
+      pop("ok", 2.5);
+      out("ok", 3.18);
+      tl.to($("uline"), { opacity: 0, duration: 0.18 }, 3.7);
+      // «سرمه‌ای», «مشکی»: the same title, same place, loses its contrast
+      wipeIn("navy", 3.81);
+      pop("sw-navy", 3.83);
+      wipeIn("black", 4.57);
+      tl.to($("sw-navy"), { opacity: 0, duration: 0.1 }, 4.57);
+      pop("sw-black", 4.59);
+      // «خیلی بد می‌شد»: the verdict takes the swatch's place
+      out("sw-black", 5.9, 0.1);
+      pop("bad", 5.99);
+      tl.to($("black"), { keyframes: [{ x: -7 }, { x: 6 }, { x: -4 }, { x: 2 }, { x: 0 }], duration: 0.28, ease: "none" }, 6.0);
+      out("bad", 7.3);
+      // «یا اگه اونو…»: back to gold for a breath
+      tl.to([$("black"), $("navy")], { opacity: 0, duration: 0.14 }, 7.56);
+      // «با این فونت»: the font rolls like a slot machine and lands on a wrong one
+      tl.set($("gold"), { opacity: 0 }, 8.3);
+      tl.set($("r1"), { opacity: 1 }, 8.3);
+      tl.set($("r1"), { opacity: 0 }, 8.39);
+      tl.set($("r2"), { opacity: 1 }, 8.39);
+      tl.set($("r2"), { opacity: 0 }, 8.48);
+      tl.fromTo($("weird"), { opacity: 1, scale: 1.08 }, { scale: 1, duration: 0.3, ease: "back.out(2)" }, 8.48);
+      // «اصلاً قشنگ نمی‌شد»
+      pop("bad2", 9.98);
+      tl.to($("weird"), { keyframes: [{ rotation: -2.5 }, { rotation: 2 }, { rotation: -1 }, { rotation: 0 }], duration: 0.36, ease: "none" }, 10.0);
+      out("bad2", 11.12);
+      // snap back to the professional, readable title (flash + light in fx-front)
+      tl.set($("weird"), { opacity: 0 }, 11.22);
+      tl.fromTo($("gold"), { opacity: 1, scale: 1.1, filter: "brightness(1.6) " + GLOW }, { scale: 1, filter: "brightness(1) " + GLOW, duration: 0.3, ease: "expo.out" }, 11.22);
+      // exit up as the next sequence starts
+      tl.to($("sweep"), { opacity: 0, duration: 0.1 }, 11.48);
+      tl.fromTo($("gold"), { filter: "blur(0px) " + GLOW }, { y: -90, opacity: 0, filter: "blur(10px) " + GLOW, duration: 0.24, ease: "power3.in", immediateRender: false }, 11.48);
+      window.__timelines["s1"] = tl;
+    })();
+  </script>
+</template>

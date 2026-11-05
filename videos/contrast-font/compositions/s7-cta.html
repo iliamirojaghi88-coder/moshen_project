@@ -1,0 +1,51 @@
+<template>
+  <style>
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Black.woff2") format("woff2"); font-weight: 900; }
+    @font-face { font-family: "Lalezar"; src: url("assets/fonts/Lalezar-Regular.ttf") format("truetype"); }
+    #s7 { position: absolute; inset: 0; direction: rtl; font-family: "Estedad"; }
+    #s7 .chip { position: absolute; top: 204px; left: 0; right: 0; margin: auto; width: max-content; display: flex; align-items: center; gap: 16px;
+                padding: 16px 32px 18px 28px; border-radius: 999px; font-weight: 900; font-size: 44px; color: #fff;
+                background: linear-gradient(160deg, rgba(30, 40, 72, 0.72), rgba(10, 14, 30, 0.72)); border: 1.5px solid rgba(255, 255, 255, 0.28);
+                backdrop-filter: blur(16px); box-shadow: 0 16px 44px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+    #s7 .chip svg { width: 50px; height: 50px; }
+    #s7 .t { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap; }
+    #s7 .t span { display: inline-block; margin: 0 10px; }
+    #s7 .l1 { top: 150px; height: 200px; font-family: "Lalezar"; font-size: 160px; line-height: 200px; }
+    #s7 .gold { background: linear-gradient(180deg, #fff3c4 0%, #ffd45c 42%, #f2a200 80%, #ffcf5a 100%);
+                -webkit-background-clip: text; background-clip: text; color: transparent; }
+    #s7 .l2 { top: 328px; height: 130px; font-weight: 900; font-size: 98px; line-height: 130px; color: #fff; }
+    #s7 .uline { position: absolute; top: 462px; left: 290px; right: 290px; height: 8px; border-radius: 8px; transform-origin: 100% 50%;
+                 background: linear-gradient(90deg, rgba(85, 200, 255, 0), #55c8ff 25%, #e6f8ff 50%, #55c8ff 75%, rgba(85, 200, 255, 0));
+                 box-shadow: 0 0 20px rgba(85, 200, 255, 0.95), 0 0 46px rgba(40, 140, 255, 0.6); }
+  </style>
+  <div id="s7" data-composition-id="s7" data-width="1080" data-height="1920">
+    <div id="s7-chip" class="chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#ffc94a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2" /><line x1="12" y1="18" x2="12.01" y2="18" /></svg>
+      آموزش ادیت با موبایل
+    </div>
+    <div class="t l1"><span id="s7-a1" class="gold">فونت</span><span id="s7-a2" class="gold">مناسب</span></div>
+    <div class="t l2"><span id="s7-b1">حوزهٔ</span><span id="s7-b2">کاری</span><span id="s7-b3">تو</span></div>
+    <div id="s7-u" class="uline"></div>
+  </div>
+  <script>
+    (function () {
+      const T0 = 67.85, at = (t) => t - T0;
+      const tl = gsap.timeline({ paused: true, defaults: { immediateRender: false } });
+      const GG = "drop-shadow(0 6px 0 rgba(120,60,0,0.5)) drop-shadow(0 0 26px rgba(255,184,40,0.6))";
+      const GB = "drop-shadow(0 4px 14px rgba(0,10,40,0.7)) drop-shadow(0 0 22px rgba(85,200,255,0.45))";
+      gsap.set(["#s7-chip", "#s7-a1", "#s7-a2", "#s7-b1", "#s7-b2", "#s7-b3", "#s7-u"], { opacity: 0 });
+      // «من آموزش ادیت با موبایل می‌گم»
+      tl.fromTo("#s7-chip", { opacity: 0, y: -46, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, at(68.02));
+      tl.to("#s7-chip", { opacity: 0, y: -30, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, at(70.85));
+      // «چه فونتی مناسب حوزهٔ کاری توئه»: each word lands as it is said
+      [["#s7-a1", 71.08], ["#s7-a2", 71.47]].forEach(([w, t]) =>
+        tl.fromTo(w, { opacity: 0, scale: 1.25, filter: "blur(10px) " + GG }, { opacity: 1, scale: 1, filter: "blur(0px) " + GG, duration: 0.24, ease: "expo.out" }, at(t)));
+      [["#s7-b1", 72.1], ["#s7-b2", 72.52], ["#s7-b3", 72.8]].forEach(([w, t]) =>
+        tl.fromTo(w, { opacity: 0, filter: "blur(8px) " + GB }, { opacity: 1, filter: "blur(0px) " + GB, duration: 0.16, ease: "power2.out" }, at(t)));
+      tl.fromTo("#s7-u", { opacity: 1, scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "expo.out" }, at(72.85));
+      // make room for the like
+      tl.to(["#s7-a1", "#s7-a2", "#s7-b1", "#s7-b2", "#s7-b3", "#s7-u"], { y: -70, opacity: 0, duration: 0.22, ease: "power3.in", stagger: 0.015 }, at(73.6));
+      window.__timelines["s7"] = tl;
+    })();
+  </script>
+</template>

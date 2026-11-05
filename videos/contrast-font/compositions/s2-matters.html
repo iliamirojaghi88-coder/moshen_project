@@ -1,0 +1,83 @@
+<template>
+  <style>
+    @font-face { font-family: "Estedad"; src: url("assets/fonts/Estedad-Black.woff2") format("woff2"); font-weight: 900; }
+    @font-face { font-family: "Lalezar"; src: url("assets/fonts/Lalezar-Regular.ttf") format("truetype"); }
+    #s2 { position: absolute; inset: 0; direction: rtl; }
+    #s2 .row { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap; }
+    #s2 .l1wrap { top: 178px; height: 190px; perspective: 900px; }
+    #s2 .l1 { font-family: "Lalezar"; font-size: 150px; line-height: 190px; color: #fff; transform-origin: 50% 100%;
+              filter: drop-shadow(0 0 20px rgba(85, 200, 255, 0.75)) drop-shadow(0 6px 0 rgba(10, 30, 80, 0.5)); }
+    #s2 .l1 .b { color: #8fe0ff; }
+    #s2 .l2 { top: 352px; height: 170px; font-family: "Estedad"; font-weight: 900; font-size: 128px; line-height: 170px;
+              background: linear-gradient(180deg, #fff3c4 0%, #ffd45c 45%, #f2a200 82%, #ffcf5a 100%);
+              -webkit-background-clip: text; background-clip: text; color: transparent;
+              filter: drop-shadow(0 5px 0 rgba(120, 60, 0, 0.5)) drop-shadow(0 0 24px rgba(255, 184, 40, 0.6)); }
+    #s2 .sweep { top: 352px; height: 170px; font-family: "Estedad"; font-weight: 900; font-size: 128px; line-height: 170px;
+                 background: linear-gradient(105deg, transparent 0 42%, rgba(255, 255, 255, 0.95) 50%, transparent 58% 100%);
+                 background-size: 320% 100%; background-position: 100% 0; -webkit-background-clip: text; background-clip: text;
+                 color: transparent; mix-blend-mode: screen; }
+    #s2 .uline { position: absolute; top: 520px; left: 250px; right: 250px; height: 9px; border-radius: 9px; transform-origin: 100% 50%;
+                 background: linear-gradient(90deg, rgba(255, 200, 70, 0), #ffd45c 25%, #fff4cc 50%, #ffd45c 75%, rgba(255, 200, 70, 0));
+                 box-shadow: 0 0 20px rgba(255, 196, 64, 0.95), 0 0 50px rgba(255, 160, 0, 0.6); }
+    #s2 svg { position: absolute; inset: 0; overflow: visible; }
+    #s2 .flow { fill: none; stroke-linecap: round; }
+    #s2 .glow { position: absolute; width: 520px; height: 520px; border-radius: 50%; mix-blend-mode: screen;
+                background: radial-gradient(circle, rgba(255, 170, 40, 0.42), rgba(255, 120, 0, 0) 68%); }
+  </style>
+  <div id="s2" data-composition-id="s2" data-width="1080" data-height="1920">
+    <div id="s2-glowA" data-layout-allow-overflow class="glow" style="left: -180px; top: 60px"></div>
+    <div id="s2-glowB" data-layout-allow-overflow class="glow" style="right: -200px; top: 220px; background: radial-gradient(circle, rgba(70, 180, 255, 0.4), rgba(0, 120, 255, 0) 68%)"></div>
+    <svg viewBox="0 0 1080 1920">
+      <defs>
+        <linearGradient id="s2-g" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#7fdcff" />
+          <stop offset="1" stop-color="#ffc94a" />
+        </linearGradient>
+        <filter id="s2-blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7" /></filter>
+      </defs>
+      <!-- energy lines: from the ends of «کنتراست رنگی» down and around into «انتخاب فونت» -->
+      <g id="s2-lines">
+        <path id="s2-pR" class="flow" d="M 960 290 C 1060 300, 1062 420, 950 440" stroke="url(#s2-g)" stroke-width="16" filter="url(#s2-blur)" opacity="0.8" />
+        <path id="s2-pRc" class="flow" d="M 960 290 C 1060 300, 1062 420, 950 440" stroke="#fff" stroke-width="4.5" />
+        <path id="s2-pL" class="flow" d="M 120 290 C 20 300, 18 420, 130 440" stroke="url(#s2-g)" stroke-width="16" filter="url(#s2-blur)" opacity="0.8" />
+        <path id="s2-pLc" class="flow" d="M 120 290 C 20 300, 18 420, 130 440" stroke="#fff" stroke-width="4.5" />
+        <path id="s2-dR" class="flow" d="M 960 290 C 1060 300, 1062 420, 950 440" stroke="#fff6d6" stroke-width="7" stroke-dasharray="10 34" />
+        <path id="s2-dL" class="flow" d="M 120 290 C 20 300, 18 420, 130 440" stroke="#fff6d6" stroke-width="7" stroke-dasharray="10 34" />
+      </g>
+    </svg>
+    <div class="row l1wrap"><div id="s2-l1" class="row l1" style="top: 0">کنتراست <span class="b">رنگی</span></div></div>
+    <div id="s2-l2" class="row l2">انتخاب فونت</div>
+    <div id="s2-sw" class="row sweep">انتخاب فونت</div>
+    <div id="s2-u" class="uline"></div>
+  </div>
+  <script>
+    (function () {
+      const T0 = 11.4, at = (t) => t - T0; // write global times, the scene runs on local time
+      const tl = gsap.timeline({ paused: true, defaults: { immediateRender: false } });
+      const L = (id) => document.querySelector(id).getTotalLength();
+      const paths = ["#s2-pR", "#s2-pRc", "#s2-pL", "#s2-pLc"];
+      gsap.set(["#s2-l1", "#s2-l2", "#s2-sw", "#s2-u", "#s2-lines", "#s2-glowA", "#s2-glowB", "#s2-dR", "#s2-dL"], { opacity: 0 });
+      paths.forEach((p) => gsap.set(p, { strokeDasharray: L(p), strokeDashoffset: L(p) }));
+
+      // volumetric glow breathes in behind the titles
+      tl.fromTo(["#s2-glowA", "#s2-glowB"], { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" }, at(12.6));
+      // «کنتراست رنگی»: flips up from behind the head, blur to sharp
+      tl.fromTo("#s2-l1", { opacity: 0, rotationX: 82, y: 40, filter: "blur(10px) drop-shadow(0 0 20px rgba(85,200,255,0.75)) drop-shadow(0 6px 0 rgba(10,30,80,0.5))" },
+        { opacity: 1, rotationX: 0, y: 0, filter: "blur(0px) drop-shadow(0 0 20px rgba(85,200,255,0.75)) drop-shadow(0 6px 0 rgba(10,30,80,0.5))", duration: 0.5, ease: "expo.out" }, at(12.84));
+      // «انتخاب فونت»: right-to-left mask reveal, then light crosses it
+      tl.fromTo("#s2-l2", { opacity: 1, clipPath: "inset(0% 0% 0% 100%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.5, ease: "power3.out" }, at(14.02));
+      tl.fromTo("#s2-sw", { opacity: 1, backgroundPosition: "100% 0" }, { backgroundPosition: "0% 0", duration: 0.7, ease: "power2.inOut" }, at(14.4));
+      // light lines draw from line 1 into line 2, then keep flowing
+      tl.set("#s2-lines", { opacity: 1 }, at(14.02));
+      paths.forEach((p) => tl.to(p, { strokeDashoffset: 0, duration: 0.55, ease: "power2.inOut" }, at(14.02)));
+      tl.fromTo(["#s2-dR", "#s2-dL"], { strokeDashoffset: 0, opacity: 0 }, { strokeDashoffset: -264, opacity: 1, duration: 3.0, ease: "none" }, at(14.6));
+      // «مهمه»: the hit
+      tl.fromTo(["#s2-l1", "#s2-l2"], { scale: 1 }, { keyframes: [{ scale: 1.1, duration: 0.08, ease: "power2.out" }, { scale: 1, duration: 0.35, ease: "back.out(2.5)" }] }, at(17.09));
+      tl.fromTo("#s2-u", { opacity: 1, scaleX: 0 }, { scaleX: 1, duration: 0.22, ease: "expo.out" }, at(17.09));
+      tl.fromTo(["#s2-glowA", "#s2-glowB"], { scale: 1 }, { keyframes: [{ scale: 1.35, duration: 0.1 }, { scale: 1, duration: 0.4 }] }, at(17.09));
+      // out, up and blurred, as the card of sequence 3 arrives
+      tl.to(["#s2-l1", "#s2-l2", "#s2-u", "#s2-lines", "#s2-glowA", "#s2-glowB"], { y: -120, opacity: 0, duration: 0.26, ease: "power3.in", stagger: 0.02 }, at(17.62));
+      window.__timelines["s2"] = tl;
+    })();
+  </script>
+</template>

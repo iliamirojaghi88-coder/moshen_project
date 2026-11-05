@@ -1,0 +1,18 @@
+{
+  "source": "mp-studio/input/contrast-font/main.mp4",
+  "fps": 30,
+  "note": "Source frame ranges [in, out) kept. Removed: lead-in silence, tightened pauses, the first incomplete take of «پس اینجا می‌فهمیم که چقدر کنتراست رنگی» (12.77-16.10 s); the complete second take is kept.",
+  "grade": "eq=contrast=1.05:saturation=1.04:gamma=0.99,curves=all='0/0 0.20/0.17 0.55/0.55 0.85/0.88 1/1',colorbalance=rh=0.022:gh=0.007:bh=-0.02:bs=0.02,vignette=angle=PI/6",
+  "segments": [
+    {"in": 9,    "out": 106,  "why": "hook: gold text readable?"},
+    {"in": 111,  "out": 239,  "why": "navy / black"},
+    {"in": 249,  "out": 327,  "why": "this font?"},
+    {"in": 342,  "out": 383,  "why": "not pretty at all"},
+    {"in": 483,  "out": 674,  "why": "second, complete take: contrast + font matter"},
+    {"in": 689,  "out": 1049, "why": "contrast definition"},
+    {"in": 1097, "out": 1547, "why": "white + three text backgrounds"},
+    {"in": 1598, "out": 2003, "why": "right font / subtitles"},
+    {"in": 2054, "out": 2341, "why": "headlines"},
+    {"in": 2373, "out": 2634, "why": "CTA"}
+  ]
+}
