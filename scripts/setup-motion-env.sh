@@ -114,8 +114,13 @@ if [[ -d "$ROOT/.claude/skills" ]]; then
   done
 fi
 
+log "Agent plugins: graphify CLI (claude-mem installs from its own SessionStart hook)"
+# graphify — knowledge-graph CLI behind the /graphify skill and its PreToolUse hooks.
+command -v graphify >/dev/null || uv tool install -q "graphifyy==0.9.102" || true
+
 log "Health check"
 npx hyperframes doctor 2>&1 | grep -E "✓|✗" || true
 command -v skillui >/dev/null && echo "✓ skillui $(skillui --version 2>/dev/null)" || echo "✗ skillui"
 command -v strix   >/dev/null && echo "✓ strix $(strix --version 2>/dev/null | head -1)" || echo "✗ strix"
+command -v graphify >/dev/null && echo "✓ $(graphify --version 2>/dev/null)" || echo "✗ graphify"
 command -v claude  >/dev/null && { echo "MCP servers:"; claude mcp list 2>/dev/null | grep -E 'context7|playwright' || true; }

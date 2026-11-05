@@ -9,6 +9,11 @@ research engine with a licence ledger, a Blender/glTF 3D pipeline, Persian
 - HyperFrames skills are vendored in `.claude/skills/` (from `heygen-com/hyperframes`). Start HyperFrames work with `/hyperframes`; also `/hyperframes-cli`, `/hyperframes-registry` (≈450 blocks), `/media-use`.
 - Remotion work: the `remotion:*` plugin skills (`remotion-best-practices` first).
 - Design work: the `frontend-design` plugin skill, plus the UI/UX Pro Max bundle in `.claude/skills/` (from `nextlevelbuilder/ui-ux-pro-max-skill`): `/ui-ux-pro-max` (styles, palettes, font pairings, UX rules, GSAP presets — local search, no network), `/design` (router: logo, CIP, icons, banners, social images, slides), `/brand`, `/design-system`, `/ui-styling`, `/slides`, `/banner-design`. Their AI generators (`design` logo/icon/CIP via Gemini, Atlas, MuAPI) are paid AI imagery: same rules as `tools/ai/gemini.mjs` — only with the user's explicit OK per generation. Persian/RTL and the project's `styles/` take precedence over their defaults.
+- Engineering plugins, vendored into `.claude/` and wired in `.claude/settings.json` (cloud sessions don't install plugins; details in `docs/AGENT-SKILLS-fa.md`):
+  - **Ponytail** (`DietrichGebert/ponytail`): always on at `full`; `/ponytail lite|full|ultra|off`, `/ponytail-review`, `/ponytail-audit`, `/ponytail-debt`. The rules in this file outrank its minimalism: required steps (checks, QC, licences, ledger rows) are never cut.
+  - **Graphify** (`Graphify-Labs/graphify`, CLI `graphify`): `/graphify .` builds `graphify-out/`; see the graphify section below.
+  - **Agent Skills** (`addyosmani/agent-skills`): 25 lifecycle skills, agents `code-reviewer`, `security-auditor`, `test-engineer`, `web-performance-auditor`; commands `/spec`, `/planning`, `/build`, `/test`, `/quality-review`, `/code-simplify`, `/ship`, `/constraints`, `/webperf` (`/plan` and `/review` stay the built-ins).
+  - **claude-mem** (`thedotmack/claude-mem`): automatic memory of each session's work, injected at the next session start; search with `/mem-search` or the `claude-mem` MCP tools. Memory lives in `~/.claude-mem` of the container. Wrap secrets in `<private>…</private>` so they are not stored.
 
 ## Layout
 
@@ -41,3 +46,14 @@ research engine with a licence ledger, a Blender/glTF 3D pipeline, Persian
 - Persian captions: `hyperframes transcribe <audio> --engine whisper --model medium --language fa`; when the script is known, `scripts/captions-fa-from-script.py` keeps its exact wording. A user-supplied voice file is used as-is; never generate a replacement voice unasked.
 - Full renders only with the user's OK. `hyperframes cloud render` and `publish` bill/publish — never without explicit approval.
 - Run `scripts/qc-video.sh <mp4>` on every render before delivering.
+
+## graphify
+
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+
+Rules:
+- When graphify-out/graph.json exists, run `graphify query "<question>"` before your first grep, search or source-file read for a codebase question, and put this rule in every subagent prompt that explores code. Read raw files only for lines the graph or an earlier read already located. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+- A committed graphify-out/graph.json is rewritten whole on every build, so a large diff to it in a pull request is expected. Do not flag it as churn or suggest skipping the graph rebuild or its hooks.

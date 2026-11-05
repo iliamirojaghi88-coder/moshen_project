@@ -132,3 +132,108 @@
   ```bash
   npx -y ui-ux-pro-max-cli@2.15.0 init --ai claude --global --offline
   ```
+
+## چهار پلاگین مهندسی: Ponytail، Graphify، Agent Skills، Claude Mem
+
+### منبع‌های واقعی
+
+| نام | منبع | نسخه (کامیت) | مجوز | نوع |
+|---|---|---|---|---|
+| Ponytail | `DietrichGebert/ponytail` (npm: `@dietrichgebert/ponytail`) | 5.3.3 (`96608e0`) | MIT | پلاگین: ۶ اسکیل + هوک |
+| Graphify | `safishamsi/graphify` (اکنون `Graphify-Labs/graphify`)، PyPI: `graphifyy` | 0.9.102 (`59b5ab1`) | Apache-2.0 (+ بخش‌های قدیمی MIT) | CLI پایتون + اسکیل + هوک |
+| Agent Skills | `addyosmani/agent-skills` | 0.6.15 (`301b02b`) | MIT | پلاگین: ۲۵ اسکیل، ۴ ایجنت، فرمان‌ها |
+| Claude Mem | `thedotmack/claude-mem` | 15.9.0 (`d8bf121`) | Apache-2.0 | پلاگین: هوک + سرویس worker + MCP |
+
+متن مجوزها در `.claude/licenses/` است. همهٔ فایل‌ها پیش از افزوده شدن خوانده شدند.
+
+### چرا «vendor» شدند و نه `/plugin install`
+
+مستندات رسمی Claude Code می‌گوید نشست ابری پلاگین‌هایی را که در `enabledPlugins` /
+`extraKnownMarketplaces` آمده‌اند **نصب نمی‌کند**، ولی `.claude/skills/`، `.claude/agents/`،
+`.claude/commands/`، هوک‌های `.claude/settings.json` و `.mcp.json` ریپو را در هر نشست بار می‌کند.
+پس محتوای هر چهار پلاگین مستقیماً در `.claude/` قرار گرفت و هوک‌هایشان در `.claude/settings.json`
+ثبت شد؛ هر چت تازه‌ای که از `main` شروع شود همه را خودکار دارد.
+
+### ۱. Ponytail — حالت «سنیور تنبل»
+
+- **چه کرد:** هر نشست قوانینش را تزریق می‌کند: کوچک‌ترین تغییر کاملی که مسئله را حل کند (YAGNI،
+  اول کتابخانهٔ استاندارد، بدون انتزاع اضافه)، و آخر هر پاسخ می‌گوید چه چیزی بررسی نشد.
+  به زیرعامل‌ها هم تزریق می‌شود. قوانین `CLAUDE.md` پروژه بر آن مقدم‌اند: QC، چک‌ها، مجوزها و
+  ردیف‌های ledger هرگز «حذف» نمی‌شوند.
+- **مسیرها:** `.claude/skills/ponytail*` (۶ اسکیل)، `.claude/hooks/ponytail/` (هوک‌های SessionStart،
+  UserPromptSubmit و SubagentStart).
+- **فرمان‌ها:** `/ponytail lite|full|ultra|off` (پیش‌فرض `full`)، «stop ponytail» برای خاموش‌کردن،
+  `/ponytail-review` (بازبینی تغییر)، `/ponytail-audit` (ممیزی کل ریپو)، `/ponytail-debt`،
+  `/ponytail-gain`، `/ponytail-help`.
+- **تغییر نسبت به نسخهٔ اصلی:** (۱) مسیر `SKILL.md` در `ponytail-instructions.js` با چیدمان
+  `.claude/` تطبیق داده شد؛ (۲) پیشنهاد نصب status line در نشست ابری حذف شد (آنجا نمایش داده
+  نمی‌شود)؛ (۳) `.claude/` از «نقشهٔ کد» حذف شد تا فقط کد خود پروژه دیده شود؛ (۴) یک
+  `package.json` با `"type": "commonjs"` کنار هوک‌ها، چون `package.json` ریشه ES module است.
+  نوار «band» فقط در نصب پلاگینی ترمینال/دسکتاپ کار می‌کند و منتقل نشد.
+
+### ۲. Graphify — گراف دانش از کد و اسناد
+
+- **چه کرد:** CLI با `uv tool install graphifyy==0.9.102` نصب شد (اسکریپت `setup-motion-env.sh`
+  در هر نشست دوباره نصبش می‌کند). اسکیل با `graphify install --project` و بخش قوانین
+  `CLAUDE.md` و هوک‌های PreToolUse با `graphify claude install --project` ساخته شدند.
+- **استفاده:** `/graphify .` گراف را در `graphify-out/` می‌سازد (HTML تعاملی، `graph.json`،
+  `GRAPH_REPORT.md`). از آن به بعد Claude پیش از grep/خواندن فایل، `graphify query "<سؤال>"`
+  می‌زند؛ پس از تغییر کد: `graphify update .` (فقط AST، بدون هزینهٔ API).
+- **وضعیت:** گراف هنوز ساخته نشده؛ تا وقتی `graphify-out/graph.json` نباشد هوک‌ها بی‌صدا هستند.
+- **تغییر نسبت به نسخهٔ اصلی:** فرمان هوک‌ها داخل `if command -v graphify` پیچیده شد تا اگر CLI
+  هنوز نصب نشده، خطا ندهند. اجرای دوبارهٔ `graphify claude install` آن‌ها را به شکل اصلی برمی‌گرداند.
+
+### ۳. Agent Skills (Addy Osmani) — چرخهٔ کامل مهندسی
+
+- **چه کرد:** ۲۵ اسکیل (spec، planning، TDD، debugging، code review، security، performance،
+  shipping، …) در `.claude/skills/`، مرجع‌های مشترکشان در `.claude/references/`، چهار ایجنت در
+  `.claude/agents/` و فرمان‌ها در `.claude/commands/`.
+- **فرمان‌ها:** `/spec`، `/planning`، `/build`، `/test`، `/quality-review`، `/code-simplify`،
+  `/ship`، `/constraints`، `/webperf`.
+- **ایجنت‌ها:** `code-reviewer`، `security-auditor`، `test-engineer`، `web-performance-auditor`.
+- **تغییر نسبت به نسخهٔ اصلی:** `/plan` و `/review` فرمان‌های داخلی Claude Code هستند، پس
+  به `/planning` (همان نامی که خود ریپو برای Gemini گذاشته) و `/quality-review` تغییر نام دادند.
+  پیشوند فضای‌نام `agent-skills:` از متن فرمان‌ها برداشته شد. هوک‌های اختیاری ریپو (sdd-cache و
+  simplify-ignore) در پلاگین اصلی هم فعال نیستند و منتقل نشدند.
+
+### ۴. Claude Mem — حافظهٔ پایدار بین نشست‌ها
+
+- **چه کرد:** نصب‌کنندهٔ رسمی (`npx claude-mem@15.9.0 install --ide claude-code --provider claude`)
+  اجرا شد: Bun، uv، worker، پایگاه SQLite و Chroma، و لانچر `~/.local/bin/claude-mem`.
+  همهٔ هوک‌های پلاگین (SessionStart، UserPromptSubmit، PreToolUse، PostToolUse، Stop،
+  SubagentStop، SessionEnd) از طریق `.claude/hooks/claude-mem.sh` در `.claude/settings.json`
+  ثبت شدند و سرور MCP با نام `claude-mem` در `.mcp.json`.
+- **در چت تازه:** کانتینر ابری هر بار تازه است؛ هوک SessionStart در پس‌زمینه در حدود ۴۵ ثانیه
+  claude-mem را نصب می‌کند (آزمایش شد) و worker را بالا می‌آورد. تا آن موقع هوک‌های دیگر بی‌صدا هستند.
+- **ارائه‌دهندهٔ مدل:** `claude` با مدل `haiku` روی همان اشتراک Claude شما؛ هیچ کلید یا حساب
+  cmem.ai لازم نیست. Telemetry ناشناس خاموش است (`CLAUDE_MEM_TELEMETRY=0`). هر فراخوانی ابزار یک
+  مشاهده می‌سازد که با haiku خلاصه می‌شود، پس کمی از سهمیهٔ مصرف شما را می‌گیرد. برای مشاهدهٔ کمتر،
+  `"CLAUDE_MEM_MODE": "code--chill"` را در `~/.claude-mem/settings.json` بگذارید.
+- **استفاده:** خودکار است. جست‌وجو: `/mem-search` یا ابزارهای `mcp__claude-mem__search`،
+  `timeline`، `get_observations`. اسکیل‌های منتقل‌شده: `mem-search`، `how-it-works`،
+  `timeline-report`، `weekly-digests`، `knowledge-agent`، `backup-setup`، `handoff`، `learn-codebase`.
+  اطلاعات حساس را در `<private>…</private>` بگذارید تا ذخیره نشود.
+- **اسکیل‌هایی که منتقل نشدند (۲۲ از ۳۰):** بیشترشان ابزار توسعه و انتشار خود claude-mem‌اند
+  (`build`، `do`، `make-plan`، `release`، `version-bump`، `babysit`، …) و چند نامشان بدون فضای‌نام
+  با `/build` و دیگر فرمان‌ها تداخل دارد؛ چندتا به سرویس بیرونی وابسته‌اند (`cloud-sync` و TeamBrain
+  روی cmem.ai، `screenpipe`)؛ و `smart-explore` با Graphify در «روش کاوش کد» رقابت می‌کرد.
+- **محدودیت مهم (صادقانه):** پایگاه حافظه در `~/.claude-mem` **داخل کانتینر** است. در همان
+  کانتینر (ادامهٔ همان چت) کامل کار می‌کند، اما کانتینر هر چت تازه از صفر شروع می‌شود و حافظهٔ
+  چت‌های قبلی را ندارد. برای انتقال حافظه بین چت‌های تازه دو راه هست (هیچ‌کدام بدون اجازهٔ شما
+  فعال نشد): (الف) ذخیرهٔ snapshot پایگاه (`claude-mem backup run`) در ریپو و بازیابی خودکار در
+  شروع نشست، که یعنی خلاصهٔ کارها در گیت‌هاب ذخیره می‌شود؛ (ب) Cloud Sync سرویس cmem.ai با حساب خودتان.
+
+### روی کامپیوتر خودتان
+
+هوک‌ها و اسکیل‌ها از همین ریپو روی Claude Code ترمینال/دسکتاپ هم کار می‌کنند. claude-mem روی
+سیستم شخصی خودکار نصب نمی‌شود؛ یک‌بار `npx claude-mem install` بزنید. اگر پلاگین رسمی
+`ponytail@ponytail` یا `claude-mem@thedotmack` را جداگانه فعال کنید، هوک‌های پروژه خودشان کنار
+می‌روند تا دوبار اجرا نشوند.
+
+### تأیید نصب
+
+یک نشست تودرتوی `claude -p` در همین ریپو این‌ها را گزارش کرد: بلوک `PONYTAIL MODE ACTIVE —
+level: full` و زمینهٔ claude-mem در شروع نشست، اسکیل‌های `ponytail*`، `mem-search`، `graphify`،
+`using-agent-skills`، `spec-driven-development`، فرمان‌های `/spec` تا `/ship`، چهار ایجنت، ابزارهای
+`mcp__claude-mem__*` (۱۹ ابزار) و پوشهٔ `.claude/hooks`. `graphify 0.9.102` نصب است و نصب claude-mem
+در HOME خالی (شبیه کانتینر تازه) در ۴۵ ثانیه موفق شد.
