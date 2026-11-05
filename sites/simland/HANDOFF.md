@@ -4,7 +4,18 @@ Branch: `ccr-d2e3e0ff-1uszuu` (latest). Deliverable: `sites/simland/dist/index.h
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-11-05, pre-launch hardening + hero headline)
+## Exact stop point (2026-11-05, loading screen)
+
+- `#loader` (src/index.html, top of <body>), CSS «loading screen» block, home.js «loading screen»: CSS bar 0 → 92 % in 2.6 s
+  from first paint; home.js finishes it after fonts + hero pictures decode (+ the live hero's first frame, waited for at
+  most 3 s), never before 2.6 s, at most 8 s; fade 0.6 s; `html.is-loading` pauses the hero entrance and locks scroll
+  (gutter kept, dark). Head script: adds `js is-loading`, lifts after 12 s whatever happens (`.loaded`). Reduced
+  motion: no animation, closes when ready. Focused test (scratchpad loader.cjs): 7 cases, 0 errors, 0 CSP violations;
+  no WebGL / catalogue link close at ~3.7 s; with WebGL the close is late here only because SwiftShader blocks the
+  main thread while compiling the hero shaders. The big QA suites were not re-run (user's instruction); their click
+  timing now includes the ~3.5 s loader.
+
+## Previous stop point (2026-11-05, pre-launch hardening + hero headline)
 
 - Branch: `ccr-d2e3e0ff-1uszuu`; rollback point: commit `919fed9` (state before this step; the local tag `simland-pre-hardening-919fed9` could not be pushed: the session's git proxy only accepts the branch).
 - Solar: the extra product `solar-cable-simland` is gone; `solar-panel-cable` (same id, name, code H1Z2Z2-K,

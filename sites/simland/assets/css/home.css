@@ -182,6 +182,99 @@ svg {
   cursor: default;
 }
 
+/* ---------------------------------------------------------------- loading screen
+   Shown with script only (.js). The bar runs on CSS from the first paint, 0 → 92 % in 2.6 s, and waits there until
+   home.js has what the first view needs; then it fills, the screen fades and the hero's own entrance plays
+   (paused under .is-loading). The head script lifts it after 12 s whatever happens (.loaded). */
+.loader {
+  display: none;
+}
+
+.js .loader {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: radial-gradient(58% 46% at 50% 48%, #16191f 0%, #0c0d10 72%) #0c0d10;
+  transition: opacity 0.6s var(--ease), visibility 0s linear 0.6s;
+}
+
+.js .loader.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loaded .loader {
+  display: none;
+}
+
+.loader-in {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  width: min(260px, 68vw);
+}
+
+.loader-text {
+  color: rgba(236, 241, 248, 0.9);
+  font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.08rem);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.loader-bar {
+  position: relative;
+  width: 100%;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* fills from the right, as the page reads */
+.loader-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(270deg, #0a6cf0, #37b6ff);
+  box-shadow: 0 0 14px rgba(55, 182, 255, 0.55);
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  animation: loader-run 2.6s cubic-bezier(0.37, 0, 0.18, 1) forwards;
+}
+
+@keyframes loader-run {
+  to {
+    transform: scaleX(0.92);
+  }
+}
+
+/* while it shows: the page behind does not scroll (the gutter kept and dark, so nothing shifts or shows), and the
+   hero's entrance waits for the reveal */
+html.is-loading {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+  background: #0c0d10;
+}
+
+.is-loading .hero-copy > *,
+.is-loading .hero-actions,
+.is-loading .scene {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-fill {
+    animation: none;
+  }
+  .js .loader {
+    transition: none;
+  }
+}
+
 /* ---------------------------------------------------------------- hero */
 
 .hero {

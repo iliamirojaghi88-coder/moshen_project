@@ -522,6 +522,48 @@ document.querySelectorAll('.ccard-copy').forEach((button) => {
   });
 });
 
+// ---------------------------------------------------------------- loading screen
+// The bar fills on CSS from the first paint and waits at 92 %; it is finished here once the first view is really
+// ready: the fonts and the hero picture, and the live hero's first frame if it comes within 3 s (the still picture
+// under it is the same image, so a slower device is shown that one). The bar is full at about 3 s; never later than
+// 8 s, so a slow device or connection still gets the page. Reduced motion: it closes as soon as that is ready,
+// without animation.
+const loader = document.getElementById('loader');
+let heroLive = () => {};
+const heroLiveDone = new Promise((resolve) => (heroLive = resolve));
+if (loader) {
+  const MIN = reducedMotion ? 0 : 2600;
+  const MAX = 8000;
+  const root = document.documentElement;
+  const homeShown = !document.getElementById('top').hidden;
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, Math.max(0, ms - performance.now())));
+  const pictures = [...document.querySelectorAll('.hero img')].map((img) => img.decode().catch(() => {}));
+  const ready = Promise.all([document.fonts.ready, ...pictures, homeShown && !reducedMotion ? Promise.race([heroLiveDone, wait(3000)]) : null]);
+  Promise.race([Promise.all([ready, wait(MIN)]), wait(MAX)]).then(() => {
+    const reveal = () => {
+      loader.classList.add('is-leaving');
+      root.classList.remove('is-loading');
+      setTimeout(() => {
+        root.classList.add('loaded');
+        loader.remove();
+      }, reducedMotion ? 0 : 650);
+    };
+    if (reducedMotion) {
+      reveal();
+      return;
+    }
+    // from where the CSS bar is now to the end, then the fade
+    const fill = loader.querySelector('.loader-fill');
+    const at = getComputedStyle(fill).transform;
+    fill.style.animation = 'none';
+    fill.style.transform = at === 'none' ? 'scaleX(0)' : at;
+    fill.getBoundingClientRect();
+    fill.style.transition = 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)';
+    fill.style.transform = 'scaleX(1)';
+    setTimeout(reveal, 420);
+  });
+}
+
 // ---------------------------------------------------------------- the live hero
 
 const host = document.querySelector('[data-scene]');
@@ -550,9 +592,16 @@ createLiveHero({
   power: data.power,
   images,
   reducedMotion,
-  onLive: () => host.classList.add('is-live'),
+  onLive: () => {
+    host.classList.add('is-live');
+    heroLive();
+  },
 })
   .then((hero) => {
     if (hero) window.__hero = hero;
+    else heroLive(); // no live hero here (no WebGL): the still picture is the first view
   })
-  .catch((err) => console.warn('[simland] live hero off:', err.message));
+  .catch((err) => {
+    heroLive();
+    console.warn('[simland] live hero off:', err.message);
+  });
