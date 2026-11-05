@@ -87,7 +87,7 @@ if command -v dockerd >/dev/null && ! docker info >/dev/null 2>&1; then
   for _ in $(seq 1 15); do docker info >/dev/null 2>&1 && break; sleep 1; done
 fi
 
-log "Global agent skills & tools (Playwright, unslop, strix, skillui, context7, llm-council, UI/UX Pro Max)"
+log "Global agent skills & tools (Playwright, unslop, strix, skillui, context7, llm-council, UI/UX Pro Max, find-skills)"
 # skillui — design-system extractor from live URLs / repos (npm global).
 command -v skillui >/dev/null || npm install -g skillui --no-audit --no-fund >/dev/null 2>&1 || true
 # strix — authorized security auditing CLI (needs Docker + a user-supplied LLM key at run time).
@@ -108,7 +108,8 @@ if [[ -d "$ROOT/.claude/skills" ]]; then
   mkdir -p "$HOME/.claude/skills"
   # UI/UX Pro Max bundle (nextlevelbuilder/ui-ux-pro-max-skill): 7 sibling skills that
   # call each other's scripts via ../<skill>/scripts/, so they are always copied together.
-  for s in playwright unslop strix-security skillui context7 llm-council \
+  # find-skills (vercel-labs/skills): pinned copy, restored offline instead of `npx skills add -g`.
+  for s in playwright unslop strix-security skillui context7 llm-council find-skills \
            ui-ux-pro-max design brand design-system ui-styling slides banner-design; do
     [[ -d "$ROOT/.claude/skills/$s" ]] && cp -a "$ROOT/.claude/skills/$s" "$HOME/.claude/skills/" 2>/dev/null || true
   done
@@ -125,4 +126,5 @@ npx hyperframes doctor 2>&1 | grep -E "✓|✗" || true
 command -v skillui >/dev/null && echo "✓ skillui $(skillui --version 2>/dev/null)" || echo "✗ skillui"
 command -v strix   >/dev/null && echo "✓ strix $(strix --version 2>/dev/null | head -1)" || echo "✗ strix"
 command -v graphify >/dev/null && echo "✓ $(graphify --version 2>/dev/null)" || echo "✗ graphify"
+[[ -f "$HOME/.claude/skills/find-skills/SKILL.md" ]] && echo "✓ find-skills" || echo "✗ find-skills"
 command -v claude  >/dev/null && { echo "MCP servers:"; claude mcp list 2>/dev/null | grep -E 'context7|playwright' || true; }
