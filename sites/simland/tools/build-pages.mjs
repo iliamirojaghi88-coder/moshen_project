@@ -452,7 +452,7 @@ async function inlineJs() {
 async function page(single) {
   const html = await readFile(at('src/index.html'), 'utf8');
   const headAssets = single
-    ? `  <link rel="icon" href="${await dataUri(at('assets/images/favicon.svg'))}" type="image/svg+xml">
+    ? `  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <style>${await inlineCss()}</style>`
     : `  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/estedad-arabic-wght.woff2" as="font" type="font/woff2" crossorigin>
@@ -529,7 +529,12 @@ console.log(`copied ${pdf} to dist/ (unchanged, ${((await readFile(at(pdf))).len
 // response headers for the server the folder is deployed to (deploy/: Apache .htaccess, Netlify / Cloudflare _headers)
 await copyFile(at('deploy/htaccess'), at('dist/.htaccess'));
 await copyFile(at('deploy/_headers'), at('dist/_headers'));
-console.log('copied deploy/htaccess and deploy/_headers to dist/');
+// search: crawl rules, the sitemap (the one indexable address: the catalogue views are #/… views of this page) and
+// the site icon as a file
+await copyFile(at('deploy/robots.txt'), at('dist/robots.txt'));
+await copyFile(at('deploy/sitemap.xml'), at('dist/sitemap.xml'));
+await copyFile(at('assets/images/favicon.svg'), at('dist/favicon.svg'));
+console.log('copied .htaccess, _headers, robots.txt, sitemap.xml, favicon.svg to dist/');
 
 // The same page as ONE file that also carries the catalogue, for sending the page on
 // its own (a file opened by itself cannot reach a folder next to it): the PDF, byte
@@ -537,7 +542,10 @@ console.log('copied deploy/htaccess and deploy/_headers to dist/');
 // opens it in a new tab from a blob address.
 const pdfData = (await readFile(at(pdf))).toString('base64');
 const end = single.lastIndexOf('</body>');
-const standalone = `${single.slice(0, end)}<script type="application/pdf;base64" id="catalog-pdf">${pdfData}</script>\n${single.slice(end)}`;
+// the deployed page links its icon as a file (search engines show a site icon only from a real URL); the file sent on
+// its own carries it inside
+const icon = `<link rel="icon" href="${await dataUri(at('assets/images/favicon.svg'))}" type="image/svg+xml">`;
+const standalone = `${single.slice(0, end).replace('<link rel="icon" href="favicon.svg" type="image/svg+xml">', () => icon)}<script type="application/pdf;base64" id="catalog-pdf">${pdfData}</script>\n${single.slice(end)}`;
 await mkdir(at('dist-standalone'), { recursive: true });
 await writeFile(at('dist-standalone/simland-home-standalone.html.tmp'), standalone);
 await rename(at('dist-standalone/simland-home-standalone.html.tmp'), at('dist-standalone/simland-home-standalone.html'));
