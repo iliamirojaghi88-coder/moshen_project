@@ -1,0 +1,24 @@
+# SimLand — response headers for Apache (shared hosting). Copied to dist/.htaccess by tools/build-pages.mjs.
+# Each block applies only when its module is loaded, so a host without it serves the site unchanged (no 500).
+# Policies the page cannot set itself from a <meta> tag: framing, MIME sniffing, HTTPS pinning, cache rules.
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Content-Security-Policy "frame-ancestors 'self'"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  # only on HTTPS responses: a plain-HTTP site is never pinned
+  Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
+  # the page is one file: always revalidated, so a new version is seen at once
+  <FilesMatch "\.html?$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "\.pdf$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
+<IfModule mod_filter.c>
+  <IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html
+  </IfModule>
+</IfModule>

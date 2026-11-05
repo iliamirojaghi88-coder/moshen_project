@@ -15,6 +15,7 @@ Superseded for the site (2026-11-04): the telecom photos now come from the clien
 tools/cutout-black.py; this script writes its results as *-previous.png so it never overwrites them. Its
 functions (model_alpha, solid) are still used by the other cut-out tools.
 """
+import hashlib
 from pathlib import Path
 
 import cv2
@@ -28,8 +29,11 @@ URL = 'https://github.com/danielgatis/rembg/releases/download/v0.0.0/isnet-gener
 BODY_Y = 680
 CAT = ROOT / 'source/catalog'
 
+MODEL_SHA = '60920e99c45464f2ba57bee2ad08c919a52bbf852739e96947fbb4358c0d964a'  # rembg release v0.0.0
 if not MODEL.exists():
     raise SystemExit(f'model missing: download {URL} to {MODEL}')
+if hashlib.sha256(MODEL.read_bytes()).hexdigest() != MODEL_SHA:
+    raise SystemExit(f'{MODEL} is not the expected file (SHA-256 differs): download it again from {URL}')
 sess = ort.InferenceSession(str(MODEL), providers=['CPUExecutionProvider'])
 
 

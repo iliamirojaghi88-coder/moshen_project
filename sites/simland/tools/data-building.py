@@ -276,17 +276,15 @@ for x in d['products']:
     if x['id'] == 'control-flexible-shielded-cable':
         x['gallery'] = [tech('control-flexible-shielded-cable-section', 'مقطع کابل کنترل افشان شیلددار: روکش PVC مشکی، شیلد بافته (سیم‌های مسی)، فویل آلومینیومی، عایق PVC سفید، سیم ارت سبز و زرد، هادی مسی افشان')]
 
-# «کابل سولار»: the client's SimLand render as a product of its own, next to «کابل پنل خورشیدی (سولار)» (no
-# duplicate: that product keeps its photo and texts). No name or data came with the render: the page says only
-# what the photo shows and points to the contact panel for specifications, sizes and price.
-SOLAR = collections.OrderedDict(
-    id='solar-cable-simland', category='solar', name='کابل سولار سیم‌لند', image='solar-cable-simland', bleed='bottom',
-    imageAlt='کابل سولار سیم‌لند: هادی مسی رشته‌ای، عایق صورتی و روکش مشکی',
-    sourceNote="the client's SimLand render only (2026-11-04); name and every technical value to be supplied by the client",
-    sections=[specs(row('ساختار ظاهری', 'هادی مسی رشته‌ای، عایق صورتی و روکش مشکی')),
-              {'id': 'ask', 'title': 'مشخصات و قیمت', 'content': [
-                  {'p': 'برای دریافت مشخصات فنی، سایزها و قیمت روز این کابل، روی', 'cta': 'ارتباط با ما', 'after': 'بزنید.'}]}])
-d['products'] = [x for x in d['products'] if x['category'] != 'building' and x['id'] != SOLAR['id']] + products + [SOLAR]
+# «کابل سولار»: the client's SimLand render (SIMLAND CABLE on the sheath) is the photo of the one solar product,
+# «کابل پنل خورشیدی (سولار)»; its id, name, code, texts and URL stay as they are. The render runs on past the
+# bottom of its frame (tools/cutout-upright.py open_end), so the photo is drawn against the bottom edge.
+for x in d['products']:
+    if x['id'] == 'solar-panel-cable':
+        x['image'] = 'solar-cable-simland'
+        x['bleed'] = 'bottom'
+        x['imageAlt'] = 'کابل پنل خورشیدی (سولار) سیم‌لند: هادی مسی رشته‌ای، عایق صورتی و روکش مشکی با نوشته‌ی SIMLAND CABLE'
+d['products'] = [x for x in d['products'] if x['category'] != 'building' and x['id'] != 'solar-cable-simland'] + products
 cats = [c for c in d['categories'] if c['id'] != 'building']
 cats.append(collections.OrderedDict(id='building', name='سیم و کابل ساختمانی', accent='ساختمانی', description='', homeCard='fire-resistant',
                                     items=[p['id'] for p in products[:13]] + ['telecom-indoor-cable', 'telecom-outdoor-cable', 'building-coaxial-cable']))

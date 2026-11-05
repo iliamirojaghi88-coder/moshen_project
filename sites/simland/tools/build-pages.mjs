@@ -184,8 +184,43 @@ async function contactArt(single) {
 // after the home page; home.js shows the one the address asks for. In the
 // one-file page each product photo is embedded once (#media-data) and set on its
 // <img data-media> when a page is shown.
+// The catalogue's ids, image names and values go into attributes and file paths as they are: a value that is not
+// a plain token stops the build (a typo must never become markup or a path outside assets/images/catalog).
 async function catalog() {
-  return JSON.parse(await readFile(at('assets/data/catalog.json'), 'utf8'));
+  const data = JSON.parse(await readFile(at('assets/data/catalog.json'), 'utf8'));
+  const { products: cards } = JSON.parse(await readFile(at('source/mapping.json'), 'utf8'));
+  const token = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+  const fail = (what) => { throw new Error(`catalog.json: ${what}`); };
+  const need = (v, re, what) => { if (typeof v !== 'string' || !re.test(v)) fail(`${what} ${JSON.stringify(v)}`); };
+  const ids = new Set();
+  for (const c of data.categories) {
+    need(c.id, token, 'category id');
+    if (!cards.some((m) => m.slug === c.homeCard)) fail(`category ${c.id}: home card ${c.homeCard} not in mapping.json`);
+  }
+  for (const p of data.products) {
+    need(p.id, token, 'product id');
+    if (ids.has(p.id)) fail(`duplicate product ${p.id}`);
+    ids.add(p.id);
+    if (!data.categories.some((c) => c.id === p.category)) fail(`${p.id}: unknown category ${p.category}`);
+    if (p.cardZoom !== undefined && !(typeof p.cardZoom === 'number' && p.cardZoom > 0 && p.cardZoom < 4)) fail(`${p.id}: cardZoom`);
+    for (const x of [p, ...(p.gallery || [])]) {
+      need(x.image, token, `${p.id}: image`);
+      if (x.bleed !== undefined) need(x.bleed, /^(left|right|top|bottom)( (left|right|top|bottom))*$/, `${p.id}: bleed`);
+      if (x.kind !== undefined && x.kind !== 'technical') fail(`${p.id}: kind ${x.kind}`);
+      await readFile(at('assets/images/catalog', `${x.image}.webp`)).catch(() => fail(`${p.id}: missing image ${x.image}.webp`));
+    }
+    for (const s of p.sections || []) {
+      need(s.id, token, `${p.id}: section id`);
+      for (const r of s.specs || []) {
+        for (const c of r.colors || []) {
+          need(c.hex, /^#[0-9a-f]{6}$/i, `${p.id}: colour`);
+          if (c.slide !== undefined && !(Number.isInteger(c.slide) && c.slide >= 0 && c.slide <= (p.gallery || []).length)) fail(`${p.id}: colour slide`);
+        }
+      }
+    }
+  }
+  for (const c of data.categories) for (const id of c.items || []) if (!ids.has(id)) fail(`category ${c.id}: unknown item ${id}`);
+  return data;
 }
 
 async function catalogPages(single) {
@@ -291,10 +326,10 @@ ${c.about.map((b, i) => (b.h ? `        <h2 class="rv-about-h"${i === 0 ? ` id="
     const cards = [];
     for (const p of items) {
       cards.push(`          <li class="acard">
-            <article class="acard-in" aria-labelledby="acard-${p.id}">
+            <article class="acard-in" aria-labelledby="acard-${c.id}-${p.id}">
               <a class="acard-link" href="#/products/${p.category}/${p.id}">
                 <span class="acard-media">${await img(p, 'acard-img', false)}</span>
-                <span class="acard-body"><span class="acard-title" id="acard-${p.id}" role="heading" aria-level="2">${esc(p.name)}</span></span>
+                <span class="acard-body"><span class="acard-title" id="acard-${c.id}-${p.id}" role="heading" aria-level="2">${esc(p.name)}</span></span>
               </a>
               ${inquiry(p, 'acard-inquiry')}
             </article>
@@ -441,7 +476,30 @@ async function page(single) {
   // function replacements: the inlined code may contain "$&"-style sequences
   let out = html;
   for (const [mark, value] of Object.entries(parts)) out = out.replace(mark, () => value);
-  return out;
+  return single ? withPolicy(out) : out;
+}
+
+// The one-file page carries everything it uses, so its policy allows no other origin: scripts only by the hash of
+// the two executable inline scripts (JSON / PDF data blocks are never run), styles inline, images and fonts from
+// the page itself (data:) and the résumé (blob:), requests only to its own address and its own blob: copies (the résumé check). Response
+// headers (frame-ancestors, nosniff, HSTS…) are in deploy/ for the server.
+function withPolicy(html) {
+  const hashes = [...html.matchAll(/<script(?:\s+type="module")?>([\s\S]*?)<\/script>/g)]
+    .map((m) => `'sha256-${createHash('sha256').update(m[1], 'utf8').digest('base64')}'`);
+  if (hashes.length !== 2) throw new Error(`expected 2 executable inline scripts, found ${hashes.length}`);
+  const csp = [
+    "default-src 'none'",
+    `script-src ${hashes.join(' ')}`,
+    "style-src 'unsafe-inline'",
+    "img-src 'self' data: blob:",
+    "font-src data:",
+    "connect-src 'self' blob:",
+    "base-uri 'none'",
+    "form-action 'none'",
+    "object-src 'none'",
+  ].join('; ');
+  const meta = `<meta http-equiv="Content-Security-Policy" content="${csp}">\n  <meta name="referrer" content="strict-origin-when-cross-origin">`;
+  return html.replace('<meta charset="utf-8">', () => `<meta charset="utf-8">\n  ${meta}`);
 }
 
 await writeFile(at('index.html'), await page(false));
@@ -461,8 +519,17 @@ const pdf = 'assets/resume/simland-resume.pdf';
 await mkdir(at('dist/assets/resume'), { recursive: true });
 await copyFile(at(pdf), at('dist', pdf));
 const sha = async (f) => createHash('sha256').update(await readFile(f)).digest('hex');
+// the client's PDF is stored in Git LFS: a checkout without its object holds a 133-byte pointer instead, which
+// must never be shipped (run: git lfs pull --include="sites/simland/assets/resume/simland-resume.pdf")
+const PDF_SHA = 'b26c8ccd9463aec32bf254849867a8ef5af4913a3c57698912f7498fa20701b8';
+if ((await sha(at(pdf))) !== PDF_SHA) throw new Error(`${pdf} is not the client's PDF (Git LFS pointer?): git lfs pull`);
 if ((await sha(at(pdf))) !== (await sha(at('dist', pdf)))) throw new Error('catalogue copy differs');
 console.log(`copied ${pdf} to dist/ (unchanged, ${((await readFile(at(pdf))).length / 1024 / 1024).toFixed(1)} MB)`);
+
+// response headers for the server the folder is deployed to (deploy/: Apache .htaccess, Netlify / Cloudflare _headers)
+await copyFile(at('deploy/htaccess'), at('dist/.htaccess'));
+await copyFile(at('deploy/_headers'), at('dist/_headers'));
+console.log('copied deploy/htaccess and deploy/_headers to dist/');
 
 // The same page as ONE file that also carries the catalogue, for sending the page on
 // its own (a file opened by itself cannot reach a folder next to it): the PDF, byte
