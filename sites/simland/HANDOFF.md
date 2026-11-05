@@ -4,7 +4,35 @@ Branch: `ccr-d2e3e0ff-1uszuu` (latest). Deliverable: `sites/simland/dist/index.h
 Build: `cd sites/simland && node tools/build-pages.mjs` (layers: `python3 tools/build-hero-layers.py`).
 Dev server for tests: `python3 -m http.server 8765 --bind 127.0.0.1` in `sites/simland` (run in background).
 
-## Exact stop point (2026-11-04, «سیم و کابل ساختمانی»: 16 cards, gallery, colours, sizes, «ارتباط با ما» links)
+## Exact stop point (2026-11-05, pre-launch hardening + hero headline)
+
+- Branch: `ccr-d2e3e0ff-1uszuu`; rollback tag `simland-pre-hardening-919fed9` (state before this step).
+- Solar: the extra product `solar-cable-simland` is gone; `solar-panel-cable` (same id, name, code H1Z2Z2-K,
+  texts, URL) now shows the SimLand render `solar-cable-simland.webp` with `bleed: bottom` (tools/data-building.py).
+- Security (static single-file site: no backend, forms, auth, DB, uploads or API exist):
+  - `withPolicy()` in build-pages.mjs: CSP meta (script-src = SHA-256 of the 2 executable inline scripts, build fails
+    if their number changes; style-src 'unsafe-inline' for the style attributes; img data:/blob:; font data:;
+    connect 'self' blob:; base-uri/form-action/object-src 'none') + referrer meta. 0 violations on file://, http://,
+    standalone; hero, fonts, panel, résumé all checked.
+  - `deploy/`: htaccess → dist/.htaccess, _headers → dist/_headers, nginx.conf (reference). Tested on Apache 2.4:
+    headers + gzip with modules, plain 200 without; a host that forbids `Header` in .htaccess returns 500 → delete it.
+  - `catalog()` validates ids / images / colours / bleed / zoom / slides / files before writing markup.
+  - The résumé PDF is Git LFS: this container had only the pointer, so the two packages delivered on 2026-11-04 in
+    this session (2915523, 919fed9) carried a 133-byte pointer. Now pulled; the build refuses anything but SHA
+    b26c8ccd…20701b8.
+  - Card ids scoped by category (`acard-<category>-<product>`): the telecom cards were duplicated ids.
+  - `tools/cutout-model.py` pins the ONNX model's SHA-256.
+- Hero headline (user's «FINAL HERO RESPONSIVE ADJUSTMENT»): text unchanged; «آرین ابهر» wrapped in `.ht-brand`
+  (crimson gradient #a80f27 → #cf1b34 → #e8424f, all widths); below 1200 px three lines (`.ht-place` block,
+  `clamp(1.375rem, 100cqi / 12, 2.75rem)`, line-height 1.34); desktop layout unchanged. `resume.cjs` expects 3 lines
+  < 1200 px and the red only on «آرین ابهر».
+- Visual regression (tools: scratchpad vr.cjs / vrseg.cjs): every non-solar page identical to the baseline at
+  320–1920 except renderer resampling noise (≤ 17/255) inside a few photos; full-page screenshots of very tall pages
+  drop decoded images at random in headless Chromium — compare viewport segments instead.
+- Open: single file 20.2 MB (15.1 MB gzip; 10 MB of it catalogue photos) — slow first load on mobile networks;
+  a multi-file deployment would load only what is viewed (needs the user's OK: architecture change).
+
+## Previous stop point (2026-11-04, «سیم و کابل ساختمانی»: 16 cards, gallery, colours, sizes, «ارتباط با ما» links)
 
 - Branch: `ccr-d2e3e0ff-1uszuu`. Home card «سیم و کابل ساختمانی» (slug `fire-resistant`) → category `building`
   (`#/products/building`): 14 products of its own + the two telecom cables (listed through the category's `items`,

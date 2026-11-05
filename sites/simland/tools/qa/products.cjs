@@ -53,7 +53,10 @@ const PHOTOS = { 'کابل آسانسوری': [405, 640], 'کابل مخابرا
       if (side) {
         if (!(act.left >= sc.right - 0.5)) fails.push('buttons not in the copy column');
         if (!(act.top > sc.top + sc.height / 2)) fails.push('buttons not in the lower half of the hero');
-        if (Math.abs(act.bottom - sc.bottom) > 6) fails.push(`buttons end ${Math.round(act.bottom - sc.bottom)} px from the picture foot`);
+        // large desktops: the buttons end level with the picture's foot; laptops (< 1600 px): title and buttons are
+        // one block centred against the picture (as much room above the title as below the buttons)
+        if (innerWidth >= 1600 && Math.abs(act.bottom - sc.bottom) > 6) fails.push(`buttons end ${Math.round(act.bottom - sc.bottom)} px from the picture foot`);
+        if (innerWidth < 1600 && Math.abs((copy.top - sc.top) - (sc.bottom - act.bottom)) > 6) fails.push(`text block not centred against the picture: ${Math.round(copy.top - sc.top)} above, ${Math.round(sc.bottom - act.bottom)} below`);
         if (!(copy.bottom <= act.top)) fails.push('copy overlaps buttons');
       } else {
         if (!(act.top >= sc.bottom - 0.5)) fails.push('buttons not below the picture');

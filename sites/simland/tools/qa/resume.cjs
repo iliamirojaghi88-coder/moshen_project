@@ -58,7 +58,11 @@ const LEDE = 'کامل‌ترین مجموعه نمایندگی سیم و کاب
       const n = Math.round(R(h1).height / lh);
       const size = parseFloat(getComputedStyle(h1).fontSize);
       if (size < 21.9) fails.push('title too small ' + size);
-      if (n !== 2 && !(n === 3 && innerWidth < 360)) fails.push(n + ' lines');
+      // phones, tablets and laptops (< 1600 px): three lines, «در استان قم» on its own; large desktops: two
+      if (n !== (innerWidth < 1600 ? 3 : 2)) fails.push(n + ' lines');
+      const brand = h1.querySelector('.ht-brand');
+      if (!brand || brand.textContent !== 'آرین ابهر' || !getComputedStyle(brand).backgroundImage.includes('168, 15, 39')) fails.push('«آرین ابهر» not the red accent');
+      if (h1.querySelectorAll('.ht-brand').length !== 1) fails.push('red accent on more than «آرین ابهر»');
       const copy = R(document.querySelector('.hero-copy'));
       for (const el of h1.querySelectorAll('.ht-line, .accent, .ht-place')) { const b = R(el); if (b.left < copy.left - 0.5 || b.right > copy.right + 0.5) fails.push('title leaves its column: ' + el.textContent); }
       const sc = R(document.querySelector('[data-scene]'));
