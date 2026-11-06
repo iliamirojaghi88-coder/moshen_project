@@ -31,6 +31,7 @@ claude                                            # و /login
 3. پلاگین‌های حساب: frontend-design، adobe-for-creativity، remotion (Anthropic plugin directory در claude.ai)
 4. محیط‌های ابری: Default (شبکهٔ محدود) و Motion-Production (شبکهٔ آزاد + network secret برای Gemini با هدر `x-goog-api-key`). مقدار secret را خودتان وارد کنید.
 5. دسترسی حساب جدید به ریپوی `iliamirojaghi88-coder/moshen_project` (Transfer، Fork یا Collaborator)
+6. شبکهٔ محیط: در محیط با شبکهٔ محدود، میزبان‌های فهرست‌شده در `network-hosts.txt` را به allowed hosts اضافه کنید، وگرنه نصب Blender، صدای فارسی، Context7 و MusicGen با خطای ۴۰۳ شکست می‌خورد.
 
 بعد:
 

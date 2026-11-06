@@ -1,0 +1,29 @@
+# Network hosts the recovery kit's setup needs (beyond package registries)
+#
+# The cloud "Default" environment uses a limited network: package registries
+# (npm, PyPI) work, but these extra hosts are blocked, which makes
+# scripts/setup-motion-env.sh and cloud/setup.sh fail (Blender 403, Persian
+# voice 403, Context7 unreachable, MusicGen torch 403). Allow them on the
+# environment (claude.ai/code -> environment menu -> Edit -> allowed hosts),
+# or run setup on an environment that already allows them. Verified 2026-11-06
+# on a per-host-allowlist environment named "moshen_project".
+#
+# host                         why                                            needed for
+download.blender.org          # Blender 5.2.3 LTS tarball + sha256            cli:blender, cli:toktx step order
+huggingface.co                # Piper voice + faster-whisper model metadata   asset:piper-voice-fa, venv:mp-cloud
+us.aws.cdn.hf.co              # HF Xet CDN (large model/voice redirect)        asset:piper-voice-fa
+cdn-lfs.hf.co                 # HF LFS CDN (model redirect)                    asset:piper-voice-fa
+cdn-lfs-us-1.hf.co            # HF LFS CDN (regional)                          asset:piper-voice-fa
+cas-bridge.xethub.hf.co       # HF Xet bridge                                 asset:piper-voice-fa
+transfer.xethub.hf.co         # HF Xet transfer                               asset:piper-voice-fa
+cdn.hf.co                     # HF CDN                                        asset:piper-voice-fa
+context7.com                  # Context7 docs API                             mcp:context7 (API, not just connect)
+mcp.context7.com              # Context7 remote MCP endpoint (optional)        mcp:context7 (hosted variant)
+download.pytorch.org          # PyTorch CPU wheel index                        py:musicgen (optional)
+download-r2.pytorch.org       # PyTorch wheel storage (redirect target)        py:musicgen (optional)
+#
+# Not needed as extra hosts (served by the proxy's package-registry passthrough):
+#   registry.npmjs.org, pypi.org, files.pythonhosted.org  -> npm ci, pip, uv
+# github.com is reachable for git clone / git ls-remote; only its download
+# subdomains for release assets (e.g. KTX .deb via objects.githubusercontent.com)
+# may need allowing if a release download 403s.
