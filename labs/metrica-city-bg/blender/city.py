@@ -65,7 +65,7 @@ WORLD_ROT_Z = -(_want_az - _sun_tex_az)            # mapping rotates the lookup 
 SUN_DIR = Vector((math.cos(_want_az) * math.cos(SUN_ELEV), math.sin(_want_az) * math.cos(SUN_ELEV), math.sin(SUN_ELEV)))
 
 # haze (aerial perspective), applied inside every material from the camera ray length
-HAZE_DENS = 2.6e-4                 # 1/m at ground level
+HAZE_DENS = 1.9e-4                 # 1/m at ground level
 HAZE_HS = 650.0                    # scale height (m)
 HAZE_TINT = (0.86, 0.95, 1.10)     # light-blue haze like the reference
 
@@ -404,7 +404,7 @@ def mat_water(nb):
     h1, _ = nb.noise(stretched, 1.2, 6.0, 0.62)
     h2, _ = nb.noise(nb.vm("MULTIPLY", coord, (0.02, 0.08, 1.0)), 1.0, 2.0, 0.5)
     h = nb.m("ADD", h1, nb.m("MULTIPLY", h2, 0.6))
-    bump = nb.node("ShaderNodeBump", inputs={"Height": h, "Strength": 0.07, "Distance": 0.2}).outputs[0]
+    bump = nb.node("ShaderNodeBump", inputs={"Height": h, "Strength": 0.012, "Distance": 0.2}).outputs[0]
     return nb.bsdf(base=(0.002, 0.008, 0.016), rough=0.035, ior=1.333, spec=0.5, normal=bump)
 
 
