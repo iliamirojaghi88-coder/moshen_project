@@ -18,9 +18,11 @@ info = {i["id"]: i for i in json.loads(open(info_p).read())}
 D = 2.0  # device scale factor of the screenshot
 
 
+DECOR = json.loads((HERE / "decor/meta.json").read_text())
+
+
 def crop_origin(comp):
-    head = (HERE / "skins" / f"{comp}.svg").read_text(encoding="utf-8").split("\n", 1)[0]
-    return json.loads(head[5:-4])["crop"][:2]
+    return DECOR[comp]["crop"][:2]
 
 
 fit, report = {}, []

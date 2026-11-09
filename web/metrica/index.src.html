@@ -20,13 +20,14 @@ body{margin:0;background:#c4dcfd}
 
 /* =====================================================================
    METRICA post-hero sections, scoped under .mtr.
-   Every panel, card and section background is an SVG "skin" traced from the
-   reference images at native resolution (tools/trace_skins.py): outer silhouette,
-   ribbons, folds, rims, neon strokes and lighting are reference geometry.
-   Each component (.mtr-c) is one drawing in native reference pixels:
-   --n = one native pixel at the current size, so it scales without distortion.
-   Text, buttons, arrows and the supplied 3D PNGs are live HTML placed at the
-   coordinates measured on the references (layout.css, tools/fit_text.js).
+   Architecture (per component .mtr-c, one drawing in native reference pixels;
+   --n = one native pixel at the current size, so it scales without distortion):
+   1. body      small SVG gradient patches under the live text and artwork
+   2. decor     clean crop of the reference: silhouette, rim, ribbons, folds, glows,
+                buttons, pill, arrow discs, icons (tools/build_decor.py) — visual only
+   3. artwork   the supplied 3D PNGs, placed on the measured reference boxes
+   4. text      live HTML, size/position fitted to the reference ink (tools/fit_text.py)
+   5. controls  real <button>s on top; every decorative layer has pointer-events:none
    ===================================================================== */
 .mtr,.mtr *,.mtr *::before,.mtr *::after{box-sizing:border-box}
 .mtr{
@@ -45,19 +46,21 @@ body{margin:0;background:#c4dcfd}
 .mtr :where(img){display:block;max-width:none;user-select:none;-webkit-user-drag:none}
 .mtr :where(button){font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .mtr :where(button):focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 6px #1d74ea}
-.mtr-defs{position:absolute;width:0;height:0;overflow:hidden}
 
-/* ---- sections: traced reference background, stretched to the section ---- */
+/* ---- sections: reference background (mobile) / gradient + transition band (wider) ---- */
 .mtr-sec{position:relative;isolation:isolate}
-.mtr-bg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.mtr-bg{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.mtr-bg__ref{position:absolute;inset:0;width:100%;height:100%}
+.mtr-bg__band{display:none;position:absolute;left:0;bottom:0;width:100%;height:auto}
 
 /* ---- mobile (the reference composition): every component at its traced coordinates ---- */
 .mtr-stage{position:relative;width:100%;margin-inline:auto}
 .mtr-list{position:absolute;inset:0}
 .mtr-c{position:absolute;left:var(--mx);top:var(--my);width:var(--mw);container-type:inline-size;--n:calc(100cqw / var(--cw))}
-.mtr-skin{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.mtr-skin{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .mtr-c>:not(.mtr-skin){position:absolute}
 .mtr-art{height:auto}
+.mtr-skin,.mtr-art,.mtr-bg,.mtr-bg *{pointer-events:none}
 
 /* ---- text: sizes/offsets fitted to the reference ink (layout.css) ---- */
 .mtr-t{position:absolute;white-space:nowrap;margin:0;font-weight:500}
@@ -70,32 +73,15 @@ body{margin:0;background:#c4dcfd}
   -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
   filter:drop-shadow(0 0 .12em rgba(255,184,32,calc(.45*var(--mtr-neon))))}
 
-/* ---- pill, buttons, arrow discs (drawn live; removed from the traced skins) ---- */
-.mtr-pill{border-radius:999px;
-  background:linear-gradient(180deg,rgba(96,160,238,.78),rgba(56,116,208,.7));
-  box-shadow:inset 0 0 0 calc(1.4*var(--n)) rgba(176,218,255,.38),inset 0 calc(2*var(--n)) 0 rgba(255,255,255,.18),0 calc(4*var(--n)) calc(12*var(--n)) rgba(0,24,80,.3)}
+/* ---- controls: real buttons over the reference button pixels (decor); no visuals of their own ---- */
 .mtr-pill .mtr-t{font-weight:600;color:#eef5ff}
-.mtr-btn{position:absolute;border-radius:999px;white-space:nowrap}
-.mtr-btn>*{position:absolute}
+.mtr-btn{position:absolute;border-radius:999px;white-space:nowrap;z-index:2}
 .mtr-btn .mtr-t{font-weight:850}
-.mtr-btn--gold{color:#0a1430;
-  background:linear-gradient(180deg,#fff7c8 0%,#ffe468 20%,#ffd02e 52%,#f8b20e 82%,#ffcf48 100%);
-  box-shadow:0 0 0 calc(2*var(--n)) rgba(255,242,176,.95),0 0 calc(30*var(--n)) rgba(255,186,28,calc(.62*var(--mtr-neon))),
-    0 calc(10*var(--n)) calc(22*var(--n)) rgba(140,80,0,.34),inset 0 calc(3*var(--n)) 0 rgba(255,255,255,.85),inset 0 calc(-5*var(--n)) calc(12*var(--n)) rgba(212,120,0,.42)}
-.mtr-btn--gold::before{content:"";position:absolute;inset:8% 6% 52% 6%;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,0));pointer-events:none}
-.mtr-btn--navy{color:#fff;
-  background:linear-gradient(180deg,#2068d0 0%,#0d4aab 46%,#05307c 100%);
-  box-shadow:0 0 0 calc(2.4*var(--n)) rgba(120,214,255,.9),0 0 calc(26*var(--n)) rgba(40,160,255,calc(.68*var(--mtr-neon))),
-    0 calc(10*var(--n)) calc(20*var(--n)) rgba(4,40,110,.32),inset 0 calc(2.5*var(--n)) 0 rgba(255,255,255,.35),inset 0 calc(-7*var(--n)) calc(14*var(--n)) rgba(0,20,70,.45)}
-.mtr-ico{display:block;fill:currentColor}
-.mtr-ghost{opacity:.22}
-.mtr-arrow{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;color:#0f2148;
-  background:radial-gradient(circle at 38% 30%,#e9f1fd 0%,#cfe0f6 55%,#b8d0f0 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 calc(2*var(--n)) calc(5*var(--n)) rgba(35,85,165,.26)}
-.mtr-arrow .mtr-ico{width:44%;height:44%}
-.mtr-arrow--gold{color:#0b1838;background:radial-gradient(circle at 38% 30%,#fff4ad 0%,#ffd43c 50%,#f5ae0c 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 0 calc(16*var(--n)) rgba(255,190,30,calc(.55*var(--mtr-neon)))}
-.mtr-arrow--sky{background:radial-gradient(circle at 38% 30%,#cfe3fd 0%,#a9cbf6 55%,#8db8f0 100%)}
+.mtr-btn--gold{color:#0a1430}
+.mtr-btn--navy{color:#fff}
+/* whole-card target (cards); the arrow disc is part of the decoration */
+.mtr-hit{inset:0;z-index:3;border-radius:calc(30*var(--n))}
+.mtr :where(.mtr-hit):focus-visible{outline-offset:-2px}
 
 .mtr-float{animation:mtr-float 7s ease-in-out infinite}
 #img-donut{animation-delay:-3.5s}
@@ -106,6 +92,8 @@ body{margin:0;background:#c4dcfd}
    ===================================================================== */
 @container mtr (min-width:768px){
   .mtr-sec{padding-block:56px 72px}
+  .mtr-bg__ref{display:none}
+  .mtr-bg__band{display:block}
   .mtr-stage{aspect-ratio:auto!important;width:min(100% - 48px,1000px);display:grid;justify-items:center;row-gap:8px}
   .mtr-list{position:static;display:grid;width:100%}
   .mtr-c{position:relative;left:auto;top:auto;width:100%}
@@ -121,8 +109,12 @@ body{margin:0;background:#c4dcfd}
    ===================================================================== */
 @container mtr (min-width:1200px){
   .mtr-sec{padding-block:64px 88px}
-  .mtr-stage{width:min(100% - 96px,1180px);grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);column-gap:24px;align-items:center}
-  .mtr-c[data-c="sub"]{width:100%}
+  .mtr-stage{width:min(100% - 96px,1120px)}
+  /* section 1: panel on top, tools as a 3-column grid under it */
+  .mtr-c[data-c="sub"]{width:min(100%,880px)}
+  .mtr-list--tools{column-gap:20px;row-gap:12px}
+  /* section 2: intro beside the feature list, CTA below */
+  .mtr-sec--why .mtr-stage{width:min(100% - 96px,1180px);grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);column-gap:24px;align-items:center}
   .mtr-c[data-c="intro"]{width:100%;align-self:start;position:sticky;top:24px}
   .mtr-list--feats{grid-template-columns:minmax(0,1fr);row-gap:0}
   .mtr-c[data-c="cta"]{grid-column:1/-1;width:min(100%,600px);margin-top:8px}
@@ -131,7 +123,7 @@ body{margin:0;background:#c4dcfd}
 @media (prefers-reduced-motion:reduce){
   .mtr *,.mtr *::before,.mtr *::after{animation:none!important;transition:none!important}
 }
-@media (forced-colors:active){.mtr-btn,.mtr-arrow,.mtr-pill{border:1px solid ButtonText}}
+@media (forced-colors:active){.mtr-btn{border:1px solid ButtonText}}
 </style>
 <link rel="stylesheet" href="layout.css">
 </head>
@@ -139,18 +131,10 @@ body{margin:0;background:#c4dcfd}
 <!-- The existing METRICA hero stays above this block; it is not part of this file. -->
 
 <div class="mtr" id="metrica-post-hero">
-  <svg class="mtr-defs" aria-hidden="true" focusable="false">
-    <defs>
-      <symbol id="mtr-i-chev-r" viewBox="0 0 24 24"><path d="M9 5.5l6.5 6.5L9 18.5" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-      <symbol id="mtr-i-chev-l" viewBox="0 0 14 22"><path d="M10.5 3L3.5 11l7 8" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-      <symbol id="mtr-i-play" viewBox="0 0 23 27"><path d="M2 3.4C2 1.7 3.8.8 5.2 1.7l15.6 10.1c1.3.8 1.3 2.6 0 3.4L5.2 25.3C3.8 26.2 2 25.3 2 23.6z"/></symbol>
-      <symbol id="mtr-i-crown" viewBox="0 0 43 33"><path d="M2.3 8.8l9.6 7.1 8-13.4a1.8 1.8 0 0 1 3.1 0l8 13.4 9.6-7.1a1.1 1.1 0 0 1 1.7 1.1l-3.6 16.5a2 2 0 0 1-2 1.6H6.2a2 2 0 0 1-2-1.6L.6 9.9a1.1 1.1 0 0 1 1.7-1.1zM6.6 29.6h29.8a1.7 1.7 0 0 1 0 3.4H6.6a1.7 1.7 0 0 1 0-3.4z"/></symbol>
-    </defs>
-  </svg>
 
   <!-- ============================ SECTION 1 — Tools & Subscription ============================ -->
   <section class="mtr-sec mtr-sec--tools" id="metrica-tools" aria-labelledby="t-sub-title">
-    <!--bg:bg-tools-->
+    <!--bg:tools-->
     <div class="mtr-stage">
 
       <div class="mtr-c mtr-c--dark" data-c="sub" id="mtr-subscription" data-mtr-block="subscription">
@@ -160,9 +144,7 @@ body{margin:0;background:#c4dcfd}
         <h2 class="mtr-t mtr-h mtr-gold" id="t-sub-title">خرید اشتراک</h2>
         <p class="mtr-t mtr-d" id="t-sub-desc">فعال&zwnj;سازی تمام قابلیت&zwnj;های متریکا<br>با پلن&zwnj;های متنوع و اقتصادی</p>
         <button type="button" class="mtr-btn mtr-btn--gold" id="b-sub" data-mtr-action="choose-plan">
-          <svg class="mtr-ico" id="i-sub-crown" aria-hidden="true" focusable="false"><use href="#mtr-i-crown"/></svg>
           <span class="mtr-t" id="t-sub-btn">انتخاب پلن</span>
-          <svg class="mtr-ico" id="i-sub-chev" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-l"/></svg>
         </button>
       </div>
 
@@ -172,28 +154,28 @@ body{margin:0;background:#c4dcfd}
           <img class="mtr-art" id="img-project" src="assets/tool-project.png" width="1536" height="1024" alt="">
           <h3 class="mtr-t mtr-h" id="t-project-title">مدیریت پروژه</h3>
           <p class="mtr-t mtr-d" id="t-project-desc">برنامه&zwnj;ریزی و کنترل اجرا</p>
-          <button type="button" class="mtr-arrow" id="a-project" aria-labelledby="t-project-title" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          <button type="button" class="mtr-hit" id="btn-project" aria-labelledby="t-project-title" data-mtr-action="open-tool"></button>
         </li>
         <li class="mtr-c mtr-c--light" data-c="tool-analysis" id="mtr-tool-analysis" data-mtr-tool="construction-analysis">
           <!--skin:tool-analysis-->
           <img class="mtr-art" id="img-analysis" src="assets/tool-analysis.png" width="1536" height="1024" alt="">
           <h3 class="mtr-t mtr-h" id="t-analysis-title">آنالیز ساخت</h3>
           <p class="mtr-t mtr-d" id="t-analysis-desc">برآورد، هزینه و سود</p>
-          <button type="button" class="mtr-arrow" id="a-analysis" aria-labelledby="t-analysis-title" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          <button type="button" class="mtr-hit" id="btn-analysis" aria-labelledby="t-analysis-title" data-mtr-action="open-tool"></button>
         </li>
         <li class="mtr-c mtr-c--light" data-c="tool-marketing" id="mtr-tool-marketing" data-mtr-tool="marketing">
           <!--skin:tool-marketing-->
           <img class="mtr-art" id="img-marketing" src="assets/tool-marketing.png" width="1536" height="1024" alt="">
           <h3 class="mtr-t mtr-h" id="t-marketing-title">مارکتینگ</h3>
           <p class="mtr-t mtr-d" id="t-marketing-desc">جذب مشتری و فروش</p>
-          <button type="button" class="mtr-arrow" id="a-marketing" aria-labelledby="t-marketing-title" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          <button type="button" class="mtr-hit" id="btn-marketing" aria-labelledby="t-marketing-title" data-mtr-action="open-tool"></button>
         </li>
         <li class="mtr-c mtr-c--light" data-c="tool-cashflow" id="mtr-tool-cashflow" data-mtr-tool="cash-flow">
           <!--skin:tool-cashflow-->
           <img class="mtr-art" id="img-cashflow" src="assets/coins-growth.png" width="1427" height="1102" alt="">
           <h3 class="mtr-t mtr-h" id="t-cashflow-title">کش فلو</h3>
           <p class="mtr-t mtr-d" id="t-cashflow-desc">گردش مالی و نقدینگی</p>
-          <button type="button" class="mtr-arrow" id="a-cashflow" aria-labelledby="t-cashflow-title" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          <button type="button" class="mtr-hit" id="btn-cashflow" aria-labelledby="t-cashflow-title" data-mtr-action="open-tool"></button>
         </li>
         <li class="mtr-c mtr-c--light" data-c="tool-free" id="mtr-tool-free" data-mtr-tool="free-trial">
           <!--skin:tool-free-->
@@ -201,7 +183,6 @@ body{margin:0;background:#c4dcfd}
           <h3 class="mtr-t mtr-h" id="t-free-title">تجربه رایگان</h3>
           <p class="mtr-t mtr-d" id="t-free-desc">برخی از ابزارهای متریکا را<br>بدون اشتراک امتحان کنید</p>
           <button type="button" class="mtr-btn mtr-btn--navy" id="b-free" data-mtr-action="start-trial">
-            <svg class="mtr-ico" id="i-free-play" aria-hidden="true" focusable="false"><use href="#mtr-i-play"/></svg>
             <span class="mtr-t" id="t-free-btn">شروع تجربه</span>
           </button>
         </li>
@@ -210,7 +191,7 @@ body{margin:0;background:#c4dcfd}
           <img class="mtr-art" id="img-contractors" src="assets/tool-contractors.png" width="1536" height="1024" alt="">
           <h3 class="mtr-t mtr-h" id="t-contractors-title">مجریان ذیصلاح</h3>
           <p class="mtr-t mtr-d" id="t-contractors-desc">استعلام و انتخاب مجری</p>
-          <button type="button" class="mtr-arrow" id="a-contractors" aria-labelledby="t-contractors-title" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          <button type="button" class="mtr-hit" id="btn-contractors" aria-labelledby="t-contractors-title" data-mtr-action="open-tool"></button>
         </li>
       </ul>
     </div>
@@ -218,7 +199,7 @@ body{margin:0;background:#c4dcfd}
 
   <!-- ============================ SECTION 2 — Why METRICA ============================ -->
   <section class="mtr-sec mtr-sec--why" id="metrica-why" aria-labelledby="t-why-title">
-    <!--bg:bg-why-->
+    <!--bg:why-->
     <div class="mtr-stage">
 
       <div class="mtr-c mtr-c--dark" data-c="intro" id="mtr-why-intro">
@@ -255,28 +236,28 @@ body{margin:0;background:#c4dcfd}
           <img class="mtr-art" id="img-econ" src="assets/coins-growth.png" width="1427" height="1102" alt="">
           <h3 class="mtr-t mtr-h" id="t-econ-title">تحلیل اقتصادی</h3>
           <p class="mtr-t mtr-d" id="t-econ-desc">بررسی سود، هزینه<br>و کش فلو پروژه</p>
-          <button type="button" class="mtr-arrow mtr-arrow--gold" id="a-econ" aria-labelledby="t-econ-title" data-mtr-action="open-feature"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          <button type="button" class="mtr-hit" id="btn-econ" aria-labelledby="t-econ-title" data-mtr-action="open-feature"></button>
         </li>
         <li class="mtr-c mtr-c--light" data-c="feat-estimate" id="mtr-feat-estimate" data-mtr-feature="accurate-estimate">
           <!--skin:feat-estimate-->
           <img class="mtr-art" id="img-estimate" src="assets/why-calculator.png" width="1297" height="1212" alt="">
           <h3 class="mtr-t mtr-h" id="t-estimate-title">برآورد دقیق</h3>
           <p class="mtr-t mtr-d" id="t-estimate-desc">محاسبه هزینه&zwnj;ها<br>با داده&zwnj;های واقعی</p>
-          <button type="button" class="mtr-arrow mtr-arrow--sky" id="a-estimate" aria-labelledby="t-estimate-title" data-mtr-action="open-feature"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          <button type="button" class="mtr-hit" id="btn-estimate" aria-labelledby="t-estimate-title" data-mtr-action="open-feature"></button>
         </li>
         <li class="mtr-c mtr-c--dark" data-c="feat-project" id="mtr-feat-project" data-mtr-feature="project-management">
           <!--skin:feat-project-->
           <img class="mtr-art" id="img-checklist" src="assets/why-checklist.png" width="1427" height="1102" alt="">
           <h3 class="mtr-t mtr-h" id="t-proj-title">مدیریت پروژه</h3>
           <p class="mtr-t mtr-d" id="t-proj-desc">برنامه&zwnj;ریزی و کنترل<br>تمام مراحل اجرا</p>
-          <button type="button" class="mtr-arrow mtr-arrow--gold" id="a-proj" aria-labelledby="t-proj-title" data-mtr-action="open-feature"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          <button type="button" class="mtr-hit" id="btn-proj" aria-labelledby="t-proj-title" data-mtr-action="open-feature"></button>
         </li>
         <li class="mtr-c mtr-c--light" data-c="feat-tools" id="mtr-feat-integrated" data-mtr-feature="integrated-tools">
           <!--skin:feat-tools-->
           <img class="mtr-art" id="img-layers" src="assets/why-layers.png" width="1427" height="1102" alt="">
           <h3 class="mtr-t mtr-h" id="t-tools-title">ابزارهای یکپارچه</h3>
           <p class="mtr-t mtr-d" id="t-tools-desc">دسترسی به امکانات<br>حرفه&zwnj;ای در یک محیط</p>
-          <button type="button" class="mtr-arrow mtr-arrow--sky" id="a-tools" aria-labelledby="t-tools-title" data-mtr-action="open-feature"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          <button type="button" class="mtr-hit" id="btn-tools" aria-labelledby="t-tools-title" data-mtr-action="open-feature"></button>
         </li>
       </ul>
 
@@ -284,9 +265,7 @@ body{margin:0;background:#c4dcfd}
         <!--skin:cta-->
         <h3 class="mtr-t mtr-h" id="t-cta-title">پروژه بعدی&zwnj;تان را<br><span class="mtr-gold">هوشمندانه</span> آغاز کنید</h3>
         <button type="button" class="mtr-btn mtr-btn--gold" id="b-cta" data-mtr-action="start-metrica">
-          <svg class="mtr-ico" id="i-cta-play" aria-hidden="true" focusable="false"><use href="#mtr-i-play"/></svg>
           <span class="mtr-t" id="t-cta-btn">شروع با متریکا</span>
-          <svg class="mtr-ico mtr-ghost" id="i-cta-chev" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-l"/></svg>
         </button>
       </div>
     </div>

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build the standalone index.html from index.src.html:
-- <!--skin:NAME--> / <!--bg:NAME-->  -> the traced SVG from skins/NAME.svg
+- <!--skin:NAME--> -> the component's body SVG: gradient patches + the decor crop (decor/NAME.webp)
+- <!--bg:SECTION--> -> the section background (reference crop on mobile, gradient + band wider)
 - <link rel="stylesheet" href="layout.css"> -> inline <style>
 - assets/*.png -> lossless WebP data URIs (every visible pixel identical to the PNG)
 - fonts/*.woff2 -> data URIs
@@ -36,17 +37,34 @@ def webp(png):
     return "data:image/webp;base64," + base64.b64encode(key.read_bytes()).decode()
 
 
-def skin(name, cls):
-    txt = (HERE / "skins" / f"{name}.svg").read_text(encoding="utf-8")
-    head, body = txt.split("\n", 1)
-    m = json.loads(head[5:-4])
-    return (f'<svg class="{cls}" viewBox="0 0 {m["w"]} {m["h"]}" preserveAspectRatio="none" '
-            f'aria-hidden="true" focusable="false">{body.strip()}</svg>')
+DECOR = json.loads((HERE / "decor/meta.json").read_text())
+
+
+def skin(name):
+    m = DECOR[name]
+    defs, rects = [], []
+    for i, p in enumerate(m["patches"]):
+        gid = f"pg-{name}-{i}"
+        defs.append(f'<linearGradient id="{gid}" gradientUnits="userSpaceOnUse" x1="{p["p1"][0]}" y1="{p["p1"][1]}" '
+                    f'x2="{p["p2"][0]}" y2="{p["p2"][1]}"><stop stop-color="{p["c1"]}"/><stop offset="1" stop-color="{p["c2"]}"/></linearGradient>')
+        x0, y0, x1, y1 = p["rect"]
+        rects.append(f'<rect x="{x0}" y="{y0}" width="{x1 - x0}" height="{y1 - y0}" fill="url(#{gid})"/>')
+    return (f'<svg class="mtr-skin" viewBox="0 0 {m["w"]} {m["h"]}" preserveAspectRatio="none" aria-hidden="true" focusable="false">'
+            f'<defs>{"".join(defs)}</defs>{"".join(rects)}'
+            f'<image href="decor/{name}.webp" width="{m["w"]}" height="{m["h"]}" preserveAspectRatio="none"/></svg>')
+
+
+def bg(sec):
+    m = DECOR[f"bg-{sec}"]
+    grad = ",".join(f"{c} {p}%" for p, c in m["stops"])
+    return (f'<div class="mtr-bg" aria-hidden="true" style="background:linear-gradient(180deg,{grad})">'
+            f'<img class="mtr-bg__ref" src="decor/bg-{sec}.webp" alt="">'
+            f'<img class="mtr-bg__band" src="decor/band-{sec}.webp" alt=""></div>')
 
 
 src = (HERE / "index.src.html").read_text(encoding="utf-8")
-out = re.sub(r"<!--skin:([\w-]+)-->", lambda m: skin(m.group(1), "mtr-skin"), src)
-out = re.sub(r"<!--bg:([\w-]+)-->", lambda m: skin(m.group(1), "mtr-bg"), out)
+out = re.sub(r"<!--skin:([\w-]+)-->", lambda m: skin(m.group(1)), src)
+out = re.sub(r"<!--bg:([\w-]+)-->", lambda m: bg(m.group(1)), out)
 out = out.replace('<link rel="stylesheet" href="layout.css">',
                   "<style>\n" + (HERE / "layout.css").read_text(encoding="utf-8") + "</style>")
 cache = {}
@@ -56,12 +74,16 @@ def inline(m):
     rel = m.group(2)
     if rel not in cache:  # a missing file raises here, so the build never ships a broken reference
         p = HERE / rel
-        cache[rel] = webp(p) if p.suffix == ".png" else "data:font/woff2;base64," + base64.b64encode(p.read_bytes()).decode()
+        if p.suffix == ".png":
+            cache[rel] = webp(p)
+        else:
+            mime = {".webp": "image/webp", ".woff2": "font/woff2"}[p.suffix]
+            cache[rel] = f"data:{mime};base64," + base64.b64encode(p.read_bytes()).decode()
     return m.group(1) + cache[rel] + m.group(3)
 
 
-REF = r'((?:assets|fonts)/[\w.-]+\.(?:png|woff2))'
-out = re.sub(r'(src="|url\()' + REF + r'("|\))', inline, out)
+REF = r'((?:assets|fonts|decor)/[\w.-]+\.(?:png|woff2|webp))'
+out = re.sub(r'((?:src|href)="|url\()' + REF + r'("|\))', inline, out)
 left = re.findall(REF + "|<!--(?:skin|bg):", out)
 assert not left, f"references left un-inlined: {left}"
 (HERE / "index.html").write_text(out, encoding="utf-8")

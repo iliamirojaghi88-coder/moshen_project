@@ -15,9 +15,11 @@ FIT_P = HERE / "tools/text_fit.json"
 FIT = json.loads(FIT_P.read_text()) if FIT_P.exists() else {}
 
 
+DECOR = json.loads((HERE / "decor/meta.json").read_text())
+
+
 def meta(name):
-    head = (HERE / "skins" / f"{name}.svg").read_text(encoding="utf-8").split("\n", 1)[0]
-    return json.loads(head[5:-4])
+    return DECOR[name]
 
 
 def alpha_bbox(src):
@@ -32,7 +34,7 @@ comps = {}
 for sec, s in SPEC["sections"].items():
     W, H = s["w"], s["h"]
     css.append(f".mtr-sec--{sec} .mtr-stage{{aspect-ratio:{W}/{H}}}")
-for name in sorted(p.stem for p in (HERE / "skins").glob("*.svg")):
+for name in sorted(DECOR):
     m = meta(name)
     comps[name] = m
     if name.startswith("bg-"):
@@ -62,13 +64,11 @@ for k, a in SPEC["art"].items():
     css.append(f"#{k}{{left:calc({f(left)}*var(--n));top:calc({f(top)}*var(--n));width:calc({f(PW * s)}*var(--n))}}")
 
 for k, b in SPEC["boxes"].items():
+    if k.startswith("i-"):
+        continue  # icons are part of the decoration
     x0, y0, x1, y1 = local(b["comp"], b["box"], b.get("in"))
     css.append(f"#{k}{{left:calc({f(x0)}*var(--n));top:calc({f(y0)}*var(--n));width:calc({f(x1 - x0)}*var(--n));height:calc({f(y1 - y0)}*var(--n))}}")
 
-for k, a in SPEC["arrows"].items():
-    cx, cy, r = a["c"]
-    x0, y0, _, _ = local(a["comp"], [cx - r, cy - r, 0, 0])
-    css.append(f"#{k}{{left:calc({f(x0)}*var(--n));top:calc({f(y0)}*var(--n));width:calc({f(2 * r)}*var(--n))}}")
 
 used = {}
 for k, t in SPEC["texts"].items():
