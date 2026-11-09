@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#002653">
+<title>چرا متریکا؟</title>
+<style>
+/* Estedad (SIL OFL 1.1, github.com/aminabedi68/Estedad), variable wght 100–900.
+   Latin first, Arabic last: on overlapping ranges (ZWNJ) the later face is tried first. */
+@font-face{font-family:"Estedad";font-style:normal;font-weight:100 900;font-display:block;
+  src:url({{font:latin}}) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Estedad";font-style:normal;font-weight:100 900;font-display:block;
+  src:url({{font:arabic}}) format("woff2");
+  unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
+
+:root{
+  --navy-900:#001d42;
+  --navy-800:#002653;
+  --navy-700:#03306a;
+  --navy-600:#073f84;
+  --blue-500:#0a5fc0;
+  --cyan-300:#5fe3ff;
+  --ice-100:#eef6ff;
+  --page-200:#c4dcfc;
+  --ink:#0b1a33;
+  --gold-100:#fff2a3;
+  --gold-300:#ffd94f;
+  --gold-500:#fdbd26;
+  --gold-text:linear-gradient(180deg,#fff0a0 0%,#ffdc4a 42%,#ffc61f 70%,#f2a90c 100%);
+  --max:720px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:"Estedad",Tahoma,sans-serif;
+  color:#fff;background:#c3dcfc;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit}
+
+/* overflow:clip keeps edge glows from creating scroll on either axis */
+.page{position:relative;overflow:clip;isolation:isolate;min-height:100vh;
+  background:
+    radial-gradient(70% 40% at 0% 0%,#d4e7fe 0%,transparent 70%),
+    radial-gradient(60% 30% at 100% 46%,#a9cefb 0%,transparent 70%),
+    radial-gradient(70% 30% at 100% 82%,#dcecfd 0%,transparent 70%),
+    linear-gradient(180deg,#a9cdfa 0%,#c3dcfc 30%,#c7e0fd 52%,#b4d4fc 72%,#c6defd 100%);
+}
+/* cqw on .inner itself would resolve against the viewport, so spacing lives on its children */
+.inner{display:flow-root;position:relative;width:100%;max-width:var(--max);margin-inline:auto;container-type:inline-size}
+.deco{position:absolute;pointer-events:none;overflow:visible}
+
+/* ───────── SECTION A — header + hero ───────── */
+.hero{position:relative;z-index:1}
+.hero-bg{inset:0 0 -3% 0;width:100%;height:103%;z-index:-1}
+.hero .inner{text-align:center}
+
+.hero-title{
+  margin:13.3cqw 0 0;font-weight:900;font-size:13.8cqw;line-height:1.18;letter-spacing:0;
+  color:#fff;
+  text-shadow:0 .4cqw 1.6cqw rgba(0,18,52,.55);
+}
+.hero-title .gold{
+  background:var(--gold-text);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  text-shadow:none;
+  filter:drop-shadow(0 0 1.4cqw rgba(255,196,40,.38)) drop-shadow(0 .35cqw .5cqw rgba(0,20,60,.45));
+}
+.hero-title .q{display:inline-block;margin-inline-start:.16em}
+
+.hero-sub{
+  margin:3.3cqw auto 0;max-width:92cqw;
+  font-weight:600;font-size:max(14px,4.9cqw);line-height:1.5;
+  color:#fff;text-shadow:0 .3cqw 1.2cqw rgba(0,18,52,.5);
+}
+
+.hero-art{position:relative;height:58cqw;margin-top:1.6cqw}
+.hero-art img{position:absolute;height:auto}
+.hero-img{width:87cqw;left:6.5cqw;top:0;z-index:2}
+.float-donut{width:17.1cqw;left:5.9cqw;top:24.2cqw;z-index:1;
+  filter:drop-shadow(0 0 1.2cqw rgba(40,160,255,.35))}
+.float-bars{width:27.6cqw;left:67cqw;top:10cqw;z-index:1;
+  filter:drop-shadow(0 0 1.2cqw rgba(40,160,255,.35))}
+.ring{left:3.7cqw;top:32.3cqw;width:92.6cqw;height:22.3cqw;z-index:1}
+
+/* ───────── SECTION B — feature cards ───────── */
+.features{position:relative;z-index:2}
+.cards{
+  display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;
+  gap:2.9cqw 1.8cqw;padding-inline:6.5cqw;
+  margin:3cqw 0 0;list-style:none;
+}
+.card{
+  position:relative;display:flex;flex-direction:column;align-items:center;
+  padding:1.6cqw 2.4cqw 2.4cqw;border-radius:7cqw;text-align:center;
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.card::before{ /* thin inner rim light */
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+}
+.card--dark{
+  color:#fff;
+  background:
+    radial-gradient(90% 55% at 12% 0%,rgba(28,120,220,.55) 0%,transparent 70%),
+    radial-gradient(70% 45% at 100% 100%,rgba(10,70,150,.35) 0%,transparent 70%),
+    linear-gradient(180deg,#0a4689 0%,#03336d 30%,#012a5a 62%,#001f46 100%);
+  box-shadow:
+    0 0 0 1px rgba(98,160,235,.42),
+    0 1.6cqw 3.6cqw rgba(0,32,86,.32);
+}
+.card--dark::before{
+  box-shadow:
+    inset 0 .4cqw 1.1cqw rgba(90,175,255,.45),
+    inset .4cqw 0 1.1cqw rgba(60,150,245,.3);
+}
+.card--glow{
+  box-shadow:
+    0 0 0 1px rgba(110,190,255,.55),
+    0 .8cqw 2.6cqw rgba(24,150,255,.55),
+    0 .2cqw .6cqw rgba(120,220,255,.6);
+}
+.card--glow::after{
+  content:"";position:absolute;left:16%;right:16%;bottom:-1px;height:2px;border-radius:2px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,#6fd6ff 22%,#e9fbff 50%,#6fd6ff 78%,transparent);
+  box-shadow:0 0 1.4cqw .3cqw rgba(56,178,255,.75);
+}
+.card--light{
+  color:var(--ink);
+  background:
+    radial-gradient(80% 50% at 50% 0%,rgba(255,255,255,.75) 0%,transparent 75%),
+    linear-gradient(180deg,#eef6ff 0%,#e1edfd 48%,#d4e6fd 100%);
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,.95),
+    0 0 1.6cqw rgba(255,255,255,.7),
+    0 1.8cqw 3.8cqw rgba(38,96,186,.26),
+    0 .3cqw .8cqw rgba(38,96,186,.12);
+}
+.card--light::before{
+  box-shadow:inset 0 0 2.4cqw #fff,inset 0 0 .5cqw rgba(255,255,255,.9),inset 0 -.6cqw 1.6cqw rgba(150,190,240,.25);
+}
+
+.card-icon{height:15.6cqw;width:100%;display:flex;align-items:center;justify-content:center}
+.card-icon img{height:var(--ih,15cqw);width:auto;max-width:none;object-fit:contain;
+  filter:drop-shadow(0 .9cqw 1cqw rgba(0,20,60,.22))}
+.card--light .card-icon img{filter:drop-shadow(0 .9cqw 1cqw rgba(30,80,160,.22))}
+
+.card-title{
+  margin:.8cqw 0 0;font-weight:900;font-size:5.2cqw;line-height:1.2;
+}
+.card--dark .card-title{text-shadow:0 .3cqw .8cqw rgba(0,10,40,.45)}
+.card-desc{
+  margin:1.1cqw 0 1.9cqw;font-weight:500;font-size:max(10.5px,2.15cqw);line-height:1.6;text-wrap:balance;
+}
+.card--dark .card-desc{color:rgba(206,226,255,.82)}
+.card--light .card-desc{color:#3d5679}
+
+.card-go{
+  margin-top:auto;flex:none;display:grid;place-items:center;
+  width:7.4cqw;height:7.4cqw;min-width:28px;min-height:28px;border-radius:50%;
+  border:0;padding:0;cursor:pointer;
+  transform:translateY(0);transition:transform .2s ease,filter .2s ease,background-color .2s ease;
+}
+.card-go svg{width:52%;height:52%}
+.card--dark .card-go{
+  background:rgba(86,140,210,.32);color:#fff;
+  box-shadow:inset 0 .2cqw .4cqw rgba(160,205,255,.25),0 0 0 1px rgba(120,170,235,.18);
+}
+.card--light .card-go{
+  background:#bdd7f7;color:#0b1a33;
+  box-shadow:inset 0 .25cqw .4cqw rgba(255,255,255,.75),0 .2cqw .6cqw rgba(40,100,190,.18);
+}
+.card-go:hover{filter:brightness(1.12)}
+.card-go:active{transform:translateY(1px) scale(.96)}
+.card-go:focus-visible{outline:2px solid var(--cyan-300);outline-offset:2px}
+
+@media (hover:hover){
+  .card:hover{transform:translateY(-.4cqw)}
+}
+
+/* ───────── SECTION C — call to action ───────── */
+.cta-section{position:relative;z-index:2}
+.cta-side{left:0;top:-12%;width:100%;height:118%;z-index:-1}
+.cta{
+  position:relative;width:87.4cqw;margin:3.6cqw auto 16cqw;
+  padding:6.4cqw 4cqw 6.6cqw;text-align:center;
+}
+.cta-bg{inset:0;width:100%;height:100%;z-index:-1}
+.cta-title{
+  margin:0;font-weight:900;font-size:6.45cqw;line-height:1.43;color:#fff;
+  text-shadow:0 .3cqw 1cqw rgba(0,14,44,.5);
+}
+.cta-title .gold{
+  background:var(--gold-text);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;text-shadow:none;
+  filter:drop-shadow(0 0 1.2cqw rgba(255,196,40,.35));
+}
+
+.cta-btn{
+  position:relative;display:flex;align-items:center;justify-content:center;gap:3.4cqw;
+  width:57.6cqw;min-height:44px;height:12.4cqw;margin:4cqw auto 0;
+  padding:0 0 0 1.6cqw;border:0;border-radius:999px;cursor:pointer;
+  color:#0c1322;font-weight:900;font-size:5.5cqw;line-height:1;
+  background:
+    radial-gradient(60% 55% at 50% 0%,rgba(255,255,230,.65) 0%,transparent 70%),
+    linear-gradient(180deg,#fff3a0 0%,#ffe274 24%,#ffd24d 50%,#fdbc24 78%,#ffc62a 91%,#ffe066 100%);
+  box-shadow:
+    0 0 0 .3cqw rgba(255,244,190,.85),
+    0 0 2.6cqw rgba(255,198,52,.62),
+    0 1cqw 2.2cqw rgba(110,64,0,.32),
+    inset 0 .35cqw .3cqw rgba(255,255,255,.85),
+    inset 0 -.5cqw .8cqw rgba(232,150,0,.35);
+  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+}
+.cta-btn .play{width:3.3cqw;height:3.6cqw;min-width:11px;min-height:12px;flex:none}
+.cta-btn .ghost{position:absolute;left:6.4cqw;top:50%;width:1.6cqw;height:3cqw;
+  transform:translateY(-50%);opacity:.22}
+.cta-btn:hover{filter:brightness(1.04) saturate(1.05);
+  box-shadow:0 0 0 .3cqw rgba(255,246,200,.95),0 0 3.4cqw rgba(255,198,52,.75),0 1.2cqw 2.4cqw rgba(110,64,0,.34),inset 0 .35cqw .3cqw rgba(255,255,255,.9),inset 0 -.5cqw .8cqw rgba(232,150,0,.35)}
+.cta-btn:active{transform:translateY(.25cqw) scale(.985);filter:brightness(.98)}
+.cta-btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+.page-foot{left:0;bottom:0;width:100%;height:32%;z-index:-1}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important}
+}
+
+/* tablet: same composition, a little more air around the cards and CTA */
+@media (min-width:481px){
+  .cards{gap:3.2cqw 2.4cqw}
+  .cta{margin-top:4.4cqw}
+}
+</style>
+</head>
+<body>
+<main class="page">
+
+  <!-- SECTION A -->
+  <header class="hero">
+    <svg class="deco hero-bg" viewBox="0 0 600 640" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs>
+        <path id="hShape" d="M0,232 C0,135 48,72 135,67 C260,61 400,52 482,40 C512,34 528,18 540,0 H600 V512 C600,588 566,628 492,632 H108 C34,628 0,588 0,512 Z"/>
+        <linearGradient id="hFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#03306a"/>
+          <stop offset=".22" stop-color="#002855"/>
+          <stop offset=".5" stop-color="#002653"/>
+          <stop offset=".66" stop-color="#03397a"/>
+          <stop offset=".8" stop-color="#0d58ae"/>
+          <stop offset="1" stop-color="#4d92dc"/>
+        </linearGradient>
+        <radialGradient id="hTL" cx=".16" cy=".1" r=".42">
+          <stop offset="0" stop-color="#0a64c0" stop-opacity=".95"/>
+          <stop offset=".55" stop-color="#05479a" stop-opacity=".45"/>
+          <stop offset="1" stop-color="#002653" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="hTR" cx=".86" cy=".02" r=".35">
+          <stop offset="0" stop-color="#0b56a8" stop-opacity=".7"/>
+          <stop offset="1" stop-color="#002653" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="hBot" cx=".5" cy=".86" r=".55" gradientTransform="translate(0 .4) scale(1 .55)">
+          <stop offset="0" stop-color="#2a8cf0" stop-opacity=".9"/>
+          <stop offset=".6" stop-color="#0d5ab4" stop-opacity=".45"/>
+          <stop offset="1" stop-color="#002653" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="hRimL" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#1b86e6" stop-opacity=".9"/>
+          <stop offset=".07" stop-color="#0a5fbf" stop-opacity=".35"/>
+          <stop offset=".16" stop-color="#002653" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="hFadeG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset=".66" stop-color="#fff"/>
+          <stop offset=".86" stop-color="#fff" stop-opacity=".55"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <mask id="hFade" maskContentUnits="objectBoundingBox">
+          <rect width="1" height="1" fill="url(#hFadeG)"/>
+        </mask>
+        <clipPath id="hClip"><use href="#hShape"/></clipPath>
+        <filter id="hBlur" x="-10%" y="-40%" width="120%" height="180%"><feGaussianBlur stdDeviation="5"/></filter>
+        <filter id="hBlurS" x="-10%" y="-40%" width="120%" height="180%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      </defs>
+      <!-- soft white ribbon on the light background above the panel -->
+      <path d="M-10,96 C40,40 120,12 230,4 C330,-3 420,4 520,-6" fill="none" stroke="#f4f9ff" stroke-width="16" opacity=".55" filter="url(#hBlur)"/>
+      <g mask="url(#hFade)">
+        <use href="#hShape" fill="url(#hFill)"/>
+        <use href="#hShape" fill="url(#hTL)"/>
+        <use href="#hShape" fill="url(#hTR)"/>
+        <use href="#hShape" fill="url(#hBot)"/>
+        <use href="#hShape" fill="url(#hRimL)"/>
+      </g>
+      <!-- neon edge following the curved top boundary -->
+      <path d="M0,232 C0,135 48,72 135,67 C260,61 400,52 482,40 C512,34 528,18 540,0" fill="none" stroke="#d9efff" stroke-width="12" opacity=".6" filter="url(#hBlur)" vector-effect="non-scaling-stroke"/>
+      <path d="M0,232 C0,135 48,72 135,67 C260,61 400,52 482,40 C512,34 528,18 540,0" fill="none" stroke="#1f8fff" stroke-width="18" opacity=".7" filter="url(#hBlur)" clip-path="url(#hClip)" vector-effect="non-scaling-stroke"/>
+      <path d="M0,232 C0,135 48,72 135,67 C260,61 400,52 482,40 C512,34 528,18 540,0" fill="none" stroke="#5ccdff" stroke-width="4" opacity=".8" filter="url(#hBlurS)" vector-effect="non-scaling-stroke"/>
+      <path d="M0,232 C0,135 48,72 135,67 C260,61 400,52 482,40 C512,34 528,18 540,0" fill="none" stroke="#bff0ff" stroke-width="1.4" vector-effect="non-scaling-stroke"/>
+    </svg>
+
+    <div class="inner">
+      <h1 class="hero-title">چرا <span class="gold">متریکا</span><span class="q">؟</span></h1>
+      <p class="hero-sub">همه‌چیز برای یک ساخت‌وساز هوشمند<br>و سودآور در یک پلتفرم یکپارچه</p>
+
+      <div class="hero-art">
+        <svg class="deco ring" viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <defs>
+            <radialGradient id="rPool" cx=".5" cy=".5" r=".5">
+              <stop offset="0" stop-color="#3aa6ff" stop-opacity=".55"/>
+              <stop offset=".6" stop-color="#1572e0" stop-opacity=".28"/>
+              <stop offset="1" stop-color="#0a4fa8" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="rBlur" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="4"/></filter>
+          </defs>
+          <ellipse cx="300" cy="70" rx="300" ry="68" fill="url(#rPool)"/>
+          <ellipse cx="300" cy="70" rx="272" ry="44" fill="none" stroke="#39c6ff" stroke-width="7" opacity=".55" filter="url(#rBlur)"/>
+          <ellipse cx="300" cy="70" rx="272" ry="44" fill="none" stroke="#8fe6ff" stroke-width="1.3" opacity=".75"/>
+        </svg>
+        <img class="float-donut" src="{{img:donut}}" alt="" aria-hidden="true" width="300" height="280">
+        <img class="float-bars" src="{{img:bars}}" alt="" aria-hidden="true" width="440" height="340">
+        <img class="hero-img" src="{{img:hero}}" alt="ساختمان در حال ساخت با جرثقیل، نقشه‌ها و کلاه ایمنی" width="1280" height="853">
+      </div>
+    </div>
+  </header>
+
+  <!-- SECTION B -->
+  <section class="features" aria-label="امکانات متریکا">
+    <div class="inner">
+      <ul class="cards">
+        <li class="card card--light">
+          <div class="card-icon" style="--ih:16cqw"><img src="{{img:calculator}}" alt="" width="340" height="318"></div>
+          <h2 class="card-title">برآورد<br>دقیق</h2>
+          <p class="card-desc">محاسبه هزینه‌ها با داده‌های واقعی</p>
+          <button class="card-go" type="button" aria-label="برآورد دقیق"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6.5 15 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </li>
+        <li class="card card--dark">
+          <div class="card-icon" style="--ih:13.8cqw"><img src="{{img:econ}}" alt="" width="360" height="278"></div>
+          <h2 class="card-title">تحلیل<br>اقتصادی</h2>
+          <p class="card-desc">بررسی سود، هزینه و کش فلو پروژه</p>
+          <button class="card-go" type="button" aria-label="تحلیل اقتصادی"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6.5 15 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </li>
+        <li class="card card--dark card--glow">
+          <div class="card-icon" style="--ih:15.4cqw"><img src="{{img:layers}}" alt="" width="360" height="278"></div>
+          <h2 class="card-title">ابزارهای<br>یکپارچه</h2>
+          <p class="card-desc">دسترسی به امکانات حرفه‌ای در یک محیط</p>
+          <button class="card-go" type="button" aria-label="ابزارهای یکپارچه"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6.5 15 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </li>
+        <li class="card card--light">
+          <div class="card-icon" style="--ih:15cqw"><img src="{{img:clipboard}}" alt="" width="360" height="278"></div>
+          <h2 class="card-title">مدیریت<br>پروژه</h2>
+          <p class="card-desc">برنامه‌ریزی و کنترل تمام مراحل اجرا</p>
+          <button class="card-go" type="button" aria-label="مدیریت پروژه"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6.5 15 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION C -->
+  <section class="cta-section" aria-label="شروع">
+    <svg class="deco cta-side" viewBox="0 0 600 420" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs><filter id="sBlur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter></defs>
+      <path d="M-20,40 C40,120 50,260 -10,400" fill="none" stroke="#eaf4ff" stroke-width="22" opacity=".55" filter="url(#sBlur)"/>
+      <path d="M620,60 C560,150 560,300 640,420" fill="none" stroke="#f2f8ff" stroke-width="26" opacity=".6" filter="url(#sBlur)"/>
+    </svg>
+    <div class="inner">
+      <div class="cta">
+        <svg class="deco cta-bg" viewBox="0 0 530 290" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <defs>
+            <path id="cShape" d="M0,140 C0,68 40,30 106,30 L356,30 C398,30 416,5 466,5 C506,5 530,32 530,76 L528,160 C527,244 478,289 398,289 L50,290 C20,290 0,272 0,242 Z"/>
+            <clipPath id="cClip"><use href="#cShape"/></clipPath>
+            <linearGradient id="cFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#06397a"/>
+              <stop offset=".38" stop-color="#022a5c"/>
+              <stop offset="1" stop-color="#01214a"/>
+            </linearGradient>
+            <radialGradient id="cTop" cx=".42" cy=".1" r=".5" gradientTransform="translate(0 .05) scale(1 .6)">
+              <stop offset="0" stop-color="#0b5fbe" stop-opacity=".75"/>
+              <stop offset="1" stop-color="#0b5fbe" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="cRight" cx="1" cy=".55" r=".4">
+              <stop offset="0" stop-color="#3a74b0" stop-opacity=".8"/>
+              <stop offset="1" stop-color="#3a74b0" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="cBL" cx="0" cy="1" r=".55">
+              <stop offset="0" stop-color="#1279e6" stop-opacity="1"/>
+              <stop offset=".55" stop-color="#0a5cc0" stop-opacity=".6"/>
+              <stop offset="1" stop-color="#0a55b0" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="cSweep" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="260" y2="0">
+              <stop offset="0" stop-color="#7ff0ff" stop-opacity=".95"/>
+              <stop offset=".45" stop-color="#5fd0ff" stop-opacity=".55"/>
+              <stop offset="1" stop-color="#5fd0ff" stop-opacity="0"/>
+            </linearGradient>
+            <radialGradient id="mSpot" cx=".5" cy=".5" r=".5">
+              <stop offset="0" stop-color="#fff"/>
+              <stop offset=".45" stop-color="#fff" stop-opacity=".9"/>
+              <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+            </radialGradient>
+            <mask id="mGold" maskUnits="userSpaceOnUse" x="-60" y="-60" width="650" height="410">
+              <ellipse cx="0" cy="112" rx="150" ry="170" fill="url(#mSpot)"/>
+              <ellipse cx="545" cy="272" rx="200" ry="185" fill="url(#mSpot)"/>
+            </mask>
+            <mask id="mCyan" maskUnits="userSpaceOnUse" x="-60" y="-60" width="650" height="410">
+              <ellipse cx="30" cy="292" rx="220" ry="120" fill="url(#mSpot)"/>
+            </mask>
+            <filter id="cGlow" x="-12%" y="-25%" width="124%" height="150%"><feGaussianBlur stdDeviation="5"/></filter>
+            <filter id="cGlowL" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="11"/></filter>
+            <filter id="cGlowS" x="-12%" y="-25%" width="124%" height="150%"><feGaussianBlur stdDeviation="1.8"/></filter>
+          </defs>
+          <!-- outer luminous halo -->
+          <g filter="url(#cGlowL)" opacity=".7">
+            <use href="#cShape" fill="none" stroke="#ff9d1a" stroke-width="26" mask="url(#mGold)"/>
+            <use href="#cShape" fill="none" stroke="#0fd2ff" stroke-width="24" mask="url(#mCyan)"/>
+          </g>
+          <g filter="url(#cGlow)">
+            <use href="#cShape" fill="none" stroke="#dff4ff" stroke-width="9"/>
+            <use href="#cShape" fill="none" stroke="#ffb236" stroke-width="15" mask="url(#mGold)"/>
+            <use href="#cShape" fill="none" stroke="#14dcff" stroke-width="13" mask="url(#mCyan)"/>
+          </g>
+          <!-- panel body -->
+          <use href="#cShape" fill="url(#cFill)"/>
+          <g clip-path="url(#cClip)">
+            <rect x="0" y="0" width="530" height="290" fill="url(#cTop)"/>
+            <rect x="0" y="0" width="530" height="290" fill="url(#cRight)"/>
+            <rect x="0" y="0" width="530" height="290" fill="url(#cBL)"/>
+            <!-- luminous curved sweep inside the lower-left -->
+            <path d="M-4,262 C30,226 70,200 128,184 C170,173 210,168 260,166" fill="none" stroke="url(#cSweep)" stroke-width="9" opacity=".4" filter="url(#cGlowS)"/>
+            <path d="M-4,262 C30,226 70,200 128,184 C170,173 210,168 260,166" fill="none" stroke="url(#cSweep)" stroke-width="1.3" opacity=".85"/>
+            <!-- inner rim light -->
+            <use href="#cShape" fill="none" stroke="#3e8ee6" stroke-width="8" opacity=".35" filter="url(#cGlowS)"/>
+          </g>
+          <!-- crisp neon outline: white-cyan, gold at top-left & bottom-right, cyan at bottom-left -->
+          <use href="#cShape" fill="none" stroke="#e8fbff" stroke-width="2.2"/>
+          <use href="#cShape" fill="none" stroke="#ffd98a" stroke-width="2.6" mask="url(#mGold)"/>
+          <use href="#cShape" fill="none" stroke="#6af3ff" stroke-width="2.6" mask="url(#mCyan)"/>
+        </svg>
+
+        <h2 class="cta-title">پروژه بعدی‌تان را<br><span class="gold">هوشمندانه</span> آغاز کنید</h2>
+        <button class="cta-btn" type="button">
+          <svg class="play" viewBox="0 0 22 24" aria-hidden="true"><path d="M3 2.6v18.8c0 .9 1 1.5 1.8 1L20 13.1c.7-.5.7-1.6 0-2.1L4.8 1.6C4 1.1 3 1.7 3 2.6Z" fill="currentColor"/></svg>
+          <span>شروع با متریکا</span>
+          <svg class="ghost" viewBox="0 0 10 20" aria-hidden="true"><path d="M8 2 2 10l6 8" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <svg class="deco page-foot" viewBox="0 0 600 130" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs><filter id="fBlur" x="-10%" y="-50%" width="120%" height="200%"><feGaussianBlur stdDeviation="3"/></filter></defs>
+      <path d="M-20,40 C90,90 200,70 310,40 C420,10 520,30 620,90" fill="none" stroke="#eef6ff" stroke-width="16" opacity=".45" filter="url(#fBlur)"/>
+      <path d="M-20,96 C110,140 230,110 340,78 C450,48 540,70 620,124" fill="none" stroke="#f6faff" stroke-width="12" opacity=".5" filter="url(#fBlur)"/>
+    </svg>
+  </section>
+
+</main>
+</body>
+</html>
