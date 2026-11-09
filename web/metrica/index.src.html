@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<!-- Source file. `python3 build.py` inlines assets/ and fonts/ into the standalone index.html. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>متریکا | ابزارها و چرا متریکا</title>
+<style>
+/* Estedad (SIL OFL 1.1, github.com/aminabedi68/Estedad) — variable weight 100–900, inlined at build */
+@font-face{font-family:"Estedad";font-style:normal;font-weight:100 900;font-display:swap;
+  src:url(fonts/estedad-arabic-wght-normal.woff2) format("woff2");
+  unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
+@font-face{font-family:"Estedad";font-style:normal;font-weight:100 900;font-display:swap;
+  src:url(fonts/estedad-latin-wght-normal.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* ---- standalone page shell (drop these two rules when placing under the live hero) ---- */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:#c3dbfd}
+
+/* =====================================================================
+   METRICA post-hero sections. Everything is scoped under .mtr.
+   --u = one pixel of the 420px-wide mobile reference; it scales the whole
+   composition fluidly and is re-based per breakpoint (container queries).
+   ===================================================================== */
+.mtr,.mtr *,.mtr *::before,.mtr *::after{box-sizing:border-box}
+.mtr{
+  --mtr-navy-950:#00112f;
+  --mtr-navy-900:#011a43;
+  --mtr-navy-800:#03285f;
+  --mtr-navy-700:#073c86;
+  --mtr-royal:#0d56b9;
+  --mtr-cyan:#3cc6ff;
+  --mtr-cyan-hi:#c4f1ff;
+  --mtr-ice-0:#f7fbff;
+  --mtr-ice-1:#e8f1fe;
+  --mtr-ice-2:#d6e6fd;
+  --mtr-ice-3:#c0d9fc;
+  --mtr-gold-hi:#fff6c6;
+  --mtr-gold:#ffd23f;
+  --mtr-gold-deep:#f5a400;
+  --mtr-ink:#0a1733;
+  --mtr-ink-2:#23324e;
+  --mtr-neon:1;            /* neon/glow intensity multiplier */
+  container:mtr/inline-size;
+  position:relative;
+  overflow:hidden;
+  overflow:clip;
+  direction:rtl;
+  font-family:"Estedad",Tahoma,sans-serif;
+  font-weight:500;
+  line-height:1.5;
+  color:var(--mtr-ink);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  background:
+    radial-gradient(60% 18% at 8% 0%,rgba(255,255,255,.55),transparent 70%),
+    linear-gradient(180deg,#d3e5fe 0%,#bfd9fd 16%,#c8dffd 40%,#c2dbfd 50%,#c9e0fd 72%,#bdd8fc 100%);
+}
+.mtr :where(h2,h3,p,ul,li){margin:0;padding:0}
+.mtr :where(ul){list-style:none}
+.mtr :where(img){display:block;max-width:none;user-select:none;-webkit-user-drag:none}
+.mtr :where(button){font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mtr :where(button):focus-visible{outline:calc(var(--u)*3) solid #1d74ea;outline-offset:calc(var(--u)*3)}
+.mtr-tools,.mtr-bridge,.mtr-why{--u:calc(min(100cqi,560px)/420);position:relative;isolation:isolate}
+
+.mtr-defs{position:absolute;width:0;height:0;overflow:hidden}
+.mtr-wrap{position:relative;width:calc(var(--u)*358);margin-inline:auto}
+.mtr-bg{position:absolute;inset:0;width:100%;height:100%;z-index:-2;pointer-events:none}
+/* clipped decoration layer that follows the parent's rounded shape */
+.mtr-fx{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none}
+.mtr-fx>svg{position:absolute;inset:0;width:100%;height:100%}
+/* gold rim accent drawn exactly on a 40u-radius corner (scaled with --s for other radii) */
+.mtr-corner{--s:1;position:absolute;margin:calc(var(--u)*-1.6);width:calc(var(--u)*150*var(--s));height:calc(var(--u)*110*var(--s));overflow:visible;pointer-events:none;
+  filter:drop-shadow(0 0 calc(var(--u)*3) rgba(255,176,30,calc(.95*var(--mtr-neon)))) drop-shadow(0 0 calc(var(--u)*9) rgba(255,160,20,calc(.55*var(--mtr-neon))))}
+.mtr-corner--tr{top:0;right:0}
+.mtr-corner--br{bottom:0;right:0;transform:scaleY(-1)}
+.mtr-corner--tl{top:0;left:0;transform:scaleX(-1)}
+.mtr-corner--bl{bottom:0;left:0;transform:scale(-1,-1)}
+.mtr-cta .mtr-corner--tl{--s:1.1}
+/* content sits above the absolutely positioned .mtr-fx layer */
+.mtr-tool__foot,.mtr-feat__text,.mtr-feat .mtr-arrow,.mtr-intro__copy,.mtr-btn>*{position:relative}
+
+.mtr-gold-text{
+  background:linear-gradient(180deg,#fff7cf 0%,#ffe36b 30%,#ffcb2b 62%,#f4a300 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 calc(var(--u)*6) rgba(255,184,32,calc(.45*var(--mtr-neon))));
+}
+.mtr-ico{display:block;flex:none;fill:currentColor}
+
+/* ---------- buttons ---------- */
+.mtr-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;font-weight:850;white-space:nowrap;line-height:1}
+.mtr-btn--gold{
+  color:#0a1430;
+  background:linear-gradient(180deg,#fff7c9 0%,#ffe36a 20%,#ffd02f 52%,#f9b40f 82%,#ffd04a 100%);
+  box-shadow:
+    0 0 0 calc(var(--u)*1.2) rgba(255,240,170,.95),
+    0 0 calc(var(--u)*18) rgba(255,188,30,calc(.62*var(--mtr-neon))),
+    0 calc(var(--u)*7) calc(var(--u)*14) rgba(150,88,0,.32),
+    inset 0 calc(var(--u)*2) 0 rgba(255,255,255,.85),
+    inset 0 calc(var(--u)*-3) calc(var(--u)*7) rgba(214,124,0,.42);
+}
+.mtr-btn--gold::before{ /* glossy top reflection */
+  content:"";position:absolute;inset:calc(var(--u)*3) calc(var(--u)*14) 52% calc(var(--u)*14);border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(255,255,255,0));pointer-events:none}
+.mtr-btn--navy{
+  color:#fff;
+  background:linear-gradient(180deg,#1e66cf 0%,#0d4aab 45%,#06307c 100%);
+  box-shadow:
+    0 0 0 calc(var(--u)*1.3) rgba(110,212,255,.85),
+    0 0 calc(var(--u)*14) rgba(40,160,255,calc(.6*var(--mtr-neon))),
+    0 calc(var(--u)*7) calc(var(--u)*14) rgba(4,40,110,.32),
+    inset 0 calc(var(--u)*1.5) 0 rgba(255,255,255,.35),
+    inset 0 calc(var(--u)*-4) calc(var(--u)*8) rgba(0,20,70,.45);
+}
+.mtr-arrow{flex:none;display:grid;place-items:center;width:calc(var(--u)*26);height:calc(var(--u)*26);border-radius:50%;color:#0f2148;
+  background:radial-gradient(circle at 38% 30%,#eaf2fe 0%,#cfe0f6 55%,#bcd3f1 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 calc(var(--u)*1.5) calc(var(--u)*3) rgba(35,85,165,.22)}
+.mtr-arrow .mtr-ico{width:calc(var(--u)*12.5);height:calc(var(--u)*12.5)}
+.mtr-arrow--gold{color:#0b1838;background:radial-gradient(circle at 38% 30%,#fff3a8 0%,#ffd43c 50%,#f6b10e 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 0 calc(var(--u)*10) rgba(255,190,30,calc(.55*var(--mtr-neon)))}
+
+/* =====================================================================
+   SECTION 1 — Tools & Subscription
+   ===================================================================== */
+.mtr-tools{padding-top:calc(var(--u)*40)}
+
+/* ---- subscription panel ---- */
+.mtr-sub{position:relative;display:grid;grid-template-columns:calc(var(--u)*186) minmax(0,1fr);align-items:center;
+  min-height:calc(var(--u)*218);
+  padding:calc(var(--u)*22) calc(var(--u)*6) calc(var(--u)*22) calc(var(--u)*4);
+  border:calc(var(--u)*1.6) solid transparent;
+  border-radius:calc(var(--u)*44) calc(var(--u)*40) calc(var(--u)*40) calc(var(--u)*38);
+  background:
+    radial-gradient(75% 95% at 18% 62%,rgba(22,104,214,.78) 0%,rgba(10,70,170,.35) 45%,transparent 75%) padding-box,
+    linear-gradient(104deg,#0a4598 0%,#053274 34%,#02225a 60%,#011a46 100%) padding-box,
+    conic-gradient(from 0deg,#a6e6ff 0deg,#e6f8ff 32deg,#ffd774 52deg,#ffb02c 70deg,#7fcfff 98deg,#57b9ff 110deg,#ffc041 124deg,#ffe08a 134deg,#4cbdff 160deg,#38b4ff 196deg,#6fdcff 232deg,#bdeeff 270deg,#ffe2a0 300deg,#ffc64f 312deg,#e4f7ff 338deg,#a6e6ff 360deg) border-box;
+  box-shadow:
+    0 0 0 calc(var(--u)*1) rgba(255,255,255,.35),
+    0 0 calc(var(--u)*22) rgba(40,160,255,calc(.55*var(--mtr-neon))),
+    0 calc(var(--u)*22) calc(var(--u)*36) calc(var(--u)*-12) rgba(4,36,104,.55),
+    inset 0 calc(var(--u)*1) 0 rgba(255,255,255,.25)}
+.mtr-glow::before{ /* warm/cyan blooms behind the panel; positions are set per panel */
+  content:"";position:absolute;z-index:-1;inset:calc(var(--u)*-60);pointer-events:none;
+  background:
+    radial-gradient(var(--g1s,0 0) at var(--g1p,0 0),rgba(255,176,36,calc(.78*var(--mtr-neon))),transparent 70%),
+    radial-gradient(var(--g2s,0 0) at var(--g2p,0 0),rgba(255,186,46,calc(.7*var(--mtr-neon))),transparent 70%),
+    radial-gradient(var(--g3s,0 0) at var(--g3p,0 0),rgba(255,166,26,calc(.78*var(--mtr-neon))),transparent 70%),
+    radial-gradient(var(--g4s,0 0) at var(--g4p,0 0),rgba(40,168,255,calc(.5*var(--mtr-neon))),transparent 70%)}
+.mtr-sub{
+  --g1s:calc(var(--u)*58) calc(var(--u)*44);--g1p:calc(var(--u)*86) calc(var(--u)*72);
+  --g2s:calc(var(--u)*36) calc(var(--u)*80);--g2p:calc(100% - var(--u)*58) 36%;
+  --g3s:calc(var(--u)*58) calc(var(--u)*46);--g3p:calc(100% - var(--u)*82) calc(100% - var(--u)*72);
+  --g4s:40% calc(var(--u)*46);--g4p:28% calc(100% - var(--u)*58)}
+.mtr-sub__body{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center}
+.mtr-pill{display:inline-block;padding:calc(var(--u)*4) calc(var(--u)*13);border-radius:999px;white-space:nowrap;
+  font-size:calc(var(--u)*11.6);font-weight:600;line-height:1.55;color:#e9f2ff;
+  background:linear-gradient(180deg,rgba(92,156,236,.78),rgba(52,112,206,.66));
+  box-shadow:inset 0 0 0 1px rgba(170,214,255,.32),inset 0 1px 0 rgba(255,255,255,.25),0 calc(var(--u)*2) calc(var(--u)*6) rgba(0,20,70,.25)}
+.mtr-sub__title{margin-top:calc(var(--u)*11);font-size:calc(var(--u)*33.5);font-weight:900;line-height:1.2;white-space:nowrap}
+.mtr-sub__desc{margin-top:calc(var(--u)*8);font-size:calc(var(--u)*13);font-weight:500;line-height:1.62;color:#eef4ff;white-space:nowrap}
+.mtr-sub__cta{margin-top:calc(var(--u)*15);width:calc(var(--u)*166);height:calc(var(--u)*38);padding-inline:calc(var(--u)*15) calc(var(--u)*16);
+  justify-content:space-between;font-size:calc(var(--u)*15.5)}
+.mtr-sub__cta .mtr-ico--crown{width:calc(var(--u)*19);height:calc(var(--u)*19)}
+.mtr-sub__cta .mtr-ico--chev{width:calc(var(--u)*11);height:calc(var(--u)*11)}
+.mtr-sub__art{position:relative;justify-self:center;align-self:center;margin-top:calc(var(--u)*-6)}
+.mtr-sub__art img{width:calc(var(--u)*184);height:auto}
+
+/* ---- tool cards ---- */
+.mtr-tools__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:calc(var(--u)*12) calc(var(--u)*9);align-items:start;
+  margin-top:calc(var(--u)*20);padding-inline:calc(var(--u)*3)}
+.mtr-tool{position:relative;display:flex;flex-direction:column;min-height:calc(var(--u)*152);
+  padding:calc(var(--u)*4) calc(var(--u)*12) calc(var(--u)*12) calc(var(--u)*11);
+  border:calc(var(--u)*1.5) solid transparent;border-radius:calc(var(--u)*22);
+  background:
+    radial-gradient(90% 55% at 70% 0%,rgba(255,255,255,.9),rgba(255,255,255,0) 70%) padding-box,
+    linear-gradient(180deg,#f1f6fe 0%,#e7f0fd 45%,#dce9fc 100%) padding-box,
+    linear-gradient(160deg,#ffffff 0%,rgba(255,255,255,.92) 40%,#d4e6fd 75%,#ffffff 100%) border-box;
+  box-shadow:
+    0 0 0 1px rgba(170,210,255,.45),
+    0 0 calc(var(--u)*10) rgba(120,190,255,calc(.28*var(--mtr-neon))),
+    0 calc(var(--u)*12) calc(var(--u)*22) calc(var(--u)*-6) rgba(30,84,165,.24),
+    0 calc(var(--u)*2) calc(var(--u)*5) rgba(30,84,165,.1),
+    inset 0 calc(var(--u)*-10) calc(var(--u)*18) rgba(170,205,248,.32)}
+.mtr-tool__art{position:relative;display:flex;justify-content:center;align-items:center;height:calc(var(--u)*90);margin-inline:calc(var(--u)*-6)}
+.mtr-tool__art img{width:100%;height:100%;object-fit:contain}
+.mtr-tool__foot{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"title title" "desc arrow";column-gap:calc(var(--u)*7);align-items:center;margin-top:auto}
+.mtr-tool__text{display:contents}
+.mtr-tool__title{grid-area:title}
+.mtr-tool__desc{grid-area:desc}
+.mtr-tool .mtr-arrow{grid-area:arrow;align-self:start;margin-top:calc(var(--u)*-9)}
+.mtr-tool__title{font-size:calc(var(--u)*19);font-weight:900;line-height:1.35;color:var(--mtr-ink);white-space:nowrap}
+.mtr-tool__desc{margin-top:calc(var(--u)*3);font-size:calc(var(--u)*11.5);font-weight:500;line-height:1.55;color:var(--mtr-ink-2);white-space:nowrap}
+.mtr-tool--tall{min-height:calc(var(--u)*183);padding-bottom:calc(var(--u)*26)}
+.mtr-tool--tall .mtr-tool__art{height:calc(var(--u)*100);margin-top:calc(var(--u)*4)}
+
+/* free-trial card */
+.mtr-tool--free{min-height:calc(var(--u)*223);padding-bottom:calc(var(--u)*15);
+  background:
+    radial-gradient(80% 45% at 75% 0%,rgba(255,255,255,.95),rgba(255,255,255,0) 70%) padding-box,
+    linear-gradient(180deg,#f3f8ff 0%,#e3eefd 50%,#d2e4fc 100%) padding-box,
+    linear-gradient(160deg,#ffffff 0%,rgba(255,255,255,.92) 40%,#cfe3fd 75%,#ffffff 100%) border-box}
+.mtr-tool--free .mtr-tool__art{height:calc(var(--u)*70);justify-content:flex-end;margin-inline:calc(var(--u)*-4)}
+.mtr-tool--free .mtr-tool__art img{width:calc(var(--u)*114);height:auto}
+.mtr-bolt{position:absolute;top:calc(var(--u)*2);right:calc(var(--u)*6);width:calc(var(--u)*27);height:calc(var(--u)*40);
+  filter:drop-shadow(0 0 calc(var(--u)*5) rgba(255,180,20,calc(.55*var(--mtr-neon))))}
+.mtr-tool--free .mtr-tool__title{font-size:calc(var(--u)*21.5)}
+.mtr-tool--free .mtr-tool__desc{white-space:normal;margin-top:calc(var(--u)*4);line-height:1.62}
+.mtr-tool--free .mtr-tool__art{margin-inline:calc(var(--u)*-4)}
+.mtr-tool--free .mtr-tool__foot{display:block;margin-top:calc(var(--u)*4)}
+.mtr-tool__cta{display:flex;margin:calc(var(--u)*13) auto 0;width:calc(var(--u)*137);height:calc(var(--u)*37);gap:calc(var(--u)*16);font-size:calc(var(--u)*14.8)}
+.mtr-tool__cta .mtr-ico{width:calc(var(--u)*13);height:calc(var(--u)*13)}
+
+/* =====================================================================
+   Transition between the two sections
+   ===================================================================== */
+.mtr-bridge{height:calc(var(--u)*78);margin-block:calc(var(--u)*4) calc(var(--u)*-6);pointer-events:none}
+.mtr-bridge svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.mtr-bridge path:not(.mtr-bridge__spark){vector-effect:non-scaling-stroke}
+/* one short light pulse travelling along the trail; parked off-path (offset 8 / -100) between runs */
+.mtr-bridge__spark{stroke-dasharray:7 101;stroke-dashoffset:8;animation:mtr-spark 9s cubic-bezier(.5,0,.3,1) 1.2s infinite}
+@keyframes mtr-spark{0%{stroke-dashoffset:8}70%,100%{stroke-dashoffset:-100}}
+
+/* =====================================================================
+   SECTION 2 — Why METRICA
+   ===================================================================== */
+.mtr-why{padding-bottom:calc(var(--u)*46)}
+.mtr-why .mtr-wrap{width:calc(var(--u)*398)}
+
+/* ---- intro panel ---- */
+.mtr-intro{position:relative;padding:calc(var(--u)*28) calc(var(--u)*14) calc(var(--u)*12);text-align:center;
+  border:calc(var(--u)*1.6) solid transparent;
+  border-radius:calc(var(--u)*42) calc(var(--u)*48) calc(var(--u)*40) calc(var(--u)*46);
+  background:
+    radial-gradient(55% 30% at 92% 4%,rgba(30,110,215,.6),transparent 70%) padding-box,
+    radial-gradient(70% 30% at 50% 92%,rgba(35,130,235,.55),transparent 72%) padding-box,
+    linear-gradient(180deg,#032b62 0%,#01214f 38%,#022659 66%,#073a80 100%) padding-box,
+    conic-gradient(from 0deg,#b8ecff 0deg,#e9f9ff 40deg,#9adcff 80deg,#5cc4ff 130deg,#3db6ff 180deg,#86dcff 230deg,#f0fbff 280deg,#c9f0ff 320deg,#b8ecff 360deg) border-box;
+  box-shadow:
+    0 0 0 calc(var(--u)*1) rgba(255,255,255,.4),
+    0 0 calc(var(--u)*24) rgba(60,170,255,calc(.5*var(--mtr-neon))),
+    0 calc(var(--u)*24) calc(var(--u)*36) calc(var(--u)*-14) rgba(4,36,104,.5)}
+.mtr-intro__title{position:relative;font-size:calc(var(--u)*54);font-weight:900;line-height:1.22;color:#fff;white-space:nowrap}
+.mtr-intro__sub{position:relative;margin-top:calc(var(--u)*6);font-size:calc(var(--u)*17.6);font-weight:600;line-height:1.62;color:#eef4ff;white-space:nowrap}
+.mtr-stage{position:relative;width:100%;aspect-ratio:368/200;margin-top:calc(var(--u)*6)}
+.mtr-stage>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.mtr-stage img{position:absolute;height:auto}
+.mtr-stage .mtr-stage__main{left:50%;top:0;height:100%;width:auto;transform:translateX(-50%)}
+.mtr-stage__chart{right:1%;top:-2%;width:34%}
+.mtr-stage__donut{left:1.5%;top:34%;width:22%}
+.mtr-float{animation:mtr-float 7s ease-in-out infinite}
+.mtr-stage__donut.mtr-float{animation-delay:-3.5s}
+@keyframes mtr-float{50%{transform:translateY(calc(var(--u)*-3.5))}}
+
+/* ---- feature cards ---- */
+.mtr-feats{display:grid;gap:calc(var(--u)*12);margin-top:calc(var(--u)*21);padding-inline:calc(var(--u)*8)}
+.mtr-feat{position:relative;display:grid;grid-template-columns:calc(var(--u)*29) minmax(0,1fr) auto calc(var(--u)*104);grid-template-areas:"arrow text rule art";
+  align-items:center;min-height:calc(var(--u)*104);padding:calc(var(--u)*8) calc(var(--u)*26) calc(var(--u)*8) calc(var(--u)*18);
+  border:calc(var(--u)*1.5) solid transparent;border-radius:calc(var(--u)*46) calc(var(--u)*36) calc(var(--u)*36) calc(var(--u)*44)}
+.mtr-feat__text{grid-area:text;margin-inline:calc(var(--u)*22) calc(var(--u)*16);text-align:start}
+.mtr-feat__title{font-size:calc(var(--u)*21);font-weight:900;line-height:1.3;white-space:nowrap}
+.mtr-feat__desc{margin-top:calc(var(--u)*6);font-size:calc(var(--u)*14.2);font-weight:500;line-height:1.6;white-space:nowrap}
+.mtr-feat__rule{grid-area:rule;position:relative;width:calc(var(--u)*1.6);height:calc(var(--u)*44);margin-inline-end:calc(var(--u)*20);border-radius:2px}
+.mtr-feat__art{grid-area:art;position:relative;height:calc(var(--u)*94);margin-block:calc(var(--u)*-6)}
+.mtr-feat__art img{width:100%;height:100%;object-fit:contain;transform:scale(var(--art-scale,1.24))}
+.mtr-feat__art--coins{--art-scale:1.08}
+.mtr-feat .mtr-arrow{grid-area:arrow;width:calc(var(--u)*29);height:calc(var(--u)*29)}
+.mtr-feat .mtr-arrow .mtr-ico{width:calc(var(--u)*13.5);height:calc(var(--u)*13.5)}
+
+.mtr-feat--dark{color:#fff;
+  background:
+    radial-gradient(60% 70% at 18% 70%,rgba(20,90,200,.45),transparent 70%) padding-box,
+    linear-gradient(100deg,#062a64 0%,#03204f 40%,#021a43 75%,#04245a 100%) padding-box,
+    conic-gradient(from 0deg,#9fdcff 0deg,#ffe7a0 50deg,#ffb52f 75deg,#7ccbff 100deg,#ffc547 118deg,#4dc0ff 150deg,#7fe4ff 190deg,#bdefff 250deg,#e9f8ff 300deg,#9fdcff 360deg) border-box;
+  box-shadow:
+    0 0 0 calc(var(--u)*1) rgba(255,255,255,.35),
+    0 0 calc(var(--u)*16) rgba(60,170,255,calc(.45*var(--mtr-neon))),
+    0 calc(var(--u)*16) calc(var(--u)*26) calc(var(--u)*-10) rgba(4,36,104,.55)}
+.mtr-feat--dark{
+  --g1s:calc(var(--u)*110) calc(var(--u)*40);--g1p:calc(100% - var(--u)*130) calc(var(--u)*62);
+  --g3s:calc(var(--u)*46) calc(var(--u)*40);--g3p:calc(100% - var(--u)*66) calc(100% - var(--u)*64);
+  --g4s:46% calc(var(--u)*30);--g4p:40% calc(100% - var(--u)*58)}
+.mtr-feat--dark .mtr-feat__desc{color:#e9f1ff}
+.mtr-feat--dark .mtr-feat__rule{background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.9) 30%,rgba(255,255,255,.9) 70%,rgba(255,255,255,0))}
+.mtr-feat--dark .mtr-fx::after{ /* cyan rim light along the bottom edge */
+  content:"";position:absolute;left:6%;right:4%;bottom:0;height:calc(var(--u)*2.2);border-radius:2px;
+  background:linear-gradient(90deg,rgba(60,200,255,0),#43c8ff 25%,#e4fbff 55%,#43c8ff 80%,rgba(60,200,255,0));
+  box-shadow:0 0 calc(var(--u)*8) rgba(60,190,255,calc(.9*var(--mtr-neon)))}
+
+.mtr-feat--light{color:var(--mtr-ink);
+  background:
+    radial-gradient(60% 60% at 45% 0%,rgba(255,255,255,.85),rgba(255,255,255,0) 70%) padding-box,
+    linear-gradient(180deg,#eaf3ff 0%,#dce9fd 55%,#cfe2fc 100%) padding-box,
+    linear-gradient(172deg,#ffffff 0%,rgba(255,255,255,.95) 40%,#9fcbff 82%,#dff0ff 100%) border-box;
+  box-shadow:
+    0 0 0 1px rgba(170,210,255,.55),
+    0 0 calc(var(--u)*14) rgba(110,185,255,calc(.42*var(--mtr-neon))),
+    0 calc(var(--u)*14) calc(var(--u)*24) calc(var(--u)*-10) rgba(30,84,165,.3),
+    inset 0 calc(var(--u)*-6) calc(var(--u)*14) rgba(90,170,255,calc(.28*var(--mtr-neon)))}
+.mtr-feat--light .mtr-feat__desc{color:var(--mtr-ink-2)}
+.mtr-feat--light .mtr-feat__rule{background:linear-gradient(180deg,rgba(40,120,230,0),rgba(40,120,230,.7) 30%,rgba(40,120,230,.7) 70%,rgba(40,120,230,0))}
+.mtr-feat--light .mtr-feat__rule::after{content:"";position:absolute;top:50%;right:calc(var(--u)*-4.5);width:0;height:0;transform:translateY(-50%);
+  border-block:calc(var(--u)*5) solid transparent;border-left:calc(var(--u)*5) solid rgba(40,120,230,.75)}
+.mtr-feat .mtr-corner{--s:.9}
+
+/* ---- final CTA ---- */
+.mtr-cta{position:relative;display:flex;flex-direction:column;align-items:center;margin-top:calc(var(--u)*16);
+  min-height:calc(var(--u)*192);padding:calc(var(--u)*30) calc(var(--u)*20) calc(var(--u)*28);text-align:center;
+  border:calc(var(--u)*1.6) solid transparent;
+  border-radius:calc(var(--u)*44) calc(var(--u)*52) calc(var(--u)*46) calc(var(--u)*50);
+  background:
+    radial-gradient(60% 50% at 50% 10%,rgba(18,85,190,.45),transparent 70%) padding-box,
+    linear-gradient(180deg,#022b62 0%,#01214f 55%,#032b66 100%) padding-box,
+    conic-gradient(from 0deg,#d9f5ff 0deg,#bfeaff 50deg,#ffd27a 80deg,#ffb02c 100deg,#ffd67e 130deg,#59c3ff 170deg,#3ab3ff 210deg,#8fe2ff 250deg,#ffc64f 300deg,#ffe8a6 320deg,#d9f5ff 360deg) border-box;
+  box-shadow:
+    0 0 0 calc(var(--u)*1) rgba(255,255,255,.4),
+    0 0 calc(var(--u)*22) rgba(60,170,255,calc(.5*var(--mtr-neon))),
+    0 calc(var(--u)*24) calc(var(--u)*36) calc(var(--u)*-14) rgba(4,36,104,.5)}
+.mtr-cta{
+  --g1s:calc(var(--u)*60) calc(var(--u)*56);--g1p:calc(var(--u)*84) calc(var(--u)*84);
+  --g2s:calc(var(--u)*34) calc(var(--u)*78);--g2p:calc(100% - var(--u)*58) 52%;
+  --g4s:40% calc(var(--u)*44);--g4p:26% calc(100% - var(--u)*58)}
+.mtr-cta__title{position:relative;font-size:calc(var(--u)*29);font-weight:900;line-height:1.36;color:#fff;white-space:nowrap}
+.mtr-cta__btn{margin-top:calc(var(--u)*24);width:calc(var(--u)*252);height:calc(var(--u)*52);gap:calc(var(--u)*20);font-size:calc(var(--u)*23);font-weight:900}
+.mtr-cta__btn .mtr-ico{width:calc(var(--u)*17);height:calc(var(--u)*17)}
+.mtr-cta__ghost{position:absolute;left:calc(var(--u)*22);top:50%;width:calc(var(--u)*12);height:calc(var(--u)*12);transform:translateY(-50%);opacity:.22}
+
+/* =====================================================================
+   Tablet — 768px to 1199px
+   ===================================================================== */
+@container mtr (min-width:768px){
+  .mtr-tools,.mtr-bridge,.mtr-why{--u:clamp(1px,calc(100cqi/840),1.32px)}
+  .mtr-wrap,.mtr-why .mtr-wrap{width:calc(100% - 64px);max-width:calc(var(--u)*860)}
+  .mtr-tools{padding-top:calc(var(--u)*56)}
+  .mtr-sub{grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:calc(var(--u)*250);padding:calc(var(--u)*28) calc(var(--u)*24)}
+  .mtr-sub__title{font-size:calc(var(--u)*42)}
+  .mtr-sub__desc{font-size:calc(var(--u)*15)}
+  .mtr-pill{font-size:calc(var(--u)*13)}
+  .mtr-sub__cta{width:calc(var(--u)*186);height:calc(var(--u)*44);font-size:calc(var(--u)*17)}
+  .mtr-sub__art img{width:calc(var(--u)*290)}
+  .mtr-tools__grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:calc(var(--u)*16);margin-top:calc(var(--u)*26);padding-inline:0}
+  .mtr-tool{min-height:calc(var(--u)*184);padding:calc(var(--u)*8) calc(var(--u)*16) calc(var(--u)*16);border-radius:calc(var(--u)*24)}
+  .mtr-tool__art{height:calc(var(--u)*108)}
+  .mtr-tool__title{font-size:calc(var(--u)*20)}
+  .mtr-tool__desc{font-size:calc(var(--u)*13)}
+  .mtr-tool--tall{min-height:calc(var(--u)*184)}
+  .mtr-tool--free{min-height:calc(var(--u)*262)}
+  .mtr-tool--free .mtr-tool__art{height:calc(var(--u)*92)}
+  .mtr-tool--free .mtr-tool__art img{width:calc(var(--u)*150)}
+  .mtr-bolt{width:calc(var(--u)*32);height:calc(var(--u)*48)}
+  .mtr-bridge{height:calc(var(--u)*96)}
+  .mtr-intro{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);grid-template-areas:"copy stage";align-items:center;
+    padding:calc(var(--u)*30) calc(var(--u)*34) calc(var(--u)*24) calc(var(--u)*14);text-align:center}
+  .mtr-intro__copy{grid-area:copy}
+  .mtr-stage{grid-area:stage;margin-top:0}
+  .mtr-intro__title{font-size:calc(var(--u)*52)}
+  .mtr-intro__sub{font-size:calc(var(--u)*16.5)}
+  .mtr-feats{grid-template-columns:repeat(2,minmax(0,1fr));gap:calc(var(--u)*16);margin-top:calc(var(--u)*24);padding-inline:0}
+  .mtr-feat{grid-template-columns:calc(var(--u)*29) minmax(0,1fr) auto calc(var(--u)*92);padding-inline:calc(var(--u)*18) calc(var(--u)*12)}
+  .mtr-feat__text{margin-inline:calc(var(--u)*14) calc(var(--u)*12)}
+  .mtr-feat__title{font-size:calc(var(--u)*19.5)}
+  .mtr-feat__desc{font-size:calc(var(--u)*13.4)}
+  .mtr-feat__rule{margin-inline-end:calc(var(--u)*12)}
+  .mtr-feat__art{height:calc(var(--u)*88)}
+  .mtr-cta{margin-top:calc(var(--u)*24);min-height:calc(var(--u)*210)}
+  .mtr-cta__title{font-size:calc(var(--u)*34)}
+}
+
+/* =====================================================================
+   Laptop & desktop — 1200px and above
+   ===================================================================== */
+@container mtr (min-width:1200px){
+  .mtr-tools,.mtr-bridge,.mtr-why{--u:clamp(1.2px,calc(100cqi/1000),1.5px)}
+  .mtr-wrap,.mtr-why .mtr-wrap{width:min(calc(100% - 96px),calc(var(--u)*880));max-width:none}
+  .mtr-tools{padding-top:calc(var(--u)*60)}
+  .mtr-sub{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);min-height:calc(var(--u)*270);padding:calc(var(--u)*30) calc(var(--u)*40) calc(var(--u)*30) calc(var(--u)*28);
+    border-radius:calc(var(--u)*52) calc(var(--u)*44) calc(var(--u)*44) calc(var(--u)*46)}
+  .mtr-sub__title{font-size:calc(var(--u)*50)}
+  .mtr-sub__desc{font-size:calc(var(--u)*16.5)}
+  .mtr-pill{font-size:calc(var(--u)*13.5);padding:calc(var(--u)*5) calc(var(--u)*16)}
+  .mtr-sub__cta{width:calc(var(--u)*204);height:calc(var(--u)*48);font-size:calc(var(--u)*18);margin-top:calc(var(--u)*20)}
+  .mtr-sub__art img{width:calc(var(--u)*364)}
+  .mtr-tools__grid{gap:calc(var(--u)*20);margin-top:calc(var(--u)*28)}
+  .mtr-tool{min-height:calc(var(--u)*206);padding:calc(var(--u)*10) calc(var(--u)*20) calc(var(--u)*18);border-radius:calc(var(--u)*26)}
+  .mtr-tool__art{height:calc(var(--u)*124)}
+  .mtr-tool--tall{min-height:calc(var(--u)*206)}
+  .mtr-tool__title{font-size:calc(var(--u)*21)}
+  .mtr-tool__desc{font-size:calc(var(--u)*13.4)}
+  .mtr-arrow{width:calc(var(--u)*30);height:calc(var(--u)*30)}
+  .mtr-tool--free{min-height:calc(var(--u)*290)}
+  .mtr-tool--free .mtr-tool__art{height:calc(var(--u)*104)}
+  .mtr-tool--free .mtr-tool__art img{width:calc(var(--u)*176)}
+  .mtr-tool--free .mtr-tool__title{font-size:calc(var(--u)*24)}
+  .mtr-tool__cta{width:calc(var(--u)*160);height:calc(var(--u)*42);font-size:calc(var(--u)*16)}
+  .mtr-bridge{height:calc(var(--u)*110)}
+  .mtr-intro{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);padding:calc(var(--u)*34) calc(var(--u)*48) calc(var(--u)*28) calc(var(--u)*20);
+    border-radius:calc(var(--u)*52) calc(var(--u)*60) calc(var(--u)*50) calc(var(--u)*58)}
+  .mtr-intro__title{font-size:calc(var(--u)*60)}
+  .mtr-intro__sub{font-size:calc(var(--u)*18);margin-top:calc(var(--u)*12)}
+  .mtr-feats{gap:calc(var(--u)*20);margin-top:calc(var(--u)*28)}
+  .mtr-feat{grid-template-columns:calc(var(--u)*32) minmax(0,1fr) auto calc(var(--u)*120);min-height:calc(var(--u)*124);padding-inline:calc(var(--u)*30) calc(var(--u)*24)}
+  .mtr-feat__text{margin-inline:calc(var(--u)*24) calc(var(--u)*18)}
+  .mtr-feat__title{font-size:calc(var(--u)*23)}
+  .mtr-feat__desc{font-size:calc(var(--u)*14.6)}
+  .mtr-feat__rule{margin-inline-end:calc(var(--u)*22);height:calc(var(--u)*52)}
+  .mtr-feat__art{height:calc(var(--u)*108)}
+  .mtr-feat .mtr-arrow{width:calc(var(--u)*32);height:calc(var(--u)*32)}
+  .mtr-cta{flex-direction:row;justify-content:space-between;align-items:center;min-height:calc(var(--u)*170);margin-top:calc(var(--u)*28);
+    padding:calc(var(--u)*30) calc(var(--u)*64);text-align:start}
+  .mtr-cta__title{font-size:calc(var(--u)*36)}
+  .mtr-cta__btn{margin-top:0;width:calc(var(--u)*268);height:calc(var(--u)*56)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .mtr *,.mtr *::before,.mtr *::after{animation:none!important;transition:none!important}
+  .mtr-bridge__spark{display:none}
+}
+@media (forced-colors:active){
+  .mtr-btn,.mtr-arrow{border:1px solid ButtonText}
+}
+</style>
+</head>
+<body>
+<!-- The existing METRICA hero stays above this block; it is not part of this file. -->
+
+<div class="mtr" id="metrica-post-hero">
+
+  <!-- shared SVG paint servers + the gold corner-rim shape (40u radius) -->
+  <svg class="mtr-defs" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="mtr-g-rim" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="150" y2="110">
+        <stop offset="0" stop-color="#ffb52e" stop-opacity="0"/>
+        <stop offset=".34" stop-color="#ffb52e" stop-opacity=".85"/>
+        <stop offset=".52" stop-color="#fff6c9"/>
+        <stop offset=".7" stop-color="#ffc443" stop-opacity=".85"/>
+        <stop offset="1" stop-color="#ff9f1a" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="mtr-g-trail" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#3cc6ff" stop-opacity="0"/>
+        <stop offset=".25" stop-color="#3cc6ff" stop-opacity=".85"/>
+        <stop offset=".5" stop-color="#ecfbff"/>
+        <stop offset=".75" stop-color="#3cc6ff" stop-opacity=".85"/>
+        <stop offset="1" stop-color="#3cc6ff" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="mtr-g-trail-soft" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#7fd6ff" stop-opacity="0"/>
+        <stop offset=".4" stop-color="#7fd6ff" stop-opacity=".7"/>
+        <stop offset=".7" stop-color="#ffffff" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#7fd6ff" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="mtr-g-bolt" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff2a0"/>
+        <stop offset=".45" stop-color="#ffcf2e"/>
+        <stop offset="1" stop-color="#f59a00"/>
+      </linearGradient>
+      <linearGradient id="mtr-g-wave" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#1b63c4" stop-opacity=".75"/>
+        <stop offset="1" stop-color="#0b3f95" stop-opacity=".2"/>
+      </linearGradient>
+      <filter id="mtr-f-blur" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.4"/></filter>
+      <filter id="mtr-f-soft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+      <symbol id="mtr-rim" viewBox="0 0 150 110" overflow="visible">
+        <path d="M0 .8H110A39.2 39.2 0 0 1 149.2 40V110" fill="none" stroke="url(#mtr-g-rim)" stroke-width="2.6" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="mtr-i-chev-r" viewBox="0 0 24 24"><path d="M9 5.5l6.5 6.5L9 18.5" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="mtr-i-chev-l" viewBox="0 0 24 24"><path d="M15 5.5L8.5 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="mtr-i-play" viewBox="0 0 24 24"><path d="M7 4.6c0-1.2 1.3-1.9 2.3-1.3l11 7.4c.9.6.9 1.9 0 2.5l-11 7.4c-1 .7-2.3 0-2.3-1.2z"/></symbol>
+      <symbol id="mtr-i-crown" viewBox="0 0 24 24"><path d="M2.2 7.6l5.2 3.7L11.2 4a.9.9 0 0 1 1.6 0l3.8 7.3 5.2-3.7a.6.6 0 0 1 .9.6l-1.9 10a1 1 0 0 1-1 .8H4.2a1 1 0 0 1-1-.8l-1.9-10a.6.6 0 0 1 .9-.6zM4.6 20.6h14.8a.9.9 0 0 1 0 1.8H4.6a.9.9 0 0 1 0-1.8z"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ============================ SECTION 1 ============================ -->
+  <section class="mtr-tools" id="metrica-tools" aria-labelledby="mtr-sub-title">
+    <svg class="mtr-bg" viewBox="0 0 420 940" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path d="M0 0H250C170 18 90 52 0 104Z" fill="#fff" opacity=".42" filter="url(#mtr-f-soft)"/>
+      <path d="M420 640C350 700 318 800 352 940H420Z" fill="#fff" opacity=".22" filter="url(#mtr-f-soft)"/>
+      <path d="M420 700C372 760 356 850 380 940" fill="none" stroke="#fff" stroke-width="1.2" opacity=".55" vector-effect="non-scaling-stroke"/>
+      <path d="M420 760C392 810 384 880 398 940" fill="none" stroke="#fff" stroke-width="1" opacity=".4" vector-effect="non-scaling-stroke"/>
+      <path d="M0 420C40 470 46 560 18 640" fill="none" stroke="#fff" stroke-width="1" opacity=".35" vector-effect="non-scaling-stroke"/>
+    </svg>
+
+    <div class="mtr-wrap">
+
+      <!-- subscription -->
+      <div class="mtr-sub mtr-glow" id="mtr-subscription" data-mtr-block="subscription">
+        <div class="mtr-fx" aria-hidden="true">
+          <svg viewBox="0 0 358 218" preserveAspectRatio="none" focusable="false">
+            <path d="M172 0C140 62 104 132 64 218H0V0Z" fill="#1a62c6" opacity=".18"/>
+            <path d="M0 196C58 160 116 158 174 182S286 226 358 196V218H0Z" fill="url(#mtr-g-wave)"/>
+            <path d="M0 206C60 170 118 166 176 188S290 230 358 204" fill="none" stroke="#41c8ff" stroke-width="6" opacity=".55" filter="url(#mtr-f-blur)" vector-effect="non-scaling-stroke"/>
+            <path d="M0 206C60 170 118 166 176 188S290 230 358 204" fill="none" stroke="url(#mtr-g-trail)" stroke-width="1.8" vector-effect="non-scaling-stroke"/>
+            <path d="M0 214C80 186 150 190 214 206S320 222 358 212" fill="none" stroke="url(#mtr-g-trail-soft)" stroke-width="1" opacity=".7" vector-effect="non-scaling-stroke"/>
+            <path d="M232 0C262 40 312 60 358 62" fill="none" stroke="#9adfff" stroke-width="1" opacity=".25" vector-effect="non-scaling-stroke"/>
+          </svg>
+        </div>
+        <div class="mtr-sub__body">
+          <p class="mtr-pill">دسترسی کامل به همه ابزارها</p>
+          <h2 class="mtr-sub__title" id="mtr-sub-title"><span class="mtr-gold-text">خرید اشتراک</span></h2>
+          <p class="mtr-sub__desc">فعال&zwnj;سازی تمام قابلیت&zwnj;های متریکا<br>با پلن&zwnj;های متنوع و اقتصادی</p>
+          <button type="button" class="mtr-btn mtr-btn--gold mtr-sub__cta" id="mtr-sub-cta" data-mtr-action="choose-plan">
+            <svg class="mtr-ico mtr-ico--crown" aria-hidden="true" focusable="false"><use href="#mtr-i-crown"/></svg>
+            <span>انتخاب پلن</span>
+            <svg class="mtr-ico mtr-ico--chev" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-l"/></svg>
+          </button>
+        </div>
+        <div class="mtr-sub__art">
+          <img src="assets/sub-crown-card.png" width="1536" height="1024" alt="" decoding="async">
+        </div>
+        <svg class="mtr-corner mtr-corner--br" aria-hidden="true" focusable="false"><use href="#mtr-rim"/></svg>
+      </div>
+
+      <!-- tools -->
+      <ul class="mtr-tools__grid" aria-label="ابزارهای متریکا">
+        <li class="mtr-tool" id="mtr-tool-project" data-mtr-tool="project-management">
+          <div class="mtr-tool__art"><img src="assets/tool-project.png" width="1536" height="1024" alt="" decoding="async"></div>
+          <div class="mtr-tool__foot">
+            <div class="mtr-tool__text">
+              <h3 class="mtr-tool__title" id="mtr-tool-project-t">مدیریت پروژه</h3>
+              <p class="mtr-tool__desc">برنامه&zwnj;ریزی و کنترل اجرا</p>
+            </div>
+            <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-project-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          </div>
+        </li>
+        <li class="mtr-tool" id="mtr-tool-analysis" data-mtr-tool="construction-analysis">
+          <div class="mtr-tool__art"><img src="assets/tool-analysis.png" width="1536" height="1024" alt="" decoding="async"></div>
+          <div class="mtr-tool__foot">
+            <div class="mtr-tool__text">
+              <h3 class="mtr-tool__title" id="mtr-tool-analysis-t">آنالیز ساخت</h3>
+              <p class="mtr-tool__desc">برآورد، هزینه و سود</p>
+            </div>
+            <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-analysis-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          </div>
+        </li>
+        <li class="mtr-tool" id="mtr-tool-marketing" data-mtr-tool="marketing">
+          <div class="mtr-tool__art"><img src="assets/tool-marketing.png" width="1536" height="1024" alt="" decoding="async"></div>
+          <div class="mtr-tool__foot">
+            <div class="mtr-tool__text">
+              <h3 class="mtr-tool__title" id="mtr-tool-marketing-t">مارکتینگ</h3>
+              <p class="mtr-tool__desc">جذب مشتری و فروش</p>
+            </div>
+            <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-marketing-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          </div>
+        </li>
+        <li class="mtr-tool" id="mtr-tool-cashflow" data-mtr-tool="cash-flow">
+          <div class="mtr-tool__art"><img src="assets/coins-growth.png" width="1427" height="1102" alt="" decoding="async"></div>
+          <div class="mtr-tool__foot">
+            <div class="mtr-tool__text">
+              <h3 class="mtr-tool__title" id="mtr-tool-cashflow-t">کش فلو</h3>
+              <p class="mtr-tool__desc">گردش مالی و نقدینگی</p>
+            </div>
+            <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-cashflow-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          </div>
+        </li>
+        <li class="mtr-tool mtr-tool--free" id="mtr-tool-free" data-mtr-tool="free-trial">
+          <div class="mtr-fx" aria-hidden="true">
+            <svg viewBox="0 0 172 223" preserveAspectRatio="none" focusable="false">
+              <path d="M0 92C42 112 72 168 122 194S172 212 172 212V223H0Z" fill="#b6d2fa" opacity=".85"/>
+              <path d="M0 150C30 170 56 200 92 223H0Z" fill="#a9c9f7" opacity=".55"/>
+              <path d="M0 112C46 128 74 176 126 200S172 216 172 216" fill="none" stroke="#fff" stroke-width="1.4" opacity=".85" vector-effect="non-scaling-stroke"/>
+              <path d="M172 60C140 92 128 120 136 150" fill="none" stroke="#fff" stroke-width="1" opacity=".55" vector-effect="non-scaling-stroke"/>
+            </svg>
+          </div>
+          <div class="mtr-tool__art">
+            <svg class="mtr-bolt" viewBox="0 0 28 42" aria-hidden="true" focusable="false"><path d="M17.6 1.2 3.2 23.4c-.5.8 0 1.8 1 1.8h7.6l-3.4 14.6c-.2 1 1 1.6 1.7.8L24.8 18c.6-.8 0-1.9-1-1.9h-7.3l3.3-13.9c.3-1.1-1.2-1.8-2.2-1z" fill="url(#mtr-g-bolt)"/></svg>
+            <img src="assets/tool-free-laptop.png" width="1672" height="941" alt="" decoding="async">
+          </div>
+          <div class="mtr-tool__foot">
+            <h3 class="mtr-tool__title" id="mtr-tool-free-t">تجربه رایگان</h3>
+            <p class="mtr-tool__desc">برخی از ابزارهای متریکا را<br>بدون اشتراک امتحان کنید</p>
+            <button type="button" class="mtr-btn mtr-btn--navy mtr-tool__cta" id="mtr-free-cta" data-mtr-action="start-trial">
+              <svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-play"/></svg>
+              <span>شروع تجربه</span>
+            </button>
+          </div>
+        </li>
+        <li class="mtr-tool mtr-tool--tall" id="mtr-tool-contractors" data-mtr-tool="qualified-contractors">
+          <div class="mtr-tool__art"><img src="assets/tool-contractors.png" width="1536" height="1024" alt="" decoding="async"></div>
+          <div class="mtr-tool__foot">
+            <div class="mtr-tool__text">
+              <h3 class="mtr-tool__title" id="mtr-tool-contractors-t">مجریان ذیصلاح</h3>
+              <p class="mtr-tool__desc">استعلام و انتخاب مجری</p>
+            </div>
+            <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-contractors-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== transition between sections ===================== -->
+  <div class="mtr-bridge" id="mtr-bridge" aria-hidden="true">
+    <svg viewBox="0 0 420 80" preserveAspectRatio="none" focusable="false">
+      <path d="M0 52C90 18 170 14 246 32S366 70 420 30L420 46C362 82 252 50 172 40S62 44 0 70Z" fill="#fff" opacity=".38" filter="url(#mtr-f-soft)"/>
+      <path d="M-10 60C80 24 170 16 250 34S372 68 430 26" fill="none" stroke="#3cc6ff" stroke-width="7" opacity=".35" filter="url(#mtr-f-blur)"/>
+      <path d="M-10 60C80 24 170 16 250 34S372 68 430 26" fill="none" stroke="url(#mtr-g-trail)" stroke-width="1.8"/>
+      <path d="M-10 70C100 42 190 40 262 50S384 64 430 44" fill="none" stroke="url(#mtr-g-trail-soft)" stroke-width="1.1" opacity=".75"/>
+      <path class="mtr-bridge__spark" d="M-10 60C80 24 170 16 250 34S372 68 430 26" pathLength="100" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" opacity=".9"/>
+    </svg>
+  </div>
+
+  <!-- ============================ SECTION 2 ============================ -->
+  <section class="mtr-why" id="metrica-why" aria-labelledby="mtr-why-title">
+    <svg class="mtr-bg" viewBox="0 0 420 1060" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path d="M0 330C30 420 26 520 0 600Z" fill="#fff" opacity=".3" filter="url(#mtr-f-soft)"/>
+      <path d="M0 980C120 940 260 950 420 1000V1060H0Z" fill="#fff" opacity=".3" filter="url(#mtr-f-soft)"/>
+      <path d="M0 1010C130 970 270 980 420 1030" fill="none" stroke="#fff" stroke-width="1.2" opacity=".6" vector-effect="non-scaling-stroke"/>
+      <path d="M0 1040C140 1004 280 1012 420 1052" fill="none" stroke="#fff" stroke-width="1" opacity=".45" vector-effect="non-scaling-stroke"/>
+    </svg>
+
+    <div class="mtr-wrap">
+
+      <!-- intro -->
+      <div class="mtr-intro" id="mtr-why-intro">
+        <div class="mtr-fx" aria-hidden="true">
+          <svg viewBox="0 0 398 320" preserveAspectRatio="none" focusable="false">
+            <path d="M0 250C70 290 150 318 240 320H0Z" fill="#2a8cf0" opacity=".22"/>
+            <path d="M0 272C60 300 120 312 180 318" fill="none" stroke="url(#mtr-g-trail)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+            <path d="M398 120C360 170 352 230 372 320" fill="none" stroke="#7fd4ff" stroke-width="1" opacity=".3" vector-effect="non-scaling-stroke"/>
+          </svg>
+        </div>
+        <div class="mtr-intro__copy">
+          <h2 class="mtr-intro__title" id="mtr-why-title">چرا <span class="mtr-gold-text">متریکا</span>؟</h2>
+          <p class="mtr-intro__sub">همه&zwnj;چیز برای یک ساخت&zwnj;وساز هوشمند<br>و سودآور در یک پلتفرم یکپارچه</p>
+        </div>
+        <div class="mtr-stage">
+          <svg viewBox="0 0 368 200" preserveAspectRatio="none" focusable="false" aria-hidden="true">
+            <ellipse cx="184" cy="184" rx="170" ry="26" fill="#2b9cff" opacity=".16" filter="url(#mtr-f-soft)"/>
+            <ellipse cx="184" cy="182" rx="178" ry="24" fill="none" stroke="url(#mtr-g-trail)" stroke-width="1.4" opacity=".7"/>
+            <ellipse cx="184" cy="186" rx="152" ry="18" fill="none" stroke="#59c9ff" stroke-width="1" opacity=".45"/>
+            <ellipse cx="184" cy="190" rx="130" ry="12" fill="none" stroke="#a5e6ff" stroke-width=".8" opacity=".35"/>
+          </svg>
+          <img class="mtr-stage__chart mtr-float" src="assets/why-chart-panel.png" width="1427" height="1102" alt="" decoding="async" loading="lazy">
+          <img class="mtr-stage__main" src="assets/why-building.png" width="1536" height="1024" alt="" decoding="async" loading="lazy">
+          <img class="mtr-stage__donut mtr-float" src="assets/why-donut-panel.png" width="1297" height="1212" alt="" decoding="async" loading="lazy">
+        </div>
+      </div>
+
+      <!-- features -->
+      <ul class="mtr-feats" aria-label="مزیت‌های متریکا">
+        <li class="mtr-feat mtr-feat--dark mtr-glow" id="mtr-feat-economic" data-mtr-feature="economic-analysis">
+          <div class="mtr-fx" aria-hidden="true">
+            <svg viewBox="0 0 380 104" preserveAspectRatio="none" focusable="false">
+              <g fill="#3fa8ff" opacity=".22"><rect x="20" y="62" width="7" height="42" rx="1"/><rect x="31" y="50" width="7" height="54" rx="1"/><rect x="42" y="70" width="7" height="34" rx="1"/><rect x="53" y="44" width="7" height="60" rx="1"/><rect x="64" y="58" width="7" height="46" rx="1"/></g>
+              <path d="M0 30C40 20 70 26 100 40" fill="none" stroke="#5fc8ff" stroke-width="1" opacity=".25" vector-effect="non-scaling-stroke"/>
+            </svg>
+          </div>
+          <div class="mtr-feat__text">
+            <h3 class="mtr-feat__title" id="mtr-feat-economic-t">تحلیل اقتصادی</h3>
+            <p class="mtr-feat__desc">بررسی سود، هزینه<br>و کش فلو پروژه</p>
+          </div>
+          <span class="mtr-feat__rule" aria-hidden="true"></span>
+          <div class="mtr-feat__art mtr-feat__art--coins"><img src="assets/coins-growth.png" width="1427" height="1102" alt="" decoding="async" loading="lazy"></div>
+          <button type="button" class="mtr-arrow mtr-arrow--gold" aria-labelledby="mtr-feat-economic-t" data-mtr-action="open-feature"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          <svg class="mtr-corner mtr-corner--tr" aria-hidden="true" focusable="false"><use href="#mtr-rim"/></svg>
+          <svg class="mtr-corner mtr-corner--br" aria-hidden="true" focusable="false"><use href="#mtr-rim"/></svg>
+        </li>
+        <li class="mtr-feat mtr-feat--light" id="mtr-feat-estimate" data-mtr-feature="accurate-estimate">
+          <div class="mtr-fx" aria-hidden="true">
+            <svg viewBox="0 0 380 104" preserveAspectRatio="xMaxYMid slice" focusable="false">
+              <g fill="none" stroke="#3b82d6" stroke-width=".8" opacity=".16">
+                <path d="M286 92V40l34-16 40 16v52M286 40l40 14 34-14M326 54v38M300 60h16v20h-16zM334 62h16v18h-16z"/>
+                <path d="M270 92h106M296 46l-10-6M346 30v-14h10v18"/>
+              </g>
+              <g fill="none" stroke="#3b82d6" stroke-width=".7" opacity=".1">
+                <path d="M14 20h40v40H14zM14 40h40M34 20v40M60 70h30M60 78h22"/>
+              </g>
+            </svg>
+          </div>
+          <div class="mtr-feat__text">
+            <h3 class="mtr-feat__title" id="mtr-feat-estimate-t">برآورد دقیق</h3>
+            <p class="mtr-feat__desc">محاسبه هزینه&zwnj;ها<br>با داده&zwnj;های واقعی</p>
+          </div>
+          <span class="mtr-feat__rule" aria-hidden="true"></span>
+          <div class="mtr-feat__art"><img src="assets/why-calculator.png" width="1297" height="1212" alt="" decoding="async" loading="lazy"></div>
+          <button type="button" class="mtr-arrow" aria-labelledby="mtr-feat-estimate-t" data-mtr-action="open-feature"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+        </li>
+        <li class="mtr-feat mtr-feat--dark mtr-glow" id="mtr-feat-project" data-mtr-feature="project-management">
+          <div class="mtr-fx" aria-hidden="true">
+            <svg viewBox="0 0 380 104" preserveAspectRatio="xMaxYMid slice" focusable="false">
+              <g fill="none" stroke="#ffc94a" stroke-width=".7" opacity=".28">
+                <path d="M250 104C290 70 330 40 380 30"/><path d="M262 104C300 74 336 48 380 40"/><path d="M274 104C310 78 342 56 380 50"/>
+                <path d="M286 104C320 82 348 64 380 60"/><path d="M298 104C330 86 354 72 380 70"/><path d="M310 104C338 90 360 80 380 80"/>
+              </g>
+            </svg>
+          </div>
+          <div class="mtr-feat__text">
+            <h3 class="mtr-feat__title" id="mtr-feat-project-t">مدیریت پروژه</h3>
+            <p class="mtr-feat__desc">برنامه&zwnj;ریزی و کنترل<br>تمام مراحل اجرا</p>
+          </div>
+          <span class="mtr-feat__rule" aria-hidden="true"></span>
+          <div class="mtr-feat__art"><img src="assets/why-checklist.png" width="1427" height="1102" alt="" decoding="async" loading="lazy"></div>
+          <button type="button" class="mtr-arrow mtr-arrow--gold" aria-labelledby="mtr-feat-project-t" data-mtr-action="open-feature"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+          <svg class="mtr-corner mtr-corner--tr" aria-hidden="true" focusable="false"><use href="#mtr-rim"/></svg>
+          <svg class="mtr-corner mtr-corner--br" aria-hidden="true" focusable="false"><use href="#mtr-rim"/></svg>
+        </li>
+        <li class="mtr-feat mtr-feat--light" id="mtr-feat-integrated" data-mtr-feature="integrated-tools">
+          <div class="mtr-fx" aria-hidden="true">
+            <svg viewBox="0 0 380 104" preserveAspectRatio="xMaxYMid slice" focusable="false">
+              <g fill="none" stroke="#3b82d6" opacity=".2">
+                <path transform="translate(8 -7)" fill="#3b82d6" stroke="none" d="M351 2h6l1 5 4 2 4-3 4 4-3 4 2 4 5 1v6l-5 1-2 4 3 4-4 4-4-3-4 2-1 5h-6l-1-5-4-2-4 3-4-4 3-4-2-4-5-1v-6l5-1 2-4-3-4 4-4 4 3 4-2zM354 15a7 7 0 1 0 .01 0z" fill-rule="evenodd"/>
+              </g>
+              <g fill="none" stroke="#3b82d6" stroke-width=".7" opacity=".1">
+                <path d="M12 80h60M12 88h44M20 30l20-10 20 10v30H20z"/>
+              </g>
+            </svg>
+          </div>
+          <div class="mtr-feat__text">
+            <h3 class="mtr-feat__title" id="mtr-feat-integrated-t">ابزارهای یکپارچه</h3>
+            <p class="mtr-feat__desc">دسترسی به امکانات<br>حرفه&zwnj;ای در یک محیط</p>
+          </div>
+          <span class="mtr-feat__rule" aria-hidden="true"></span>
+          <div class="mtr-feat__art"><img src="assets/why-layers.png" width="1427" height="1102" alt="" decoding="async" loading="lazy"></div>
+          <button type="button" class="mtr-arrow" aria-labelledby="mtr-feat-integrated-t" data-mtr-action="open-feature"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
+        </li>
+      </ul>
+
+      <!-- final CTA -->
+      <div class="mtr-cta mtr-glow" id="mtr-final-cta">
+        <div class="mtr-fx" aria-hidden="true">
+          <svg viewBox="0 0 395 192" preserveAspectRatio="none" focusable="false">
+            <path d="M0 150C70 128 130 150 190 176S290 196 330 192H0Z" fill="#1d6fd6" opacity=".22"/>
+            <path d="M0 160C70 132 130 152 192 178S296 198 340 192" fill="none" stroke="#41c8ff" stroke-width="6" opacity=".5" filter="url(#mtr-f-blur)" vector-effect="non-scaling-stroke"/>
+            <path d="M0 160C70 132 130 152 192 178S296 198 340 192" fill="none" stroke="url(#mtr-g-trail)" stroke-width="1.8" vector-effect="non-scaling-stroke"/>
+            <path d="M0 176C60 156 120 170 176 186" fill="none" stroke="url(#mtr-g-trail-soft)" stroke-width="1" opacity=".7" vector-effect="non-scaling-stroke"/>
+            <path d="M395 40C356 60 340 110 352 192" fill="none" stroke="#7fd4ff" stroke-width="1" opacity=".22" vector-effect="non-scaling-stroke"/>
+          </svg>
+        </div>
+        <h3 class="mtr-cta__title">پروژه بعدی&zwnj;تان را<br><span class="mtr-gold-text">هوشمندانه</span> آغاز کنید</h3>
+        <button type="button" class="mtr-btn mtr-btn--gold mtr-cta__btn" id="mtr-start-cta" data-mtr-action="start-metrica">
+          <svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-play"/></svg>
+          <span>شروع با متریکا</span>
+          <svg class="mtr-cta__ghost mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-l"/></svg>
+        </button>
+        <svg class="mtr-corner mtr-corner--tl" aria-hidden="true" focusable="false"><use href="#mtr-rim"/></svg>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
