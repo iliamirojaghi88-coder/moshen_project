@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>METRICA Hero Test</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #0e2546; }
+  /* supplied city images, unmodified PNG bytes; portrait version on portrait screens */
+  .hero {
+    position: relative; width: 100%; height: 100vh; height: 100svh; overflow: hidden;
+    background: #0e2546 url("data:image/png;base64,__CITY_LANDSCAPE__") 50% 50% / cover no-repeat;
+  }
+  @media (orientation: portrait) {
+    .hero { background-image: url("data:image/png;base64,__CITY_PORTRAIT__"); }
+  }
+  /* subject is 1080x1424 (ratio 0.7584): fit 96% of width or 90% of height, whichever is smaller */
+  .fg {
+    position: absolute; left: 50%; bottom: 4vh; bottom: 4svh;
+    width: min(96vw, 68.25vh); width: min(96vw, 68.25svh);
+    height: auto; aspect-ratio: 1080 / 1424; transform: translateX(-50%); display: block;
+  }
+  #src { position: fixed; top: 0; left: 0; width: 2px; height: 2px; opacity: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<main class="hero">
+  <canvas class="fg" id="fg" width="1080" height="1424"></canvas>
+</main>
+<video id="src" muted autoplay loop playsinline preload="auto"></video>
+<!-- H.264, 2160x1424, 24 fps, 358 frames: straight colour (left half) | alpha matte (right half) -->
+<script type="text/plain" id="hero-video">__HERO_VIDEO__</script>
+<script>
+(() => {
+  const W = 1080, H = 1424;
+  const video = document.getElementById('src');
+  let canvas = document.getElementById('fg');
+  let draw = () => {};
+
+  // ---- WebGL path: colour * alpha, premultiplied over the city background ----
+  function setupGL() {
+    const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false });
+    if (!gl) return false;
+    const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+    const prog = gl.createProgram();
+    gl.attachShader(prog, sh(gl.VERTEX_SHADER,
+      'attribute vec2 p; varying vec2 v;' +
+      'void main(){ v = vec2(p.x * 0.5 + 0.5, 0.5 - p.y * 0.5); gl_Position = vec4(p, 0.0, 1.0); }'));
+    gl.attachShader(prog, sh(gl.FRAGMENT_SHADER,
+      '#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n' +
+      'uniform sampler2D t; varying vec2 v;' +
+      'void main(){' +
+      '  vec3 c = texture2D(t, vec2(v.x * 0.5, v.y)).rgb;' +
+      '  float a = texture2D(t, vec2(0.5 + v.x * 0.5, v.y)).r;' +
+      '  a = clamp((a - 0.02) / 0.96, 0.0, 1.0);' +          // drop codec noise around 0 / 1
+      '  gl_FragColor = vec4(c * a, a);' +
+      '}'));
+    gl.bindAttribLocation(prog, 0, 'p');
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return false;
+    gl.useProgram(prog);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.viewport(0, 0, W, H);
+    gl.clearColor(0, 0, 0, 0);
+    draw = () => {
+      if (video.readyState < 2) return;
+      try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video); }
+      catch (e) { setup2D(); return draw(); }
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    };
+    return true;
+  }
+
+  // ---- 2D fallback (no WebGL): same maths on the CPU ----
+  function setup2D() {
+    const fresh = canvas.cloneNode(); canvas.replaceWith(fresh); canvas = fresh;
+    const ctx = canvas.getContext('2d');
+    const off = document.createElement('canvas'); off.width = 2 * W; off.height = H;
+    const octx = off.getContext('2d', { willReadFrequently: true });
+    const out = ctx.createImageData(W, H), o = out.data;
+    draw = () => {
+      if (video.readyState < 2) return;
+      octx.drawImage(video, 0, 0);
+      const d = octx.getImageData(0, 0, 2 * W, H).data;
+      for (let y = 0; y < H; y++) {
+        let i = y * W * 4, j = y * W * 8;
+        for (let x = 0; x < W; x++, i += 4, j += 4) {
+          const a = (d[j + W * 4] - 5.1) / 0.96;
+          o[i] = d[j]; o[i + 1] = d[j + 1]; o[i + 2] = d[j + 2]; o[i + 3] = a;   // Uint8Clamped clamps 0..255
+        }
+      }
+      ctx.putImageData(out, 0, 0);
+    };
+  }
+
+  if (!setupGL()) setup2D();
+
+  if ('requestVideoFrameCallback' in HTMLVideoElement.prototype) {
+    const onFrame = () => { draw(); video.requestVideoFrameCallback(onFrame); };
+    video.requestVideoFrameCallback(onFrame);
+  } else {
+    let last = -1;
+    (function tick() {
+      if (video.currentTime !== last) { last = video.currentTime; draw(); }
+      requestAnimationFrame(tick);
+    })();
+  }
+  video.addEventListener('loadeddata', () => draw());   // first frame even before playback starts
+  video.addEventListener('seeked', () => draw());
+
+  // embedded video -> Blob URL (same-origin with this page, so WebGL may read it even from file://)
+  const b64 = document.getElementById('hero-video').textContent.trim();
+  fetch('data:video/mp4;base64,' + b64).then(r => r.blob()).then(blob => {
+    video.src = URL.createObjectURL(blob);
+    // autoplay can be refused (e.g. iOS Low Power Mode): start on the first touch/click
+    video.play().catch(() => addEventListener('pointerdown', () => video.play(), { once: true }));
+  });
+})();
+</script>
+</body>
+</html>
