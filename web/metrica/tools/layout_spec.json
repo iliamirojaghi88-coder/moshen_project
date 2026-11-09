@@ -1,0 +1,700 @@
+{
+ "sections": {
+  "tools": {
+   "w": 839,
+   "h": 1875,
+   "bg": "bg-tools"
+  },
+  "why": {
+   "w": 788,
+   "h": 1996,
+   "bg": "bg-why"
+  }
+ },
+ "art": {
+  "img-sub": {
+   "comp": "sub",
+   "src": "sub-crown-card",
+   "box": [
+    92,
+    166,
+    371,
+    438
+   ]
+  },
+  "img-project": {
+   "comp": "tool-project",
+   "src": "tool-project",
+   "box": [
+    500,
+    585,
+    735,
+    758
+   ]
+  },
+  "img-analysis": {
+   "comp": "tool-analysis",
+   "src": "tool-analysis",
+   "box": [
+    100,
+    580,
+    365,
+    758
+   ]
+  },
+  "img-marketing": {
+   "comp": "tool-marketing",
+   "src": "tool-marketing",
+   "box": [
+    495,
+    905,
+    725,
+    1054
+   ]
+  },
+  "img-cashflow": {
+   "comp": "tool-cashflow",
+   "src": "coins-growth",
+   "box": [
+    147,
+    913,
+    366,
+    1062
+   ]
+  },
+  "img-contractors": {
+   "comp": "tool-contractors",
+   "src": "tool-contractors",
+   "box": [
+    145,
+    1234,
+    364,
+    1397
+   ]
+  },
+  "img-free": {
+   "comp": "tool-free",
+   "src": "tool-free-laptop",
+   "box": [
+    446,
+    1243,
+    690,
+    1396
+   ]
+  },
+  "img-building": {
+   "comp": "intro",
+   "src": "why-building",
+   "box": [
+    105,
+    285,
+    592,
+    600
+   ]
+  },
+  "img-chart": {
+   "comp": "intro",
+   "src": "why-chart-panel",
+   "box": [
+    470,
+    300,
+    640,
+    445
+   ]
+  },
+  "img-donut": {
+   "comp": "intro",
+   "src": "why-donut-panel",
+   "box": [
+    62,
+    385,
+    222,
+    535
+   ]
+  },
+  "img-econ": {
+   "comp": "feat-econ",
+   "src": "coins-growth",
+   "box": [
+    94,
+    657,
+    262,
+    797
+   ]
+  },
+  "img-estimate": {
+   "comp": "feat-estimate",
+   "src": "why-calculator",
+   "box": [
+    103,
+    876,
+    277,
+    1047
+   ]
+  },
+  "img-checklist": {
+   "comp": "feat-project",
+   "src": "why-checklist",
+   "box": [
+    110,
+    1092,
+    266,
+    1245
+   ]
+  },
+  "img-layers": {
+   "comp": "feat-tools",
+   "src": "why-layers",
+   "box": [
+    100,
+    1322,
+    266,
+    1456
+   ]
+  }
+ },
+ "boxes": {
+  "pill": {
+   "comp": "sub",
+   "box": [
+    416,
+    146,
+    716,
+    190
+   ]
+  },
+  "b-sub": {
+   "comp": "sub",
+   "box": [
+    415,
+    409,
+    739,
+    481
+   ]
+  },
+  "b-free": {
+   "comp": "tool-free",
+   "box": [
+    467,
+    1558,
+    742,
+    1628
+   ]
+  },
+  "b-cta": {
+   "comp": "cta",
+   "box": [
+    161,
+    1762,
+    629,
+    1848
+   ]
+  },
+  "i-sub-crown": {
+   "comp": "sub",
+   "in": "b-sub",
+   "box": [
+    664,
+    426,
+    707,
+    459
+   ]
+  },
+  "i-sub-chev": {
+   "comp": "sub",
+   "in": "b-sub",
+   "box": [
+    448,
+    433,
+    462,
+    455
+   ]
+  },
+  "i-free-play": {
+   "comp": "tool-free",
+   "in": "b-free",
+   "box": [
+    681,
+    1576,
+    704,
+    1603
+   ]
+  },
+  "i-cta-play": {
+   "comp": "cta",
+   "in": "b-cta",
+   "box": [
+    544,
+    1781,
+    574,
+    1815
+   ]
+  },
+  "i-cta-chev": {
+   "comp": "cta",
+   "in": "b-cta",
+   "box": [
+    203,
+    1794,
+    214,
+    1815
+   ]
+  }
+ },
+ "arrows": {
+  "a-project": {
+   "comp": "tool-project",
+   "c": [
+    478.2,
+    803.2,
+    25.0
+   ]
+  },
+  "a-analysis": {
+   "comp": "tool-analysis",
+   "c": [
+    116.2,
+    803.2,
+    24.6
+   ]
+  },
+  "a-marketing": {
+   "comp": "tool-marketing",
+   "c": [
+    478.2,
+    1114.6,
+    25.4
+   ]
+  },
+  "a-cashflow": {
+   "comp": "tool-cashflow",
+   "c": [
+    116.2,
+    1115.8,
+    25.9
+   ]
+  },
+  "a-contractors": {
+   "comp": "tool-contractors",
+   "c": [
+    116.2,
+    1495.6,
+    25.9
+   ]
+  },
+  "a-econ": {
+   "comp": "feat-econ",
+   "c": [
+    669.4,
+    726.4,
+    28.6
+   ]
+  },
+  "a-estimate": {
+   "comp": "feat-estimate",
+   "c": [
+    616.4,
+    988.6,
+    28.2
+   ]
+  },
+  "a-proj": {
+   "comp": "feat-project",
+   "c": [
+    661.0,
+    1187.8,
+    28.6
+   ]
+  },
+  "a-tools": {
+   "comp": "feat-tools",
+   "c": [
+    653.6,
+    1409.6,
+    28.8
+   ]
+  }
+ },
+ "texts": {
+  "t-pill": {
+   "comp": "sub",
+   "in": "pill",
+   "align": "center",
+   "lines": [
+    [
+     433,
+     155,
+     691,
+     180
+    ]
+   ]
+  },
+  "t-sub-title": {
+   "comp": "sub",
+   "align": "center",
+   "lines": [
+    [
+     399,
+     236,
+     752,
+     290
+    ]
+   ]
+  },
+  "t-sub-desc": {
+   "comp": "sub",
+   "align": "center",
+   "lines": [
+    [
+     404,
+     313,
+     752,
+     340
+    ],
+    [
+     441,
+     353,
+     718,
+     380
+    ]
+   ]
+  },
+  "t-sub-btn": {
+   "comp": "sub",
+   "in": "b-sub",
+   "align": "center",
+   "lines": [
+    [
+     499,
+     429,
+     641,
+     464
+    ]
+   ]
+  },
+  "t-project-title": {
+   "comp": "tool-project",
+   "lines": [
+    [
+     539,
+     765,
+     743,
+     804
+    ]
+   ]
+  },
+  "t-project-desc": {
+   "comp": "tool-project",
+   "lines": [
+    [
+     524,
+     818,
+     743,
+     842
+    ]
+   ]
+  },
+  "t-analysis-title": {
+   "comp": "tool-analysis",
+   "lines": [
+    [
+     191,
+     760,
+     374,
+     802
+    ]
+   ]
+  },
+  "t-analysis-desc": {
+   "comp": "tool-analysis",
+   "lines": [
+    [
+     182,
+     820,
+     372,
+     842
+    ]
+   ]
+  },
+  "t-marketing-title": {
+   "comp": "tool-marketing",
+   "lines": [
+    [
+     612,
+     1067,
+     743,
+     1109
+    ]
+   ]
+  },
+  "t-marketing-desc": {
+   "comp": "tool-marketing",
+   "lines": [
+    [
+     531,
+     1129,
+     742,
+     1148
+    ]
+   ]
+  },
+  "t-cashflow-title": {
+   "comp": "tool-cashflow",
+   "lines": [
+    [
+     257,
+     1067,
+     377,
+     1109
+    ]
+   ]
+  },
+  "t-cashflow-desc": {
+   "comp": "tool-cashflow",
+   "lines": [
+    [
+     171,
+     1125,
+     376,
+     1148
+    ]
+   ]
+  },
+  "t-contractors-title": {
+   "comp": "tool-contractors",
+   "lines": [
+    [
+     156,
+     1427,
+     386,
+     1468
+    ]
+   ]
+  },
+  "t-contractors-desc": {
+   "comp": "tool-contractors",
+   "lines": [
+    [
+     168,
+     1488,
+     386,
+     1513
+    ]
+   ]
+  },
+  "t-free-title": {
+   "comp": "tool-free",
+   "lines": [
+    [
+     533,
+     1402,
+     746,
+     1449
+    ]
+   ]
+  },
+  "t-free-desc": {
+   "comp": "tool-free",
+   "lines": [
+    [
+     499,
+     1468,
+     745,
+     1492
+    ],
+    [
+     487,
+     1503,
+     745,
+     1527
+    ]
+   ]
+  },
+  "t-free-btn": {
+   "comp": "tool-free",
+   "in": "b-free",
+   "align": "center",
+   "lines": [
+    [
+     514,
+     1577,
+     653,
+     1607
+    ]
+   ]
+  },
+  "t-why-title": {
+   "comp": "intro",
+   "align": "center",
+   "lines": [
+    [
+     172,
+     66,
+     634,
+     167
+    ]
+   ]
+  },
+  "t-why-sub": {
+   "comp": "intro",
+   "align": "center",
+   "lines": [
+    [
+     135,
+     186,
+     659,
+     221
+    ],
+    [
+     177,
+     234,
+     619,
+     271
+    ]
+   ]
+  },
+  "t-econ-title": {
+   "comp": "feat-econ",
+   "lines": [
+    [
+     355,
+     668,
+     595,
+     712
+    ]
+   ]
+  },
+  "t-econ-desc": {
+   "comp": "feat-econ",
+   "lines": [
+    [
+     396,
+     736,
+     593,
+     758
+    ],
+    [
+     428,
+     767,
+     594,
+     796
+    ]
+   ]
+  },
+  "t-estimate-title": {
+   "comp": "feat-estimate",
+   "lines": [
+    [
+     359,
+     890,
+     545,
+     936
+    ]
+   ]
+  },
+  "t-estimate-desc": {
+   "comp": "feat-estimate",
+   "lines": [
+    [
+     363,
+     959,
+     544,
+     985
+    ],
+    [
+     369,
+     993,
+     544,
+     1020
+    ]
+   ]
+  },
+  "t-proj-title": {
+   "comp": "feat-project",
+   "lines": [
+    [
+     378,
+     1113,
+     592,
+     1156
+    ]
+   ]
+  },
+  "t-proj-desc": {
+   "comp": "feat-project",
+   "lines": [
+    [
+     382,
+     1174,
+     587,
+     1200
+    ],
+    [
+     411,
+     1211,
+     585,
+     1240
+    ]
+   ]
+  },
+  "t-tools-title": {
+   "comp": "feat-tools",
+   "lines": [
+    [
+     337,
+     1327,
+     589,
+     1372
+    ]
+   ]
+  },
+  "t-tools-desc": {
+   "comp": "feat-tools",
+   "lines": [
+    [
+     365,
+     1390,
+     581,
+     1417
+    ],
+    [
+     354,
+     1427,
+     581,
+     1454
+    ]
+   ]
+  },
+  "t-cta-title": {
+   "comp": "cta",
+   "align": "center",
+   "lines": [
+    [
+     232,
+     1582,
+     573,
+     1637
+    ],
+    [
+     174,
+     1653,
+     624,
+     1710
+    ]
+   ]
+  },
+  "t-cta-btn": {
+   "comp": "cta",
+   "in": "b-cta",
+   "align": "center",
+   "lines": [
+    [
+     251,
+     1775,
+     504,
+     1822
+    ]
+   ]
+  }
+ }
+}
