@@ -20,350 +20,211 @@ body{margin:0;background:#c3dbfd}
 
 /* =====================================================================
    METRICA post-hero sections. Everything is scoped under .mtr.
-   --u = one pixel of the 420px-wide mobile reference; it scales the whole
-   composition fluidly and is re-based per breakpoint (container queries).
+   Geometry is traced from the 420px-wide mobile references:
+   --u  = 1px of that reference (sections 1 & 2), re-based per breakpoint;
+   panel skins are SVGs drawn in reference pixels (viewBox = panel box).
    ===================================================================== */
 .mtr,.mtr *,.mtr *::before,.mtr *::after{box-sizing:border-box}
 .mtr{
-  --mtr-navy-950:#00112f;
-  --mtr-navy-900:#011a43;
-  --mtr-navy-800:#03285f;
-  --mtr-navy-700:#073c86;
-  --mtr-royal:#0d56b9;
-  --mtr-cyan:#3cc6ff;
-  --mtr-cyan-hi:#c4f1ff;
-  --mtr-ice-0:#f7fbff;
-  --mtr-ice-1:#e8f1fe;
-  --mtr-ice-2:#d6e6fd;
-  --mtr-ice-3:#c0d9fc;
-  --mtr-gold-hi:#fff6c6;
-  --mtr-gold:#ffd23f;
-  --mtr-gold-deep:#f5a400;
   --mtr-ink:#0a1733;
-  --mtr-ink-2:#23324e;
-  --mtr-neon:1;            /* neon/glow intensity multiplier */
+  --mtr-ink-2:#1f2e4a;
+  --mtr-neon:1;            /* glow intensity multiplier for CSS glows */
   container:mtr/inline-size;
-  position:relative;
-  overflow:hidden;
-  overflow:clip;
+  position:relative;overflow:hidden;overflow:clip;
   direction:rtl;
-  font-family:"Estedad",Tahoma,sans-serif;
-  font-weight:500;
-  line-height:1.5;
-  color:var(--mtr-ink);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+  font-family:"Estedad",Tahoma,sans-serif;font-weight:500;line-height:1.5;color:var(--mtr-ink);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
   background:
-    radial-gradient(60% 18% at 8% 0%,rgba(255,255,255,.55),transparent 70%),
-    linear-gradient(180deg,#d3e5fe 0%,#bfd9fd 16%,#c8dffd 40%,#c2dbfd 50%,#c9e0fd 72%,#bdd8fc 100%);
+    radial-gradient(70% 14% at 6% 0%,rgba(255,255,255,.6),transparent 70%),
+    linear-gradient(180deg,#d4e5fe 0%,#bed9fd 12%,#c6defd 30%,#bfd9fc 44%,#c3dbfd 50%,#c9e0fd 70%,#bfd9fc 100%);
 }
 .mtr :where(h2,h3,p,ul,li){margin:0;padding:0}
 .mtr :where(ul){list-style:none}
 .mtr :where(img){display:block;max-width:none;user-select:none;-webkit-user-drag:none}
 .mtr :where(button){font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.mtr :where(button):focus-visible{outline:calc(var(--u)*3) solid #1d74ea;outline-offset:calc(var(--u)*3)}
+.mtr :where(button):focus-visible{outline:3px solid #1d74ea;outline-offset:3px}
 .mtr-tools,.mtr-bridge,.mtr-why{--u:calc(min(100cqi,560px)/420);position:relative;isolation:isolate}
-
 .mtr-defs{position:absolute;width:0;height:0;overflow:hidden}
-.mtr-wrap{position:relative;width:calc(var(--u)*358);margin-inline:auto}
+.mtr-frame{position:relative;width:calc(var(--u)*420);margin-inline:auto}
 .mtr-bg{position:absolute;inset:0;width:100%;height:100%;z-index:-2;pointer-events:none}
-/* clipped decoration layer that follows the parent's rounded shape */
-.mtr-fx{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none}
-.mtr-fx>svg{position:absolute;inset:0;width:100%;height:100%}
-/* gold rim accent drawn exactly on a 40u-radius corner (scaled with --s for other radii) */
-.mtr-corner{--s:1;position:absolute;margin:calc(var(--u)*-1.6);width:calc(var(--u)*150*var(--s));height:calc(var(--u)*110*var(--s));overflow:visible;pointer-events:none;
-  filter:drop-shadow(0 0 calc(var(--u)*3) rgba(255,176,30,calc(.95*var(--mtr-neon)))) drop-shadow(0 0 calc(var(--u)*9) rgba(255,160,20,calc(.55*var(--mtr-neon))))}
-.mtr-corner--tr{top:0;right:0}
-.mtr-corner--br{bottom:0;right:0;transform:scaleY(-1)}
-.mtr-corner--tl{top:0;left:0;transform:scaleX(-1)}
-.mtr-corner--bl{bottom:0;left:0;transform:scale(-1,-1)}
-.mtr-cta .mtr-corner--tl{--s:1.1}
-/* content sits above the absolutely positioned .mtr-fx layer */
-.mtr-tool__foot,.mtr-feat__text,.mtr-feat .mtr-arrow,.mtr-intro__copy,.mtr-btn>*{position:relative}
-
-.mtr-gold-text{
-  background:linear-gradient(180deg,#fff7cf 0%,#ffe36b 30%,#ffcb2b 62%,#f4a300 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 0 calc(var(--u)*6) rgba(255,184,32,calc(.45*var(--mtr-neon))));
-}
+/* panel skin: drawn behind the panel's content, may glow outside its box */
+.mtr-skin{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:-1;pointer-events:none}
 .mtr-ico{display:block;flex:none;fill:currentColor}
+.mtr-gold-text{
+  background:linear-gradient(180deg,#fff8d2 0%,#ffe46c 30%,#ffcb2b 62%,#f4a300 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 .14em rgba(255,184,32,calc(.42*var(--mtr-neon))))}
 
-/* ---------- buttons ---------- */
+/* ---------- buttons & arrows ---------- */
 .mtr-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;font-weight:850;white-space:nowrap;line-height:1}
-.mtr-btn--gold{
-  color:#0a1430;
-  background:linear-gradient(180deg,#fff7c9 0%,#ffe36a 20%,#ffd02f 52%,#f9b40f 82%,#ffd04a 100%);
-  box-shadow:
-    0 0 0 calc(var(--u)*1.2) rgba(255,240,170,.95),
-    0 0 calc(var(--u)*18) rgba(255,188,30,calc(.62*var(--mtr-neon))),
-    0 calc(var(--u)*7) calc(var(--u)*14) rgba(150,88,0,.32),
-    inset 0 calc(var(--u)*2) 0 rgba(255,255,255,.85),
-    inset 0 calc(var(--u)*-3) calc(var(--u)*7) rgba(214,124,0,.42);
-}
-.mtr-btn--gold::before{ /* glossy top reflection */
-  content:"";position:absolute;inset:calc(var(--u)*3) calc(var(--u)*14) 52% calc(var(--u)*14);border-radius:999px;
-  background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(255,255,255,0));pointer-events:none}
-.mtr-btn--navy{
-  color:#fff;
+.mtr-btn>*{position:relative}
+.mtr-btn--gold{color:#0a1430;
+  background:linear-gradient(180deg,#fff8cc 0%,#ffe46a 20%,#ffd02f 52%,#f9b40f 82%,#ffd04a 100%);
+  box-shadow:0 0 0 .06em rgba(255,240,170,.95),0 0 .9em rgba(255,188,30,calc(.62*var(--mtr-neon))),0 .35em .7em rgba(150,88,0,.32),
+    inset 0 .1em 0 rgba(255,255,255,.85),inset 0 -.15em .35em rgba(214,124,0,.42)}
+.mtr-btn--gold::before{content:"";position:absolute;inset:.16em .8em 52% .8em;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(255,255,255,0));pointer-events:none}
+.mtr-btn--navy{color:#fff;
   background:linear-gradient(180deg,#1e66cf 0%,#0d4aab 45%,#06307c 100%);
-  box-shadow:
-    0 0 0 calc(var(--u)*1.3) rgba(110,212,255,.85),
-    0 0 calc(var(--u)*14) rgba(40,160,255,calc(.6*var(--mtr-neon))),
-    0 calc(var(--u)*7) calc(var(--u)*14) rgba(4,40,110,.32),
-    inset 0 calc(var(--u)*1.5) 0 rgba(255,255,255,.35),
-    inset 0 calc(var(--u)*-4) calc(var(--u)*8) rgba(0,20,70,.45);
-}
-.mtr-arrow{flex:none;display:grid;place-items:center;width:calc(var(--u)*26);height:calc(var(--u)*26);border-radius:50%;color:#0f2148;
-  background:radial-gradient(circle at 38% 30%,#eaf2fe 0%,#cfe0f6 55%,#bcd3f1 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 calc(var(--u)*1.5) calc(var(--u)*3) rgba(35,85,165,.22)}
-.mtr-arrow .mtr-ico{width:calc(var(--u)*12.5);height:calc(var(--u)*12.5)}
+  box-shadow:0 0 0 .09em rgba(110,212,255,.9),0 0 .95em rgba(40,160,255,calc(.65*var(--mtr-neon))),0 .45em .9em rgba(4,40,110,.32),
+    inset 0 .1em 0 rgba(255,255,255,.35),inset 0 -.27em .54em rgba(0,20,70,.45)}
+.mtr-arrow{position:absolute;display:grid;place-items:center;border-radius:50%;color:#0f2148;
+  background:radial-gradient(circle at 38% 30%,#e7f0fd 0%,#cddff6 55%,#b9d1f1 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 1px 3px rgba(35,85,165,.24)}
+.mtr-arrow .mtr-ico{width:48%;height:48%}
 .mtr-arrow--gold{color:#0b1838;background:radial-gradient(circle at 38% 30%,#fff3a8 0%,#ffd43c 50%,#f6b10e 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 0 calc(var(--u)*10) rgba(255,190,30,calc(.55*var(--mtr-neon)))}
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 0 10px rgba(255,190,30,calc(.55*var(--mtr-neon)))}
 
 /* =====================================================================
-   SECTION 1 — Tools & Subscription
+   SECTION 1 — Tools & Subscription   (reference: 420 × 937.5)
    ===================================================================== */
-.mtr-tools{padding-top:calc(var(--u)*40)}
+.mtr-tools{padding:calc(var(--u)*46) 0 calc(var(--u)*105)}
 
-/* ---- subscription panel ---- */
-.mtr-sub{position:relative;display:grid;grid-template-columns:calc(var(--u)*186) minmax(0,1fr);align-items:center;
-  min-height:calc(var(--u)*218);
-  padding:calc(var(--u)*22) calc(var(--u)*6) calc(var(--u)*22) calc(var(--u)*4);
-  border:calc(var(--u)*1.6) solid transparent;
-  border-radius:calc(var(--u)*44) calc(var(--u)*40) calc(var(--u)*40) calc(var(--u)*38);
-  background:
-    radial-gradient(75% 95% at 18% 62%,rgba(22,104,214,.78) 0%,rgba(10,70,170,.35) 45%,transparent 75%) padding-box,
-    linear-gradient(104deg,#0a4598 0%,#053274 34%,#02225a 60%,#011a46 100%) padding-box,
-    conic-gradient(from 0deg,#a6e6ff 0deg,#e6f8ff 32deg,#ffd774 52deg,#ffb02c 70deg,#7fcfff 98deg,#57b9ff 110deg,#ffc041 124deg,#ffe08a 134deg,#4cbdff 160deg,#38b4ff 196deg,#6fdcff 232deg,#bdeeff 270deg,#ffe2a0 300deg,#ffc64f 312deg,#e4f7ff 338deg,#a6e6ff 360deg) border-box;
-  box-shadow:
-    0 0 0 calc(var(--u)*1) rgba(255,255,255,.35),
-    0 0 calc(var(--u)*22) rgba(40,160,255,calc(.55*var(--mtr-neon))),
-    0 calc(var(--u)*22) calc(var(--u)*36) calc(var(--u)*-12) rgba(4,36,104,.55),
-    inset 0 calc(var(--u)*1) 0 rgba(255,255,255,.25)}
-.mtr-glow::before{ /* warm/cyan blooms behind the panel; positions are set per panel */
-  content:"";position:absolute;z-index:-1;inset:calc(var(--u)*-60);pointer-events:none;
-  background:
-    radial-gradient(var(--g1s,0 0) at var(--g1p,0 0),rgba(255,176,36,calc(.78*var(--mtr-neon))),transparent 70%),
-    radial-gradient(var(--g2s,0 0) at var(--g2p,0 0),rgba(255,186,46,calc(.7*var(--mtr-neon))),transparent 70%),
-    radial-gradient(var(--g3s,0 0) at var(--g3p,0 0),rgba(255,166,26,calc(.78*var(--mtr-neon))),transparent 70%),
-    radial-gradient(var(--g4s,0 0) at var(--g4p,0 0),rgba(40,168,255,calc(.5*var(--mtr-neon))),transparent 70%)}
-.mtr-sub{
-  --g1s:calc(var(--u)*58) calc(var(--u)*44);--g1p:calc(var(--u)*86) calc(var(--u)*72);
-  --g2s:calc(var(--u)*36) calc(var(--u)*80);--g2p:calc(100% - var(--u)*58) 36%;
-  --g3s:calc(var(--u)*58) calc(var(--u)*46);--g3p:calc(100% - var(--u)*82) calc(100% - var(--u)*72);
-  --g4s:40% calc(var(--u)*46);--g4p:28% calc(100% - var(--u)*58)}
+/* ---- subscription panel: 357.5 × 220 ---- */
+.mtr-sub{position:relative;display:grid;grid-template-columns:calc(var(--u)*178) minmax(0,1fr);align-items:start;
+  width:calc(var(--u)*357.5);height:calc(var(--u)*220);margin:0 calc(var(--u)*31.5) 0 auto;
+  padding:calc(var(--u)*24) calc(var(--u)*18) 0 0}
 .mtr-sub__body{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center}
-.mtr-pill{display:inline-block;padding:calc(var(--u)*4) calc(var(--u)*13);border-radius:999px;white-space:nowrap;
-  font-size:calc(var(--u)*11.6);font-weight:600;line-height:1.55;color:#e9f2ff;
-  background:linear-gradient(180deg,rgba(92,156,236,.78),rgba(52,112,206,.66));
+.mtr-pill{display:inline-block;height:calc(var(--u)*23);padding:0 calc(var(--u)*13);border-radius:999px;white-space:nowrap;
+  font-size:calc(var(--u)*11.6);font-weight:600;line-height:calc(var(--u)*23);color:#eaf3ff;
+  background:linear-gradient(180deg,rgba(92,156,236,.8),rgba(52,112,206,.68));
   box-shadow:inset 0 0 0 1px rgba(170,214,255,.32),inset 0 1px 0 rgba(255,255,255,.25),0 calc(var(--u)*2) calc(var(--u)*6) rgba(0,20,70,.25)}
-.mtr-sub__title{margin-top:calc(var(--u)*11);font-size:calc(var(--u)*33.5);font-weight:900;line-height:1.2;white-space:nowrap}
-.mtr-sub__desc{margin-top:calc(var(--u)*8);font-size:calc(var(--u)*13);font-weight:500;line-height:1.62;color:#eef4ff;white-space:nowrap}
-.mtr-sub__cta{margin-top:calc(var(--u)*15);width:calc(var(--u)*166);height:calc(var(--u)*38);padding-inline:calc(var(--u)*15) calc(var(--u)*16);
+.mtr-sub__title{margin-top:calc(var(--u)*12);font-size:calc(var(--u)*33.5);font-weight:900;line-height:calc(var(--u)*38);white-space:nowrap}
+.mtr-sub__desc{margin-top:calc(var(--u)*10);font-size:calc(var(--u)*13);font-weight:500;line-height:calc(var(--u)*20.5);color:#eef4ff;white-space:nowrap}
+.mtr-sub__cta{margin-top:calc(var(--u)*8);width:calc(var(--u)*165);height:calc(var(--u)*38.5);padding-inline:calc(var(--u)*15) calc(var(--u)*16);
   justify-content:space-between;font-size:calc(var(--u)*15.5)}
 .mtr-sub__cta .mtr-ico--crown{width:calc(var(--u)*19);height:calc(var(--u)*19)}
 .mtr-sub__cta .mtr-ico--chev{width:calc(var(--u)*11);height:calc(var(--u)*11)}
-.mtr-sub__art{position:relative;justify-self:center;align-self:center;margin-top:calc(var(--u)*-6)}
-.mtr-sub__art img{width:calc(var(--u)*184);height:auto}
+.mtr-sub__art{position:relative;justify-self:center;margin-top:calc(var(--u)*30)}
+.mtr-sub__art img{width:calc(var(--u)*166);height:auto}
 
 /* ---- tool cards ---- */
-.mtr-tools__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:calc(var(--u)*12) calc(var(--u)*9);align-items:start;
-  margin-top:calc(var(--u)*20);padding-inline:calc(var(--u)*3)}
-.mtr-tool{position:relative;display:flex;flex-direction:column;min-height:calc(var(--u)*152);
-  padding:calc(var(--u)*4) calc(var(--u)*12) calc(var(--u)*12) calc(var(--u)*11);
-  border:calc(var(--u)*1.5) solid transparent;border-radius:calc(var(--u)*22);
+.mtr-tools__grid{display:grid;grid-template-columns:repeat(2,calc(var(--u)*171.5));grid-template-rows:calc(var(--u)*151.5) calc(var(--u)*146.5) auto;
+  gap:calc(var(--u)*12) calc(var(--u)*9);width:calc(var(--u)*352);margin:calc(var(--u)*19) calc(var(--u)*33.5) 0 auto}
+.mtr-tool{position:relative;border-radius:calc(var(--u)*22);
+  --art-top:6;--art-h:90;--ty:91;--tr:16;--ax:11.5;--ay:104;
   background:
-    radial-gradient(90% 55% at 70% 0%,rgba(255,255,255,.9),rgba(255,255,255,0) 70%) padding-box,
-    linear-gradient(180deg,#f1f6fe 0%,#e7f0fd 45%,#dce9fc 100%) padding-box,
-    linear-gradient(160deg,#ffffff 0%,rgba(255,255,255,.92) 40%,#d4e6fd 75%,#ffffff 100%) border-box;
+    radial-gradient(75% 55% at 55% 30%,rgba(255,255,255,.95),rgba(255,255,255,0) 72%),
+    linear-gradient(180deg,#eef4fe 0%,#e3edfd 55%,#d7e6fc 100%);
   box-shadow:
-    0 0 0 1px rgba(170,210,255,.45),
-    0 0 calc(var(--u)*10) rgba(120,190,255,calc(.28*var(--mtr-neon))),
-    0 calc(var(--u)*12) calc(var(--u)*22) calc(var(--u)*-6) rgba(30,84,165,.24),
-    0 calc(var(--u)*2) calc(var(--u)*5) rgba(30,84,165,.1),
-    inset 0 calc(var(--u)*-10) calc(var(--u)*18) rgba(170,205,248,.32)}
-.mtr-tool__art{position:relative;display:flex;justify-content:center;align-items:center;height:calc(var(--u)*90);margin-inline:calc(var(--u)*-6)}
+    inset 0 0 0 calc(var(--u)*1.4) rgba(255,255,255,.95),
+    inset 0 0 calc(var(--u)*16) rgba(120,170,240,.38),
+    inset 0 calc(var(--u)*-8) calc(var(--u)*14) rgba(150,195,250,.35),
+    0 0 0 1px rgba(170,210,255,.5),
+    0 0 calc(var(--u)*12) rgba(255,255,255,.55),
+    0 calc(var(--u)*12) calc(var(--u)*22) calc(var(--u)*-8) rgba(30,84,165,.28)}
+.mtr-tools__grid>.mtr-tool:nth-child(n+3){--art-top:4;--art-h:80;--ty:81;--ay:96.5}
+.mtr-tools__grid>.mtr-tool:nth-child(even){--tr:20}
+.mtr-tool__art{position:absolute;left:0;right:0;top:calc(var(--u)*var(--art-top));height:calc(var(--u)*var(--art-h));display:flex;justify-content:center}
 .mtr-tool__art img{width:100%;height:100%;object-fit:contain}
-.mtr-tool__foot{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"title title" "desc arrow";column-gap:calc(var(--u)*7);align-items:center;margin-top:auto}
-.mtr-tool__text{display:contents}
-.mtr-tool__title{grid-area:title}
-.mtr-tool__desc{grid-area:desc}
-.mtr-tool .mtr-arrow{grid-area:arrow;align-self:start;margin-top:calc(var(--u)*-9)}
-.mtr-tool__title{font-size:calc(var(--u)*19);font-weight:900;line-height:1.35;color:var(--mtr-ink);white-space:nowrap}
-.mtr-tool__desc{margin-top:calc(var(--u)*3);font-size:calc(var(--u)*11.5);font-weight:500;line-height:1.55;color:var(--mtr-ink-2);white-space:nowrap}
-.mtr-tool--tall{min-height:calc(var(--u)*183);padding-bottom:calc(var(--u)*26)}
-.mtr-tool--tall .mtr-tool__art{height:calc(var(--u)*100);margin-top:calc(var(--u)*4)}
+.mtr-tool__text{position:absolute;right:calc(var(--u)*var(--tr));top:calc(var(--u)*var(--ty));text-align:right}
+.mtr-tool__title{font-size:calc(var(--u)*19);font-weight:900;line-height:calc(var(--u)*27);color:var(--mtr-ink);white-space:nowrap}
+.mtr-tool__desc{margin-top:calc(var(--u)*1);font-size:calc(var(--u)*11.5);font-weight:500;line-height:calc(var(--u)*18);color:var(--mtr-ink-2);white-space:nowrap}
+.mtr-tool .mtr-arrow{left:calc(var(--u)*var(--ax));top:calc(var(--u)*var(--ay));width:calc(var(--u)*25);height:calc(var(--u)*25)}
+.mtr-tools__grid>.mtr-tool.mtr-tool--tall{align-self:start;height:calc(var(--u)*184.5);--art-top:5;--art-h:92;--ty:100;--ax:11;--ay:127.5}
 
-/* free-trial card */
-.mtr-tool--free{min-height:calc(var(--u)*223);padding-bottom:calc(var(--u)*15);
-  background:
-    radial-gradient(80% 45% at 75% 0%,rgba(255,255,255,.95),rgba(255,255,255,0) 70%) padding-box,
-    linear-gradient(180deg,#f3f8ff 0%,#e3eefd 50%,#d2e4fc 100%) padding-box,
-    linear-gradient(160deg,#ffffff 0%,rgba(255,255,255,.92) 40%,#cfe3fd 75%,#ffffff 100%) border-box}
-.mtr-tool--free .mtr-tool__art{height:calc(var(--u)*70);justify-content:flex-end;margin-inline:calc(var(--u)*-4)}
-.mtr-tool--free .mtr-tool__art img{width:calc(var(--u)*114);height:auto}
-.mtr-bolt{position:absolute;top:calc(var(--u)*2);right:calc(var(--u)*6);width:calc(var(--u)*27);height:calc(var(--u)*40);
-  filter:drop-shadow(0 0 calc(var(--u)*5) rgba(255,180,20,calc(.55*var(--mtr-neon))))}
-.mtr-tool--free .mtr-tool__title{font-size:calc(var(--u)*21.5)}
-.mtr-tool--free .mtr-tool__desc{white-space:normal;margin-top:calc(var(--u)*4);line-height:1.62}
-.mtr-tool--free .mtr-tool__art{margin-inline:calc(var(--u)*-4)}
-.mtr-tool--free .mtr-tool__foot{display:block;margin-top:calc(var(--u)*4)}
-.mtr-tool__cta{display:flex;margin:calc(var(--u)*13) auto 0;width:calc(var(--u)*137);height:calc(var(--u)*37);gap:calc(var(--u)*16);font-size:calc(var(--u)*14.8)}
+/* free-trial card: 172.5 × 225.5, skin with ribbons */
+.mtr-tools__grid>.mtr-tool.mtr-tool--free{align-self:start;height:calc(var(--u)*225.5);width:calc(var(--u)*172.5);background:none;box-shadow:none;--ty:84;--tr:15}
+.mtr-tool--free .mtr-tool__art{inset:auto;left:calc(var(--u)*9.8);top:calc(var(--u)*12.4);width:calc(var(--u)*112.5);height:auto;display:block}
+.mtr-tool--free .mtr-tool__art img{height:auto}
+.mtr-bolt{position:absolute;right:calc(var(--u)*10.5);top:calc(var(--u)*17);width:calc(var(--u)*28.5);height:calc(var(--u)*40);
+  filter:drop-shadow(0 0 calc(var(--u)*5) rgba(255,180,20,calc(.6*var(--mtr-neon))))}
+.mtr-tool--free .mtr-tool__title{font-size:calc(var(--u)*21.5);line-height:calc(var(--u)*30)}
+.mtr-tool--free .mtr-tool__desc{margin-top:calc(var(--u)*4);font-size:calc(var(--u)*12);line-height:calc(var(--u)*18)}
+.mtr-tool__cta{position:absolute;right:calc(var(--u)*16.5);top:calc(var(--u)*171);width:calc(var(--u)*136);height:calc(var(--u)*35);gap:calc(var(--u)*16);font-size:calc(var(--u)*14.8)}
 .mtr-tool__cta .mtr-ico{width:calc(var(--u)*13);height:calc(var(--u)*13)}
 
 /* =====================================================================
-   Transition between the two sections
+   Transition — an organic band of light layers spanning both sections
    ===================================================================== */
-.mtr-bridge{height:calc(var(--u)*78);margin-block:calc(var(--u)*4) calc(var(--u)*-6);pointer-events:none}
-.mtr-bridge svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.mtr-tools{z-index:1}
+.mtr-bridge{height:0;z-index:0}
+.mtr-bridge svg{position:absolute;left:0;width:100%;top:calc(var(--u)*-137.5);height:calc(var(--u)*230);overflow:visible;pointer-events:none}
 .mtr-bridge path:not(.mtr-bridge__spark){vector-effect:non-scaling-stroke}
 /* one short light pulse travelling along the trail; parked off-path (offset 8 / -100) between runs */
 .mtr-bridge__spark{stroke-dasharray:7 101;stroke-dashoffset:8;animation:mtr-spark 9s cubic-bezier(.5,0,.3,1) 1.2s infinite}
 @keyframes mtr-spark{0%{stroke-dashoffset:8}70%,100%{stroke-dashoffset:-100}}
 
 /* =====================================================================
-   SECTION 2 — Why METRICA
+   SECTION 2 — Why METRICA   (reference: 420 × 1064)
    ===================================================================== */
-.mtr-why{padding-bottom:calc(var(--u)*46)}
-.mtr-why .mtr-wrap{width:calc(var(--u)*398)}
+.mtr-why{padding-bottom:calc(var(--u)*51)}
 
-/* ---- intro panel ---- */
-.mtr-intro{position:relative;padding:calc(var(--u)*28) calc(var(--u)*14) calc(var(--u)*12);text-align:center;
-  border:calc(var(--u)*1.6) solid transparent;
-  border-radius:calc(var(--u)*42) calc(var(--u)*48) calc(var(--u)*40) calc(var(--u)*46);
-  background:
-    radial-gradient(55% 30% at 92% 4%,rgba(30,110,215,.6),transparent 70%) padding-box,
-    radial-gradient(70% 30% at 50% 92%,rgba(35,130,235,.55),transparent 72%) padding-box,
-    linear-gradient(180deg,#032b62 0%,#01214f 38%,#022659 66%,#073a80 100%) padding-box,
-    conic-gradient(from 0deg,#b8ecff 0deg,#e9f9ff 40deg,#9adcff 80deg,#5cc4ff 130deg,#3db6ff 180deg,#86dcff 230deg,#f0fbff 280deg,#c9f0ff 320deg,#b8ecff 360deg) border-box;
-  box-shadow:
-    0 0 0 calc(var(--u)*1) rgba(255,255,255,.4),
-    0 0 calc(var(--u)*24) rgba(60,170,255,calc(.5*var(--mtr-neon))),
-    0 calc(var(--u)*24) calc(var(--u)*36) calc(var(--u)*-14) rgba(4,36,104,.5)}
-.mtr-intro__title{position:relative;font-size:calc(var(--u)*54);font-weight:900;line-height:1.22;color:#fff;white-space:nowrap}
-.mtr-intro__sub{position:relative;margin-top:calc(var(--u)*6);font-size:calc(var(--u)*17.6);font-weight:600;line-height:1.62;color:#eef4ff;white-space:nowrap}
-.mtr-stage{position:relative;width:100%;aspect-ratio:368/200;margin-top:calc(var(--u)*6)}
+/* ---- intro: 400 × 328 ---- */
+.mtr-intro{position:relative;width:calc(var(--u)*400);height:calc(var(--u)*328);margin:0 calc(var(--u)*8.3) 0 auto;text-align:center}
+.mtr-intro__copy{position:relative;padding-top:calc(var(--u)*26)}
+.mtr-intro__title{font-size:calc(var(--u)*54);font-weight:900;line-height:calc(var(--u)*62);color:#fff;white-space:nowrap}
+.mtr-intro__sub{margin-top:calc(var(--u)*2);font-size:calc(var(--u)*17.6);font-weight:600;line-height:calc(var(--u)*27);color:#eef4ff;white-space:nowrap}
+.mtr-stage{position:absolute;left:calc(var(--u)*38);top:calc(var(--u)*145);width:calc(var(--u)*324.2);aspect-ratio:324.2/157}
 .mtr-stage>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .mtr-stage img{position:absolute;height:auto}
-.mtr-stage .mtr-stage__main{left:50%;top:0;height:100%;width:auto;transform:translateX(-50%)}
-.mtr-stage__chart{right:1%;top:-2%;width:34%}
-.mtr-stage__donut{left:1.5%;top:34%;width:22%}
+.mtr-stage .mtr-stage__main{left:8.7%;top:-.3%;height:106.4%;width:auto}
+.mtr-stage__donut{left:0;top:36.2%;width:23.5%}
+.mtr-stage__chart{left:62.9%;top:3.6%;width:37.1%}
 .mtr-float{animation:mtr-float 7s ease-in-out infinite}
 .mtr-stage__donut.mtr-float{animation-delay:-3.5s}
-@keyframes mtr-float{50%{transform:translateY(calc(var(--u)*-3.5))}}
+@keyframes mtr-float{50%{transform:translateY(-1.5%)}}
 
-/* ---- feature cards ---- */
-.mtr-feats{display:grid;gap:calc(var(--u)*12);margin-top:calc(var(--u)*21);padding-inline:calc(var(--u)*8)}
-.mtr-feat{position:relative;display:grid;grid-template-columns:calc(var(--u)*29) minmax(0,1fr) auto calc(var(--u)*104);grid-template-areas:"arrow text rule art";
-  align-items:center;min-height:calc(var(--u)*104);padding:calc(var(--u)*8) calc(var(--u)*26) calc(var(--u)*8) calc(var(--u)*18);
-  border:calc(var(--u)*1.5) solid transparent;border-radius:calc(var(--u)*46) calc(var(--u)*36) calc(var(--u)*36) calc(var(--u)*44)}
-.mtr-feat__text{grid-area:text;margin-inline:calc(var(--u)*22) calc(var(--u)*16);text-align:start}
-.mtr-feat__title{font-size:calc(var(--u)*21);font-weight:900;line-height:1.3;white-space:nowrap}
-.mtr-feat__desc{margin-top:calc(var(--u)*6);font-size:calc(var(--u)*14.2);font-weight:500;line-height:1.6;white-space:nowrap}
-.mtr-feat__rule{grid-area:rule;position:relative;width:calc(var(--u)*1.6);height:calc(var(--u)*44);margin-inline-end:calc(var(--u)*20);border-radius:2px}
-.mtr-feat__art{grid-area:art;position:relative;height:calc(var(--u)*94);margin-block:calc(var(--u)*-6)}
-.mtr-feat__art img{width:100%;height:100%;object-fit:contain;transform:scale(var(--art-scale,1.24))}
-.mtr-feat__art--coins{--art-scale:1.08}
-.mtr-feat .mtr-arrow{grid-area:arrow;width:calc(var(--u)*29);height:calc(var(--u)*29)}
-.mtr-feat .mtr-arrow .mtr-ico{width:calc(var(--u)*13.5);height:calc(var(--u)*13.5)}
-
-.mtr-feat--dark{color:#fff;
-  background:
-    radial-gradient(60% 70% at 18% 70%,rgba(20,90,200,.45),transparent 70%) padding-box,
-    linear-gradient(100deg,#062a64 0%,#03204f 40%,#021a43 75%,#04245a 100%) padding-box,
-    conic-gradient(from 0deg,#9fdcff 0deg,#ffe7a0 50deg,#ffb52f 75deg,#7ccbff 100deg,#ffc547 118deg,#4dc0ff 150deg,#7fe4ff 190deg,#bdefff 250deg,#e9f8ff 300deg,#9fdcff 360deg) border-box;
-  box-shadow:
-    0 0 0 calc(var(--u)*1) rgba(255,255,255,.35),
-    0 0 calc(var(--u)*16) rgba(60,170,255,calc(.45*var(--mtr-neon))),
-    0 calc(var(--u)*16) calc(var(--u)*26) calc(var(--u)*-10) rgba(4,36,104,.55)}
-.mtr-feat--dark{
-  --g1s:calc(var(--u)*110) calc(var(--u)*40);--g1p:calc(100% - var(--u)*130) calc(var(--u)*62);
-  --g3s:calc(var(--u)*46) calc(var(--u)*40);--g3p:calc(100% - var(--u)*66) calc(100% - var(--u)*64);
-  --g4s:46% calc(var(--u)*30);--g4p:40% calc(100% - var(--u)*58)}
+/* ---- feature cards: each scales as one drawing (container units, reference aspect) ---- */
+.mtr-feats{display:grid;row-gap:calc(var(--u)*11.5);margin:calc(var(--u)*11.6) calc(var(--u)*20) 0 auto;width:calc(var(--u)*380)}
+.mtr-feat{position:relative;container-type:inline-size;aspect-ratio:var(--ar)}
+.mtr-feat__art{position:absolute;left:var(--ix);top:var(--iy);width:var(--iw)}
+.mtr-feat__art img{width:100%;height:auto}
+.mtr-feat__rule{position:absolute;left:var(--rx);top:var(--ry);height:var(--rh);width:.42cqw;border-radius:2px}
+.mtr-feat__text{position:absolute;right:var(--tr);top:var(--ty);text-align:right}
+.mtr-feat__title{font-size:5.55cqw;font-weight:900;line-height:7.4cqw;white-space:nowrap}
+.mtr-feat__desc{margin-top:1.1cqw;font-size:3.74cqw;font-weight:500;line-height:5.2cqw;white-space:nowrap}
+.mtr-feat .mtr-arrow{right:calc(var(--ar-x) - var(--ad)/2);top:calc(var(--ar-y) - var(--ad)/2);width:var(--ad);aspect-ratio:1}
+.mtr-feat--dark{color:#fff}
 .mtr-feat--dark .mtr-feat__desc{color:#e9f1ff}
-.mtr-feat--dark .mtr-feat__rule{background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.9) 30%,rgba(255,255,255,.9) 70%,rgba(255,255,255,0))}
-.mtr-feat--dark .mtr-fx::after{ /* cyan rim light along the bottom edge */
-  content:"";position:absolute;left:6%;right:4%;bottom:0;height:calc(var(--u)*2.2);border-radius:2px;
-  background:linear-gradient(90deg,rgba(60,200,255,0),#43c8ff 25%,#e4fbff 55%,#43c8ff 80%,rgba(60,200,255,0));
-  box-shadow:0 0 calc(var(--u)*8) rgba(60,190,255,calc(.9*var(--mtr-neon)))}
-
-.mtr-feat--light{color:var(--mtr-ink);
-  background:
-    radial-gradient(60% 60% at 45% 0%,rgba(255,255,255,.85),rgba(255,255,255,0) 70%) padding-box,
-    linear-gradient(180deg,#eaf3ff 0%,#dce9fd 55%,#cfe2fc 100%) padding-box,
-    linear-gradient(172deg,#ffffff 0%,rgba(255,255,255,.95) 40%,#9fcbff 82%,#dff0ff 100%) border-box;
-  box-shadow:
-    0 0 0 1px rgba(170,210,255,.55),
-    0 0 calc(var(--u)*14) rgba(110,185,255,calc(.42*var(--mtr-neon))),
-    0 calc(var(--u)*14) calc(var(--u)*24) calc(var(--u)*-10) rgba(30,84,165,.3),
-    inset 0 calc(var(--u)*-6) calc(var(--u)*14) rgba(90,170,255,calc(.28*var(--mtr-neon)))}
+.mtr-feat--dark .mtr-feat__rule{background:linear-gradient(180deg,rgba(255,255,255,0),#fff 25%,#fff 75%,rgba(255,255,255,0))}
+.mtr-feat--light{color:var(--mtr-ink)}
 .mtr-feat--light .mtr-feat__desc{color:var(--mtr-ink-2)}
-.mtr-feat--light .mtr-feat__rule{background:linear-gradient(180deg,rgba(40,120,230,0),rgba(40,120,230,.7) 30%,rgba(40,120,230,.7) 70%,rgba(40,120,230,0))}
-.mtr-feat--light .mtr-feat__rule::after{content:"";position:absolute;top:50%;right:calc(var(--u)*-4.5);width:0;height:0;transform:translateY(-50%);
-  border-block:calc(var(--u)*5) solid transparent;border-left:calc(var(--u)*5) solid rgba(40,120,230,.75)}
-.mtr-feat .mtr-corner{--s:.9}
+.mtr-feat--light .mtr-feat__rule{background:linear-gradient(180deg,rgba(40,120,230,0),rgba(40,120,230,.75) 30%,rgba(40,120,230,.75) 70%,rgba(40,120,230,0))}
+.mtr-feat--light .mtr-feat__rule::after{content:"";position:absolute;top:50%;right:-1.1cqw;transform:translateY(-50%);border-block:1.25cqw solid transparent;border-left:1.25cqw solid rgba(40,120,230,.8)}
+/* positions measured on the references (x in % of width, y in % of height) */
+.mtr-feat--econ{--ar:711/206;--ix:4.9%;--iy:5%;--iw:31.6%;--rx:38.1%;--ry:33%;--rh:32.5%;--tr:21.2%;--ty:11.5%;--ar-x:11%;--ar-y:44.2%;--ad:8.2cqw}
+.mtr-feat--estimate{--ar:714/196;--ix:4.1%;--iy:-3%;--iw:32.9%;--rx:38.1%;--ry:40%;--rh:34%;--tr:29%;--ty:13%;--ar-x:18.9%;--ar-y:65%;--ad:7.4cqw}
+.mtr-feat--project{--ar:713/200;--ix:3.9%;--iy:3%;--iw:33.9%;--rx:39.7%;--ry:33.5%;--rh:32.5%;--tr:22.4%;--ty:10%;--ar-x:11.5%;--ar-y:52.5%;--ad:8.1cqw}
+.mtr-feat--tools{--ar:714/195;--ix:2.4%;--iy:-.5%;--iw:36%;--rx:38.1%;--ry:33%;--rh:41%;--tr:22.7%;--ty:5%;--ar-x:13.6%;--ar-y:53.8%;--ad:7.4cqw}
 
-/* ---- final CTA ---- */
-.mtr-cta{position:relative;display:flex;flex-direction:column;align-items:center;margin-top:calc(var(--u)*16);
-  min-height:calc(var(--u)*192);padding:calc(var(--u)*30) calc(var(--u)*20) calc(var(--u)*28);text-align:center;
-  border:calc(var(--u)*1.6) solid transparent;
-  border-radius:calc(var(--u)*44) calc(var(--u)*52) calc(var(--u)*46) calc(var(--u)*50);
-  background:
-    radial-gradient(60% 50% at 50% 10%,rgba(18,85,190,.45),transparent 70%) padding-box,
-    linear-gradient(180deg,#022b62 0%,#01214f 55%,#032b66 100%) padding-box,
-    conic-gradient(from 0deg,#d9f5ff 0deg,#bfeaff 50deg,#ffd27a 80deg,#ffb02c 100deg,#ffd67e 130deg,#59c3ff 170deg,#3ab3ff 210deg,#8fe2ff 250deg,#ffc64f 300deg,#ffe8a6 320deg,#d9f5ff 360deg) border-box;
-  box-shadow:
-    0 0 0 calc(var(--u)*1) rgba(255,255,255,.4),
-    0 0 calc(var(--u)*22) rgba(60,170,255,calc(.5*var(--mtr-neon))),
-    0 calc(var(--u)*24) calc(var(--u)*36) calc(var(--u)*-14) rgba(4,36,104,.5)}
-.mtr-cta{
-  --g1s:calc(var(--u)*60) calc(var(--u)*56);--g1p:calc(var(--u)*84) calc(var(--u)*84);
-  --g2s:calc(var(--u)*34) calc(var(--u)*78);--g2p:calc(100% - var(--u)*58) 52%;
-  --g4s:40% calc(var(--u)*44);--g4p:26% calc(100% - var(--u)*58)}
-.mtr-cta__title{position:relative;font-size:calc(var(--u)*29);font-weight:900;line-height:1.36;color:#fff;white-space:nowrap}
-.mtr-cta__btn{margin-top:calc(var(--u)*24);width:calc(var(--u)*252);height:calc(var(--u)*52);gap:calc(var(--u)*20);font-size:calc(var(--u)*23);font-weight:900}
-.mtr-cta__btn .mtr-ico{width:calc(var(--u)*17);height:calc(var(--u)*17)}
-.mtr-cta__ghost{position:absolute;left:calc(var(--u)*22);top:50%;width:calc(var(--u)*12);height:calc(var(--u)*12);transform:translateY(-50%);opacity:.22}
+/* ---- final CTA: 388.6 × 200, scales as one drawing ---- */
+.mtr-cta{position:relative;container-type:inline-size;aspect-ratio:729/375;width:calc(var(--u)*388.6);margin:calc(var(--u)*13.4) calc(var(--u)*16.4) 0 auto;text-align:center}
+.mtr-cta__title{position:absolute;left:0;right:0;top:13%;font-size:7.05cqw;font-weight:900;line-height:9.8cqw;color:#fff;white-space:nowrap}
+.mtr-cta__btn{position:absolute;left:18.1%;top:60.5%;width:64.5%;height:25.3%;gap:5.6cqw;font-size:5.9cqw;font-weight:900}
+.mtr-cta__btn .mtr-ico{width:4.4cqw;height:4.4cqw}
+.mtr-cta__ghost{position:absolute!important;left:5.5cqw;top:50%;width:3cqw!important;height:3cqw!important;transform:translateY(-50%);opacity:.22}
 
 /* =====================================================================
    Tablet — 768px to 1199px
    ===================================================================== */
 @container mtr (min-width:768px){
   .mtr-tools,.mtr-bridge,.mtr-why{--u:clamp(1px,calc(100cqi/840),1.32px)}
-  .mtr-wrap,.mtr-why .mtr-wrap{width:calc(100% - 64px);max-width:calc(var(--u)*860)}
-  .mtr-tools{padding-top:calc(var(--u)*56)}
-  .mtr-sub{grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:calc(var(--u)*250);padding:calc(var(--u)*28) calc(var(--u)*24)}
-  .mtr-sub__title{font-size:calc(var(--u)*42)}
-  .mtr-sub__desc{font-size:calc(var(--u)*15)}
-  .mtr-pill{font-size:calc(var(--u)*13)}
+  .mtr-frame{width:calc(100% - 64px);max-width:calc(var(--u)*860)}
+  .mtr-tools{padding:calc(var(--u)*56) 0 calc(var(--u)*120)}
+  .mtr-sub{width:100%;height:auto;aspect-ratio:2.3;margin:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;padding:calc(var(--u)*28) calc(var(--u)*24)}
+  .mtr-sub__title{font-size:calc(var(--u)*42);line-height:calc(var(--u)*50)}
+  .mtr-sub__desc{font-size:calc(var(--u)*15);line-height:calc(var(--u)*24)}
+  .mtr-pill{font-size:calc(var(--u)*13);height:calc(var(--u)*27);line-height:calc(var(--u)*27)}
   .mtr-sub__cta{width:calc(var(--u)*186);height:calc(var(--u)*44);font-size:calc(var(--u)*17)}
-  .mtr-sub__art img{width:calc(var(--u)*290)}
-  .mtr-tools__grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:calc(var(--u)*16);margin-top:calc(var(--u)*26);padding-inline:0}
-  .mtr-tool{min-height:calc(var(--u)*184);padding:calc(var(--u)*8) calc(var(--u)*16) calc(var(--u)*16);border-radius:calc(var(--u)*24)}
-  .mtr-tool__art{height:calc(var(--u)*108)}
+  .mtr-sub__art{margin-top:0}
+  .mtr-sub__art img{width:calc(var(--u)*300)}
+  .mtr-tools__grid{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto;gap:calc(var(--u)*16);width:auto;margin:calc(var(--u)*26) 0 0;align-items:start}
+  .mtr-tool{height:calc(var(--u)*190);--ax:16}
+  .mtr-tools__grid>.mtr-tool:nth-child(n){--art-top:8;--art-h:110;--ty:118;--tr:18;--ay:146}
   .mtr-tool__title{font-size:calc(var(--u)*20)}
   .mtr-tool__desc{font-size:calc(var(--u)*13)}
-  .mtr-tool--tall{min-height:calc(var(--u)*184)}
-  .mtr-tool--free{min-height:calc(var(--u)*262)}
-  .mtr-tool--free .mtr-tool__art{height:calc(var(--u)*92)}
-  .mtr-tool--free .mtr-tool__art img{width:calc(var(--u)*150)}
-  .mtr-bolt{width:calc(var(--u)*32);height:calc(var(--u)*48)}
-  .mtr-bridge{height:calc(var(--u)*96)}
-  .mtr-intro{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);grid-template-areas:"copy stage";align-items:center;
-    padding:calc(var(--u)*30) calc(var(--u)*34) calc(var(--u)*24) calc(var(--u)*14);text-align:center}
-  .mtr-intro__copy{grid-area:copy}
-  .mtr-stage{grid-area:stage;margin-top:0}
-  .mtr-intro__title{font-size:calc(var(--u)*52)}
-  .mtr-intro__sub{font-size:calc(var(--u)*16.5)}
-  .mtr-feats{grid-template-columns:repeat(2,minmax(0,1fr));gap:calc(var(--u)*16);margin-top:calc(var(--u)*24);padding-inline:0}
-  .mtr-feat{grid-template-columns:calc(var(--u)*29) minmax(0,1fr) auto calc(var(--u)*92);padding-inline:calc(var(--u)*18) calc(var(--u)*12)}
-  .mtr-feat__text{margin-inline:calc(var(--u)*14) calc(var(--u)*12)}
-  .mtr-feat__title{font-size:calc(var(--u)*19.5)}
-  .mtr-feat__desc{font-size:calc(var(--u)*13.4)}
-  .mtr-feat__rule{margin-inline-end:calc(var(--u)*12)}
-  .mtr-feat__art{height:calc(var(--u)*88)}
-  .mtr-cta{margin-top:calc(var(--u)*24);min-height:calc(var(--u)*210)}
-  .mtr-cta__title{font-size:calc(var(--u)*34)}
+  .mtr-tools__grid>.mtr-tool.mtr-tool--tall{height:calc(var(--u)*190)}
+  .mtr-tools__grid>.mtr-tool.mtr-tool--free{width:auto;height:calc(var(--u)*262);--ty:104}
+  .mtr-tool--free .mtr-tool__art{left:calc(var(--u)*12);top:calc(var(--u)*14);width:calc(var(--u)*150)}
+  .mtr-bolt{width:calc(var(--u)*32);height:calc(var(--u)*46)}
+  .mtr-tool__cta{top:calc(var(--u)*206);right:calc(var(--u)*18)}
+  .mtr-bridge svg{top:calc(var(--u)*-150);height:calc(var(--u)*250)}
+  .mtr-intro{width:100%;height:auto;margin:0;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:center;
+    aspect-ratio:1.9;padding:calc(var(--u)*40) calc(var(--u)*30) calc(var(--u)*30) calc(var(--u)*18)}
+  .mtr-intro__copy{padding-top:0}
+  .mtr-stage{position:relative;left:auto;top:auto;width:100%}
+  .mtr-feats{width:auto;margin:calc(var(--u)*24) 0 0;grid-template-columns:repeat(2,minmax(0,1fr));gap:calc(var(--u)*18) calc(var(--u)*16)}
+  .mtr-cta{width:min(100%,calc(var(--u)*520));margin:calc(var(--u)*28) auto 0}
 }
 
 /* =====================================================================
@@ -371,53 +232,38 @@ body{margin:0;background:#c3dbfd}
    ===================================================================== */
 @container mtr (min-width:1200px){
   .mtr-tools,.mtr-bridge,.mtr-why{--u:clamp(1.2px,calc(100cqi/1000),1.5px)}
-  .mtr-wrap,.mtr-why .mtr-wrap{width:min(calc(100% - 96px),calc(var(--u)*880));max-width:none}
-  .mtr-tools{padding-top:calc(var(--u)*60)}
-  .mtr-sub{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);min-height:calc(var(--u)*270);padding:calc(var(--u)*30) calc(var(--u)*40) calc(var(--u)*30) calc(var(--u)*28);
-    border-radius:calc(var(--u)*52) calc(var(--u)*44) calc(var(--u)*44) calc(var(--u)*46)}
-  .mtr-sub__title{font-size:calc(var(--u)*50)}
-  .mtr-sub__desc{font-size:calc(var(--u)*16.5)}
-  .mtr-pill{font-size:calc(var(--u)*13.5);padding:calc(var(--u)*5) calc(var(--u)*16)}
-  .mtr-sub__cta{width:calc(var(--u)*204);height:calc(var(--u)*48);font-size:calc(var(--u)*18);margin-top:calc(var(--u)*20)}
-  .mtr-sub__art img{width:calc(var(--u)*364)}
+  .mtr-frame{width:min(calc(100% - 96px),calc(var(--u)*880));max-width:none}
+  .mtr-tools{padding:calc(var(--u)*60) 0 calc(var(--u)*130)}
+  .mtr-sub{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);aspect-ratio:2.4;padding:calc(var(--u)*30) calc(var(--u)*40) calc(var(--u)*30) calc(var(--u)*28)}
+  .mtr-sub__title{font-size:calc(var(--u)*50);line-height:calc(var(--u)*60)}
+  .mtr-sub__desc{font-size:calc(var(--u)*16.5);line-height:calc(var(--u)*26)}
+  .mtr-pill{font-size:calc(var(--u)*13.5);height:calc(var(--u)*30);line-height:calc(var(--u)*30);padding:0 calc(var(--u)*16)}
+  .mtr-sub__cta{width:calc(var(--u)*204);height:calc(var(--u)*48);font-size:calc(var(--u)*18);margin-top:calc(var(--u)*18)}
+  .mtr-sub__art img{width:calc(var(--u)*400)}
   .mtr-tools__grid{gap:calc(var(--u)*20);margin-top:calc(var(--u)*28)}
-  .mtr-tool{min-height:calc(var(--u)*206);padding:calc(var(--u)*10) calc(var(--u)*20) calc(var(--u)*18);border-radius:calc(var(--u)*26)}
-  .mtr-tool__art{height:calc(var(--u)*124)}
-  .mtr-tool--tall{min-height:calc(var(--u)*206)}
+  .mtr-tool{height:calc(var(--u)*214);border-radius:calc(var(--u)*26);--ax:20}
+  .mtr-tools__grid>.mtr-tool:nth-child(n){--art-top:10;--art-h:124;--ty:134;--tr:22;--ay:170}
   .mtr-tool__title{font-size:calc(var(--u)*21)}
   .mtr-tool__desc{font-size:calc(var(--u)*13.4)}
-  .mtr-arrow{width:calc(var(--u)*30);height:calc(var(--u)*30)}
-  .mtr-tool--free{min-height:calc(var(--u)*290)}
-  .mtr-tool--free .mtr-tool__art{height:calc(var(--u)*104)}
-  .mtr-tool--free .mtr-tool__art img{width:calc(var(--u)*176)}
+  .mtr-tool .mtr-arrow{width:calc(var(--u)*28);height:calc(var(--u)*28)}
+  .mtr-tools__grid>.mtr-tool.mtr-tool--tall{height:calc(var(--u)*214)}
+  .mtr-tools__grid>.mtr-tool.mtr-tool--free{height:calc(var(--u)*292);--ty:118}
+  .mtr-tool--free .mtr-tool__art{width:calc(var(--u)*176);left:calc(var(--u)*16)}
   .mtr-tool--free .mtr-tool__title{font-size:calc(var(--u)*24)}
-  .mtr-tool__cta{width:calc(var(--u)*160);height:calc(var(--u)*42);font-size:calc(var(--u)*16)}
-  .mtr-bridge{height:calc(var(--u)*110)}
-  .mtr-intro{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);padding:calc(var(--u)*34) calc(var(--u)*48) calc(var(--u)*28) calc(var(--u)*20);
-    border-radius:calc(var(--u)*52) calc(var(--u)*60) calc(var(--u)*50) calc(var(--u)*58)}
-  .mtr-intro__title{font-size:calc(var(--u)*60)}
-  .mtr-intro__sub{font-size:calc(var(--u)*18);margin-top:calc(var(--u)*12)}
-  .mtr-feats{gap:calc(var(--u)*20);margin-top:calc(var(--u)*28)}
-  .mtr-feat{grid-template-columns:calc(var(--u)*32) minmax(0,1fr) auto calc(var(--u)*120);min-height:calc(var(--u)*124);padding-inline:calc(var(--u)*30) calc(var(--u)*24)}
-  .mtr-feat__text{margin-inline:calc(var(--u)*24) calc(var(--u)*18)}
-  .mtr-feat__title{font-size:calc(var(--u)*23)}
-  .mtr-feat__desc{font-size:calc(var(--u)*14.6)}
-  .mtr-feat__rule{margin-inline-end:calc(var(--u)*22);height:calc(var(--u)*52)}
-  .mtr-feat__art{height:calc(var(--u)*108)}
-  .mtr-feat .mtr-arrow{width:calc(var(--u)*32);height:calc(var(--u)*32)}
-  .mtr-cta{flex-direction:row;justify-content:space-between;align-items:center;min-height:calc(var(--u)*170);margin-top:calc(var(--u)*28);
-    padding:calc(var(--u)*30) calc(var(--u)*64);text-align:start}
-  .mtr-cta__title{font-size:calc(var(--u)*36)}
-  .mtr-cta__btn{margin-top:0;width:calc(var(--u)*268);height:calc(var(--u)*56)}
+  .mtr-tool__cta{top:calc(var(--u)*230);right:calc(var(--u)*22);width:calc(var(--u)*160);height:calc(var(--u)*42);font-size:calc(var(--u)*16)}
+  .mtr-bridge svg{top:calc(var(--u)*-160);height:calc(var(--u)*270)}
+  .mtr-intro{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);aspect-ratio:2;padding:calc(var(--u)*44) calc(var(--u)*50) calc(var(--u)*34) calc(var(--u)*22)}
+  .mtr-intro__title{font-size:calc(var(--u)*62);line-height:calc(var(--u)*74)}
+  .mtr-intro__sub{font-size:calc(var(--u)*18.5);line-height:calc(var(--u)*30);margin-top:calc(var(--u)*6)}
+  .mtr-feats{gap:calc(var(--u)*20) calc(var(--u)*20);margin-top:calc(var(--u)*28)}
+  .mtr-cta{width:min(100%,calc(var(--u)*500));margin-top:calc(var(--u)*30)}
 }
 
 @media (prefers-reduced-motion:reduce){
   .mtr *,.mtr *::before,.mtr *::after{animation:none!important;transition:none!important}
   .mtr-bridge__spark{display:none}
 }
-@media (forced-colors:active){
-  .mtr-btn,.mtr-arrow{border:1px solid ButtonText}
-}
+@media (forced-colors:active){.mtr-btn,.mtr-arrow{border:1px solid ButtonText}}
 </style>
 </head>
 <body>
@@ -425,45 +271,33 @@ body{margin:0;background:#c3dbfd}
 
 <div class="mtr" id="metrica-post-hero">
 
-  <!-- shared SVG paint servers + the gold corner-rim shape (40u radius) -->
+  <!-- shared SVG paint servers, filters and icons -->
   <svg class="mtr-defs" aria-hidden="true" focusable="false">
     <defs>
-      <linearGradient id="mtr-g-rim" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="150" y2="110">
-        <stop offset="0" stop-color="#ffb52e" stop-opacity="0"/>
-        <stop offset=".34" stop-color="#ffb52e" stop-opacity=".85"/>
-        <stop offset=".52" stop-color="#fff6c9"/>
-        <stop offset=".7" stop-color="#ffc443" stop-opacity=".85"/>
-        <stop offset="1" stop-color="#ff9f1a" stop-opacity="0"/>
-      </linearGradient>
+      <radialGradient id="mtr-rg-fade"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#fff" stop-opacity=".6"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
       <linearGradient id="mtr-g-trail" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" stop-color="#3cc6ff" stop-opacity="0"/>
-        <stop offset=".25" stop-color="#3cc6ff" stop-opacity=".85"/>
-        <stop offset=".5" stop-color="#ecfbff"/>
-        <stop offset=".75" stop-color="#3cc6ff" stop-opacity=".85"/>
-        <stop offset="1" stop-color="#3cc6ff" stop-opacity="0"/>
+        <stop offset="0" stop-color="#3cc6ff" stop-opacity="0"/><stop offset=".25" stop-color="#3cc6ff" stop-opacity=".85"/>
+        <stop offset=".5" stop-color="#ecfbff"/><stop offset=".75" stop-color="#3cc6ff" stop-opacity=".85"/><stop offset="1" stop-color="#3cc6ff" stop-opacity="0"/>
       </linearGradient>
       <linearGradient id="mtr-g-trail-soft" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" stop-color="#7fd6ff" stop-opacity="0"/>
-        <stop offset=".4" stop-color="#7fd6ff" stop-opacity=".7"/>
-        <stop offset=".7" stop-color="#ffffff" stop-opacity=".9"/>
-        <stop offset="1" stop-color="#7fd6ff" stop-opacity="0"/>
+        <stop offset="0" stop-color="#7fd6ff" stop-opacity="0"/><stop offset=".4" stop-color="#7fd6ff" stop-opacity=".7"/>
+        <stop offset=".7" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#7fd6ff" stop-opacity="0"/>
       </linearGradient>
-      <linearGradient id="mtr-g-bolt" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#fff2a0"/>
-        <stop offset=".45" stop-color="#ffcf2e"/>
-        <stop offset="1" stop-color="#f59a00"/>
+      <linearGradient id="mtr-g-bolt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2a0"/><stop offset=".45" stop-color="#ffcf2e"/><stop offset="1" stop-color="#f59a00"/></linearGradient>
+      <linearGradient id="mtr-g-navy" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0b3f91"/><stop offset=".42" stop-color="#04265e"/><stop offset="1" stop-color="#021a48"/></linearGradient>
+      <linearGradient id="mtr-g-glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3f8ff"/><stop offset=".5" stop-color="#e3effd"/><stop offset="1" stop-color="#d6e8fd"/></linearGradient>
+      <linearGradient id="mtr-g-glass-back" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a6d0fb"/><stop offset=".7" stop-color="#b4d8fc"/><stop offset="1" stop-color="#7fb6f5"/></linearGradient>
+      <linearGradient id="mtr-g-crest" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#9be6ff" stop-opacity="0"/><stop offset=".18" stop-color="#c9f3ff"/><stop offset=".45" stop-color="#fff"/>
+        <stop offset=".78" stop-color="#7fd8ff"/><stop offset="1" stop-color="#3cc6ff" stop-opacity="0"/>
       </linearGradient>
-      <linearGradient id="mtr-g-wave" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#1b63c4" stop-opacity=".75"/>
-        <stop offset="1" stop-color="#0b3f95" stop-opacity=".2"/>
-      </linearGradient>
-      <filter id="mtr-f-blur" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.4"/></filter>
-      <filter id="mtr-f-soft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
-      <symbol id="mtr-rim" viewBox="0 0 150 110" overflow="visible">
-        <path d="M0 .8H110A39.2 39.2 0 0 1 149.2 40V110" fill="none" stroke="url(#mtr-g-rim)" stroke-width="2.6" stroke-linecap="round"/>
-      </symbol>
+      <linearGradient id="mtr-g-rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#c2ecff"/><stop offset="1" stop-color="#eefaff"/></linearGradient>
+      <filter id="mtr-f-glow" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="9"/></filter>
+      <filter id="mtr-f-halo" x="-40%" y="-80%" width="180%" height="260%"><feGaussianBlur stdDeviation="13"/></filter>
+      <filter id="mtr-f-soft" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="5"/></filter>
+      <filter id="mtr-f-blur" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="2.2"/></filter>
       <symbol id="mtr-i-chev-r" viewBox="0 0 24 24"><path d="M9 5.5l6.5 6.5L9 18.5" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-      <symbol id="mtr-i-chev-l" viewBox="0 0 24 24"><path d="M15 5.5L8.5 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="mtr-i-chev-l" viewBox="0 0 24 24"><path d="M15 5.5L8.5 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="mtr-i-play" viewBox="0 0 24 24"><path d="M7 4.6c0-1.2 1.3-1.9 2.3-1.3l11 7.4c.9.6.9 1.9 0 2.5l-11 7.4c-1 .7-2.3 0-2.3-1.2z"/></symbol>
       <symbol id="mtr-i-crown" viewBox="0 0 24 24"><path d="M2.2 7.6l5.2 3.7L11.2 4a.9.9 0 0 1 1.6 0l3.8 7.3 5.2-3.7a.6.6 0 0 1 .9.6l-1.9 10a1 1 0 0 1-1 .8H4.2a1 1 0 0 1-1-.8l-1.9-10a.6.6 0 0 1 .9-.6zM4.6 20.6h14.8a.9.9 0 0 1 0 1.8H4.6a.9.9 0 0 1 0-1.8z"/></symbol>
     </defs>
@@ -472,27 +306,59 @@ body{margin:0;background:#c3dbfd}
   <!-- ============================ SECTION 1 ============================ -->
   <section class="mtr-tools" id="metrica-tools" aria-labelledby="mtr-sub-title">
     <svg class="mtr-bg" viewBox="0 0 420 940" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-      <path d="M0 0H250C170 18 90 52 0 104Z" fill="#fff" opacity=".42" filter="url(#mtr-f-soft)"/>
-      <path d="M420 640C350 700 318 800 352 940H420Z" fill="#fff" opacity=".22" filter="url(#mtr-f-soft)"/>
-      <path d="M420 700C372 760 356 850 380 940" fill="none" stroke="#fff" stroke-width="1.2" opacity=".55" vector-effect="non-scaling-stroke"/>
-      <path d="M420 760C392 810 384 880 398 940" fill="none" stroke="#fff" stroke-width="1" opacity=".4" vector-effect="non-scaling-stroke"/>
+      <path d="M0 0H300C210 20 110 52 0 110Z" fill="#fff" opacity=".45" filter="url(#mtr-f-soft)"/>
+      <path d="M150 0C120 20 100 34 60 46" fill="none" stroke="#fff" stroke-width="1.2" opacity=".5" vector-effect="non-scaling-stroke"/>
       <path d="M0 420C40 470 46 560 18 640" fill="none" stroke="#fff" stroke-width="1" opacity=".35" vector-effect="non-scaling-stroke"/>
+      <ellipse cx="60" cy="830" rx="170" ry="130" fill="#a9c8f0" opacity=".55" filter="url(#mtr-f-soft)"/>
+      <ellipse cx="300" cy="930" rx="200" ry="70" fill="#e3f0ff" opacity=".8" filter="url(#mtr-f-soft)"/>
     </svg>
 
-    <div class="mtr-wrap">
+    <div class="mtr-frame">
 
       <!-- subscription -->
-      <div class="mtr-sub mtr-glow" id="mtr-subscription" data-mtr-block="subscription">
-        <div class="mtr-fx" aria-hidden="true">
-          <svg viewBox="0 0 358 218" preserveAspectRatio="none" focusable="false">
-            <path d="M172 0C140 62 104 132 64 218H0V0Z" fill="#1a62c6" opacity=".18"/>
-            <path d="M0 196C58 160 116 158 174 182S286 226 358 196V218H0Z" fill="url(#mtr-g-wave)"/>
-            <path d="M0 206C60 170 118 166 176 188S290 230 358 204" fill="none" stroke="#41c8ff" stroke-width="6" opacity=".55" filter="url(#mtr-f-blur)" vector-effect="non-scaling-stroke"/>
-            <path d="M0 206C60 170 118 166 176 188S290 230 358 204" fill="none" stroke="url(#mtr-g-trail)" stroke-width="1.8" vector-effect="non-scaling-stroke"/>
-            <path d="M0 214C80 186 150 190 214 206S320 222 358 212" fill="none" stroke="url(#mtr-g-trail-soft)" stroke-width="1" opacity=".7" vector-effect="non-scaling-stroke"/>
-            <path d="M232 0C262 40 312 60 358 62" fill="none" stroke="#9adfff" stroke-width="1" opacity=".25" vector-effect="non-scaling-stroke"/>
-          </svg>
-        </div>
+      <div class="mtr-sub" id="mtr-subscription" data-mtr-block="subscription">
+        <svg class="mtr-skin" viewBox="0 0 715 440" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <defs>
+            <clipPath id="sub-clip"><path d="M100 0H647A68 68 0 0 1 715 68V374A66 66 0 0 1 649 440H78A78 78 0 0 1 0 362V100A100 100 0 0 1 100 0Z"/></clipPath>
+            <linearGradient id="sub-base" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0c52ad"/><stop offset=".3" stop-color="#073f8e"/><stop offset=".55" stop-color="#032a6b"/><stop offset="1" stop-color="#021f53"/></linearGradient>
+            <radialGradient id="sub-left" cx=".2" cy=".52" r=".5"><stop offset="0" stop-color="#2a82e6" stop-opacity=".6"/><stop offset="1" stop-color="#2a82e6" stop-opacity="0"/></radialGradient>
+            <linearGradient id="sub-sheet" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#58aaf4" stop-opacity=".42"/><stop offset="1" stop-color="#58aaf4" stop-opacity=".06"/></linearGradient>
+            <linearGradient id="sub-rib" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3cbcff"/><stop offset=".35" stop-color="#1a86ea"/><stop offset="1" stop-color="#0c56bf"/></linearGradient>
+            <linearGradient id="sub-band" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#04235f"/><stop offset=".7" stop-color="#083688"/><stop offset="1" stop-color="#0d4aa6"/></linearGradient>
+            <linearGradient id="sub-crest" gradientUnits="userSpaceOnUse" x1="20" y1="0" x2="600" y2="0">
+              <stop offset="0" stop-color="#9be6ff" stop-opacity="0"/><stop offset=".15" stop-color="#c9f3ff"/><stop offset=".4" stop-color="#fff"/><stop offset=".75" stop-color="#7fd8ff"/><stop offset="1" stop-color="#3cc6ff" stop-opacity="0"/>
+            </linearGradient>
+            <mask id="sub-gold" maskUnits="userSpaceOnUse" x="-60" y="-60" width="835" height="560">
+              <ellipse cx="20" cy="80" rx="120" ry="190" fill="url(#mtr-rg-fade)"/>
+              <ellipse cx="715" cy="160" rx="40" ry="120" fill="url(#mtr-rg-fade)"/>
+              <ellipse cx="700" cy="430" rx="170" ry="100" fill="url(#mtr-rg-fade)"/>
+            </mask>
+          </defs>
+          <g filter="url(#mtr-f-halo)">
+            <path d="M100 0H647A68 68 0 0 1 715 68V374A66 66 0 0 1 649 440H78A78 78 0 0 1 0 362V100A100 100 0 0 1 100 0Z" fill="none" stroke="#38b2ff" stroke-width="22" opacity=".6"/>
+            <path d="M100 0H647A68 68 0 0 1 715 68V374A66 66 0 0 1 649 440H78A78 78 0 0 1 0 362V100A100 100 0 0 1 100 0Z" fill="none" stroke="#ffa826" stroke-width="30" mask="url(#sub-gold)"/>
+            <path d="M0 330V362A78 78 0 0 0 78 440H330" fill="none" stroke="#2ec0ff" stroke-width="24" opacity=".75"/>
+          </g>
+          <path d="M100 0H647A68 68 0 0 1 715 68V374A66 66 0 0 1 649 440H78A78 78 0 0 1 0 362V100A100 100 0 0 1 100 0Z" fill="url(#sub-base)"/>
+          <g clip-path="url(#sub-clip)">
+            <rect width="715" height="440" fill="url(#sub-left)"/>
+            <path d="M0 100A100 100 0 0 1 100 0H292C262 36 228 82 196 128C150 196 92 268 0 330Z" fill="url(#sub-sheet)"/>
+            <path d="M292 0C262 36 228 82 196 128" fill="none" stroke="#a8e4ff" stroke-width="6" opacity=".22" filter="url(#mtr-f-blur)"/>
+            <path d="M560 0C610 40 670 60 715 66" fill="none" stroke="#8fd6ff" stroke-width="1" opacity=".22" vector-effect="non-scaling-stroke"/>
+            <ellipse cx="0" cy="90" rx="44" ry="150" fill="#ff9f2e" opacity=".38" filter="url(#mtr-f-soft)"/>
+            <ellipse cx="715" cy="450" rx="120" ry="70" fill="#ffae2e" opacity=".42" filter="url(#mtr-f-soft)"/>
+            <ellipse cx="712" cy="170" rx="10" ry="70" fill="#ffc04a" opacity=".3" filter="url(#mtr-f-soft)"/>
+            <path d="M0 400C40 386 90 370 140 368C190 366 222 371 252 381C302 398 352 414 402 424C442 432 476 437 530 440H0Z" fill="url(#sub-rib)"/>
+            <path d="M0 411C38 416 98 418 143 413C168 408 193 396 213 378C200 403 178 423 143 440H0Z" fill="url(#sub-band)"/>
+            <path d="M213 378C200 403 178 423 143 440H162C186 422 206 402 222 381Z" fill="#7fd4ff" opacity=".35"/>
+            <path d="M30 392C90 372 160 360 215 368C262 376 320 402 380 418C430 431 480 437 580 441" fill="none" stroke="#45caff" stroke-width="10" opacity=".7" filter="url(#mtr-f-blur)"/>
+            <path d="M30 392C90 372 160 360 215 368C262 376 320 402 380 418C430 431 480 437 580 441" fill="none" stroke="url(#sub-crest)" stroke-width="2.6"/>
+            <path d="M0 320V362A78 78 0 0 0 78 440H420" fill="none" stroke="#7fe2ff" stroke-width="9" opacity=".85" filter="url(#mtr-f-blur)"/>
+            <path d="M2 350V362A76 76 0 0 0 78 438H380" fill="none" stroke="#e9fbff" stroke-width="2.2" opacity=".9"/>
+          </g>
+          <path d="M100 0H647A68 68 0 0 1 715 68V374A66 66 0 0 1 649 440H78A78 78 0 0 1 0 362V100A100 100 0 0 1 100 0Z" fill="none" stroke="url(#mtr-g-rim)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+          <path d="M100 0H647A68 68 0 0 1 715 68V374A66 66 0 0 1 649 440H78A78 78 0 0 1 0 362V100A100 100 0 0 1 100 0Z" fill="none" stroke="#ffc243" stroke-width="2.4" vector-effect="non-scaling-stroke" mask="url(#sub-gold)"/>
+        </svg>
         <div class="mtr-sub__body">
           <p class="mtr-pill">دسترسی کامل به همه ابزارها</p>
           <h2 class="mtr-sub__title" id="mtr-sub-title"><span class="mtr-gold-text">خرید اشتراک</span></h2>
@@ -503,85 +369,73 @@ body{margin:0;background:#c3dbfd}
             <svg class="mtr-ico mtr-ico--chev" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-l"/></svg>
           </button>
         </div>
-        <div class="mtr-sub__art">
-          <img src="assets/sub-crown-card.png" width="1536" height="1024" alt="" decoding="async">
-        </div>
-        <svg class="mtr-corner mtr-corner--br" aria-hidden="true" focusable="false"><use href="#mtr-rim"/></svg>
+        <div class="mtr-sub__art"><img src="assets/sub-crown-card.png" width="1536" height="1024" alt=""></div>
       </div>
 
       <!-- tools -->
       <ul class="mtr-tools__grid" aria-label="ابزارهای متریکا">
         <li class="mtr-tool" id="mtr-tool-project" data-mtr-tool="project-management">
-          <div class="mtr-tool__art"><img src="assets/tool-project.png" width="1536" height="1024" alt="" decoding="async"></div>
-          <div class="mtr-tool__foot">
-            <div class="mtr-tool__text">
-              <h3 class="mtr-tool__title" id="mtr-tool-project-t">مدیریت پروژه</h3>
-              <p class="mtr-tool__desc">برنامه&zwnj;ریزی و کنترل اجرا</p>
-            </div>
-            <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-project-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
-          </div>
+          <div class="mtr-tool__art"><img src="assets/tool-project.png" width="1536" height="1024" alt=""></div>
+          <div class="mtr-tool__text"><h3 class="mtr-tool__title" id="mtr-tool-project-t">مدیریت پروژه</h3><p class="mtr-tool__desc">برنامه&zwnj;ریزی و کنترل اجرا</p></div>
+          <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-project-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
         </li>
         <li class="mtr-tool" id="mtr-tool-analysis" data-mtr-tool="construction-analysis">
-          <div class="mtr-tool__art"><img src="assets/tool-analysis.png" width="1536" height="1024" alt="" decoding="async"></div>
-          <div class="mtr-tool__foot">
-            <div class="mtr-tool__text">
-              <h3 class="mtr-tool__title" id="mtr-tool-analysis-t">آنالیز ساخت</h3>
-              <p class="mtr-tool__desc">برآورد، هزینه و سود</p>
-            </div>
-            <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-analysis-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
-          </div>
+          <div class="mtr-tool__art"><img src="assets/tool-analysis.png" width="1536" height="1024" alt=""></div>
+          <div class="mtr-tool__text"><h3 class="mtr-tool__title" id="mtr-tool-analysis-t">آنالیز ساخت</h3><p class="mtr-tool__desc">برآورد، هزینه و سود</p></div>
+          <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-analysis-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
         </li>
         <li class="mtr-tool" id="mtr-tool-marketing" data-mtr-tool="marketing">
-          <div class="mtr-tool__art"><img src="assets/tool-marketing.png" width="1536" height="1024" alt="" decoding="async"></div>
-          <div class="mtr-tool__foot">
-            <div class="mtr-tool__text">
-              <h3 class="mtr-tool__title" id="mtr-tool-marketing-t">مارکتینگ</h3>
-              <p class="mtr-tool__desc">جذب مشتری و فروش</p>
-            </div>
-            <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-marketing-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
-          </div>
+          <div class="mtr-tool__art"><img src="assets/tool-marketing.png" width="1536" height="1024" alt=""></div>
+          <div class="mtr-tool__text"><h3 class="mtr-tool__title" id="mtr-tool-marketing-t">مارکتینگ</h3><p class="mtr-tool__desc">جذب مشتری و فروش</p></div>
+          <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-marketing-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
         </li>
         <li class="mtr-tool" id="mtr-tool-cashflow" data-mtr-tool="cash-flow">
-          <div class="mtr-tool__art"><img src="assets/coins-growth.png" width="1427" height="1102" alt="" decoding="async"></div>
-          <div class="mtr-tool__foot">
-            <div class="mtr-tool__text">
-              <h3 class="mtr-tool__title" id="mtr-tool-cashflow-t">کش فلو</h3>
-              <p class="mtr-tool__desc">گردش مالی و نقدینگی</p>
-            </div>
-            <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-cashflow-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
-          </div>
+          <div class="mtr-tool__art"><img src="assets/coins-growth.png" width="1427" height="1102" alt=""></div>
+          <div class="mtr-tool__text"><h3 class="mtr-tool__title" id="mtr-tool-cashflow-t">کش فلو</h3><p class="mtr-tool__desc">گردش مالی و نقدینگی</p></div>
+          <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-cashflow-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
         </li>
         <li class="mtr-tool mtr-tool--free" id="mtr-tool-free" data-mtr-tool="free-trial">
-          <div class="mtr-fx" aria-hidden="true">
-            <svg viewBox="0 0 172 223" preserveAspectRatio="none" focusable="false">
-              <path d="M0 92C42 112 72 168 122 194S172 212 172 212V223H0Z" fill="#b6d2fa" opacity=".85"/>
-              <path d="M0 150C30 170 56 200 92 223H0Z" fill="#a9c9f7" opacity=".55"/>
-              <path d="M0 112C46 128 74 176 126 200S172 216 172 216" fill="none" stroke="#fff" stroke-width="1.4" opacity=".85" vector-effect="non-scaling-stroke"/>
-              <path d="M172 60C140 92 128 120 136 150" fill="none" stroke="#fff" stroke-width="1" opacity=".55" vector-effect="non-scaling-stroke"/>
-            </svg>
-          </div>
-          <div class="mtr-tool__art">
-            <svg class="mtr-bolt" viewBox="0 0 28 42" aria-hidden="true" focusable="false"><path d="M17.6 1.2 3.2 23.4c-.5.8 0 1.8 1 1.8h7.6l-3.4 14.6c-.2 1 1 1.6 1.7.8L24.8 18c.6-.8 0-1.9-1-1.9h-7.3l3.3-13.9c.3-1.1-1.2-1.8-2.2-1z" fill="url(#mtr-g-bolt)"/></svg>
-            <img src="assets/tool-free-laptop.png" width="1672" height="941" alt="" decoding="async">
-          </div>
-          <div class="mtr-tool__foot">
+          <svg class="mtr-skin" viewBox="0 0 345 451" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <defs>
+              <clipPath id="free-clip"><path d="M40 0H305A40 40 0 0 1 345 40V411A40 40 0 0 1 305 451H40A40 40 0 0 1 0 411V40A40 40 0 0 1 40 0Z"/></clipPath>
+              <linearGradient id="free-blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7fb3f2" stop-opacity=".85"/><stop offset="1" stop-color="#a9cdf8" stop-opacity=".6"/></linearGradient>
+              <linearGradient id="free-left" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#86b6f2" stop-opacity=".95"/><stop offset="1" stop-color="#a9cbf6" stop-opacity=".8"/></linearGradient>
+              <radialGradient id="free-hi" cx=".72" cy=".42" r=".55"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+            </defs>
+            <g filter="url(#mtr-f-glow)">
+              <path d="M40 0H305A40 40 0 0 1 345 40V411A40 40 0 0 1 305 451H40A40 40 0 0 1 0 411V40A40 40 0 0 1 40 0Z" fill="none" stroke="#fff" stroke-width="12" opacity=".7"/>
+              <path d="M40 451H305" fill="none" stroke="#7cc8ff" stroke-width="12" opacity=".5"/>
+            </g>
+            <path d="M40 0H305A40 40 0 0 1 345 40V411A40 40 0 0 1 305 451H40A40 40 0 0 1 0 411V40A40 40 0 0 1 40 0Z" fill="url(#mtr-g-glass)"/>
+            <g clip-path="url(#free-clip)">
+              <path d="M196 0C238 16 292 40 345 66V0Z" fill="url(#free-blue)"/>
+              <path d="M150 104C206 66 276 34 345 16V44C284 60 222 86 172 118Z" fill="#a8cdf8" opacity=".55"/>
+              <path d="M150 100C205 62 270 30 330 0" fill="none" stroke="#fff" stroke-width="4" opacity=".9" filter="url(#mtr-f-blur)"/>
+              <path d="M0 150C40 166 92 174 178 170C116 182 58 204 26 252C10 278 3 312 0 344Z" fill="url(#free-left)"/>
+              <path d="M0 340C26 380 60 420 120 451H0Z" fill="#9cc4f5" opacity=".55"/>
+              <path d="M178 170C116 182 58 204 26 252C10 278 3 312 0 344" fill="none" stroke="#fff" stroke-width="3.2" opacity=".95"/>
+              <path d="M178 170C116 182 58 204 26 252C10 278 3 312 0 344" fill="none" stroke="#fff" stroke-width="10" opacity=".55" filter="url(#mtr-f-blur)"/>
+              <ellipse cx="128" cy="168" rx="112" ry="16" fill="#6fa5ea" opacity=".35" filter="url(#mtr-f-soft)"/>
+              <rect width="345" height="451" fill="url(#free-hi)" opacity=".35"/>
+              <path d="M30 446C120 451 230 451 320 444" fill="none" stroke="#9ed4ff" stroke-width="6" opacity=".6" filter="url(#mtr-f-blur)"/>
+            </g>
+            <path d="M40 0H305A40 40 0 0 1 345 40V411A40 40 0 0 1 305 451H40A40 40 0 0 1 0 411V40A40 40 0 0 1 40 0Z" fill="none" stroke="#fff" stroke-width="2.4" vector-effect="non-scaling-stroke"/>
+          </svg>
+          <div class="mtr-tool__art"><img src="assets/tool-free-laptop.png" width="1672" height="941" alt=""></div>
+          <svg class="mtr-bolt" viewBox="0 0 28 42" aria-hidden="true" focusable="false"><path d="M17.6 1.2 3.2 23.4c-.5.8 0 1.8 1 1.8h7.6l-3.4 14.6c-.2 1 1 1.6 1.7.8L24.8 18c.6-.8 0-1.9-1-1.9h-7.3l3.3-13.9c.3-1.1-1.2-1.8-2.2-1z" fill="url(#mtr-g-bolt)"/></svg>
+          <div class="mtr-tool__text">
             <h3 class="mtr-tool__title" id="mtr-tool-free-t">تجربه رایگان</h3>
             <p class="mtr-tool__desc">برخی از ابزارهای متریکا را<br>بدون اشتراک امتحان کنید</p>
-            <button type="button" class="mtr-btn mtr-btn--navy mtr-tool__cta" id="mtr-free-cta" data-mtr-action="start-trial">
-              <svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-play"/></svg>
-              <span>شروع تجربه</span>
-            </button>
           </div>
+          <button type="button" class="mtr-btn mtr-btn--navy mtr-tool__cta" id="mtr-free-cta" data-mtr-action="start-trial">
+            <svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-play"/></svg>
+            <span>شروع تجربه</span>
+          </button>
         </li>
         <li class="mtr-tool mtr-tool--tall" id="mtr-tool-contractors" data-mtr-tool="qualified-contractors">
-          <div class="mtr-tool__art"><img src="assets/tool-contractors.png" width="1536" height="1024" alt="" decoding="async"></div>
-          <div class="mtr-tool__foot">
-            <div class="mtr-tool__text">
-              <h3 class="mtr-tool__title" id="mtr-tool-contractors-t">مجریان ذیصلاح</h3>
-              <p class="mtr-tool__desc">استعلام و انتخاب مجری</p>
-            </div>
-            <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-contractors-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
-          </div>
+          <div class="mtr-tool__art"><img src="assets/tool-contractors.png" width="1536" height="1024" alt=""></div>
+          <div class="mtr-tool__text"><h3 class="mtr-tool__title" id="mtr-tool-contractors-t">مجریان ذیصلاح</h3><p class="mtr-tool__desc">استعلام و انتخاب مجری</p></div>
+          <button type="button" class="mtr-arrow" aria-labelledby="mtr-tool-contractors-t" data-mtr-action="open-tool"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
         </li>
       </ul>
     </div>
@@ -589,149 +443,239 @@ body{margin:0;background:#c3dbfd}
 
   <!-- ===================== transition between sections ===================== -->
   <div class="mtr-bridge" id="mtr-bridge" aria-hidden="true">
-    <svg viewBox="0 0 420 80" preserveAspectRatio="none" focusable="false">
-      <path d="M0 52C90 18 170 14 246 32S366 70 420 30L420 46C362 82 252 50 172 40S62 44 0 70Z" fill="#fff" opacity=".38" filter="url(#mtr-f-soft)"/>
-      <path d="M-10 60C80 24 170 16 250 34S372 68 430 26" fill="none" stroke="#3cc6ff" stroke-width="7" opacity=".35" filter="url(#mtr-f-blur)"/>
-      <path d="M-10 60C80 24 170 16 250 34S372 68 430 26" fill="none" stroke="url(#mtr-g-trail)" stroke-width="1.8"/>
-      <path d="M-10 70C100 42 190 40 262 50S384 64 430 44" fill="none" stroke="url(#mtr-g-trail-soft)" stroke-width="1.1" opacity=".75"/>
-      <path class="mtr-bridge__spark" d="M-10 60C80 24 170 16 250 34S372 68 430 26" pathLength="100" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" opacity=".9"/>
+    <svg viewBox="0 0 420 230" preserveAspectRatio="none" focusable="false">
+      <ellipse cx="424" cy="-6" rx="34" ry="62" fill="#8fbdf6" opacity=".8" filter="url(#mtr-f-soft)"/>
+      <path d="M0 -40H330C300 0 262 38 212 68C152 104 90 130 0 152Z" fill="#a9c8f1" opacity=".75" filter="url(#mtr-f-soft)"/>
+      <path d="M420 18C380 44 320 60 250 85C180 110 118 142 58 230H176C204 180 252 142 320 112C370 90 400 76 420 70Z" fill="#dcedff" opacity=".9" filter="url(#mtr-f-soft)"/>
+      <path d="M120 140C160 105 196 76 236 50" fill="none" stroke="#fff" stroke-width="1.2" opacity=".75"/>
+      <path d="M130 230C186 166 262 118 420 70" fill="none" stroke="#fff" stroke-width="1" opacity=".5"/>
+      <path d="M-10 128C80 92 170 84 250 102S372 136 430 94" fill="none" stroke="url(#mtr-g-trail)" stroke-width="1.2" opacity=".45"/>
+      <path class="mtr-bridge__spark" d="M-10 128C80 92 170 84 250 102S372 136 430 94" pathLength="100" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>
     </svg>
   </div>
 
   <!-- ============================ SECTION 2 ============================ -->
   <section class="mtr-why" id="metrica-why" aria-labelledby="mtr-why-title">
-    <svg class="mtr-bg" viewBox="0 0 420 1060" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-      <path d="M0 330C30 420 26 520 0 600Z" fill="#fff" opacity=".3" filter="url(#mtr-f-soft)"/>
-      <path d="M0 980C120 940 260 950 420 1000V1060H0Z" fill="#fff" opacity=".3" filter="url(#mtr-f-soft)"/>
-      <path d="M0 1010C130 970 270 980 420 1030" fill="none" stroke="#fff" stroke-width="1.2" opacity=".6" vector-effect="non-scaling-stroke"/>
-      <path d="M0 1040C140 1004 280 1012 420 1052" fill="none" stroke="#fff" stroke-width="1" opacity=".45" vector-effect="non-scaling-stroke"/>
+    <svg class="mtr-bg" viewBox="0 0 420 1064" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <rect x="0" y="330" width="420" height="480" fill="#a9d4fe" opacity=".55" filter="url(#mtr-f-soft)"/>
+      <path d="M0 980C120 940 260 950 420 1000V1064H0Z" fill="#fff" opacity=".3" filter="url(#mtr-f-soft)"/>
+      <path d="M0 1012C130 972 270 982 420 1032" fill="none" stroke="#fff" stroke-width="1.2" opacity=".6" vector-effect="non-scaling-stroke"/>
+      <path d="M0 1042C140 1006 280 1014 420 1054" fill="none" stroke="#fff" stroke-width="1" opacity=".45" vector-effect="non-scaling-stroke"/>
     </svg>
 
-    <div class="mtr-wrap">
+    <div class="mtr-frame">
 
       <!-- intro -->
       <div class="mtr-intro" id="mtr-why-intro">
-        <div class="mtr-fx" aria-hidden="true">
-          <svg viewBox="0 0 398 320" preserveAspectRatio="none" focusable="false">
-            <path d="M0 250C70 290 150 318 240 320H0Z" fill="#2a8cf0" opacity=".22"/>
-            <path d="M0 272C60 300 120 312 180 318" fill="none" stroke="url(#mtr-g-trail)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
-            <path d="M398 120C360 170 352 230 372 320" fill="none" stroke="#7fd4ff" stroke-width="1" opacity=".3" vector-effect="non-scaling-stroke"/>
-          </svg>
-        </div>
+        <svg class="mtr-skin" viewBox="0 0 750 615" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <defs>
+            <clipPath id="intro-clip"><path d="M0 172C2 110 32 64 82 52C130 42 220 38 330 30C430 22 540 14 628 5C680 0 712 0 735 12C746 20 750 40 750 70V560C750 592 726 615 692 615H58C26 615 0 592 0 560Z"/></clipPath>
+            <linearGradient id="intro-base" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#04306a"/><stop offset=".34" stop-color="#01214f"/><stop offset=".64" stop-color="#032a62"/><stop offset=".76" stop-color="#0a479c"/>
+              <stop offset=".86" stop-color="#1c66c9"/><stop offset=".94" stop-color="#3b8ce4"/><stop offset="1" stop-color="#5aa2ea"/>
+            </linearGradient>
+            <radialGradient id="intro-tr" cx=".95" cy=".04" r=".42"><stop offset="0" stop-color="#2471d4" stop-opacity=".7"/><stop offset="1" stop-color="#2471d4" stop-opacity="0"/></radialGradient>
+            <radialGradient id="intro-floor" cx=".5" cy=".86" r=".55"><stop offset="0" stop-color="#3aa6ff" stop-opacity=".55"/><stop offset="1" stop-color="#3aa6ff" stop-opacity="0"/></radialGradient>
+          </defs>
+          <g filter="url(#mtr-f-halo)">
+            <path d="M0 172C2 110 32 64 82 52C130 42 220 38 330 30C430 22 540 14 628 5C680 0 712 0 735 12C746 20 750 40 750 70V560C750 592 726 615 692 615H58C26 615 0 592 0 560Z" fill="none" stroke="#5cc2ff" stroke-width="22" opacity=".6"/>
+            <path d="M0 172C2 110 32 64 82 52C130 42 220 38 330 30" fill="none" stroke="#fff" stroke-width="16" opacity=".7"/>
+          </g>
+          <path d="M0 172C2 110 32 64 82 52C130 42 220 38 330 30C430 22 540 14 628 5C680 0 712 0 735 12C746 20 750 40 750 70V560C750 592 726 615 692 615H58C26 615 0 592 0 560Z" fill="url(#intro-base)"/>
+          <g clip-path="url(#intro-clip)">
+            <rect width="750" height="615" fill="url(#intro-tr)"/>
+            <rect width="750" height="615" fill="url(#intro-floor)"/>
+            <path d="M14 600V180C16 120 44 82 96 70" fill="none" stroke="#9fdcff" stroke-width="18" opacity=".2" filter="url(#mtr-f-soft)"/>
+            <path d="M8 470C10 380 10 260 14 170C20 110 52 76 104 64" fill="none" stroke="#bdeaff" stroke-width="1.6" opacity=".55"/>
+            <ellipse cx="730" cy="600" rx="140" ry="90" fill="#e2f1ff" opacity=".45" filter="url(#mtr-f-soft)"/>
+            <path d="M0 560C120 590 260 604 420 610" fill="none" stroke="url(#mtr-g-trail)" stroke-width="2"/>
+          </g>
+          <path d="M0 172C2 110 32 64 82 52C130 42 220 38 330 30C430 22 540 14 628 5C680 0 712 0 735 12C746 20 750 40 750 70V560C750 592 726 615 692 615H58C26 615 0 592 0 560Z" fill="none" stroke="url(#mtr-g-rim)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+        </svg>
         <div class="mtr-intro__copy">
           <h2 class="mtr-intro__title" id="mtr-why-title">چرا <span class="mtr-gold-text">متریکا</span>؟</h2>
           <p class="mtr-intro__sub">همه&zwnj;چیز برای یک ساخت&zwnj;وساز هوشمند<br>و سودآور در یک پلتفرم یکپارچه</p>
         </div>
         <div class="mtr-stage">
-          <svg viewBox="0 0 368 200" preserveAspectRatio="none" focusable="false" aria-hidden="true">
-            <ellipse cx="184" cy="184" rx="170" ry="26" fill="#2b9cff" opacity=".16" filter="url(#mtr-f-soft)"/>
-            <ellipse cx="184" cy="182" rx="178" ry="24" fill="none" stroke="url(#mtr-g-trail)" stroke-width="1.4" opacity=".7"/>
-            <ellipse cx="184" cy="186" rx="152" ry="18" fill="none" stroke="#59c9ff" stroke-width="1" opacity=".45"/>
-            <ellipse cx="184" cy="190" rx="130" ry="12" fill="none" stroke="#a5e6ff" stroke-width=".8" opacity=".35"/>
+          <svg viewBox="0 0 324 157" preserveAspectRatio="none" focusable="false" aria-hidden="true">
+            <ellipse cx="160" cy="150" rx="168" ry="24" fill="#3aa8ff" opacity=".4" filter="url(#mtr-f-soft)"/>
+            <ellipse cx="160" cy="148" rx="150" ry="14" fill="#bfeaff" opacity=".35" filter="url(#mtr-f-soft)"/>
+            <ellipse cx="160" cy="147" rx="172" ry="20" fill="none" stroke="url(#mtr-g-trail)" stroke-width="1.8" opacity=".9"/>
+            <ellipse cx="160" cy="151" rx="146" ry="14" fill="none" stroke="#7fd8ff" stroke-width="1.2" opacity=".65"/>
+            <ellipse cx="160" cy="155" rx="122" ry="9" fill="none" stroke="#c4f0ff" stroke-width="1" opacity=".5"/>
           </svg>
-          <img class="mtr-stage__chart mtr-float" src="assets/why-chart-panel.png" width="1427" height="1102" alt="" decoding="async" loading="lazy">
-          <img class="mtr-stage__main" src="assets/why-building.png" width="1536" height="1024" alt="" decoding="async" loading="lazy">
-          <img class="mtr-stage__donut mtr-float" src="assets/why-donut-panel.png" width="1297" height="1212" alt="" decoding="async" loading="lazy">
+          <img class="mtr-stage__chart mtr-float" src="assets/why-chart-panel.png" width="1427" height="1102" alt="">
+          <img class="mtr-stage__main" src="assets/why-building.png" width="1536" height="1024" alt="">
+          <img class="mtr-stage__donut mtr-float" src="assets/why-donut-panel.png" width="1297" height="1212" alt="">
         </div>
       </div>
 
       <!-- features -->
-      <ul class="mtr-feats" aria-label="مزیت‌های متریکا">
-        <li class="mtr-feat mtr-feat--dark mtr-glow" id="mtr-feat-economic" data-mtr-feature="economic-analysis">
-          <div class="mtr-fx" aria-hidden="true">
-            <svg viewBox="0 0 380 104" preserveAspectRatio="none" focusable="false">
-              <g fill="#3fa8ff" opacity=".22"><rect x="20" y="62" width="7" height="42" rx="1"/><rect x="31" y="50" width="7" height="54" rx="1"/><rect x="42" y="70" width="7" height="34" rx="1"/><rect x="53" y="44" width="7" height="60" rx="1"/><rect x="64" y="58" width="7" height="46" rx="1"/></g>
-              <path d="M0 30C40 20 70 26 100 40" fill="none" stroke="#5fc8ff" stroke-width="1" opacity=".25" vector-effect="non-scaling-stroke"/>
-            </svg>
-          </div>
-          <div class="mtr-feat__text">
-            <h3 class="mtr-feat__title" id="mtr-feat-economic-t">تحلیل اقتصادی</h3>
-            <p class="mtr-feat__desc">بررسی سود، هزینه<br>و کش فلو پروژه</p>
-          </div>
+      <ul class="mtr-feats" aria-label="مزیت&zwnj;های متریکا">
+
+        <li class="mtr-feat mtr-feat--dark mtr-feat--econ" id="mtr-feat-economic" data-mtr-feature="economic-analysis">
+          <svg class="mtr-skin" viewBox="0 0 711 206" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <defs>
+              <clipPath id="econ-clip"><path d="M58 2C250 0 500 1 650 1C690 1 708 25 708 60V150C708 185 690 198 655 200C450 204 250 206 60 206C25 206 0 180 0 150V60C0 25 25 3 58 2Z"/></clipPath>
+              <linearGradient id="econ-gold" gradientUnits="userSpaceOnUse" x1="430" y1="0" x2="726" y2="196">
+                <stop offset="0" stop-color="#ffc23a" stop-opacity="0"/><stop offset=".3" stop-color="#ffc23a" stop-opacity=".95"/><stop offset=".55" stop-color="#fff3b8"/><stop offset=".78" stop-color="#ffbe30"/><stop offset="1" stop-color="#f79a00"/>
+              </linearGradient>
+              <radialGradient id="econ-left" cx=".14" cy=".62" r=".34"><stop offset="0" stop-color="#1d6fd6" stop-opacity=".6"/><stop offset="1" stop-color="#1d6fd6" stop-opacity="0"/></radialGradient>
+            </defs>
+            <g filter="url(#mtr-f-glow)">
+              <path d="M58 2C250 0 500 1 650 1C690 1 708 25 708 60V150C708 185 690 198 655 200C450 204 250 206 60 206C25 206 0 180 0 150V60C0 25 25 3 58 2Z" fill="none" stroke="#3ab4ff" stroke-width="20" opacity=".6"/>
+              <path d="M440 3C520 -6 600 -18 662 -19C706 -20 726 8 727 56L725 142C723 168 715 184 702 195L706 60C706 25 690 4 652 2Z" fill="#ffb52e" opacity=".75"/>
+              <ellipse cx="690" cy="200" rx="54" ry="20" fill="#ffa820" opacity=".7"/>
+            </g>
+            <path d="M420 4C510 -8 600 -24 666 -25C712 -26 732 6 733 56L730 142C728 172 718 188 702 196L706 60C706 25 690 4 652 2Z" fill="url(#econ-gold)"/>
+            <path d="M58 2C250 0 500 1 650 1C690 1 708 25 708 60V150C708 185 690 198 655 200C450 204 250 206 60 206C25 206 0 180 0 150V60C0 25 25 3 58 2Z" fill="url(#mtr-g-navy)"/>
+            <g clip-path="url(#econ-clip)">
+              <rect width="711" height="206" fill="url(#econ-left)"/>
+              <path d="M14 60C40 20 90 4 170 3H350C260 12 170 40 115 85C82 112 50 142 12 168Z" fill="#4f9cf0" opacity=".28"/>
+              <g fill="#3fa8ff" opacity=".25"><rect x="10" y="118" width="10" height="70" rx="1"/><rect x="24" y="100" width="10" height="88" rx="1"/><rect x="38" y="128" width="10" height="60" rx="1"/><rect x="52" y="92" width="10" height="96" rx="1"/><rect x="66" y="112" width="10" height="76" rx="1"/></g>
+              <path d="M0 150C0 182 25 206 60 206H600C450 200 250 196 90 193C45 191 12 176 0 150Z" fill="#2ba6ff" opacity=".55" filter="url(#mtr-f-blur)"/>
+              <path d="M28 188C120 194 330 197 600 196" fill="none" stroke="#45caff" stroke-width="10" opacity=".75" filter="url(#mtr-f-blur)"/>
+              <path d="M28 188C120 194 330 197 600 196" fill="none" stroke="url(#mtr-g-crest)" stroke-width="3.4"/>
+              <path d="M598 206C640 190 676 178 708 172V152C708 186 690 199 655 201C640 202 620 204 598 206Z" fill="#6d8ec6" opacity=".6"/>
+              <path d="M548 202C600 187 652 175 708 168" fill="none" stroke="#ffcf52" stroke-width="2.6"/>
+              <path d="M548 202C600 187 652 175 708 168" fill="none" stroke="#ffb52e" stroke-width="8" opacity=".6" filter="url(#mtr-f-blur)"/>
+            </g>
+            <path d="M6 82C20 30 60 6 130 3H330" fill="none" stroke="#a6ecff" stroke-width="1.6" opacity=".85" vector-effect="non-scaling-stroke"/>
+            <path d="M58 2C250 0 500 1 650 1C690 1 708 25 708 60V150C708 185 690 198 655 200C450 204 250 206 60 206C25 206 0 180 0 150V60C0 25 25 3 58 2Z" fill="none" stroke="#d6f3ff" stroke-width="1.4" opacity=".9" vector-effect="non-scaling-stroke"/>
+          </svg>
+          <div class="mtr-feat__text"><h3 class="mtr-feat__title" id="mtr-feat-economic-t">تحلیل اقتصادی</h3><p class="mtr-feat__desc">بررسی سود، هزینه<br>و کش فلو پروژه</p></div>
           <span class="mtr-feat__rule" aria-hidden="true"></span>
-          <div class="mtr-feat__art mtr-feat__art--coins"><img src="assets/coins-growth.png" width="1427" height="1102" alt="" decoding="async" loading="lazy"></div>
+          <div class="mtr-feat__art"><img src="assets/coins-growth.png" width="1427" height="1102" alt=""></div>
           <button type="button" class="mtr-arrow mtr-arrow--gold" aria-labelledby="mtr-feat-economic-t" data-mtr-action="open-feature"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
-          <svg class="mtr-corner mtr-corner--tr" aria-hidden="true" focusable="false"><use href="#mtr-rim"/></svg>
-          <svg class="mtr-corner mtr-corner--br" aria-hidden="true" focusable="false"><use href="#mtr-rim"/></svg>
         </li>
-        <li class="mtr-feat mtr-feat--light" id="mtr-feat-estimate" data-mtr-feature="accurate-estimate">
-          <div class="mtr-fx" aria-hidden="true">
-            <svg viewBox="0 0 380 104" preserveAspectRatio="xMaxYMid slice" focusable="false">
-              <g fill="none" stroke="#3b82d6" stroke-width=".8" opacity=".16">
-                <path d="M286 92V40l34-16 40 16v52M286 40l40 14 34-14M326 54v38M300 60h16v20h-16zM334 62h16v18h-16z"/>
-                <path d="M270 92h106M296 46l-10-6M346 30v-14h10v18"/>
+
+        <li class="mtr-feat mtr-feat--light mtr-feat--estimate" id="mtr-feat-estimate" data-mtr-feature="accurate-estimate">
+          <svg class="mtr-skin" viewBox="0 0 714 196" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <defs><clipPath id="est-clip"><path d="M62 6C250 4 520 3 650 3C688 3 703 22 703 55V132C703 162 688 178 655 180C450 184 250 185 62 185C28 185 4 165 4 135V62C4 30 28 8 62 6Z"/></clipPath></defs>
+            <g filter="url(#mtr-f-halo)"><path d="M60 4C250 2 520 0 660 -4C700 -6 716 10 716 50V140C716 175 700 196 660 196H60C25 196 0 172 0 140V60C0 28 25 5 60 4Z" fill="none" stroke="#5cc4ff" stroke-width="24" opacity=".55"/><path d="M60 4C250 2 520 0 660 -4C700 -6 716 10 716 50V140C716 175 700 196 660 196H60C25 196 0 172 0 140V60C0 28 25 5 60 4Z" fill="none" stroke="#fff" stroke-width="10" opacity=".8"/></g>
+            <path d="M60 4C250 2 520 0 660 -4C700 -6 716 10 716 50V140C716 175 700 196 660 196H60C25 196 0 172 0 140V60C0 28 25 5 60 4Z" fill="url(#mtr-g-glass-back)"/>
+            <path d="M40 194C200 197 450 197 640 193" fill="none" stroke="#6fd0ff" stroke-width="7" opacity=".55" filter="url(#mtr-f-blur)"/>
+            <path d="M60 4C250 2 520 0 660 -4C700 -6 716 10 716 50V140C716 175 700 196 660 196H60C25 196 0 172 0 140V60C0 28 25 5 60 4Z" fill="none" stroke="#fff" stroke-width="1.4" opacity=".95" vector-effect="non-scaling-stroke"/>
+            <path d="M62 6C250 4 520 3 650 3C688 3 703 22 703 55V132C703 162 688 178 655 180C450 184 250 185 62 185C28 185 4 165 4 135V62C4 30 28 8 62 6Z" fill="url(#mtr-g-glass)"/>
+            <g clip-path="url(#est-clip)">
+              <ellipse cx="360" cy="10" rx="330" ry="60" fill="#fff" opacity=".7" filter="url(#mtr-f-soft)"/>
+              <g fill="none" stroke="#3b82d6" stroke-width="1.2" opacity=".2">
+                <path d="M560 170V80l64-30 76 30v90M560 80l76 26 64-26M636 106v64M586 116h30v40h-30zM650 118h30v36h-30z"/>
+                <path d="M530 170h190M584 90l-18-12M676 56v-26h18v34"/>
               </g>
-              <g fill="none" stroke="#3b82d6" stroke-width=".7" opacity=".1">
-                <path d="M14 20h40v40H14zM14 40h40M34 20v40M60 70h30M60 78h22"/>
-              </g>
-            </svg>
-          </div>
-          <div class="mtr-feat__text">
-            <h3 class="mtr-feat__title" id="mtr-feat-estimate-t">برآورد دقیق</h3>
-            <p class="mtr-feat__desc">محاسبه هزینه&zwnj;ها<br>با داده&zwnj;های واقعی</p>
-          </div>
+              <g fill="none" stroke="#3b82d6" stroke-width="1" opacity=".13"><path d="M20 30h70v70H20zM20 65h70M55 30v70M100 120h50M100 134h36"/></g>
+            </g>
+            <path d="M62 6C250 4 520 3 650 3C688 3 703 22 703 55V132C703 162 688 178 655 180C450 184 250 185 62 185C28 185 4 165 4 135V62C4 30 28 8 62 6Z" fill="none" stroke="#fff" stroke-width="1.8" vector-effect="non-scaling-stroke"/>
+          </svg>
+          <div class="mtr-feat__text"><h3 class="mtr-feat__title" id="mtr-feat-estimate-t">برآورد دقیق</h3><p class="mtr-feat__desc">محاسبه هزینه&zwnj;ها<br>با داده&zwnj;های واقعی</p></div>
           <span class="mtr-feat__rule" aria-hidden="true"></span>
-          <div class="mtr-feat__art"><img src="assets/why-calculator.png" width="1297" height="1212" alt="" decoding="async" loading="lazy"></div>
+          <div class="mtr-feat__art"><img src="assets/why-calculator.png" width="1297" height="1212" alt=""></div>
           <button type="button" class="mtr-arrow" aria-labelledby="mtr-feat-estimate-t" data-mtr-action="open-feature"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
         </li>
-        <li class="mtr-feat mtr-feat--dark mtr-glow" id="mtr-feat-project" data-mtr-feature="project-management">
-          <div class="mtr-fx" aria-hidden="true">
-            <svg viewBox="0 0 380 104" preserveAspectRatio="xMaxYMid slice" focusable="false">
-              <g fill="none" stroke="#ffc94a" stroke-width=".7" opacity=".28">
-                <path d="M250 104C290 70 330 40 380 30"/><path d="M262 104C300 74 336 48 380 40"/><path d="M274 104C310 78 342 56 380 50"/>
-                <path d="M286 104C320 82 348 64 380 60"/><path d="M298 104C330 86 354 72 380 70"/><path d="M310 104C338 90 360 80 380 80"/>
+
+        <li class="mtr-feat mtr-feat--dark mtr-feat--project" id="mtr-feat-project" data-mtr-feature="project-management">
+          <svg class="mtr-skin" viewBox="0 0 713 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <defs>
+              <clipPath id="proj-clip"><path d="M80 14C250 8 500 2 655 0C695 -1 713 25 713 60V140C713 175 695 196 655 198C450 200 250 200 80 200C30 200 0 160 0 107C0 54 30 14 80 14Z"/></clipPath>
+              <linearGradient id="proj-gold" gradientUnits="userSpaceOnUse" x1="560" y1="0" x2="722" y2="206">
+                <stop offset="0" stop-color="#ffc23a" stop-opacity="0"/><stop offset=".35" stop-color="#ffd25a"/><stop offset=".7" stop-color="#ffb52a"/><stop offset="1" stop-color="#ff9a10"/>
+              </linearGradient>
+              <linearGradient id="proj-hatch" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffc94a" stop-opacity="0"/><stop offset=".5" stop-color="#ffc94a" stop-opacity=".7"/><stop offset="1" stop-color="#ffe08a" stop-opacity=".9"/></linearGradient>
+              <radialGradient id="proj-left" cx=".12" cy=".5" r=".34"><stop offset="0" stop-color="#1d6fd6" stop-opacity=".55"/><stop offset="1" stop-color="#1d6fd6" stop-opacity="0"/></radialGradient>
+            </defs>
+            <g filter="url(#mtr-f-glow)">
+              <path d="M80 14C250 8 500 2 655 0C695 -1 713 25 713 60V140C713 175 695 196 655 198C450 200 250 200 80 200C30 200 0 160 0 107C0 54 30 14 80 14Z" fill="none" stroke="#3ab4ff" stroke-width="20" opacity=".6"/>
+              <ellipse cx="700" cy="188" rx="60" ry="24" fill="#ffa418" opacity=".8"/>
+              <ellipse cx="700" cy="6" rx="26" ry="12" fill="#ffd25a" opacity=".7"/>
+              <ellipse cx="36" cy="40" rx="70" ry="40" fill="#3cc6ff" opacity=".45"/>
+            </g>
+            <path d="M560 -3C620 -8 690 -10 712 14C724 30 724 80 722 150C720 185 700 204 640 206L655 198C695 196 713 175 713 140V60C713 25 695 0 655 0Z" fill="url(#proj-gold)"/>
+            <path d="M80 14C250 8 500 2 655 0C695 -1 713 25 713 60V140C713 175 695 196 655 198C450 200 250 200 80 200C30 200 0 160 0 107C0 54 30 14 80 14Z" fill="url(#mtr-g-navy)"/>
+            <g clip-path="url(#proj-clip)">
+              <rect width="713" height="200" fill="url(#proj-left)"/>
+              <g fill="none" stroke="url(#proj-hatch)" stroke-width="1">
+                <path d="M520 200C590 150 640 90 713 20"/><path d="M532 200C600 152 648 96 713 32"/><path d="M544 200C610 154 656 102 713 44"/><path d="M556 200C620 156 664 108 713 56"/>
+                <path d="M568 200C630 158 672 114 713 68"/><path d="M580 200C640 160 680 120 713 80"/><path d="M592 200C650 162 688 126 713 92"/><path d="M604 200C660 164 696 132 713 104"/>
+                <path d="M616 200C670 166 702 138 713 116"/><path d="M628 200C680 168 706 144 713 128"/><path d="M580 0C620 30 670 46 713 50"/><path d="M600 0C636 24 678 36 713 38"/>
               </g>
-            </svg>
-          </div>
-          <div class="mtr-feat__text">
-            <h3 class="mtr-feat__title" id="mtr-feat-project-t">مدیریت پروژه</h3>
-            <p class="mtr-feat__desc">برنامه&zwnj;ریزی و کنترل<br>تمام مراحل اجرا</p>
-          </div>
+              <g fill="none" stroke="#f0c25a" stroke-width="1" opacity=".55">
+                <path d="M0 120C40 150 90 182 150 200"/><path d="M0 132C36 158 82 186 130 200"/><path d="M0 144C32 166 72 188 110 200"/><path d="M0 156C28 174 62 192 90 200"/><path d="M0 168C24 182 50 194 70 200"/>
+              </g>
+              <ellipse cx="30" cy="30" rx="130" ry="46" fill="#3cc6ff" opacity=".32" filter="url(#mtr-f-soft)"/>
+              <path d="M28 184C120 192 330 196 600 194" fill="none" stroke="#45caff" stroke-width="10" opacity=".7" filter="url(#mtr-f-blur)"/>
+              <path d="M28 184C120 192 330 196 600 194" fill="none" stroke="url(#mtr-g-crest)" stroke-width="2.4"/>
+              <path d="M600 200C650 186 690 172 713 166V140C713 175 695 196 655 198Z" fill="#f2a12a" opacity=".55"/>
+            </g>
+            <path d="M4 100C10 46 36 16 92 12H330" fill="none" stroke="#9feaff" stroke-width="1.8" opacity=".9" vector-effect="non-scaling-stroke"/>
+            <path d="M80 14C250 8 500 2 655 0C695 -1 713 25 713 60V140C713 175 695 196 655 198C450 200 250 200 80 200C30 200 0 160 0 107C0 54 30 14 80 14Z" fill="none" stroke="#d6f3ff" stroke-width="1.4" opacity=".85" vector-effect="non-scaling-stroke"/>
+          </svg>
+          <div class="mtr-feat__text"><h3 class="mtr-feat__title" id="mtr-feat-project-t">مدیریت پروژه</h3><p class="mtr-feat__desc">برنامه&zwnj;ریزی و کنترل<br>تمام مراحل اجرا</p></div>
           <span class="mtr-feat__rule" aria-hidden="true"></span>
-          <div class="mtr-feat__art"><img src="assets/why-checklist.png" width="1427" height="1102" alt="" decoding="async" loading="lazy"></div>
+          <div class="mtr-feat__art"><img src="assets/why-checklist.png" width="1427" height="1102" alt=""></div>
           <button type="button" class="mtr-arrow mtr-arrow--gold" aria-labelledby="mtr-feat-project-t" data-mtr-action="open-feature"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
-          <svg class="mtr-corner mtr-corner--tr" aria-hidden="true" focusable="false"><use href="#mtr-rim"/></svg>
-          <svg class="mtr-corner mtr-corner--br" aria-hidden="true" focusable="false"><use href="#mtr-rim"/></svg>
         </li>
-        <li class="mtr-feat mtr-feat--light" id="mtr-feat-integrated" data-mtr-feature="integrated-tools">
-          <div class="mtr-fx" aria-hidden="true">
-            <svg viewBox="0 0 380 104" preserveAspectRatio="xMaxYMid slice" focusable="false">
-              <g fill="none" stroke="#3b82d6" opacity=".2">
-                <path transform="translate(8 -7)" fill="#3b82d6" stroke="none" d="M351 2h6l1 5 4 2 4-3 4 4-3 4 2 4 5 1v6l-5 1-2 4 3 4-4 4-4-3-4 2-1 5h-6l-1-5-4-2-4 3-4-4 3-4-2-4-5-1v-6l5-1 2-4-3-4 4-4 4 3 4-2zM354 15a7 7 0 1 0 .01 0z" fill-rule="evenodd"/>
-              </g>
-              <g fill="none" stroke="#3b82d6" stroke-width=".7" opacity=".1">
-                <path d="M12 80h60M12 88h44M20 30l20-10 20 10v30H20z"/>
-              </g>
-            </svg>
-          </div>
-          <div class="mtr-feat__text">
-            <h3 class="mtr-feat__title" id="mtr-feat-integrated-t">ابزارهای یکپارچه</h3>
-            <p class="mtr-feat__desc">دسترسی به امکانات<br>حرفه&zwnj;ای در یک محیط</p>
-          </div>
+
+        <li class="mtr-feat mtr-feat--light mtr-feat--tools" id="mtr-feat-integrated" data-mtr-feature="integrated-tools">
+          <svg class="mtr-skin" viewBox="0 0 714 195" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <defs><clipPath id="int-clip"><path d="M62 8C250 6 520 4 650 3C688 3 703 22 703 55V130C703 160 688 176 655 178C450 183 250 184 62 184C28 184 4 164 4 134V64C4 32 28 10 62 8Z"/></clipPath></defs>
+            <g filter="url(#mtr-f-halo)"><path d="M60 4C250 2 520 0 660 -2C700 -4 716 12 716 50V140C716 175 700 195 660 195H60C25 195 0 172 0 140V60C0 28 25 5 60 4Z" fill="none" stroke="#5cc4ff" stroke-width="24" opacity=".55"/><path d="M60 4C250 2 520 0 660 -2C700 -4 716 12 716 50V140C716 175 700 195 660 195H60C25 195 0 172 0 140V60C0 28 25 5 60 4Z" fill="none" stroke="#fff" stroke-width="10" opacity=".8"/></g>
+            <path d="M60 4C250 2 520 0 660 -2C700 -4 716 12 716 50V140C716 175 700 195 660 195H60C25 195 0 172 0 140V60C0 28 25 5 60 4Z" fill="url(#mtr-g-glass-back)"/>
+            <path d="M40 193C200 196 450 196 640 192" fill="none" stroke="#6fd0ff" stroke-width="7" opacity=".55" filter="url(#mtr-f-blur)"/>
+            <path d="M60 4C250 2 520 0 660 -2C700 -4 716 12 716 50V140C716 175 700 195 660 195H60C25 195 0 172 0 140V60C0 28 25 5 60 4Z" fill="none" stroke="#fff" stroke-width="1.4" opacity=".95" vector-effect="non-scaling-stroke"/>
+            <path d="M62 8C250 6 520 4 650 3C688 3 703 22 703 55V130C703 160 688 176 655 178C450 183 250 184 62 184C28 184 4 164 4 134V64C4 32 28 10 62 8Z" fill="url(#mtr-g-glass)"/>
+            <g clip-path="url(#int-clip)">
+              <ellipse cx="360" cy="12" rx="330" ry="60" fill="#fff" opacity=".7" filter="url(#mtr-f-soft)"/>
+              <path transform="translate(640 6) scale(1.9)" fill="#3b82d6" opacity=".28" fill-rule="evenodd" d="M13 0h6l1 5 4 2 4-3 4 4-3 4 2 4 5 1v6l-5 1-2 4 3 4-4 4-4-3-4 2-1 5h-6l-1-5-4-2-4 3-4-4 3-4-2-4-5-1v-6l5-1 2-4-3-4 4-4 4 3 4-2zM16 13a7 7 0 1 0 .01 0z"/>
+              <g fill="none" stroke="#3b82d6" stroke-width="1" opacity=".13"><path d="M16 130h90M16 144h66M30 40l36-18 36 18v54H30z"/></g>
+            </g>
+            <path d="M62 8C250 6 520 4 650 3C688 3 703 22 703 55V130C703 160 688 176 655 178C450 183 250 184 62 184C28 184 4 164 4 134V64C4 32 28 10 62 8Z" fill="none" stroke="#fff" stroke-width="1.8" vector-effect="non-scaling-stroke"/>
+          </svg>
+          <div class="mtr-feat__text"><h3 class="mtr-feat__title" id="mtr-feat-integrated-t">ابزارهای یکپارچه</h3><p class="mtr-feat__desc">دسترسی به امکانات<br>حرفه&zwnj;ای در یک محیط</p></div>
           <span class="mtr-feat__rule" aria-hidden="true"></span>
-          <div class="mtr-feat__art"><img src="assets/why-layers.png" width="1427" height="1102" alt="" decoding="async" loading="lazy"></div>
+          <div class="mtr-feat__art"><img src="assets/why-layers.png" width="1427" height="1102" alt=""></div>
           <button type="button" class="mtr-arrow" aria-labelledby="mtr-feat-integrated-t" data-mtr-action="open-feature"><svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-r"/></svg></button>
         </li>
       </ul>
 
       <!-- final CTA -->
-      <div class="mtr-cta mtr-glow" id="mtr-final-cta">
-        <div class="mtr-fx" aria-hidden="true">
-          <svg viewBox="0 0 395 192" preserveAspectRatio="none" focusable="false">
-            <path d="M0 150C70 128 130 150 190 176S290 196 330 192H0Z" fill="#1d6fd6" opacity=".22"/>
-            <path d="M0 160C70 132 130 152 192 178S296 198 340 192" fill="none" stroke="#41c8ff" stroke-width="6" opacity=".5" filter="url(#mtr-f-blur)" vector-effect="non-scaling-stroke"/>
-            <path d="M0 160C70 132 130 152 192 178S296 198 340 192" fill="none" stroke="url(#mtr-g-trail)" stroke-width="1.8" vector-effect="non-scaling-stroke"/>
-            <path d="M0 176C60 156 120 170 176 186" fill="none" stroke="url(#mtr-g-trail-soft)" stroke-width="1" opacity=".7" vector-effect="non-scaling-stroke"/>
-            <path d="M395 40C356 60 340 110 352 192" fill="none" stroke="#7fd4ff" stroke-width="1" opacity=".22" vector-effect="non-scaling-stroke"/>
-          </svg>
-        </div>
+      <div class="mtr-cta" id="mtr-final-cta">
+        <svg class="mtr-skin" viewBox="0 0 729 375" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <defs>
+            <clipPath id="cta-clip"><path d="M4 125C4 70 40 32 107 28C200 24 300 20 380 18C470 14 560 8 622 3C690 -2 729 40 729 95V305C729 345 712 370 680 371L52 372C26 372 4 352 4 324Z"/></clipPath>
+            <linearGradient id="cta-front" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#03306c"/><stop offset=".5" stop-color="#01214f"/><stop offset="1" stop-color="#042c66"/></linearGradient>
+            <radialGradient id="cta-top" cx=".55" cy=".15" r=".5"><stop offset="0" stop-color="#0f4fa8" stop-opacity=".55"/><stop offset="1" stop-color="#0f4fa8" stop-opacity="0"/></radialGradient>
+            <linearGradient id="cta-back" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d4598"/><stop offset="1" stop-color="#0a3478"/></linearGradient>
+            <mask id="cta-gold" maskUnits="userSpaceOnUse" x="-60" y="-60" width="850" height="500">
+              <ellipse cx="30" cy="90" rx="170" ry="190" fill="url(#mtr-rg-fade)"/>
+              <ellipse cx="720" cy="330" rx="90" ry="90" fill="url(#mtr-rg-fade)"/>
+              <ellipse cx="729" cy="170" rx="30" ry="110" fill="url(#mtr-rg-fade)"/>
+            </mask>
+          </defs>
+          <g filter="url(#mtr-f-halo)">
+            <path d="M4 125C4 70 40 32 107 28C200 24 300 20 380 18C470 14 560 8 622 3C690 -2 729 40 729 95V305C729 345 712 370 680 371L52 372C26 372 4 352 4 324Z" fill="none" stroke="#38b2ff" stroke-width="22" opacity=".6"/>
+            <path d="M4 125C4 70 40 32 107 28C200 24 300 20 380 18C470 14 560 8 622 3C690 -2 729 40 729 95V305C729 345 712 370 680 371L52 372C26 372 4 352 4 324Z" fill="none" stroke="#ffa826" stroke-width="30" mask="url(#cta-gold)"/>
+            <path d="M4 240V324C4 352 26 372 52 372H300" fill="none" stroke="#2ec0ff" stroke-width="24" opacity=".75"/>
+          </g>
+          <path d="M4 125C4 70 40 32 107 28C200 24 300 20 380 18C470 14 560 8 622 3C690 -2 729 40 729 95V305C729 345 712 370 680 371L52 372C26 372 4 352 4 324Z" fill="url(#cta-front)"/>
+          <g clip-path="url(#cta-clip)">
+            <rect width="729" height="375" fill="url(#cta-top)"/>
+            <path d="M4 296C60 255 140 228 236 222C160 245 100 290 70 372H4Z" fill="#1b7fe6" opacity=".42"/>
+            <path d="M4 250V324C4 352 26 372 52 372H260" fill="none" stroke="#7fe2ff" stroke-width="9" opacity=".8" filter="url(#mtr-f-blur)"/>
+            <path d="M4 296C60 255 140 228 236 222" fill="none" stroke="#45caff" stroke-width="9" opacity=".7" filter="url(#mtr-f-blur)"/>
+            <path d="M4 296C60 255 140 228 236 222" fill="none" stroke="url(#mtr-g-crest)" stroke-width="2.4"/>
+            <path d="M4 334C80 300 170 285 290 283" fill="none" stroke="#8fe0ff" stroke-width="1.3" opacity=".7"/>
+            <path d="M30 372C120 345 260 330 420 330" fill="none" stroke="#5fc8ff" stroke-width="1" opacity=".45"/>
+            <path d="M729 60C690 90 670 160 684 333" fill="none" stroke="#7fd4ff" stroke-width="1" opacity=".22"/>
+          </g>
+          <path d="M4 125C4 70 40 32 107 28C200 24 300 20 380 18C470 14 560 8 622 3C690 -2 729 40 729 95V305C729 345 712 370 680 371L52 372C26 372 4 352 4 324Z" fill="none" stroke="#ffc243" stroke-width="2.4" vector-effect="non-scaling-stroke" mask="url(#cta-gold)"/>
+          <path d="M4 125C4 70 40 32 107 28C200 24 300 20 380 18C470 14 560 8 622 3C690 -2 729 40 729 95V305C729 345 712 370 680 371L52 372C26 372 4 352 4 324Z" fill="none" stroke="url(#mtr-g-rim)" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+        </svg>
         <h3 class="mtr-cta__title">پروژه بعدی&zwnj;تان را<br><span class="mtr-gold-text">هوشمندانه</span> آغاز کنید</h3>
         <button type="button" class="mtr-btn mtr-btn--gold mtr-cta__btn" id="mtr-start-cta" data-mtr-action="start-metrica">
           <svg class="mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-play"/></svg>
           <span>شروع با متریکا</span>
           <svg class="mtr-cta__ghost mtr-ico" aria-hidden="true" focusable="false"><use href="#mtr-i-chev-l"/></svg>
         </button>
-        <svg class="mtr-corner mtr-corner--tl" aria-hidden="true" focusable="false"><use href="#mtr-rim"/></svg>
       </div>
     </div>
   </section>
