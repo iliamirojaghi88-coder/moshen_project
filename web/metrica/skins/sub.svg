@@ -1,0 +1,38 @@
+<svg class="mtr-skin" viewBox="0 0 776 505" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="sb-s" d="M220 31H646A100 100 0 0 1 746 131V411A62 62 0 0 1 684 473H95A65 65 0 0 1 30 408V221A190 190 0 0 1 220 31Z"/>
+    <clipPath id="sb-c"><use href="#sb-s"/></clipPath>
+    <linearGradient id="sb-body" x1="0" x2="1">
+      <stop offset="0" stop-color="#084891"/><stop offset=".3" stop-color="#033a7a"/><stop offset=".55" stop-color="#012e63"/><stop offset=".8" stop-color="#01234b"/><stop offset="1" stop-color="#001a40"/>
+    </linearGradient>
+    <linearGradient id="sb-rib" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#52c4ff"/><stop offset=".45" stop-color="#1e8cec"/><stop offset="1" stop-color="#0c5ccb"/></linearGradient>
+    <linearGradient id="sb-flank" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b4ea8"/><stop offset="1" stop-color="#05347c"/></linearGradient>
+    <mask id="sb-gold" maskUnits="userSpaceOnUse" x="-40" y="-40" width="860" height="590">
+      <ellipse cx="50" cy="90" rx="190" ry="230" fill="url(#mtr-fade)"/>
+      <ellipse cx="746" cy="230" rx="40" ry="130" fill="url(#mtr-fade)"/>
+      <ellipse cx="730" cy="460" rx="150" ry="110" fill="url(#mtr-fade)"/>
+    </mask>
+  </defs>
+  <g filter="url(#mtr-b12)">
+    <use href="#sb-s" fill="none" stroke="#ffffff" stroke-width="16" opacity=".55"/>
+    <use href="#sb-s" fill="none" stroke="#3ab6ff" stroke-width="10" opacity=".45"/>
+    <path d="M30 330V408A65 65 0 0 0 95 473H440" fill="none" stroke="#34c4ff" stroke-width="20" opacity=".8"/>
+    <use href="#sb-s" fill="none" stroke="#ffc24f" stroke-width="22" mask="url(#sb-gold)"/>
+  </g>
+  <use href="#sb-s" fill="url(#sb-body)"/>
+  <g clip-path="url(#sb-c)">
+    <ellipse cx="120" cy="300" rx="170" ry="170" fill="#1d6fd2" opacity=".28" filter="url(#mtr-b24)"/>
+    <path d="M30 221A190 190 0 0 1 220 31H305C268 110 205 250 120 473H30Z" fill="#4a9cf0" opacity=".07"/>
+    <path d="M305 31C268 110 205 250 120 473" fill="none" stroke="#8fd8ff" stroke-width="5" opacity=".18" filter="url(#mtr-b2)"/>
+    <path d="M30 448C62 430 112 409 165 401C195 396 214 396 228 399C206 425 184 452 168 473H30Z" fill="url(#sb-rib)"/>
+    <path d="M228 399C268 405 302 420 336 436C380 456 430 469 524 473H168C184 452 206 425 228 399Z" fill="url(#sb-flank)" opacity=".95"/>
+    <path d="M170 400C214 394 246 401 278 412C310 424 343 442 382 457C424 470 474 474 560 474" fill="none" stroke="#3fc8ff" stroke-width="14" filter="url(#mtr-b5)"/>
+    <path d="M170 400C214 394 246 401 278 412C310 424 343 442 382 457C424 470 474 474 560 474" fill="none" stroke="url(#mtr-crest)" stroke-width="2.6"/>
+    <path d="M32 446C70 425 120 405 172 400" fill="none" stroke="#9fe6ff" stroke-width="1.6" opacity=".55"/>
+    <path d="M30 360V408A65 65 0 0 0 95 473H470" fill="none" stroke="#86e6ff" stroke-width="9" opacity=".9" filter="url(#mtr-b5)"/>
+    <use href="#sb-s" fill="none" stroke="#ffab2e" stroke-width="46" opacity=".85" mask="url(#sb-gold)" filter="url(#mtr-b12)"/>
+  </g>
+  <use href="#sb-s" fill="none" stroke="#e2f6ff" stroke-width="2.2"/>
+  <use href="#sb-s" fill="none" stroke="#ffcb45" stroke-width="3.6" mask="url(#sb-gold)"/>
+  <use href="#sb-s" fill="none" stroke="#fff5cf" stroke-width="1.2" mask="url(#sb-gold)"/>
+</svg>

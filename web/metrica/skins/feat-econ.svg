@@ -1,0 +1,32 @@
+<svg class="mtr-skin" viewBox="0 0 760 256" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="ec-s" d="M85 30H665A70 70 0 0 1 735 100V145A80 80 0 0 1 655 225H85A60 60 0 0 1 25 165V90A60 60 0 0 1 85 30Z"/>
+    <clipPath id="ec-c"><use href="#ec-s"/></clipPath>
+    <linearGradient id="ec-body" x1="0" x2="1"><stop offset="0" stop-color="#024a98"/><stop offset=".18" stop-color="#01346f"/><stop offset=".45" stop-color="#012752"/><stop offset=".78" stop-color="#062649"/><stop offset="1" stop-color="#0d2a4d"/></linearGradient>
+    <linearGradient id="ec-gold" x1="540" y1="20" x2="752" y2="180" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffc23a" stop-opacity="0"/><stop offset=".3" stop-color="#ffcf45"/><stop offset=".55" stop-color="#fff0a8"/><stop offset=".8" stop-color="#ffbe30"/><stop offset="1" stop-color="#f29a0c"/></linearGradient>
+    <linearGradient id="ec-glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bcd8fb"/><stop offset="1" stop-color="#e6f2ff"/></linearGradient>
+  </defs>
+  <g filter="url(#mtr-b12)">
+    <use href="#ec-s" fill="none" stroke="#ffffff" stroke-width="14" opacity=".55"/>
+    <use href="#ec-s" fill="none" stroke="#38b4ff" stroke-width="10" opacity=".45"/>
+    <path d="M90 228H600" fill="none" stroke="#2fb8ff" stroke-width="20" opacity=".95"/>
+    <path d="M545 26C610 18 680 8 714 16C744 24 752 60 752 100C752 140 746 166 736 182" fill="none" stroke="#ffaa22" stroke-width="12" opacity=".7"/>
+    <ellipse cx="690" cy="228" rx="50" ry="14" fill="#ffa21c" opacity=".55"/>
+  </g>
+  <!-- gold back ribbon and glass plate behind the body -->
+  <path d="M545 31C610 22 676 10 712 15C740 20 752 52 752 96C752 138 746 166 736 182L735 100A70 70 0 0 0 665 30Z" fill="url(#ec-gold)"/>
+  <path d="M590 225H655A80 80 0 0 0 735 145C747 166 751 194 745 214C737 234 712 240 682 240C648 240 618 234 590 229Z" fill="url(#ec-glass)" opacity=".75"/>
+  <use href="#ec-s" fill="url(#ec-body)"/>
+  <g clip-path="url(#ec-c)">
+    <ellipse cx="40" cy="120" rx="110" ry="100" fill="#1d6fd8" opacity=".55" filter="url(#mtr-b24)"/>
+    <path d="M25 160V90A60 60 0 0 1 85 30H260" fill="none" stroke="#56c8ff" stroke-width="6" opacity=".55" filter="url(#mtr-b5)"/>
+    <g fill="#3c86de" opacity=".35"><rect x="31" y="150" width="8" height="70" rx="1"/><rect x="43" y="132" width="8" height="88" rx="1"/><rect x="55" y="160" width="8" height="60" rx="1"/><rect x="67" y="140" width="8" height="80" rx="1"/><rect x="79" y="170" width="8" height="50" rx="1"/></g>
+    <path d="M95 214C250 220 450 222 640 216" fill="none" stroke="#33c0ff" stroke-width="12" opacity=".9" filter="url(#mtr-b5)"/>
+    <path d="M95 214C250 220 450 222 640 216" fill="none" stroke="url(#mtr-crest)" stroke-width="3"/>
+    <path d="M600 225H655A80 80 0 0 0 735 145V110" fill="none" stroke="#ffab2e" stroke-width="40" opacity=".55" filter="url(#mtr-b12)"/>
+  </g>
+  <use href="#ec-s" fill="none" stroke="#e2f6ff" stroke-width="2"/>
+  <path d="M590 225H655A80 80 0 0 0 735 145V120" fill="none" stroke="#ffcb45" stroke-width="3.6"/>
+  <path d="M600 225H655A80 80 0 0 0 735 145V125" fill="none" stroke="#fff5cf" stroke-width="1.2"/>
+  <rect x="294.7" y="94" width="2.6" height="64" fill="url(#mtr-rule)"/>
+</svg>

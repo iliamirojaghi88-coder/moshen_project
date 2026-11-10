@@ -1,0 +1,24 @@
+<svg class="mtr-skin" viewBox="0 0 763 244" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="es-s" d="M92 24H680A55 55 0 0 1 735 79V157A60 60 0 0 1 675 217H87A65 65 0 0 1 22 152V94A70 70 0 0 1 92 24Z"/>
+    <clipPath id="es-c"><use href="#es-s"/></clipPath>
+  </defs>
+  <g filter="url(#mtr-b12)">
+    <use href="#es-s" fill="#1d5fb8" opacity=".28" transform="translate(0 10)"/>
+    <use href="#es-s" fill="none" stroke="#ffffff" stroke-width="14" opacity=".8"/>
+  </g>
+  <path d="M70 219H690" fill="none" stroke="#1592fd" stroke-width="9" opacity=".85" filter="url(#mtr-b5)"/>
+  <use href="#es-s" fill="url(#mtr-glass)"/>
+  <g clip-path="url(#es-c)">
+    <ellipse cx="715" cy="110" rx="110" ry="110" fill="#7db8fb" opacity=".6" filter="url(#mtr-b24)"/>
+    <ellipse cx="30" cy="120" rx="70" ry="110" fill="#b6d6fb" opacity=".6" filter="url(#mtr-b24)"/>
+    <g fill="none" stroke="#3b82d6" stroke-width=".8" opacity=".14">
+      <path d="M560 172V82l66-30 78 30v90M560 82l78 27 66-27M638 109v63M588 118h30v40h-30zM652 120h30v36h-30zM534 172h196M586 92l-18-12M680 58V32h18v34"/>
+      <path d="M36 44h72v72H36zM36 62h72M36 80h72M36 98h72M54 44v72M72 44v72M90 44v72M30 136h56M30 150h40"/>
+    </g>
+    <use href="#es-s" fill="none" stroke="#9ec8f6" stroke-width="10" opacity=".45" filter="url(#mtr-b5)"/>
+  </g>
+  <use href="#es-s" fill="none" stroke="#ffffff" stroke-width="3"/>
+  <rect x="294.5" y="99" width="3" height="59" fill="url(#mtr-rule-blue)"/>
+  <path d="M298 122l7 6-7 6z" fill="#3d8ae6" opacity=".7"/>
+</svg>

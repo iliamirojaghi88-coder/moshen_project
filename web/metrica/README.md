@@ -4,16 +4,18 @@
 
 ## Layers (per card or panel)
 
-1. **Decoration**: a clean crop of the reference image (`decor/*.webp`, made by `tools/build_decor.py`). It covers the silhouette, rims, ribbons, folds, glows, buttons, pill, arrow discs and icons. The page's live text and art are cut out of it, and small gradient patches are drawn underneath.
+1. **Surface**: a hand-built SVG in `skins/`, one small file per panel, about 40 KB in total. Each one draws the silhouette (measured from the reference), body gradient, ribbons, folds, rims, neon strokes and glows. The plain glass tool cards are a single CSS face (`.mtr-face`) on the measured rim box. Shared filters, gradients and icons sit in the hidden `.mtr-defs` SVG in `index.src.html`.
 2. **Artwork**: the supplied 3D PNGs (`assets/`), placed on the boxes measured from the reference (`tools/layout_spec.json`).
 3. **Text**: real HTML. Size and position are fitted to the reference text (`tools/fit_text.py`).
-4. **Controls**: real `<button>`s on top. Every decorative layer has `pointer-events: none`.
+4. **Details**: the pill, gold/navy buttons, arrow discs and icons, all in CSS or SVG.
+5. **Controls**: real `<button>`s on top. Every decorative layer has `pointer-events: none`.
+
+Each skin's `viewBox` is the component's crop in reference pixels (`tools/geom.py`). Edit the SVG directly; the build checks that the viewBox still matches.
 
 ## Rebuild
 
 ```
-python3 tools/build_decor.py   # after changing components.json / layout_spec.json
-python3 tools/gen_layout.py    # writes layout.css
+python3 tools/gen_layout.py    # after changing components.json / layout_spec.json -> layout.css
 python3 build.py               # writes the standalone index.html
 ```
 

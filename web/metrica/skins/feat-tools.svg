@@ -1,0 +1,21 @@
+<svg class="mtr-skin" viewBox="0 0 758 247" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="tl-s" d="M93 24H680A55 55 0 0 1 735 79V150A60 60 0 0 1 675 210H83A60 60 0 0 1 23 150V94A70 70 0 0 1 93 24Z"/>
+    <clipPath id="tl-c"><use href="#tl-s"/></clipPath>
+  </defs>
+  <g filter="url(#mtr-b12)">
+    <use href="#tl-s" fill="#1d5fb8" opacity=".28" transform="translate(0 10)"/>
+    <use href="#tl-s" fill="none" stroke="#ffffff" stroke-width="14" opacity=".8"/>
+  </g>
+  <path d="M70 212H690" fill="none" stroke="#1592fd" stroke-width="9" opacity=".85" filter="url(#mtr-b5)"/>
+  <use href="#tl-s" fill="url(#mtr-glass)"/>
+  <g clip-path="url(#tl-c)">
+    <ellipse cx="300" cy="190" rx="200" ry="60" fill="#a9cffb" opacity=".55" filter="url(#mtr-b24)"/>
+    <ellipse cx="705" cy="120" rx="110" ry="110" fill="#a9d0fb" opacity=".5" filter="url(#mtr-b24)"/>
+    <path transform="translate(645 34) scale(2.1)" fill="#5f9be6" opacity=".38" fill-rule="evenodd" d="M13 0h6l1 5 4 2 4-3 4 4-3 4 2 4 5 1v6l-5 1-2 4 3 4-4 4-4-3-4 2-1 5h-6l-1-5-4-2-4 3-4-4 3-4-2-4-5-1v-6l5-1 2-4-3-4 4-4 4 3 4-2zM16 9a7 7 0 1 0 .01 0z"/>
+    <use href="#tl-s" fill="none" stroke="#9ec8f6" stroke-width="10" opacity=".45" filter="url(#mtr-b5)"/>
+  </g>
+  <use href="#tl-s" fill="none" stroke="#ffffff" stroke-width="3"/>
+  <rect x="294.5" y="100" width="3" height="60" fill="url(#mtr-rule-blue)"/>
+  <path d="M298 124l7 6-7 6z" fill="#3d8ae6" opacity=".7"/>
+</svg>

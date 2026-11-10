@@ -5,6 +5,7 @@ measured reference coordinates. Units are native reference pixels; at run time
 Text sizes/offsets come from tools/text_fit.json (written by tools/fit_text.js) when present."""
 import json
 import pathlib
+import sys
 
 import numpy as np
 from PIL import Image
@@ -15,11 +16,8 @@ FIT_P = HERE / "tools/text_fit.json"
 FIT = json.loads(FIT_P.read_text()) if FIT_P.exists() else {}
 
 
-DECOR = json.loads((HERE / "decor/meta.json").read_text())
-
-
-def meta(name):
-    return DECOR[name]
+sys.path.insert(0, str(HERE / "tools"))
+from geom import C, crop  # noqa: E402
 
 
 def alpha_bbox(src):
@@ -34,14 +32,10 @@ comps = {}
 for sec, s in SPEC["sections"].items():
     W, H = s["w"], s["h"]
     css.append(f".mtr-sec--{sec} .mtr-stage{{aspect-ratio:{W}/{H}}}")
-for name in sorted(DECOR):
-    m = meta(name)
-    comps[name] = m
-    if name.startswith("bg-"):
-        continue
-    sec = "tools" if name in ("sub",) or name.startswith("tool-") else "why"
-    W, H = SPEC["sections"][sec]["w"], SPEC["sections"][sec]["h"]
-    x0, y0, x1, y1 = m["crop"]
+for name in C:
+    x0, y0, x1, y1 = crop(name)
+    m = comps[name] = {"crop": [x0, y0, x1, y1], "w": x1 - x0, "h": y1 - y0}
+    W, H = SPEC["sections"][C[name]["ref"]]["w"], SPEC["sections"][C[name]["ref"]]["h"]
     css.append(f'.mtr-c[data-c="{name}"]{{--cw:{m["w"]};aspect-ratio:{m["w"]}/{m["h"]};'
                f'--mx:{f(x0 / W * 100)}%;--my:{f(y0 / H * 100)}%;--mw:{f(m["w"] / W * 100)}%}}')
 
@@ -63,9 +57,12 @@ for k, a in SPEC["art"].items():
     top = (ty0 + ty1) / 2 - (by0 + by1) / 2 * s
     css.append(f"#{k}{{left:calc({f(left)}*var(--n));top:calc({f(top)}*var(--n));width:calc({f(PW * s)}*var(--n))}}")
 
+for k, a in SPEC["arrows"].items():  # decorative arrow discs (the card button is the target)
+    cx, cy, r = a["c"]
+    x0, y0, _, _ = local(a["comp"], [cx - r, cy - r, 0, 0])
+    css.append(f"#{k}{{left:calc({f(x0)}*var(--n));top:calc({f(y0)}*var(--n));width:calc({f(2 * r)}*var(--n))}}")
+
 for k, b in SPEC["boxes"].items():
-    if k.startswith("i-"):
-        continue  # icons are part of the decoration
     x0, y0, x1, y1 = local(b["comp"], b["box"], b.get("in"))
     css.append(f"#{k}{{left:calc({f(x0)}*var(--n));top:calc({f(y0)}*var(--n));width:calc({f(x1 - x0)}*var(--n));height:calc({f(y1 - y0)}*var(--n))}}")
 

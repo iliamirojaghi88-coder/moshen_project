@@ -18,11 +18,12 @@ info = {i["id"]: i for i in json.loads(open(info_p).read())}
 D = 2.0  # device scale factor of the screenshot
 
 
-DECOR = json.loads((HERE / "decor/meta.json").read_text())
+sys.path.insert(0, str(HERE / "tools"))
+from geom import crop  # noqa: E402
 
 
 def crop_origin(comp):
-    return DECOR[comp]["crop"][:2]
+    return crop(comp)[:2]
 
 
 fit, report = {}, []

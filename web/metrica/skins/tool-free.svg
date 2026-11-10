@@ -1,0 +1,26 @@
+<svg class="mtr-skin" viewBox="0 0 389 494" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="fr-s" d="M74 23H316A50 50 0 0 1 366 73V421A50 50 0 0 1 316 471H74A50 50 0 0 1 24 421V73A50 50 0 0 1 74 23Z"/>
+    <clipPath id="fr-c"><use href="#fr-s"/></clipPath>
+    <linearGradient id="fr-up" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe2f9"/><stop offset=".6" stop-color="#bcd7f8"/><stop offset="1" stop-color="#a6d2fb"/></linearGradient>
+    <linearGradient id="fr-bolt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2a0"/><stop offset=".45" stop-color="#ffcf2e"/><stop offset="1" stop-color="#f59a00"/></linearGradient>
+  </defs>
+  <g filter="url(#mtr-b12)">
+    <use href="#fr-s" fill="#1d5fb8" opacity=".26" transform="translate(0 12)"/>
+    <use href="#fr-s" fill="none" stroke="#ffffff" stroke-width="14" opacity=".75"/>
+  </g>
+  <use href="#fr-s" fill="url(#mtr-glass)"/>
+  <g clip-path="url(#fr-c)">
+    <!-- blue sheet behind the laptop, white wave sheet below -->
+    <path d="M24 23H366V170C300 196 222 218 142 228C82 236 42 262 24 306Z" fill="url(#fr-up)"/>
+    <path d="M190 74C238 52 296 32 332 23H366V40C304 54 246 76 204 96Z" fill="#ffffff" opacity=".55" filter="url(#mtr-b2)"/>
+    <path d="M366 170C300 196 222 218 142 228C82 236 42 262 24 306" fill="none" stroke="#ffffff" stroke-width="10" opacity=".7" filter="url(#mtr-b5)"/>
+    <path d="M366 170C300 196 222 218 142 228C82 236 42 262 24 306" fill="none" stroke="#ffffff" stroke-width="2.6"/>
+    <ellipse cx="350" cy="300" rx="40" ry="180" fill="#9cc6f5" opacity=".5" filter="url(#mtr-b24)"/>
+    <use href="#fr-s" fill="none" stroke="#9ec8f6" stroke-width="10" opacity=".45" filter="url(#mtr-b5)"/>
+  </g>
+  <use href="#fr-s" fill="none" stroke="#ffffff" stroke-width="3"/>
+  <g transform="translate(290 57) scale(1.82 1.86)" filter="url(#mtr-gold-glow)">
+    <path d="M17.6 1.2 3.2 23.4c-.5.8 0 1.8 1 1.8h7.6l-3.4 14.6c-.2 1 1 1.6 1.7.8L24.8 18c.6-.8 0-1.9-1-1.9h-7.3l3.3-13.9c.3-1.1-1.2-1.8-2.2-1z" fill="url(#fr-bolt)"/>
+  </g>
+</svg>

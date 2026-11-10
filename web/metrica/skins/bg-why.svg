@@ -1,0 +1,10 @@
+<div class="mtr-bg" aria-hidden="true" style="background:linear-gradient(180deg,#dcebfe 0,#c4dcfb 160px,#b6d6fb 30%,#a9d2fd 55%,#b7d8fc 85%,#cfe4fd 100%)">
+  <svg class="mtr-bg__bot" viewBox="0 0 788 220" preserveAspectRatio="xMidYMax slice" focusable="false">
+    <path d="M0 220V150C160 110 330 90 500 70C620 56 720 30 788 0V220Z" fill="#dcecfe" opacity=".7" filter="url(#mtr-b12)"/>
+    <g fill="none" stroke="#ffffff">
+      <path d="M0 150C160 110 330 90 500 70C620 56 720 30 788 0" stroke-width="2" opacity=".6"/>
+      <path d="M60 220C220 170 420 150 600 130C690 120 750 100 788 86" stroke-width="1.4" opacity=".5"/>
+      <path d="M220 220C380 190 540 180 788 150" stroke-width="1.2" opacity=".4"/>
+    </g>
+  </svg>
+</div>

@@ -1,0 +1,35 @@
+<svg class="mtr-skin" viewBox="0 0 788 636" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="in-s" d="M24 232C24 140 60 78 130 62C175 52 235 44 315 35C420 27 520 27 590 24C622 22 642 12 658 3H728A42 42 0 0 1 770 45V520A86 86 0 0 1 684 606H104A80 80 0 0 1 24 526Z"/>
+    <clipPath id="in-c"><use href="#in-s"/></clipPath>
+    <linearGradient id="in-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#033f86"/><stop offset=".1" stop-color="#012d62"/><stop offset=".42" stop-color="#01275a"/><stop offset=".62" stop-color="#022e66"/>
+      <stop offset=".72" stop-color="#0d4b98"/><stop offset=".82" stop-color="#2468c2"/><stop offset=".91" stop-color="#4c92df"/><stop offset="1" stop-color="#7ab3ec"/>
+    </linearGradient>
+    <radialGradient id="in-floor" cx="381" cy="545" r="330" gradientUnits="userSpaceOnUse" gradientTransform="translate(0 545) scale(1 .34) translate(0 -545)">
+      <stop offset="0" stop-color="#8ae6ff"/><stop offset=".5" stop-color="#3cb4fb" stop-opacity=".85"/><stop offset=".86" stop-color="#2a8eea" stop-opacity=".5"/><stop offset="1" stop-color="#2a8eea" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g filter="url(#mtr-b12)">
+    <use href="#in-s" fill="none" stroke="#ffffff" stroke-width="18" opacity=".75"/>
+    <use href="#in-s" fill="none" stroke="#4cc0ff" stroke-width="10" opacity=".55"/>
+  </g>
+  <use href="#in-s" fill="url(#in-body)"/>
+  <g clip-path="url(#in-c)">
+    <ellipse cx="700" cy="30" rx="150" ry="80" fill="#1a66c8" opacity=".55" filter="url(#mtr-b24)"/>
+    <ellipse cx="60" cy="160" rx="90" ry="120" fill="#1777e0" opacity=".55" filter="url(#mtr-b24)"/>
+    <path d="M30 230V520" fill="none" stroke="#6cc6ff" stroke-width="16" opacity=".35" filter="url(#mtr-b5)"/>
+    <ellipse cx="381" cy="545" rx="330" ry="112" fill="url(#in-floor)"/>
+    <g fill="none" filter="url(#mtr-b5)">
+      <ellipse cx="381" cy="536" rx="322" ry="83" stroke="#5cd6ff" stroke-width="16"/>
+      <ellipse cx="381" cy="540" rx="286" ry="68" stroke="#3ab8ff" stroke-width="11"/>
+    </g>
+    <g fill="none">
+      <ellipse cx="381" cy="536" rx="322" ry="83" stroke="#dcfaff" stroke-width="3.6"/>
+      <ellipse cx="381" cy="540" rx="286" ry="68" stroke="#9fe9ff" stroke-width="2.6"/>
+      <ellipse cx="381" cy="544" rx="250" ry="55" stroke="#bdefff" stroke-width="1.4" opacity=".8"/>
+    </g>
+    <ellipse cx="720" cy="612" rx="130" ry="50" fill="#e8f4ff" opacity=".45" filter="url(#mtr-b12)"/>
+  </g>
+  <use href="#in-s" fill="none" stroke="#e4f6ff" stroke-width="2" opacity=".85"/>
+</svg>

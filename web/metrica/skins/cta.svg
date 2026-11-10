@@ -1,0 +1,34 @@
+<svg class="mtr-skin" viewBox="0 0 784 425" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="ct-s" d="M28 251C28 146 113 61 218 61C330 59 470 59 560 55C612 52 642 42 672 33C705 24 738 32 748 58C751 68 752 80 752 92V318A75 75 0 0 1 677 393H108A80 80 0 0 1 28 313Z"/>
+    <clipPath id="ct-c"><use href="#ct-s"/></clipPath>
+    <linearGradient id="ct-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#033e88"/><stop offset=".22" stop-color="#012d62"/><stop offset=".55" stop-color="#01264f"/><stop offset="1" stop-color="#012a5c"/></linearGradient>
+    <linearGradient id="ct-rib" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2aa2f6"/><stop offset="1" stop-color="#0a56be"/></linearGradient>
+    <mask id="ct-gold" maskUnits="userSpaceOnUse" x="-40" y="-40" width="870" height="510">
+      <ellipse cx="50" cy="120" rx="200" ry="230" fill="url(#mtr-fade)"/>
+      <ellipse cx="752" cy="230" rx="40" ry="120" fill="url(#mtr-fade)"/>
+      <ellipse cx="730" cy="380" rx="120" ry="90" fill="url(#mtr-fade)"/>
+    </mask>
+  </defs>
+  <g filter="url(#mtr-b12)">
+    <use href="#ct-s" fill="none" stroke="#ffffff" stroke-width="16" opacity=".55"/>
+    <use href="#ct-s" fill="none" stroke="#3ab6ff" stroke-width="10" opacity=".45"/>
+    <path d="M28 250V313A80 80 0 0 0 108 393H330" fill="none" stroke="#34c4ff" stroke-width="22" opacity=".8"/>
+    <use href="#ct-s" fill="none" stroke="#ffc24f" stroke-width="22" mask="url(#ct-gold)"/>
+  </g>
+  <use href="#ct-s" fill="url(#ct-body)"/>
+  <g clip-path="url(#ct-c)">
+    <path d="M218 61C330 59 470 59 560 55C612 52 642 42 672 33C705 24 738 32 748 58L752 96C700 80 640 86 560 90C450 95 300 96 200 100C120 104 70 130 40 170C50 110 120 62 218 61Z" fill="#1366d0" opacity=".38"/>
+    <ellipse cx="40" cy="290" rx="90" ry="120" fill="#0f6ad6" opacity=".55" filter="url(#mtr-b24)"/>
+    <ellipse cx="760" cy="230" rx="40" ry="130" fill="#155ab0" opacity=".5" filter="url(#mtr-b12)"/>
+    <path d="M28 262C66 300 110 350 186 393H28Z" fill="url(#ct-rib)" opacity=".95"/>
+    <path d="M28 262C66 300 110 350 186 393" fill="none" stroke="#3fc8ff" stroke-width="12" opacity=".9" filter="url(#mtr-b5)"/>
+    <path d="M28 262C66 300 110 350 186 393" fill="none" stroke="#e4fbff" stroke-width="2.4"/>
+    <path d="M40 222C100 290 170 350 290 393" fill="none" stroke="#7fe0ff" stroke-width="1.4" opacity=".55"/>
+    <path d="M28 290V313A80 80 0 0 0 108 393H250" fill="none" stroke="#6ff0ff" stroke-width="8" opacity=".85" filter="url(#mtr-b5)"/>
+    <use href="#ct-s" fill="none" stroke="#ffab2e" stroke-width="46" opacity=".85" mask="url(#ct-gold)" filter="url(#mtr-b12)"/>
+  </g>
+  <use href="#ct-s" fill="none" stroke="#e2f6ff" stroke-width="2.2"/>
+  <use href="#ct-s" fill="none" stroke="#ffcb45" stroke-width="3.6" mask="url(#ct-gold)"/>
+  <use href="#ct-s" fill="none" stroke="#fff5cf" stroke-width="1.2" mask="url(#ct-gold)"/>
+</svg>

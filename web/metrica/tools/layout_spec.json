@@ -241,6 +241,51 @@
     214,
     1815
    ]
+  },
+  "f-project": {
+   "comp": "tool-project",
+   "box": [
+    430,
+    569,
+    772,
+    871
+   ]
+  },
+  "f-analysis": {
+   "comp": "tool-analysis",
+   "box": [
+    68,
+    569,
+    413,
+    871
+   ]
+  },
+  "f-marketing": {
+   "comp": "tool-marketing",
+   "box": [
+    430,
+    898,
+    773,
+    1188
+   ]
+  },
+  "f-cashflow": {
+   "comp": "tool-cashflow",
+   "box": [
+    68,
+    897,
+    413,
+    1189
+   ]
+  },
+  "f-contractors": {
+   "comp": "tool-contractors",
+   "box": [
+    68,
+    1216,
+    412,
+    1584
+   ]
   }
  },
  "arrows": {

@@ -1,0 +1,38 @@
+<svg class="mtr-skin" viewBox="0 0 764 264" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="pj-s" d="M92 48C260 44 470 38 666 31C708 30 737 60 737 100V140C737 196 702 234 640 234H92A66 66 0 0 1 26 168V114A66 66 0 0 1 92 48Z"/>
+    <clipPath id="pj-c"><use href="#pj-s"/></clipPath>
+    <linearGradient id="pj-body" x1="0" x2="1"><stop offset="0" stop-color="#03489a"/><stop offset=".2" stop-color="#012f66"/><stop offset=".45" stop-color="#012853"/><stop offset=".8" stop-color="#03264d"/><stop offset="1" stop-color="#0a284c"/></linearGradient>
+    <linearGradient id="pj-gold" x1="600" y1="120" x2="745" y2="245" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffe27a"/><stop offset=".5" stop-color="#ffb72a"/><stop offset="1" stop-color="#f08e0a"/></linearGradient>
+    <linearGradient id="pj-hatch" x1="0" x2="1"><stop offset="0" stop-color="#ffcb52" stop-opacity="0"/><stop offset=".45" stop-color="#ffcb52" stop-opacity=".75"/><stop offset="1" stop-color="#ffe08a"/></linearGradient>
+  </defs>
+  <g filter="url(#mtr-b12)">
+    <use href="#pj-s" fill="none" stroke="#ffffff" stroke-width="14" opacity=".55"/>
+    <use href="#pj-s" fill="none" stroke="#38b4ff" stroke-width="10" opacity=".45"/>
+    <path d="M110 237H600" fill="none" stroke="#2fb8ff" stroke-width="20" opacity=".95"/>
+    <path d="M26 190V114A66 66 0 0 1 92 48H240" fill="none" stroke="#5fd2ff" stroke-width="26"/>
+    <path d="M26 150V114A66 66 0 0 1 92 48H150" fill="none" stroke="#ffffff" stroke-width="12" opacity=".8"/>
+    <path d="M741 120V200C741 226 720 240 684 240H610" fill="none" stroke="#ffa41a" stroke-width="14" opacity=".75"/>
+  </g>
+  <path d="M737 100V200C737 224 722 242 694 242H600V234H640C702 234 737 196 737 140Z" fill="url(#pj-gold)"/>
+  <use href="#pj-s" fill="url(#pj-body)"/>
+  <g clip-path="url(#pj-c)">
+    <ellipse cx="40" cy="90" rx="110" ry="90" fill="#1a74e0" opacity=".7" filter="url(#mtr-b24)"/>
+    <path d="M26 180V114A66 66 0 0 1 92 48H220" fill="none" stroke="#7fdcff" stroke-width="8" opacity=".75" filter="url(#mtr-b5)"/>
+    <g fill="none" stroke="url(#pj-hatch)" stroke-width="1">
+      <path d="M560 31C615 50 668 80 737 132"/><path d="M576 31C628 48 678 74 737 118"/><path d="M592 31C641 46 688 68 737 104"/><path d="M608 31C654 44 696 62 737 92"/>
+      <path d="M624 31C666 42 703 57 737 82"/><path d="M640 31C678 40 709 52 737 72"/><path d="M656 31C690 38 714 48 737 63"/><path d="M672 31C700 36 720 44 737 55"/>
+    </g>
+    <g fill="none" stroke="#f0c25a" stroke-width="1.1" opacity=".8">
+      <path d="M26 128C60 160 110 205 170 234"/><path d="M26 142C56 170 100 210 150 234"/><path d="M26 156C52 180 90 214 130 234"/><path d="M26 170C48 190 80 218 110 234"/><path d="M26 184C44 200 68 222 92 234"/><path d="M26 198C40 210 58 226 74 234"/>
+    </g>
+    <path d="M110 222C260 228 450 230 630 224" fill="none" stroke="#33c0ff" stroke-width="12" opacity=".9" filter="url(#mtr-b5)"/>
+    <path d="M110 222C260 228 450 230 630 224" fill="none" stroke="url(#mtr-crest)" stroke-width="3"/>
+    <path d="M600 234H640C702 234 737 196 737 140V110" fill="none" stroke="#ffab2e" stroke-width="40" opacity=".7" filter="url(#mtr-b12)"/>
+  </g>
+  <use href="#pj-s" fill="none" stroke="#e2f6ff" stroke-width="2"/>
+  <path d="M26 168V114A66 66 0 0 1 92 48H160" fill="none" stroke="#bff0ff" stroke-width="2.4"/>
+  <path d="M600 234H640C702 234 737 196 737 140V120" fill="none" stroke="#ffcb45" stroke-width="3.6"/>
+  <path d="M610 234H640C702 234 737 196 737 140V125" fill="none" stroke="#fff5cf" stroke-width="1.2"/>
+  <rect x="305.7" y="107" width="2.6" height="64" fill="url(#mtr-rule)"/>
+</svg>

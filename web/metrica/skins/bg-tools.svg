@@ -1,0 +1,20 @@
+<div class="mtr-bg" aria-hidden="true" style="background:linear-gradient(180deg,#d2e5fd 0%,#c5dcfb 14%,#a8cdf8 34%,#a4caf8 50%,#accef9 66%,#a9cdf9 84%,#d2e5fd 100%)">
+  <svg class="mtr-bg__top" viewBox="0 0 839 300" preserveAspectRatio="xMidYMin slice" focusable="false">
+    <ellipse cx="140" cy="10" rx="420" ry="150" fill="#ffffff" opacity=".45" filter="url(#mtr-b24)"/>
+    <path d="M300 0C400 40 520 70 839 80V0Z" fill="#ffffff" opacity=".22" filter="url(#mtr-b12)"/>
+    <g fill="none" stroke="#ffffff">
+      <path d="M380 0C450 34 540 62 700 76S839 82 839 82" stroke-width="2" opacity=".55"/>
+      <path d="M520 0C590 30 680 48 839 52" stroke-width="1.4" opacity=".45"/>
+      <path d="M0 160C60 120 120 60 160 0" stroke-width="1.4" opacity=".4"/>
+    </g>
+  </svg>
+  <svg class="mtr-bg__bot" viewBox="0 0 839 320" preserveAspectRatio="xMidYMax slice" focusable="false">
+    <path d="M0 320V250C160 200 330 150 500 110C640 78 760 40 839 0V320Z" fill="#d6e8fd" opacity=".75" filter="url(#mtr-b12)"/>
+    <path d="M0 320V290C200 250 400 210 600 170C720 146 800 120 839 100V320Z" fill="#e6f1fe" opacity=".6" filter="url(#mtr-b12)"/>
+    <rect y="290" width="839" height="30" fill="#dcebfe"/>
+    <g fill="none" stroke="#ffffff">
+      <path d="M0 250C160 200 330 150 500 110C640 78 760 40 839 0" stroke-width="2" opacity=".6"/>
+      <path d="M120 320C280 260 460 220 640 180C740 158 800 140 839 128" stroke-width="1.4" opacity=".5"/>
+    </g>
+  </svg>
+</div>
