@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>متریکا — ابزارها و چرا متریکا</title>
+<link rel="preload" href="assets/fonts/estedad-wght.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/metrica.css">
+<style>html,body{margin:0;background:#c3dbfb}</style>
+</head>
+<body>
+<main class="mt-page">
+
+<!-- shared light filters (user-space regions: thin strokes have zero-height boxes) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="mtF1" filterUnits="userSpaceOnUse" x="-600" y="-600" width="3200" height="2400"><feGaussianBlur stdDeviation="1"/></filter>
+    <filter id="mtF2" filterUnits="userSpaceOnUse" x="-600" y="-600" width="3200" height="2400"><feGaussianBlur stdDeviation="2.4"/></filter>
+    <filter id="mtF4" filterUnits="userSpaceOnUse" x="-600" y="-600" width="3200" height="2400"><feGaussianBlur stdDeviation="4.5"/></filter>
+    <filter id="mtF8" filterUnits="userSpaceOnUse" x="-600" y="-600" width="3200" height="2400"><feGaussianBlur stdDeviation="9"/></filter>
+    <filter id="mtF16" filterUnits="userSpaceOnUse" x="-600" y="-600" width="3200" height="2400"><feGaussianBlur stdDeviation="16"/></filter>
+    <linearGradient id="mtGoldStroke" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fff2b0"/><stop offset=".5" stop-color="#ffc947"/><stop offset="1" stop-color="#f29a14"/></linearGradient>
+    <symbol id="mtChevR" viewBox="0 0 24 24"><path d="M8.6 4.2l7.8 7.8-7.8 7.8" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="mtChevL" viewBox="0 0 24 24"><path d="M15.4 4.2L7.6 12l7.8 7.8" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="mtPlay" viewBox="0 0 24 24"><path d="M6.5 4.6c0-1.3 1.4-2 2.4-1.3l11 7.4c.9.6.9 2 0 2.6l-11 7.4c-1 .7-2.4 0-2.4-1.3z" fill="currentColor"/></symbol>
+    <symbol id="mtCrown" viewBox="0 0 34 34"><path d="M3.5 11.5l7 6.2L17 6.5l6.5 11.2 7-6.2-2.8 15.6H6.3z" fill="currentColor"/><rect x="6.2" y="28.2" width="21.6" height="3.4" rx="1.2" fill="currentColor"/><circle cx="3.5" cy="10" r="2.3" fill="currentColor"/><circle cx="17" cy="4.8" r="2.3" fill="currentColor"/><circle cx="30.5" cy="10" r="2.3" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<!-- ================= SECTION 1: tools and subscription ================= -->
+<section class="mt-s1" aria-labelledby="mt-sub-title">
+<div class="mt-s1__in">
+
+  <div class="mt-cq">
+  <article class="mt-card mt-sub" data-skin="sub">
+    <svg class="mt-skin" viewBox="0 0 713 437" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs>
+        <clipPath id="mtSubClip"><path data-g="body" d="M 0.00,223.00 C 0.00,65.10 56.40,0.00 193.30,0.00 L 518.40,0.00 C 638.70,0.00 713.00,35.30 713.00,92.50 L 713.00,360.80 C 713.00,388.10 655.50,437.00 552.50,437.00 L 111.60,437.00 C 47.40,437.00 0.00,407.10 0.00,366.70 Z"/></clipPath>
+        <linearGradient id="mtSubBase" x1="0" x2="1" y1="0" y2=".35"><stop offset="0" stop-color="#0b4c99"/><stop offset=".28" stop-color="#063e82"/><stop offset=".52" stop-color="#023066"/><stop offset=".78" stop-color="#012552"/><stop offset="1" stop-color="#00214c"/></linearGradient>
+        <linearGradient id="mtSubWave" gradientUnits="userSpaceOnUse" x1="0" y1="345" x2="0" y2="440"><stop offset="0" stop-color="#3cb4ff"/><stop offset=".3" stop-color="#1e82ec"/><stop offset=".7" stop-color="#1259c0"/><stop offset="1" stop-color="#0c4596"/></linearGradient>
+        <linearGradient id="mtSubWave2" gradientUnits="userSpaceOnUse" x1="0" y1="380" x2="0" y2="440"><stop offset="0" stop-color="#1a72d8" stop-opacity=".9"/><stop offset="1" stop-color="#0b468f" stop-opacity=".9"/></linearGradient>
+      </defs>
+      <!-- light thrown onto the section -->
+      <path data-g="body" d="M 0.00,223.00 C 0.00,65.10 56.40,0.00 193.30,0.00 L 518.40,0.00 C 638.70,0.00 713.00,35.30 713.00,92.50 L 713.00,360.80 C 713.00,388.10 655.50,437.00 552.50,437.00 L 111.60,437.00 C 47.40,437.00 0.00,407.10 0.00,366.70 Z" fill="#2d8af3" opacity=".42" filter="url(#mtF16)" transform="translate(0 10)"/>
+      <path data-g="body" d="M 0.00,223.00 C 0.00,65.10 56.40,0.00 193.30,0.00 L 518.40,0.00 C 638.70,0.00 713.00,35.30 713.00,92.50 L 713.00,360.80 C 713.00,388.10 655.50,437.00 552.50,437.00 L 111.60,437.00 C 47.40,437.00 0.00,407.10 0.00,366.70 Z" fill="none" stroke="#fff" stroke-width="5" opacity=".5" filter="url(#mtF4)"/>
+      <g data-anchor="lt"><path d="M0 300L0 223C0 65.1 56.4 0 193.3 0L320 0" fill="none" stroke="#ffaa30" stroke-width="24" opacity=".8" filter="url(#mtF16)"/><path d="M0 280L0 223C0 65.1 56.4 0 193.3 0L280 0" fill="none" stroke="#ffc552" stroke-width="7" opacity=".85" filter="url(#mtF4)"/></g>
+      <g data-anchor="rb"><path d="M713 290L713 360.8C713 388.1 655.5 437 552.5 437L420 437" fill="none" stroke="#ffae2e" stroke-width="24" opacity=".85" filter="url(#mtF16)"/><path d="M713 320L713 360.8C713 388.1 655.5 437 552.5 437L470 437" fill="none" stroke="#ffc552" stroke-width="7" opacity=".9" filter="url(#mtF4)"/></g>
+      <g data-anchor="rt"><path d="M430 0L518.4 0C638.7 0 713 35.3 713 92.5L713 230" fill="none" stroke="#45cfff" stroke-width="12" opacity=".7" filter="url(#mtF8)"/></g>
+      <g data-anchor="lb"><path d="M0 290L0 366.7C0 407.1 47.4 437 111.6 437L320 437" fill="none" stroke="#3fc4ff" stroke-width="12" opacity=".6" filter="url(#mtF8)"/></g>
+      <!-- body -->
+      <path data-g="body" d="M 0.00,223.00 C 0.00,65.10 56.40,0.00 193.30,0.00 L 518.40,0.00 C 638.70,0.00 713.00,35.30 713.00,92.50 L 713.00,360.80 C 713.00,388.10 655.50,437.00 552.50,437.00 L 111.60,437.00 C 47.40,437.00 0.00,407.10 0.00,366.70 Z" fill="url(#mtSubBase)"/>
+      <g clip-path="url(#mtSubClip)">
+        <g data-anchor="lt"><path d="M300-30L490-30L290 470L100 470Z" fill="#2266bd" opacity=".3" filter="url(#mtF16)"/>
+          <ellipse cx="30" cy="30" rx="130" ry="110" fill="#c9792c" opacity=".28" filter="url(#mtF16)"/></g>
+        <g data-anchor="rt"><ellipse cx="560" cy="0" rx="240" ry="40" fill="#0d64c4" opacity=".5" filter="url(#mtF16)"/></g>
+        <g data-anchor="rb"><ellipse cx="700" cy="430" rx="140" ry="70" fill="#d9822b" opacity=".38" filter="url(#mtF16)"/></g>
+        <path data-g="body" d="M 0.00,223.00 C 0.00,65.10 56.40,0.00 193.30,0.00 L 518.40,0.00 C 638.70,0.00 713.00,35.30 713.00,92.50 L 713.00,360.80 C 713.00,388.10 655.50,437.00 552.50,437.00 L 111.60,437.00 C 47.40,437.00 0.00,407.10 0.00,366.70 Z" fill="none" stroke="#2b86e6" stroke-width="22" opacity=".35" filter="url(#mtF8)"/>
+        <path data-g="waveLine" d="M 0.00,386.00 C 70.00,374.00 150.00,350.00 250.00,356.00 C 340.00,362.00 440.00,408.00 520.00,437.00" fill="none" stroke="#1d8cff" stroke-width="56" opacity=".55" filter="url(#mtF16)"/>
+        <path data-g="wave2" d="M -20.00,415.00 C 90.00,398.00 190.00,386.00 290.00,396.00 C 380.00,405.00 470.00,425.00 560.00,445.00 L 560.00,470.00 L -20.00,470.00 Z" fill="url(#mtSubWave2)" opacity=".6"/>
+        <path data-g="wave" d="M -20.00,392.00 C 60.00,378.00 150.00,350.00 250.00,356.00 C 340.00,362.00 440.00,408.00 520.00,437.00 L 520.00,470.00 L -20.00,470.00 Z" fill="url(#mtSubWave)" opacity=".9"/>
+        <path data-g="waveLine" d="M 0.00,386.00 C 70.00,374.00 150.00,350.00 250.00,356.00 C 340.00,362.00 440.00,408.00 520.00,437.00" fill="none" stroke="#45c8ff" stroke-width="9" opacity=".7" filter="url(#mtF4)"/>
+        <path data-g="waveLine" d="M 0.00,386.00 C 70.00,374.00 150.00,350.00 250.00,356.00 C 340.00,362.00 440.00,408.00 520.00,437.00" fill="none" stroke="#bff4ff" stroke-width="2.2"/>
+      </g>
+      <path data-g="body" d="M 0.00,223.00 C 0.00,65.10 56.40,0.00 193.30,0.00 L 518.40,0.00 C 638.70,0.00 713.00,35.30 713.00,92.50 L 713.00,360.80 C 713.00,388.10 655.50,437.00 552.50,437.00 L 111.60,437.00 C 47.40,437.00 0.00,407.10 0.00,366.70 Z" fill="none" stroke="#fff" stroke-width="1.6" opacity=".9"/>
+      <g data-anchor="lt"><path d="M0 250L0 223C0 65.1 56.4 0 193.3 0L250 0" fill="none" stroke="url(#mtGoldStroke)" stroke-width="2.2"/></g>
+      <g data-anchor="rb"><path d="M713 330L713 360.8C713 388.1 655.5 437 552.5 437L490 437" fill="none" stroke="url(#mtGoldStroke)" stroke-width="2.4"/></g>
+    </svg>
+    <img class="mt-art" src="assets/img/sub-crown-card.webp" alt="" width="1000" height="744" decoding="async">
+    <div class="mt-sub__col">
+      <span class="mt-pill">دسترسی کامل به همه ابزارها</span>
+      <h2 class="mt-sub__title" id="mt-sub-title">خرید اشتراک</h2>
+      <p class="mt-sub__desc">فعال‌سازی تمام قابلیت‌های متریکا<br>با پلن‌های متنوع و اقتصادی</p>
+      <button class="mt-btn mt-gold-btn" type="button" data-mtr-action="choose-plan">
+        <svg class="mt-ico" aria-hidden="true"><use href="#mtCrown"/></svg><span>انتخاب پلن</span><svg class="mt-chev" aria-hidden="true"><use href="#mtChevL"/></svg>
+      </button>
+    </div>
+  </article>
+  </div>
+
+  <!-- order follows the reference reading order (right column first in RTL) -->
+  <div class="mt-tools">
+    <div class="mt-cq"><article class="mt-card mt-tool mt-tool--proj">
+      <img class="mt-art" src="assets/img/tool-project.webp" alt="" width="760" height="635" loading="lazy" decoding="async">
+      <h3>مدیریت پروژه</h3><p>برنامه‌ریزی و کنترل اجرا</p>
+      <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="مدیریت پروژه" data-mtr-tool="project"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+    </article></div>
+    <div class="mt-cq"><article class="mt-card mt-tool mt-tool--anal">
+      <img class="mt-art" src="assets/img/tool-construction.webp" alt="" width="760" height="510" loading="lazy" decoding="async">
+      <h3>آنالیز ساخت</h3><p>برآورد، هزینه و سود</p>
+      <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="آنالیز ساخت" data-mtr-tool="analysis"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+    </article></div>
+    <div class="mt-cq"><article class="mt-card mt-tool mt-tool--mkt">
+      <img class="mt-art" src="assets/img/tool-marketing.webp" alt="" width="760" height="553" loading="lazy" decoding="async">
+      <h3>مارکتینگ</h3><p>فروش و جذب مشتری</p>
+      <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="مارکتینگ" data-mtr-tool="marketing"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+    </article></div>
+    <div class="mt-cq"><article class="mt-card mt-tool mt-tool--cash">
+      <img class="mt-art" src="assets/img/coins-growth.webp" alt="" width="760" height="652" loading="lazy" decoding="async">
+      <h3>کش فلو</h3><p>گردش مالی و نقدینگی</p>
+      <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="کش فلو" data-mtr-tool="cashflow"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+    </article></div>
+    <div class="mt-cq"><article class="mt-card mt-tool mt-tool--free">
+      <svg class="mt-swoosh" viewBox="0 0 345 449" preserveAspectRatio="xMinYMin slice" aria-hidden="true" focusable="false">
+        <defs><linearGradient id="mtSwoosh" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#7cc3fb" stop-opacity=".7"/><stop offset=".55" stop-color="#a9d8ff" stop-opacity=".45"/><stop offset="1" stop-color="#d6ecff" stop-opacity="0"/></linearGradient></defs>
+        <path d="M-10 300C40 250 60 170 140 130C210 95 270 70 360 10L360-10L-10-10Z" fill="url(#mtSwoosh)" opacity=".85"/>
+        <path d="M-10 300C40 250 60 170 140 130C210 95 270 70 360 10" fill="none" stroke="#fff" stroke-width="2" opacity=".7"/>
+      </svg>
+      <img class="mt-art" src="assets/img/tool-laptop.webp" alt="" width="760" height="427" loading="lazy" decoding="async">
+      <svg class="mt-bolt" viewBox="0 0 58 80" aria-hidden="true" focusable="false">
+        <defs><linearGradient id="mtBoltG" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#fff6a8"/><stop offset=".45" stop-color="#ffcb35"/><stop offset="1" stop-color="#f39410"/></linearGradient></defs>
+        <path d="M35 1L5 47h20l-8 32 36-51H32l9-27z" fill="url(#mtBoltG)" stroke="#e98a0c" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M35 1L5 47h8L38 5z" fill="#fffbe2" opacity=".75"/>
+      </svg>
+      <h3>تجربه رایگان</h3><p>برخی از ابزارهای متریکا را<br>بدون اشتراک امتحان کنید</p>
+      <button class="mt-btn mt-blue-btn" type="button" data-mtr-action="start-trial"><svg aria-hidden="true"><use href="#mtPlay"/></svg>شروع تجربه</button>
+    </article></div>
+    <div class="mt-cq"><article class="mt-card mt-tool mt-tool--contr">
+      <img class="mt-art" src="assets/img/tool-contractors.webp" alt="" width="760" height="538" loading="lazy" decoding="async">
+      <h3>مجریان ذیصلاح</h3><p>استعلام و انتخاب مجری</p>
+      <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="مجریان ذیصلاح" data-mtr-tool="contractors"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+    </article></div>
+  </div>
+
+</div>
+</section>
+
+<!-- ================= living wave separator ================= -->
+<div class="mt-wave" aria-hidden="true">
+  <svg class="mt-wave__a" viewBox="0 0 2880 160" preserveAspectRatio="none" focusable="false">
+    <defs><linearGradient id="mtWaveFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eaf8ff" stop-opacity=".75"/><stop offset=".6" stop-color="#b9e2ff" stop-opacity=".35"/><stop offset="1" stop-color="#9fd2ff" stop-opacity=".1"/></linearGradient></defs>
+    <path d="M0 84Q180 40 360 84T720 84T1080 84T1440 84T1800 84T2160 84T2520 84T2880 84V160H0Z" fill="url(#mtWaveFill)"/>
+    <path d="M0 84Q180 40 360 84T720 84T1080 84T1440 84T1800 84T2160 84T2520 84T2880 84" fill="none" stroke="#7fd6ff" stroke-width="12" opacity=".18" vector-effect="non-scaling-stroke"/>
+    <path d="M0 84Q180 40 360 84T720 84T1080 84T1440 84T1800 84T2160 84T2520 84T2880 84" fill="none" stroke="#e9fbff" stroke-width="1.8" opacity=".95" vector-effect="non-scaling-stroke"/>
+  </svg>
+  <svg class="mt-wave__b" viewBox="0 0 2880 160" preserveAspectRatio="none" focusable="false">
+    <path d="M0 92Q240 128 480 92T960 92T1440 92T1920 92T2400 92T2880 92" fill="none" stroke="#3fb4ff" stroke-width="6" opacity=".22" vector-effect="non-scaling-stroke"/>
+    <path d="M0 92Q240 128 480 92T960 92T1440 92T1920 92T2400 92T2880 92" fill="none" stroke="#5cc8ff" stroke-width="1.4" opacity=".75" vector-effect="non-scaling-stroke"/>
+  </svg>
+  <svg class="mt-wave__c" viewBox="0 0 2880 160" preserveAspectRatio="none" focusable="false">
+    <path d="M0 70Q120 52 240 70T480 70T720 70T960 70T1200 70T1440 70T1680 70T1920 70T2160 70T2400 70T2640 70T2880 70" fill="none" stroke="#b6ecff" stroke-width="1" opacity=".6" vector-effect="non-scaling-stroke"/>
+  </svg>
+</div>
+
+<!-- ================= SECTION 2: why Metrica ================= -->
+<section class="mt-s2" aria-labelledby="mt-why-title">
+<div class="mt-s2__in">
+
+  <div class="mt-cq">
+  <header class="mt-card mt-hdr" data-skin="hdr">
+    <svg class="mt-skin" viewBox="0 0 746 606" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs>
+        <clipPath id="mtHdrClip"><path data-g="body" d="M 0.00,310.00 C 0.00,120.00 100.00,45.00 376.00,40.00 C 470.00,38.00 560.00,36.00 600.00,36.00 C 650.00,34.00 668.00,8.00 700.00,4.00 C 726.00,1.00 746.00,16.00 746.00,44.00 L 746.00,540.00 C 746.00,590.00 716.00,606.00 656.00,606.00 L 90.00,606.00 C 30.00,606.00 0.00,590.00 0.00,540.00 Z"/></clipPath>
+        <linearGradient id="mtHdrBase" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#01214b"/><stop offset=".38" stop-color="#022b5e"/><stop offset=".64" stop-color="#073b7c"/><stop offset=".84" stop-color="#0e4c96"/><stop offset="1" stop-color="#1a63b8"/></linearGradient>
+        <linearGradient id="mtHdrFloor" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1468cc" stop-opacity="0"/><stop offset=".45" stop-color="#2280e6" stop-opacity=".7"/><stop offset="1" stop-color="#7cc4ff" stop-opacity=".9"/></linearGradient>
+      </defs>
+      <path data-g="body" d="M 0.00,310.00 C 0.00,120.00 100.00,45.00 376.00,40.00 C 470.00,38.00 560.00,36.00 600.00,36.00 C 650.00,34.00 668.00,8.00 700.00,4.00 C 726.00,1.00 746.00,16.00 746.00,44.00 L 746.00,540.00 C 746.00,590.00 716.00,606.00 656.00,606.00 L 90.00,606.00 C 30.00,606.00 0.00,590.00 0.00,540.00 Z" fill="#2d8af3" opacity=".4" filter="url(#mtF16)" transform="translate(0 10)"/>
+      <path data-g="body" d="M 0.00,310.00 C 0.00,120.00 100.00,45.00 376.00,40.00 C 470.00,38.00 560.00,36.00 600.00,36.00 C 650.00,34.00 668.00,8.00 700.00,4.00 C 726.00,1.00 746.00,16.00 746.00,44.00 L 746.00,540.00 C 746.00,590.00 716.00,606.00 656.00,606.00 L 90.00,606.00 C 30.00,606.00 0.00,590.00 0.00,540.00 Z" fill="none" stroke="#fff" stroke-width="5" opacity=".55" filter="url(#mtF4)"/>
+      <path data-g="body" d="M 0.00,310.00 C 0.00,120.00 100.00,45.00 376.00,40.00 C 470.00,38.00 560.00,36.00 600.00,36.00 C 650.00,34.00 668.00,8.00 700.00,4.00 C 726.00,1.00 746.00,16.00 746.00,44.00 L 746.00,540.00 C 746.00,590.00 716.00,606.00 656.00,606.00 L 90.00,606.00 C 30.00,606.00 0.00,590.00 0.00,540.00 Z" fill="url(#mtHdrBase)"/>
+      <g clip-path="url(#mtHdrClip)">
+        <g data-anchor="lt"><path d="M0 340L0 310C0 120 100 45 376 40L560 38" fill="none" stroke="#1b8cff" stroke-width="34" opacity=".5" filter="url(#mtF8)"/></g>
+        <g data-anchor="rt"><ellipse cx="746" cy="300" rx="90" ry="280" fill="#0e5fc0" opacity=".35" filter="url(#mtF16)"/></g>
+        <path data-g="floor" d="M -10.00,420.00 C 120.00,380.00 626.00,380.00 756.00,420.00 L 756.00,630.00 L -10.00,630.00 Z" fill="url(#mtHdrFloor)" filter="url(#mtF8)"/>
+        <path data-g="body" d="M 0.00,310.00 C 0.00,120.00 100.00,45.00 376.00,40.00 C 470.00,38.00 560.00,36.00 600.00,36.00 C 650.00,34.00 668.00,8.00 700.00,4.00 C 726.00,1.00 746.00,16.00 746.00,44.00 L 746.00,540.00 C 746.00,590.00 716.00,606.00 656.00,606.00 L 90.00,606.00 C 30.00,606.00 0.00,590.00 0.00,540.00 Z" fill="none" stroke="#58b8ff" stroke-width="4" opacity=".5" filter="url(#mtF1)"/>
+      </g>
+      <path data-g="body" d="M 0.00,310.00 C 0.00,120.00 100.00,45.00 376.00,40.00 C 470.00,38.00 560.00,36.00 600.00,36.00 C 650.00,34.00 668.00,8.00 700.00,4.00 C 726.00,1.00 746.00,16.00 746.00,44.00 L 746.00,540.00 C 746.00,590.00 716.00,606.00 656.00,606.00 L 90.00,606.00 C 30.00,606.00 0.00,590.00 0.00,540.00 Z" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/>
+      <g data-anchor="lt"><path d="M0 330L0 310C0 120 100 45 376 40L470 39" fill="none" stroke="#9ff0ff" stroke-width="2" opacity=".85"/></g>
+    </svg>
+    <h2 class="mt-hdr__title" id="mt-why-title">چرا <span class="mt-gold">متریکا</span>؟</h2>
+    <p class="mt-hdr__sub">همه‌چیز برای یک ساخت‌وساز هوشمند<br>و سودآور در یک پلتفرم یکپارچه</p>
+    <div class="mt-hdr__stage" aria-hidden="true">
+      <svg class="mt-rings" viewBox="0 0 746 320" preserveAspectRatio="xMidYMid meet" focusable="false" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
+        <ellipse cx="373" cy="262" rx="270" ry="58" fill="#2a8cff" opacity=".45" filter="url(#mtF16)"/>
+        <g fill="none" stroke="#5fd0ff">
+          <ellipse cx="373" cy="262" rx="318" ry="62" stroke-width="7" opacity=".28" filter="url(#mtF4)"/>
+          <ellipse cx="373" cy="262" rx="318" ry="62" stroke-width="1.6" opacity=".75"/>
+          <ellipse cx="373" cy="262" rx="268" ry="50" stroke-width="1.4" opacity=".6"/>
+          <ellipse cx="373" cy="262" rx="222" ry="40" stroke-width="1.2" opacity=".5"/>
+        </g>
+      </svg>
+      <img class="mt-art mt-hdr__donut" src="assets/img/why-donut.webp" alt="" width="420" height="393" decoding="async">
+      <img class="mt-art mt-hdr__chart" src="assets/img/why-chart.webp" alt="" width="480" height="358" decoding="async">
+      <img class="mt-art mt-hdr__bld" src="assets/img/why-building.webp" alt="" width="1300" height="1031" decoding="async">
+    </div>
+  </header>
+  </div>
+
+  <div class="mt-feats">
+    <div class="mt-cq"><article class="mt-card mt-feat mt-feat--dark mt-feat--econ" data-skin="econ">
+      <svg class="mt-skin" viewBox="0 0 710 207" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+<defs>
+  <!-- user-space regions: thin strokes have zero-height boxes, so bbox filter regions would cut them off -->
+  <filter id="mcF1" filterUnits="userSpaceOnUse" x="-300" y="-300" width="3200" height="1400"><feGaussianBlur stdDeviation="1"/></filter>
+  <filter id="mcF2" filterUnits="userSpaceOnUse" x="-300" y="-300" width="3200" height="1400"><feGaussianBlur stdDeviation="2.2"/></filter>
+  <filter id="mcF4" filterUnits="userSpaceOnUse" x="-300" y="-300" width="3200" height="1400"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="mcF8" filterUnits="userSpaceOnUse" x="-300" y="-300" width="3200" height="1400"><feGaussianBlur stdDeviation="8"/></filter>
+  <filter id="mcF14" filterUnits="userSpaceOnUse" x="-300" y="-300" width="3200" height="1400"><feGaussianBlur stdDeviation="14"/></filter>
+
+  <clipPath id="mcBody"><path data-g="body" d="M 0.00,69.00 C 0.00,32.30 35.80,2.50 80.00,2.50 C 200.00,2.00 330.00,4.00 420.00,6.50 C 470.00,7.90 560.00,3.00 640.00,0.00 C 670.70,0.00 711.00,22.50 711.00,87.10 L 711.00,125.00 C 711.00,160.00 690.00,190.00 650.00,201.00 C 636.00,204.85 615.00,206.50 600.00,206.50 C 560.00,206.50 520.00,206.80 480.00,206.00 C 450.00,205.40 420.00,202.40 380.00,201.50 C 330.00,200.60 240.00,201.20 190.00,202.20 C 150.00,203.00 110.00,206.50 62.00,207.50 C 27.80,207.50 0.00,187.40 0.00,162.50 Z"/></clipPath>
+  <clipPath id="mcAbove"><path data-g="above" d="M 24.00,198.60 C 34.00,203.60 46.00,206.60 62.00,207.30 C 95.00,207.00 118.00,205.00 140.00,200.50 C 175.00,193.50 225.00,188.80 280.00,188.80 C 335.00,188.80 370.00,196.50 410.00,200.00 C 430.00,202.60 448.00,204.20 466.00,205.00 L 770.00,205.00 L 770.00,-60.00 L -60.00,-60.00 L -60.00,198.60 Z"/></clipPath>
+  <clipPath id="mcBelow"><path data-g="below" d="M 24.00,198.60 C 34.00,203.60 46.00,206.60 62.00,207.30 C 95.00,207.00 118.00,205.00 140.00,200.50 C 175.00,193.50 225.00,188.80 280.00,188.80 C 335.00,188.80 370.00,196.50 410.00,200.00 C 430.00,202.60 448.00,204.20 466.00,205.00 L 466.00,240.00 L 24.00,240.00 Z"/></clipPath>
+  <clipPath id="mcRibbon"><path d="M470 7C515 1.5 560-9 600-16C620-19.4 632-20 648-20C655-20 715.8-13 715.8 42C716.2 60 714.4 78 711 97L640 70L470 30Z"/></clipPath>
+  <clipPath id="mcAboveLip"><path d="M400 206C440 202 480 197.5 515 193.5C530 191.8 540 189.6 550 188C570 184.9 600 178.8 620 174C645 168 672 153.8 690 138C700 129.2 709 118 711 112L760 112L760 60L400 60Z"/></clipPath>
+  <clipPath id="mcUnder"><path d="M545 210C568 205 592 199 604 190C611 184.5 616 178.5 620 174C645 168 672 153.8 690 138C700 129.2 709 118 711 112L760 112L760 260L545 260Z"/></clipPath>
+  <linearGradient id="mcWaveRamp" gradientUnits="userSpaceOnUse" x1="55" y1="0" x2="165" y2="0"><stop offset="0" stop-color="#000"/><stop offset="1" stop-color="#fff"/></linearGradient>
+  <mask id="mcWaveMask" maskUnits="userSpaceOnUse" x="-300" y="-300" width="3200" height="1400"><rect x="-300" y="-300" width="3200" height="1400" fill="url(#mcWaveRamp)"/></mask>
+  <mask id="mcRimMask" maskUnits="userSpaceOnUse" x="-300" y="-300" width="3200" height="1400">
+    <rect x="-300" y="-300" width="3200" height="1400" fill="#fff"/>
+    <path data-g="below" d="M 24.00,198.60 C 34.00,203.60 46.00,206.60 62.00,207.30 C 95.00,207.00 118.00,205.00 140.00,200.50 C 175.00,193.50 225.00,188.80 280.00,188.80 C 335.00,188.80 370.00,196.50 410.00,200.00 C 430.00,202.60 448.00,204.20 466.00,205.00 L 466.00,240.00 L 24.00,240.00 Z" fill="#000" stroke="#000" stroke-width="3" filter="url(#mcF2)"/>
+  </mask>
+
+  <linearGradient id="mcBase" x1="0" x2="1" y1="0" y2="0">
+    <stop offset="0" stop-color="#012b5d"/><stop offset=".35" stop-color="#01264f"/><stop offset=".62" stop-color="#06274e"/><stop offset="1" stop-color="#0d2a4d"/>
+  </linearGradient>
+  <linearGradient id="mcRibbonFill" gradientUnits="userSpaceOnUse" x1="462" y1="6" x2="716" y2="70">
+    <stop offset="0" stop-color="#fdeb8a"/><stop offset=".1" stop-color="#fcdc55"/><stop offset=".26" stop-color="#fdc63e"/>
+    <stop offset=".5" stop-color="#f6a320"/><stop offset=".78" stop-color="#ec981c"/><stop offset="1" stop-color="#f7b414"/>
+  </linearGradient>
+  <linearGradient id="mcStreak" gradientUnits="userSpaceOnUse" x1="455" y1="0" x2="575" y2="0">
+    <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".25" stop-color="#fff"/><stop offset=".6" stop-color="#fff9d8" stop-opacity=".85"/><stop offset="1" stop-color="#ffe9a0" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="mcTopGlass" gradientUnits="userSpaceOnUse" x1="320" y1="0" x2="640" y2="0">
+    <stop offset="0" stop-color="#8cc8f2" stop-opacity="0"/><stop offset=".25" stop-color="#9fd4f6" stop-opacity=".85"/>
+    <stop offset=".45" stop-color="#8fb6d8" stop-opacity=".75"/><stop offset=".62" stop-color="#c79a74" stop-opacity=".7"/>
+    <stop offset=".8" stop-color="#6a4c48" stop-opacity=".45"/><stop offset="1" stop-color="#3a2f3c" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="mcTopLine" gradientUnits="userSpaceOnUse" x1="330" y1="0" x2="560" y2="0">
+    <stop offset="0" stop-color="#e8f7ff" stop-opacity="0"/><stop offset=".35" stop-color="#f4fbff"/><stop offset=".7" stop-color="#fff3d6" stop-opacity=".8"/><stop offset="1" stop-color="#ffe0a0" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="mcLens" gradientUnits="userSpaceOnUse" x1="18" y1="62" x2="170" y2="0">
+    <stop offset="0" stop-color="#0656b0" stop-opacity="0"/><stop offset=".22" stop-color="#0566cc" stop-opacity=".7"/><stop offset=".42" stop-color="#0596f0"/>
+    <stop offset=".55" stop-color="#06b4fd"/><stop offset=".8" stop-color="#07a8f6"/><stop offset="1" stop-color="#0790ea" stop-opacity=".6"/>
+  </linearGradient>
+  <linearGradient id="mcArc" gradientUnits="userSpaceOnUse" x1="44" y1="70" x2="150" y2="4">
+    <stop offset="0" stop-color="#3fc8ff" stop-opacity="0"/><stop offset=".3" stop-color="#53e0ff" stop-opacity=".8"/>
+    <stop offset=".6" stop-color="#7ff7ff"/><stop offset=".85" stop-color="#3fe0ff"/><stop offset="1" stop-color="#1fc4ff" stop-opacity=".3"/>
+  </linearGradient>
+  <linearGradient id="mcGlint" gradientUnits="userSpaceOnUse" x1="60" y1="0" x2="230" y2="0">
+    <stop offset="0" stop-color="#19e6ff" stop-opacity="0"/><stop offset=".15" stop-color="#1fe8ff"/><stop offset=".32" stop-color="#5ff4ff"/>
+    <stop offset=".55" stop-color="#14d2ff" stop-opacity=".85"/><stop offset="1" stop-color="#08a8f8" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="mcBar" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#0b63d8"/><stop offset=".35" stop-color="#0b63d8" stop-opacity=".5"/><stop offset="1" stop-color="#0b63d8" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="mcLip" gradientUnits="userSpaceOnUse" x1="0" y1="188" x2="0" y2="203">
+    <stop offset="0" stop-color="#2fd6ff"/><stop offset=".3" stop-color="#079cf6"/><stop offset=".65" stop-color="#0577e6"/><stop offset="1" stop-color="#015cd0"/>
+  </linearGradient>
+  <linearGradient id="mcWarm" gradientUnits="userSpaceOnUse" x1="470" y1="0" x2="690" y2="0">
+    <stop offset="0" stop-color="#e8902f" stop-opacity="0"/><stop offset=".3" stop-color="#d7882f" stop-opacity=".45"/>
+    <stop offset=".52" stop-color="#ec9532"/><stop offset=".68" stop-color="#c98236" stop-opacity=".5"/><stop offset="1" stop-color="#8a7f90" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="mcWedge" gradientUnits="userSpaceOnUse" x1="440" y1="0" x2="612" y2="0">
+    <stop offset="0" stop-color="#5f89b8" stop-opacity="0"/><stop offset=".17" stop-color="#6c90b6" stop-opacity=".85"/>
+    <stop offset=".4" stop-color="#9a9086"/><stop offset=".6" stop-color="#d49d5e"/><stop offset=".72" stop-color="#f7b552"/><stop offset=".84" stop-color="#fee374"/><stop offset="1" stop-color="#fdf190"/>
+  </linearGradient>
+  <linearGradient id="mcWedgeLight" gradientUnits="userSpaceOnUse" x1="0" y1="184" x2="0" y2="210">
+    <stop offset="0" stop-color="#fffbe8" stop-opacity="0"/><stop offset=".4" stop-color="#fffbe8" stop-opacity="0"/><stop offset="1" stop-color="#fff6d6" stop-opacity=".62"/>
+  </linearGradient>
+  <linearGradient id="mcUnderFill" gradientUnits="userSpaceOnUse" x1="655" y1="156" x2="676" y2="205">
+    <stop offset="0" stop-color="#03295a"/><stop offset=".4" stop-color="#01224b"/>
+    <stop offset=".8" stop-color="#021c40"/><stop offset="1" stop-color="#041732"/>
+  </linearGradient>
+  <linearGradient id="mcLipLine" gradientUnits="userSpaceOnUse" x1="440" y1="0" x2="711" y2="0">
+    <stop offset="0" stop-color="#b9d3ee" stop-opacity="0"/><stop offset=".1" stop-color="#d8dde4" stop-opacity=".55"/><stop offset=".22" stop-color="#f0dcab" stop-opacity=".95"/>
+    <stop offset=".38" stop-color="#f6d892"/><stop offset=".52" stop-color="#fff7c8"/><stop offset=".6" stop-color="#ffffff"/>
+    <stop offset=".66" stop-color="#ffe684"/><stop offset=".71" stop-color="#c9c2b0" stop-opacity=".8"/><stop offset=".78" stop-color="#8fa8cf" stop-opacity=".6"/><stop offset="1" stop-color="#7d9ccc" stop-opacity=".45"/>
+  </linearGradient>
+  <linearGradient id="mcGlintRun" gradientUnits="userSpaceOnUse" x1="535" y1="0" x2="622" y2="0">
+    <stop offset="0" stop-color="#ffd76a" stop-opacity="0"/><stop offset=".45" stop-color="#ffe98f" stop-opacity=".85"/><stop offset=".75" stop-color="#fffbe0"/><stop offset="1" stop-color="#ffe27a" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="mcNeonFade" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#a6f4ff"/><stop offset=".84" stop-color="#a6f4ff"/><stop offset="1" stop-color="#a6f4ff" stop-opacity="0"/></linearGradient>
+  <linearGradient id="mcSpillFade" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#86e6ff"/><stop offset=".8" stop-color="#86e6ff"/><stop offset="1" stop-color="#86e6ff" stop-opacity="0"/></linearGradient>
+  <linearGradient id="mcTopBand" gradientUnits="userSpaceOnUse" x1="50" y1="0" x2="250" y2="0"><stop offset="0" stop-color="#06b0fa" stop-opacity=".6"/><stop offset=".3" stop-color="#06b0fa"/><stop offset=".65" stop-color="#06a6f6" stop-opacity=".8"/><stop offset="1" stop-color="#0690ea" stop-opacity="0"/></linearGradient>
+  <radialGradient id="mcHot"><stop offset="0" stop-color="#fffde0"/><stop offset=".4" stop-color="#fdf49a"/><stop offset=".75" stop-color="#fde27a" stop-opacity=".6"/><stop offset="1" stop-color="#ffcf5a" stop-opacity="0"/></radialGradient>
+</defs>
+
+<!-- 1 · light the card throws onto the section -->
+<path data-g="body" d="M 0.00,69.00 C 0.00,32.30 35.80,2.50 80.00,2.50 C 200.00,2.00 330.00,4.00 420.00,6.50 C 470.00,7.90 560.00,3.00 640.00,0.00 C 670.70,0.00 711.00,22.50 711.00,87.10 L 711.00,125.00 C 711.00,160.00 690.00,190.00 650.00,201.00 C 636.00,204.85 615.00,206.50 600.00,206.50 C 560.00,206.50 520.00,206.80 480.00,206.00 C 450.00,205.40 420.00,202.40 380.00,201.50 C 330.00,200.60 240.00,201.20 190.00,202.20 C 150.00,203.00 110.00,206.50 62.00,207.50 C 27.80,207.50 0.00,187.40 0.00,162.50 Z" fill="#3a95f6" opacity=".42" filter="url(#mcF14)" transform="translate(0 8)"/>
+<path data-g="body" d="M 0.00,69.00 C 0.00,32.30 35.80,2.50 80.00,2.50 C 200.00,2.00 330.00,4.00 420.00,6.50 C 470.00,7.90 560.00,3.00 640.00,0.00 C 670.70,0.00 711.00,22.50 711.00,87.10 L 711.00,125.00 C 711.00,160.00 690.00,190.00 650.00,201.00 C 636.00,204.85 615.00,206.50 600.00,206.50 C 560.00,206.50 520.00,206.80 480.00,206.00 C 450.00,205.40 420.00,202.40 380.00,201.50 C 330.00,200.60 240.00,201.20 190.00,202.20 C 150.00,203.00 110.00,206.50 62.00,207.50 C 27.80,207.50 0.00,187.40 0.00,162.50 Z" fill="none" stroke="#fff" stroke-width="5" opacity=".55" filter="url(#mcF4)"/>
+<path data-g="edge" d="M 480.00,206.00 C 450.00,205.40 420.00,202.40 380.00,201.50 C 330.00,200.60 240.00,201.20 190.00,202.20 C 150.00,203.00 110.00,206.50 62.00,207.50" fill="none" stroke="#3d9ef7" stroke-width="12" opacity=".75" filter="url(#mcF4)" transform="translate(0 6)"/>
+<path data-g="neon" d="M 24.00,198.60 C 34.00,203.60 46.00,206.60 62.00,207.30 C 95.00,207.00 118.00,205.00 140.00,200.50 C 175.00,193.50 225.00,188.80 280.00,188.80 C 335.00,188.80 370.00,196.50 410.00,200.00 C 430.00,202.60 448.00,204.20 466.00,205.00" fill="none" stroke="url(#mcSpillFade)" stroke-width="12" opacity=".75" filter="url(#mcF8)" transform="translate(0 5)"/>
+
+<!-- 2 · gold back-ribbon (anchored right-top) -->
+<g data-anchor="rt">
+  <path d="M470 7C515 1.5 560-9 600-16C620-19.4 632-20 648-20C655-20 715.8-13 715.8 42C716.2 60 714.4 78 711 97L640 70L470 30Z" fill="#ffad1c" opacity=".45" filter="url(#mcF4)"/>
+  <path d="M470 7C515 1.5 560-9 600-16C620-19.4 632-20 648-20C655-20 715.8-13 715.8 42C716.2 60 714.4 78 711 97L640 70L470 30Z" fill="url(#mcRibbonFill)"/>
+  <g clip-path="url(#mcRibbon)">
+    <path d="M420 6.5C470 7.9 560 3 640 0C670.7 0 711 22.5 711 87.1L711 104" fill="none" stroke="#fcc63a" stroke-width="20" opacity=".9" filter="url(#mcF4)"/>
+    <path d="M420 6.5C470 7.9 560 3 640 0C670.7 0 711 22.5 711 87.1L711 104" fill="none" stroke="#ffe88a" stroke-width="3.2"/>
+  </g>
+  <path d="M470 7C515 1.5 560-9 600-16C620-19.4 632-20 648-20C655-20 715.8-13 715.8 42C716.2 60 714.4 78 711 97" fill="none" stroke="#fffbea" stroke-width="1.6" opacity=".95"/>
+  <path d="M455 8.6C490 7.8 525 4.5 575-4.5" fill="none" stroke="url(#mcStreak)" stroke-width="7" opacity=".55" filter="url(#mcF4)"/>
+  <path d="M455 8.6C490 7.8 525 4.5 575-4.5" fill="none" stroke="url(#mcStreak)" stroke-width="2.6"/>
+</g>
+
+<!-- 3 · navy body and everything lit inside it -->
+<path data-g="body" d="M 0.00,69.00 C 0.00,32.30 35.80,2.50 80.00,2.50 C 200.00,2.00 330.00,4.00 420.00,6.50 C 470.00,7.90 560.00,3.00 640.00,0.00 C 670.70,0.00 711.00,22.50 711.00,87.10 L 711.00,125.00 C 711.00,160.00 690.00,190.00 650.00,201.00 C 636.00,204.85 615.00,206.50 600.00,206.50 C 560.00,206.50 520.00,206.80 480.00,206.00 C 450.00,205.40 420.00,202.40 380.00,201.50 C 330.00,200.60 240.00,201.20 190.00,202.20 C 150.00,203.00 110.00,206.50 62.00,207.50 C 27.80,207.50 0.00,187.40 0.00,162.50 Z" fill="url(#mcBase)"/>
+<g clip-path="url(#mcBody)">
+  <!-- top glass highlight under the edge, cool → warm toward the ribbon -->
+  <g data-anchor="rt">
+    <path d="M330 4.2C380 5.3 400 5.9 420 6.5C470 7.9 560 3 640 0" fill="none" stroke="url(#mcTopGlass)" stroke-width="24" filter="url(#mcF8)"/>
+    <path d="M330 7.2C380 8.3 400 8.9 420 9.5C470 10.9 520 8.5 560 6.5" fill="none" stroke="url(#mcTopLine)" stroke-width="2.6" filter="url(#mcF1)"/>
+    <path d="M420 6.5C470 7.9 560 3 640 0C670.7 0 711 22.5 711 87.1L711 112" fill="none" stroke="#050f24" stroke-width="2.4" opacity=".85"/>
+  </g>
+  <!-- top-left glass bevel: soft spill, azure lens, cyan inner arc, edge glint -->
+  <path d="M46 58C48 24 70 9 125 4.5L230 4" fill="none" stroke="#0a80ea" stroke-width="44" opacity=".95" filter="url(#mcF8)"/>
+  <path d="M54 64C56 32 78 17 133 12" fill="none" stroke="#0a8cf0" stroke-width="16" opacity=".85" filter="url(#mcF4)"/>
+  <path d="M50 7C100 4 160 5 240 7" fill="none" stroke="url(#mcTopBand)" stroke-width="14" opacity=".9" filter="url(#mcF4)"/>
+  <path d="M46 58C48 24 70 9 125 4.5L150 3L150-10L-10-10L-10 58Z" fill="url(#mcLens)" filter="url(#mcF1)"/>
+  <path d="M46 58C48 24 70 9 125 4.5" fill="none" stroke="#2ed6ff" stroke-width="9" opacity=".38" filter="url(#mcF2)"/>
+  <path d="M46 58C48 24 70 9 125 4.5" fill="none" stroke="url(#mcArc)" stroke-width="1.3" opacity=".45"/>
+  <path d="M62 4.4C90 2.8 115 2.2 150 2.5L230 3" fill="none" stroke="url(#mcGlint)" stroke-width="14" opacity=".95" filter="url(#mcF2)"/>
+  <path d="M62 4.4C90 2.8 115 2.2 150 2.5L230 3" fill="none" stroke="url(#mcGlint)" stroke-width="5" filter="url(#mcF1)"/>
+  <g opacity=".14" fill="#2a7ae0"><rect x="141" y="16" width="8" height="40" rx="1"/><rect x="152" y="26" width="8" height="30" rx="1"/><rect x="163" y="20" width="8" height="36" rx="1"/></g>
+  <!-- ghost bar chart, bottom-left -->
+  <g data-anchor="lb" fill="url(#mcBar)" opacity=".62">
+    <rect x="4" y="139" width="8" height="30" rx="1"/><rect x="19" y="125" width="10" height="44" rx="1"/>
+    <rect x="31" y="108" width="10" height="61" rx="1"/><rect x="43" y="123" width="10" height="46" rx="1"/>
+  </g>
+  <!-- contact shadow under the artwork -->
+  <g data-anchor="lb"><ellipse cx="150" cy="168" rx="104" ry="11" fill="#000a22" opacity=".6" filter="url(#mcF4)"/></g>
+  <!-- bottom light wave: falloff above the neon, glass lip below it -->
+  <g clip-path="url(#mcAbove)" mask="url(#mcWaveMask)">
+    <path data-g="neon" d="M 24.00,198.60 C 34.00,203.60 46.00,206.60 62.00,207.30 C 95.00,207.00 118.00,205.00 140.00,200.50 C 175.00,193.50 225.00,188.80 280.00,188.80 C 335.00,188.80 370.00,196.50 410.00,200.00 C 430.00,202.60 448.00,204.20 466.00,205.00" fill="none" stroke="#0752b4" stroke-width="80" opacity=".9" filter="url(#mcF14)"/>
+    <path data-g="neon" d="M 24.00,198.60 C 34.00,203.60 46.00,206.60 62.00,207.30 C 95.00,207.00 118.00,205.00 140.00,200.50 C 175.00,193.50 225.00,188.80 280.00,188.80 C 335.00,188.80 370.00,196.50 410.00,200.00 C 430.00,202.60 448.00,204.20 466.00,205.00" fill="none" stroke="#0aa2f6" stroke-width="28" filter="url(#mcF4)"/>
+    <path data-g="neon" d="M 24.00,198.60 C 34.00,203.60 46.00,206.60 62.00,207.30 C 95.00,207.00 118.00,205.00 140.00,200.50 C 175.00,193.50 225.00,188.80 280.00,188.80 C 335.00,188.80 370.00,196.50 410.00,200.00 C 430.00,202.60 448.00,204.20 466.00,205.00" fill="none" stroke="#4fe4ff" stroke-width="9" filter="url(#mcF2)"/>
+  </g>
+  <path data-g="below" d="M 24.00,198.60 C 34.00,203.60 46.00,206.60 62.00,207.30 C 95.00,207.00 118.00,205.00 140.00,200.50 C 175.00,193.50 225.00,188.80 280.00,188.80 C 335.00,188.80 370.00,196.50 410.00,200.00 C 430.00,202.60 448.00,204.20 466.00,205.00 L 466.00,240.00 L 24.00,240.00 Z" fill="url(#mcLip)"/>
+  <!-- bottom-right fold (anchored right-bottom) -->
+  <g data-anchor="rb">
+    <g clip-path="url(#mcAboveLip)">
+      <path d="M440 202C480 197.5 515 193.5 550 188C570 184.9 600 178.8 620 174C645 168 672 153.8 690 138" fill="none" stroke="url(#mcWarm)" stroke-width="22" opacity=".45" filter="url(#mcF8)"/>
+      <path d="M440 202C480 197.5 515 193.5 550 188C570 184.9 600 178.8 620 174C645 168 672 153.8 690 138" fill="none" stroke="#e8892a" stroke-width="8" opacity=".85" filter="url(#mcF2)"/>
+    </g>
+    <path d="M440 202C480 197.5 515 193.5 550 188C570 184.9 600 178.8 620 174C616 178.5 611 184.5 604 190C592 199 568 205 545 210L440 212Z" fill="url(#mcWedge)"/>
+    <path d="M440 202C480 197.5 515 193.5 550 188C570 184.9 600 178.8 620 174C616 178.5 611 184.5 604 190C592 199 568 205 545 210L440 212Z" fill="url(#mcWedgeLight)"/>
+    <path d="M545 210C568 205 592 199 604 190C611 184.5 616 178.5 620 174C645 168 672 153.8 690 138C700 129.2 709 118 711 112L760 112L760 260L545 260Z" fill="url(#mcUnderFill)"/>
+    <g clip-path="url(#mcUnder)">
+      <path d="M548 212C570 207 594 201 606 192C613 186 618 181 622 177C647 171 674 157 692 141" fill="none" stroke="#020a1c" stroke-width="5" opacity=".75" filter="url(#mcF1)"/>
+      <path d="M622 184C648 177 674 162 692 146C700 138 706 130 710 122" fill="none" stroke="#1d57a0" stroke-width="11" opacity=".9" filter="url(#mcF4)"/>
+    </g>
+    <path d="M440 202C480 197.5 515 193.5 550 188C570 184.9 600 178.8 620 174C645 168 672 153.8 690 138C700 129.2 709 118 711 112" fill="none" stroke="url(#mcLipLine)" stroke-width="9" opacity=".8" filter="url(#mcF2)"/>
+    <path d="M440 202C480 197.5 515 193.5 550 188C570 184.9 600 178.8 620 174C645 168 672 153.8 690 138C700 129.2 709 118 711 112" fill="none" stroke="url(#mcLipLine)" stroke-width="2"/>
+    <path d="M535 190.4C558 186.9 590 181 622 173.5" fill="none" stroke="url(#mcGlintRun)" stroke-width="11" opacity=".75" filter="url(#mcF4)"/>
+    <path d="M535 190.4C558 186.9 590 181 622 173.5" fill="none" stroke="url(#mcGlintRun)" stroke-width="3.6" filter="url(#mcF1)"/>
+    <ellipse cx="600" cy="180.3" rx="14" ry="2.6" transform="rotate(-14 600 180.3)" fill="url(#mcHot)" opacity=".9"/>
+  </g>
+  <!-- faint inner bevel along the whole edge -->
+  <path data-g="body" d="M 0.00,69.00 C 0.00,32.30 35.80,2.50 80.00,2.50 C 200.00,2.00 330.00,4.00 420.00,6.50 C 470.00,7.90 560.00,3.00 640.00,0.00 C 670.70,0.00 711.00,22.50 711.00,87.10 L 711.00,125.00 C 711.00,160.00 690.00,190.00 650.00,201.00 C 636.00,204.85 615.00,206.50 600.00,206.50 C 560.00,206.50 520.00,206.80 480.00,206.00 C 450.00,205.40 420.00,202.40 380.00,201.50 C 330.00,200.60 240.00,201.20 190.00,202.20 C 150.00,203.00 110.00,206.50 62.00,207.50 C 27.80,207.50 0.00,187.40 0.00,162.50 Z" fill="none" stroke="#3a74c4" stroke-width="3" opacity=".3" filter="url(#mcF1)"/>
+</g>
+
+<!-- 4 · rim and neon cores on top -->
+<path data-g="body" d="M 0.00,69.00 C 0.00,32.30 35.80,2.50 80.00,2.50 C 200.00,2.00 330.00,4.00 420.00,6.50 C 470.00,7.90 560.00,3.00 640.00,0.00 C 670.70,0.00 711.00,22.50 711.00,87.10 L 711.00,125.00 C 711.00,160.00 690.00,190.00 650.00,201.00 C 636.00,204.85 615.00,206.50 600.00,206.50 C 560.00,206.50 520.00,206.80 480.00,206.00 C 450.00,205.40 420.00,202.40 380.00,201.50 C 330.00,200.60 240.00,201.20 190.00,202.20 C 150.00,203.00 110.00,206.50 62.00,207.50 C 27.80,207.50 0.00,187.40 0.00,162.50 Z" fill="none" stroke="#fff" stroke-width="1.7" opacity=".95" mask="url(#mcRimMask)"/>
+<path data-g="neon" d="M 24.00,198.60 C 34.00,203.60 46.00,206.60 62.00,207.30 C 95.00,207.00 118.00,205.00 140.00,200.50 C 175.00,193.50 225.00,188.80 280.00,188.80 C 335.00,188.80 370.00,196.50 410.00,200.00 C 430.00,202.60 448.00,204.20 466.00,205.00" fill="none" stroke="url(#mcNeonFade)" stroke-width="6" opacity=".8" filter="url(#mcF2)"/>
+<path data-g="neon" d="M 24.00,198.60 C 34.00,203.60 46.00,206.60 62.00,207.30 C 95.00,207.00 118.00,205.00 140.00,200.50 C 175.00,193.50 225.00,188.80 280.00,188.80 C 335.00,188.80 370.00,196.50 410.00,200.00 C 430.00,202.60 448.00,204.20 466.00,205.00" fill="none" stroke="#f3feff" stroke-width="2.3"/>
+</svg>
+      <button class="mt-btn mt-disc mt-disc--gold" type="button" aria-label="تحلیل اقتصادی" data-mtr-feature="economic-analysis"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+      <div class="mt-feat__text"><h3>تحلیل اقتصادی</h3><p>بررسی سود، هزینه<br>و کش فلو پروژه</p></div>
+      <span class="mt-feat__div" aria-hidden="true"></span>
+      <img class="mt-art" src="assets/img/coins-growth.webp" alt="" width="760" height="652" loading="lazy" decoding="async">
+    </article></div>
+
+    <div class="mt-cq"><article class="mt-card mt-feat mt-feat--light mt-feat--est" data-skin="est">
+      <svg class="mt-skin" viewBox="0 0 711 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id="mtEstClip"><path data-g="body" d="M 0.00,62.00 C 0.00,24.00 26.00,0.00 72.00,0.00 L 636.00,0.00 C 684.00,0.00 711.00,24.00 711.00,66.00 L 711.00,146.00 C 711.00,182.00 688.00,200.00 646.00,200.00 L 74.00,200.00 C 28.00,200.00 0.00,178.00 0.00,140.00 Z"/></clipPath>
+          <linearGradient id="mtGlassL" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f8fcff"/><stop offset=".55" stop-color="#e6f2fe"/><stop offset="1" stop-color="#d6e9fd"/></linearGradient>
+        </defs>
+        <path data-g="body" d="M 0.00,62.00 C 0.00,24.00 26.00,0.00 72.00,0.00 L 636.00,0.00 C 684.00,0.00 711.00,24.00 711.00,66.00 L 711.00,146.00 C 711.00,182.00 688.00,200.00 646.00,200.00 L 74.00,200.00 C 28.00,200.00 0.00,178.00 0.00,140.00 Z" fill="#2f7fe0" opacity=".22" filter="url(#mtF16)" transform="translate(0 10)"/>
+        <path data-g="body" d="M 0.00,62.00 C 0.00,24.00 26.00,0.00 72.00,0.00 L 636.00,0.00 C 684.00,0.00 711.00,24.00 711.00,66.00 L 711.00,146.00 C 711.00,182.00 688.00,200.00 646.00,200.00 L 74.00,200.00 C 28.00,200.00 0.00,178.00 0.00,140.00 Z" fill="none" stroke="#fff" stroke-width="6" opacity=".75" filter="url(#mtF4)"/>
+        <path data-g="body" d="M 0.00,62.00 C 0.00,24.00 26.00,0.00 72.00,0.00 L 636.00,0.00 C 684.00,0.00 711.00,24.00 711.00,66.00 L 711.00,146.00 C 711.00,182.00 688.00,200.00 646.00,200.00 L 74.00,200.00 C 28.00,200.00 0.00,178.00 0.00,140.00 Z" fill="url(#mtGlassL)" fill-opacity=".92"/>
+        <g clip-path="url(#mtEstClip)">
+          <g data-anchor="rt"><ellipse cx="650" cy="90" rx="170" ry="130" fill="#9fd0fb" opacity=".45" filter="url(#mtF16)"/>
+            <g fill="none" stroke="#6f9fd6" stroke-width="1" opacity=".38">
+              <path d="M560 120V38L612 14L690 30V120ZM560 38L640 22M612 14V120M640 22V120M690 30L705 26V112L690 120"/>
+              <path d="M570 52H602M570 66H602M570 80H602M570 94H602M620 48H632M620 62H632M620 76H632M620 90H632M648 46H682M648 60H682M648 74H682M648 88H682M648 102H682"/>
+              <path d="M548 132H712M556 140H704" opacity=".7"/>
+            </g></g>
+          <g data-anchor="lt"><g fill="none" stroke="#7aa8dc" stroke-width="1" opacity=".3">
+              <path d="M8 110V36L50 20L96 32V110M8 36L50 20M50 20V110M18 50H40M18 64H40M18 78H40M60 46H86M60 60H86M60 74H86M60 88H86"/></g>
+            <ellipse cx="140" cy="-10" rx="300" ry="60" fill="#fff" opacity=".6" filter="url(#mtF8)"/></g>
+          <path data-g="sheet" d="M 0.00,150.00 C 40.00,168.00 110.00,182.00 240.00,188.00 C 400.00,192.00 560.00,190.00 711.00,176.00" fill="none" stroke="#bcd8f5" stroke-width="10" opacity=".55" filter="url(#mtF4)"/>
+          <path data-g="sheet" d="M 0.00,150.00 C 40.00,168.00 110.00,182.00 240.00,188.00 C 400.00,192.00 560.00,190.00 711.00,176.00" fill="none" stroke="#fff" stroke-width="2.4" opacity=".95"/>
+        </g>
+        <path data-g="body" d="M 0.00,62.00 C 0.00,24.00 26.00,0.00 72.00,0.00 L 636.00,0.00 C 684.00,0.00 711.00,24.00 711.00,66.00 L 711.00,146.00 C 711.00,182.00 688.00,200.00 646.00,200.00 L 74.00,200.00 C 28.00,200.00 0.00,178.00 0.00,140.00 Z" fill="none" stroke="#fff" stroke-width="2.4" opacity=".95"/>
+      </svg>
+      <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="برآورد دقیق" data-mtr-feature="estimate"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+      <div class="mt-feat__text"><h3>برآورد دقیق</h3><p>محاسبه هزینه‌ها<br>با داده‌های واقعی</p></div>
+      <span class="mt-feat__div" aria-hidden="true"></span>
+      <img class="mt-art" src="assets/img/why-calculator.webp" alt="" width="600" height="635" loading="lazy" decoding="async">
+    </article></div>
+
+    <div class="mt-cq"><article class="mt-card mt-feat mt-feat--dark mt-feat--proj" data-skin="proj">
+      <svg class="mt-skin" viewBox="0 0 715 217" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id="mtProjClip"><path data-g="body" d="M 0.00,115.00 C 0.00,45.00 25.00,20.00 95.00,20.00 L 264.00,20.00 C 400.00,20.00 500.00,8.00 600.00,5.00 C 660.00,3.00 714.00,18.00 714.00,60.00 L 714.00,100.00 C 714.00,150.00 650.00,204.00 560.00,204.00 L 300.00,206.00 C 200.00,206.00 140.00,216.00 100.00,215.00 C 40.00,215.00 0.00,197.00 0.00,167.00 Z"/></clipPath>
+          <linearGradient id="mtProjBase" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#0a3a75"/><stop offset=".35" stop-color="#05305f"/><stop offset=".7" stop-color="#03284f"/><stop offset="1" stop-color="#02244b"/></linearGradient>
+          <linearGradient id="mtProjRib" gradientUnits="userSpaceOnUse" x1="470" y1="210" x2="722" y2="70"><stop offset="0" stop-color="#ffe08a" stop-opacity="0"/><stop offset=".3" stop-color="#ffc63e"/><stop offset=".7" stop-color="#f6a21c"/><stop offset="1" stop-color="#fbbf2f"/></linearGradient>
+        </defs>
+        <path data-g="body" d="M 0.00,115.00 C 0.00,45.00 25.00,20.00 95.00,20.00 L 264.00,20.00 C 400.00,20.00 500.00,8.00 600.00,5.00 C 660.00,3.00 714.00,18.00 714.00,60.00 L 714.00,100.00 C 714.00,150.00 650.00,204.00 560.00,204.00 L 300.00,206.00 C 200.00,206.00 140.00,216.00 100.00,215.00 C 40.00,215.00 0.00,197.00 0.00,167.00 Z" fill="#2d8af3" opacity=".42" filter="url(#mtF16)" transform="translate(0 8)"/>
+        <path data-g="body" d="M 0.00,115.00 C 0.00,45.00 25.00,20.00 95.00,20.00 L 264.00,20.00 C 400.00,20.00 500.00,8.00 600.00,5.00 C 660.00,3.00 714.00,18.00 714.00,60.00 L 714.00,100.00 C 714.00,150.00 650.00,204.00 560.00,204.00 L 300.00,206.00 C 200.00,206.00 140.00,216.00 100.00,215.00 C 40.00,215.00 0.00,197.00 0.00,167.00 Z" fill="none" stroke="#fff" stroke-width="5" opacity=".5" filter="url(#mtF4)"/>
+        <g data-anchor="rb">
+          <path d="M714 60L714 100C714 150 650 204 560 204L460 205" fill="none" stroke="#ffae2e" stroke-width="18" opacity=".8" filter="url(#mtF8)"/>
+          <path d="M440 214C540 216 640 208 690 172C714 154 723 124 721 84L714 70L640 160Z" fill="url(#mtProjRib)"/>
+          <path d="M440 214C540 216 640 208 690 172C714 154 723 124 721 84" fill="none" stroke="#fffbe8" stroke-width="1.5" opacity=".9"/>
+        </g>
+        <path data-g="body" d="M 0.00,115.00 C 0.00,45.00 25.00,20.00 95.00,20.00 L 264.00,20.00 C 400.00,20.00 500.00,8.00 600.00,5.00 C 660.00,3.00 714.00,18.00 714.00,60.00 L 714.00,100.00 C 714.00,150.00 650.00,204.00 560.00,204.00 L 300.00,206.00 C 200.00,206.00 140.00,216.00 100.00,215.00 C 40.00,215.00 0.00,197.00 0.00,167.00 Z" fill="url(#mtProjBase)"/>
+        <g clip-path="url(#mtProjClip)">
+          <g data-anchor="lt"><path d="M0 150L0 115C0 45 25 20 95 20L300 20" fill="none" stroke="#1d86f0" stroke-width="28" opacity=".45" filter="url(#mtF8)"/></g>
+          <g data-anchor="rt" fill="none" stroke="#e0b04e" stroke-width=".8">
+            <path d="M470 0C560 30 630 40 715 28" opacity=".55"/><path d="M490 0C570 38 640 50 715 40" opacity=".5"/><path d="M510 0C585 46 650 60 715 52" opacity=".45"/>
+            <path d="M530 0C600 54 660 70 715 64" opacity=".4"/><path d="M550 0C615 62 670 80 715 76" opacity=".34"/><path d="M570 0C630 70 680 90 715 88" opacity=".28"/>
+            <path d="M590 0C645 78 690 100 715 100" opacity=".22"/><path d="M610 0C660 84 700 108 715 112" opacity=".16"/>
+          </g>
+          <g data-anchor="lb" fill="none" stroke="#e0b04e" stroke-width=".8">
+            <path d="M0 160C40 170 80 190 120 217" opacity=".4"/><path d="M0 170C36 180 70 198 104 217" opacity=".34"/><path d="M0 180C32 190 60 204 88 217" opacity=".28"/><path d="M0 190C28 198 50 208 72 217" opacity=".22"/>
+          </g>
+          <g data-anchor="rb"><ellipse cx="660" cy="190" rx="130" ry="60" fill="#d8862c" opacity=".35" filter="url(#mtF16)"/>
+            <path d="M560 204C650 204 714 150 714 100" fill="none" stroke="#ffcf5a" stroke-width="10" opacity=".5" filter="url(#mtF4)"/></g>
+          <path data-g="neon" d="M 60.00,211.00 C 150.00,215.00 230.00,208.00 330.00,206.00 C 420.00,205.00 470.00,204.00 540.00,203.00" fill="none" stroke="#1a7ff0" stroke-width="40" opacity=".45" filter="url(#mtF16)"/>
+          <path data-g="neon" d="M 60.00,211.00 C 150.00,215.00 230.00,208.00 330.00,206.00 C 420.00,205.00 470.00,204.00 540.00,203.00" fill="none" stroke="#45d4ff" stroke-width="7" opacity=".8" filter="url(#mtF2)"/>
+        </g>
+        <path data-g="body" d="M 0.00,115.00 C 0.00,45.00 25.00,20.00 95.00,20.00 L 264.00,20.00 C 400.00,20.00 500.00,8.00 600.00,5.00 C 660.00,3.00 714.00,18.00 714.00,60.00 L 714.00,100.00 C 714.00,150.00 650.00,204.00 560.00,204.00 L 300.00,206.00 C 200.00,206.00 140.00,216.00 100.00,215.00 C 40.00,215.00 0.00,197.00 0.00,167.00 Z" fill="none" stroke="#fff" stroke-width="1.5" opacity=".85"/>
+        <path data-g="neon" d="M 60.00,211.00 C 150.00,215.00 230.00,208.00 330.00,206.00 C 420.00,205.00 470.00,204.00 540.00,203.00" fill="none" stroke="#e8fdff" stroke-width="2"/>
+        <g data-anchor="rb"><path d="M714 70L714 100C714 150 650 204 560 204L500 204" fill="none" stroke="url(#mtGoldStroke)" stroke-width="2.4"/></g>
+      </svg>
+      <button class="mt-btn mt-disc mt-disc--gold" type="button" aria-label="مدیریت پروژه" data-mtr-feature="project"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+      <div class="mt-feat__text"><h3>مدیریت پروژه</h3><p>برنامه‌ریزی و کنترل<br>تمام مراحل اجرا</p></div>
+      <span class="mt-feat__div" aria-hidden="true"></span>
+      <img class="mt-art" src="assets/img/why-checklist.webp" alt="" width="600" height="635" loading="lazy" decoding="async">
+    </article></div>
+
+    <div class="mt-cq"><article class="mt-card mt-feat mt-feat--light mt-feat--tools" data-skin="tools">
+      <svg class="mt-skin" viewBox="0 0 713 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <defs><clipPath id="mtToolsClip"><path data-g="body" d="M 0.00,64.00 C 0.00,24.00 26.00,0.00 72.00,0.00 L 640.00,0.00 C 688.00,0.00 713.00,26.00 713.00,66.00 L 713.00,142.00 C 713.00,180.00 690.00,200.00 646.00,200.00 L 72.00,200.00 C 26.00,200.00 0.00,178.00 0.00,138.00 Z"/></clipPath></defs>
+        <path data-g="body" d="M 0.00,64.00 C 0.00,24.00 26.00,0.00 72.00,0.00 L 640.00,0.00 C 688.00,0.00 713.00,26.00 713.00,66.00 L 713.00,142.00 C 713.00,180.00 690.00,200.00 646.00,200.00 L 72.00,200.00 C 26.00,200.00 0.00,178.00 0.00,138.00 Z" fill="#2f7fe0" opacity=".22" filter="url(#mtF16)" transform="translate(0 10)"/>
+        <path data-g="body" d="M 0.00,64.00 C 0.00,24.00 26.00,0.00 72.00,0.00 L 640.00,0.00 C 688.00,0.00 713.00,26.00 713.00,66.00 L 713.00,142.00 C 713.00,180.00 690.00,200.00 646.00,200.00 L 72.00,200.00 C 26.00,200.00 0.00,178.00 0.00,138.00 Z" fill="none" stroke="#fff" stroke-width="6" opacity=".75" filter="url(#mtF4)"/>
+        <path data-g="body" d="M 0.00,64.00 C 0.00,24.00 26.00,0.00 72.00,0.00 L 640.00,0.00 C 688.00,0.00 713.00,26.00 713.00,66.00 L 713.00,142.00 C 713.00,180.00 690.00,200.00 646.00,200.00 L 72.00,200.00 C 26.00,200.00 0.00,178.00 0.00,138.00 Z" fill="url(#mtGlassL)" fill-opacity=".92"/>
+        <g clip-path="url(#mtToolsClip)">
+          <g data-anchor="lt"><ellipse cx="140" cy="-10" rx="300" ry="60" fill="#fff" opacity=".6" filter="url(#mtF8)"/></g>
+          <g data-anchor="rt"><ellipse cx="660" cy="70" rx="150" ry="110" fill="#b8dcfb" opacity=".45" filter="url(#mtF16)"/>
+            <g transform="translate(670 50)" fill="#9cc6f0" opacity=".6">
+              <circle r="30"/><g id="mtGearTeeth"><rect x="-7" y="-42" width="14" height="16" rx="3"/><rect x="-7" y="26" width="14" height="16" rx="3"/><rect x="-42" y="-7" width="16" height="14" rx="3"/><rect x="26" y="-7" width="16" height="14" rx="3"/></g>
+              <use href="#mtGearTeeth" transform="rotate(45)"/><circle r="13" fill="#e8f3fe"/>
+            </g></g>
+          <path data-g="sheet" d="M 250.00,200.00 C 460.00,192.00 600.00,178.00 713.00,140.00" fill="none" stroke="#bcd8f5" stroke-width="10" opacity=".55" filter="url(#mtF4)"/>
+          <path data-g="sheet" d="M 250.00,200.00 C 460.00,192.00 600.00,178.00 713.00,140.00" fill="none" stroke="#fff" stroke-width="2.4" opacity=".95"/>
+        </g>
+        <path data-g="body" d="M 0.00,64.00 C 0.00,24.00 26.00,0.00 72.00,0.00 L 640.00,0.00 C 688.00,0.00 713.00,26.00 713.00,66.00 L 713.00,142.00 C 713.00,180.00 690.00,200.00 646.00,200.00 L 72.00,200.00 C 26.00,200.00 0.00,178.00 0.00,138.00 Z" fill="none" stroke="#fff" stroke-width="2.4" opacity=".95"/>
+      </svg>
+      <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="ابزارهای یکپارچه" data-mtr-feature="integrated-tools"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+      <div class="mt-feat__text"><h3>ابزارهای یکپارچه</h3><p>دسترسی به امکانات<br>حرفه‌ای در یک محیط</p></div>
+      <span class="mt-feat__div" aria-hidden="true"></span>
+      <img class="mt-art" src="assets/img/why-layers.webp" alt="" width="600" height="667" loading="lazy" decoding="async">
+    </article></div>
+  </div>
+
+  <div class="mt-cq">
+  <article class="mt-card mt-cta" data-skin="cta">
+    <svg class="mt-skin" viewBox="0 0 724 366" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs>
+        <clipPath id="mtCtaClip"><path data-g="body" d="M 0.00,200.00 C 0.00,110.00 50.00,44.00 125.00,44.00 L 369.00,44.00 C 470.00,44.00 560.00,30.00 620.00,12.00 C 650.00,3.00 672.00,4.00 690.00,12.00 C 712.00,22.00 724.00,46.00 724.00,80.00 L 724.00,150.00 C 724.00,260.00 650.00,345.00 540.00,362.00 L 200.00,366.00 L 120.00,366.00 C 60.00,366.00 0.00,330.00 0.00,280.00 Z"/></clipPath>
+        <linearGradient id="mtCtaBase" x1="0" x2=".4" y1="0" y2="1"><stop offset="0" stop-color="#0a4a94"/><stop offset=".35" stop-color="#082f62"/><stop offset=".65" stop-color="#0b2a50"/><stop offset="1" stop-color="#05285f"/></linearGradient>
+        <linearGradient id="mtCtaWave" gradientUnits="userSpaceOnUse" x1="0" y1="230" x2="0" y2="370"><stop offset="0" stop-color="#3aa8ff"/><stop offset=".35" stop-color="#1b74e0"/><stop offset="1" stop-color="#0b4596"/></linearGradient>
+      </defs>
+      <path data-g="body" d="M 0.00,200.00 C 0.00,110.00 50.00,44.00 125.00,44.00 L 369.00,44.00 C 470.00,44.00 560.00,30.00 620.00,12.00 C 650.00,3.00 672.00,4.00 690.00,12.00 C 712.00,22.00 724.00,46.00 724.00,80.00 L 724.00,150.00 C 724.00,260.00 650.00,345.00 540.00,362.00 L 200.00,366.00 L 120.00,366.00 C 60.00,366.00 0.00,330.00 0.00,280.00 Z" fill="#2d8af3" opacity=".45" filter="url(#mtF16)" transform="translate(0 10)"/>
+      <path data-g="body" d="M 0.00,200.00 C 0.00,110.00 50.00,44.00 125.00,44.00 L 369.00,44.00 C 470.00,44.00 560.00,30.00 620.00,12.00 C 650.00,3.00 672.00,4.00 690.00,12.00 C 712.00,22.00 724.00,46.00 724.00,80.00 L 724.00,150.00 C 724.00,260.00 650.00,345.00 540.00,362.00 L 200.00,366.00 L 120.00,366.00 C 60.00,366.00 0.00,330.00 0.00,280.00 Z" fill="none" stroke="#fff" stroke-width="5" opacity=".55" filter="url(#mtF4)"/>
+      <g data-anchor="rb"><path d="M724 110L724 150C724 260 650 345 540 362L400 364" fill="none" stroke="#ffaa2c" stroke-width="26" opacity=".85" filter="url(#mtF16)"/><path d="M724 130L724 150C724 260 650 345 540 362L450 364" fill="none" stroke="#ffc552" stroke-width="7" opacity=".9" filter="url(#mtF4)"/></g>
+      <g data-anchor="lt"><path d="M0 330L0 200C0 110 50 44 125 44L320 44" fill="none" stroke="#3fc3ff" stroke-width="14" opacity=".7" filter="url(#mtF8)"/></g>
+      <path data-g="body" d="M 0.00,200.00 C 0.00,110.00 50.00,44.00 125.00,44.00 L 369.00,44.00 C 470.00,44.00 560.00,30.00 620.00,12.00 C 650.00,3.00 672.00,4.00 690.00,12.00 C 712.00,22.00 724.00,46.00 724.00,80.00 L 724.00,150.00 C 724.00,260.00 650.00,345.00 540.00,362.00 L 200.00,366.00 L 120.00,366.00 C 60.00,366.00 0.00,330.00 0.00,280.00 Z" fill="url(#mtCtaBase)"/>
+      <g clip-path="url(#mtCtaClip)">
+        <g data-anchor="lt"><ellipse cx="300" cy="40" rx="340" ry="60" fill="#1677e2" opacity=".6" filter="url(#mtF16)"/>
+          <path d="M0 330L0 200C0 110 50 44 125 44L330 44" fill="none" stroke="#1c8cff" stroke-width="30" opacity=".5" filter="url(#mtF8)"/></g>
+        <g data-anchor="rb"><ellipse cx="690" cy="320" rx="170" ry="100" fill="#e08c2c" opacity=".5" filter="url(#mtF16)"/></g>
+        <path data-g="waveLine" d="M 0.00,238.00 C 90.00,250.00 170.00,320.00 330.00,350.00 C 470.00,362.00 560.00,366.00 620.00,372.00" fill="none" stroke="#1d8cff" stroke-width="54" opacity=".55" filter="url(#mtF16)"/>
+        <path data-g="wave" d="M -20.00,236.00 C 90.00,250.00 170.00,320.00 330.00,350.00 C 470.00,362.00 560.00,372.00 640.00,390.00 L 640.00,420.00 L -20.00,420.00 Z" fill="url(#mtCtaWave)" opacity=".92"/>
+        <path data-g="waveLine" d="M 0.00,238.00 C 90.00,250.00 170.00,320.00 330.00,350.00 C 470.00,362.00 560.00,366.00 620.00,372.00" fill="none" stroke="#45c8ff" stroke-width="8" opacity=".7" filter="url(#mtF4)"/>
+        <path data-g="waveLine" d="M 0.00,238.00 C 90.00,250.00 170.00,320.00 330.00,350.00 C 470.00,362.00 560.00,366.00 620.00,372.00" fill="none" stroke="#c4f5ff" stroke-width="2"/>
+      </g>
+      <path data-g="body" d="M 0.00,200.00 C 0.00,110.00 50.00,44.00 125.00,44.00 L 369.00,44.00 C 470.00,44.00 560.00,30.00 620.00,12.00 C 650.00,3.00 672.00,4.00 690.00,12.00 C 712.00,22.00 724.00,46.00 724.00,80.00 L 724.00,150.00 C 724.00,260.00 650.00,345.00 540.00,362.00 L 200.00,366.00 L 120.00,366.00 C 60.00,366.00 0.00,330.00 0.00,280.00 Z" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85"/>
+      <g data-anchor="lt"><path d="M0 300L0 200C0 110 50 44 125 44L280 44" fill="none" stroke="#a8f2ff" stroke-width="2.2" opacity=".9"/></g>
+      <g data-anchor="rb"><path d="M724 120L724 150C724 260 650 345 540 362L470 363" fill="none" stroke="url(#mtGoldStroke)" stroke-width="2.4"/></g>
+    </svg>
+    <h2 class="mt-cta__title">پروژه بعدی‌تان را<br><span class="mt-gold">هوشمندانه</span> آغاز کنید</h2>
+    <button class="mt-btn mt-gold-btn" type="button" data-mtr-action="start-metrica">
+      <svg class="mt-ico" aria-hidden="true"><use href="#mtPlay"/></svg><span>شروع با متریکا</span>
+      <svg class="mt-ghost" aria-hidden="true"><use href="#mtChevL"/></svg>
+    </button>
+  </article>
+  </div>
+
+</div>
+</section>
+</main>
+<script src="js/geometry.js"></script>
+<script src="js/metrica.js" defer></script>
+</body>
+</html>
