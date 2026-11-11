@@ -22,9 +22,10 @@ const audit = () => {
     const arts = [...card.querySelectorAll(':scope > .mt-art, .mt-feat__div')], btns = [...card.querySelectorAll('button')];
     // glyphs sit inside the text box: trim the line box to the ink band; trim the soft glow baked into the art edges
     const tight = (r, f) => ({ left: r.left, right: r.right, top: r.top + f * .3, bottom: r.bottom - f * .22 });
-    const artBox = a => { const r = R(a); return a.tagName === 'IMG' ? { left: r.left + r.width * .04, right: r.right - r.width * .04, top: r.top, bottom: r.bottom - r.height * .06 } : r; };
+    const isArt = a => a.classList.contains('mt-art');
+    const artBox = a => { const r = R(a); return isArt(a) ? { left: r.left + r.width * .04, right: r.right - r.width * .04, top: r.top, bottom: r.bottom - r.height * .06 } : r; };
     texts.filter(t => t.tagName !== 'SPAN').forEach(t => ink(t).map(r => tight(r, parseFloat(getComputedStyle(t).fontSize))).forEach(r => {
-      arts.forEach(a => hit(r, artBox(a)) && out.problems.push(`${name}: text overlaps ${a.tagName === 'IMG' ? 'art' : 'divider'}`));
+      arts.forEach(a => hit(r, artBox(a)) && out.problems.push(`${name}: text overlaps ${isArt(a) ? 'art' : 'divider'}`));
       btns.filter(b => !b.contains(t)).forEach(b => hit(r, R(b)) && out.problems.push(`${name}: text overlaps a button`)); }));
     card.querySelectorAll('img').forEach(i => { const r = R(i); if (i.naturalWidth && Math.abs(r.width / r.height - i.naturalWidth / i.naturalHeight) > 0.01) out.problems.push(`${name}: image stretched`); });
     const s = card.querySelector(':scope > .mt-skin');

@@ -34,7 +34,7 @@ let one = html
   .replace('<link rel="stylesheet" href="css/metrica.css">', `<!--\nFont: Estedad (github.com/aminabedi68/Estedad), embedded.\n${ofl}\n-->\n<style>\n${css}\n</style>`)
   .replace('<script src="js/geometry.js"></script>', () => `<script>\n${read('js/geometry.js')}\n</script>`)
   .replace('<script src="js/metrica.js" defer></script>', () => `<script>\n${read('js/metrica.js')}\n</script>`)
-  .replace(/src="(assets\/img\/[\w-]+\.webp)"/g, (_, p) => `src="${b64(p, 'image/webp')}"`);
+  .replace(/src="(assets\/img\/[\w-]+\.(webp|png))"/g, (_, p, ext) => `src="${b64(p, 'image/' + ext)}"`);
 if (/(src|href)="(?!data:|#)[^"]+"/.test(one.replace(/<a [^>]*>/g, ''))) throw new Error('external reference left in the single file');
 fs.mkdirSync(path.join(ROOT, 'dist'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'dist/metrica-sections.html'), one);

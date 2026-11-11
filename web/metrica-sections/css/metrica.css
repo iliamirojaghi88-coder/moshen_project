@@ -12,7 +12,8 @@
 .mt-cq{container-type:inline-size;min-width:0}
 .mt-card{--u:clamp(var(--umin,.3px),calc(100cqi / var(--rw)),var(--umax,1.2px));position:relative;isolation:isolate}
 .mt-skin{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:-1;pointer-events:none}
-.mt-art{position:absolute;height:auto;pointer-events:none}
+.mt-art{position:absolute;height:auto;pointer-events:none} /* the box is the artwork's content area */
+.mt-art>img{position:absolute;height:auto;max-width:none} /* full original image, transparent margins included */
 .mt-btn{font:inherit;border:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:filter .15s ease,transform .15s ease}
 .mt-btn:hover{filter:brightness(1.06) saturate(1.05)}
 .mt-btn:active{transform:scale(.97)}
@@ -32,6 +33,7 @@
   box-shadow:inset 0 calc(1 * var(--u)) calc(2 * var(--u)) rgb(255 255 255/.8),0 calc(2 * var(--u)) calc(6 * var(--u)) rgb(40 100 200/.18)}
 
 /* ================= SECTION 1 ================= */
+.mt-bg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .mt-s1{container-type:inline-size;position:relative;
   background:
     radial-gradient(60% 22% at 0% 0%,rgb(226 238 255/.95),transparent 70%),
@@ -130,7 +132,7 @@
 /* --- header --- */
 .mt-hdr{--rw:746;--umax:1.1px;min-height:calc(606 * var(--u));margin:0 calc(-17 * var(--k)) 0 calc(-13 * var(--k));color:#fff;text-align:center;
   padding:calc(50 * var(--u)) calc(30 * var(--u)) 0}
-.mt-hdr__title{font-weight:900;font-size:max(30px,calc(110 * var(--u)));line-height:1.18;text-shadow:0 calc(4 * var(--u)) calc(14 * var(--u)) rgb(0 10 40/.5)}
+.mt-hdr__title{font-weight:900;font-size:max(30px,calc(118 * var(--u)));line-height:1.18;text-shadow:0 calc(4 * var(--u)) calc(14 * var(--u)) rgb(0 10 40/.5)}
 .mt-gold{background:linear-gradient(180deg,#fff3a6 10%,#ffd23f 50%,#f7a91f 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .mt-hdr__sub{margin-top:calc(8 * var(--u));font-weight:500;font-size:max(13px,calc(35 * var(--u)));line-height:1.24;color:#eef4ff}
 .mt-hdr__stage{position:absolute;left:0;right:0;top:calc(266 * var(--u));height:calc(330 * var(--u))}
@@ -169,7 +171,7 @@
 /* --- closing call to action --- */
 .mt-cta{--rw:724;--umax:1.05px;min-height:calc(366 * var(--u));margin:calc(25 * var(--k)) calc(-2 * var(--k)) 0 calc(-6 * var(--k));color:#fff;text-align:center;
   display:flex;flex-direction:column;align-items:center;padding:calc(38 * var(--u)) calc(40 * var(--u)) calc(40 * var(--u))}
-.mt-cta__title{font-weight:900;font-size:max(22px,calc(53 * var(--u)));line-height:1.39;text-shadow:0 calc(3 * var(--u)) calc(10 * var(--u)) rgb(0 10 40/.5)}
+.mt-cta__title{font-weight:900;font-size:max(22px,calc(57 * var(--u)));line-height:1.39;text-shadow:0 calc(3 * var(--u)) calc(10 * var(--u)) rgb(0 10 40/.5)}
 .mt-cta .mt-gold-btn{margin-top:calc(46 * var(--u));width:min(100%,calc(467 * var(--u)));min-height:max(48px,calc(80 * var(--u)));justify-content:center;
   gap:calc(28 * var(--u));padding:0 calc(40 * var(--u));font-size:max(16px,calc(40 * var(--u)));position:relative}
 .mt-cta .mt-gold-btn span{flex:none}
@@ -197,10 +199,8 @@
 @media (min-width:1024px){
   .mt-s1__in,.mt-s2__in{max-width:1240px;padding:80px 40px 140px}
   .mt-tools{column-gap:28px;row-gap:28px}
-  /* header: text on the right, scene on the left */
-  .mt-hdr{--rw:1200;--umax:1px;min-height:calc(470 * var(--u));text-align:right;padding:calc(120 * var(--u)) calc(80 * var(--u)) 0 0}
-  .mt-hdr__title,.mt-hdr__sub{max-width:calc(540 * var(--u))}
-  .mt-hdr__stage{left:calc(20 * var(--u));right:auto;width:calc(600 * var(--u));top:calc(80 * var(--u))}
+  /* header keeps the reference composition; the panel widens around it */
+  .mt-hdr{--umax:1px}
   /* features: two columns in a zig-zag, dark and light alternate in both directions */
   .mt-feats{display:grid;grid-template-columns:1fr 1fr;column-gap:28px;grid-auto-rows:calc((100cqi - 28px) / 2 / 716 * 103.5);row-gap:14px;margin-top:40px}
   .mt-feats>.mt-cq{grid-row:span 2}

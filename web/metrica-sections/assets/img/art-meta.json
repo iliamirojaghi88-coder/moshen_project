@@ -1,0 +1,119 @@
+{
+ "sub-crown-card": {
+  "file": "sub-crown-card.webp",
+  "W": 1536,
+  "H": 1024,
+  "x0": 110,
+  "y0": 19,
+  "cw": 1311,
+  "ch": 975
+ },
+ "tool-construction": {
+  "file": "tool-construction.webp",
+  "W": 1536,
+  "H": 1024,
+  "x0": 51,
+  "y0": 21,
+  "cw": 1447,
+  "ch": 971
+ },
+ "tool-project": {
+  "file": "tool-project.webp",
+  "W": 1536,
+  "H": 1024,
+  "x0": 193,
+  "y0": 6,
+  "cw": 1148,
+  "ch": 959
+ },
+ "coins-growth": {
+  "file": "coins-growth.webp",
+  "W": 1427,
+  "H": 1102,
+  "x0": 123,
+  "y0": 14,
+  "cw": 1200,
+  "ch": 1030
+ },
+ "tool-marketing": {
+  "file": "tool-marketing.webp",
+  "W": 1536,
+  "H": 1024,
+  "x0": 107,
+  "y0": 22,
+  "cw": 1361,
+  "ch": 990
+ },
+ "tool-contractors": {
+  "file": "tool-contractors.webp",
+  "W": 1536,
+  "H": 1024,
+  "x0": 71,
+  "y0": 45,
+  "cw": 1301,
+  "ch": 921
+ },
+ "tool-laptop": {
+  "file": "tool-laptop.webp",
+  "W": 1672,
+  "H": 941,
+  "x0": 77,
+  "y0": 31,
+  "cw": 1562,
+  "ch": 877
+ },
+ "why-building": {
+  "file": "why-building.webp",
+  "W": 1536,
+  "H": 1024,
+  "x0": 150,
+  "y0": 20,
+  "cw": 1239,
+  "ch": 983
+ },
+ "why-donut": {
+  "file": "why-donut.webp",
+  "W": 1297,
+  "H": 1212,
+  "x0": 55,
+  "y0": 52,
+  "cw": 1186,
+  "ch": 1109
+ },
+ "why-chart": {
+  "file": "why-chart.webp",
+  "W": 1427,
+  "H": 1102,
+  "x0": 153,
+  "y0": 111,
+  "cw": 1172,
+  "ch": 873
+ },
+ "why-checklist": {
+  "file": "why-checklist.webp",
+  "W": 1427,
+  "H": 1102,
+  "x0": 207,
+  "y0": 18,
+  "cw": 1009,
+  "ch": 1068
+ },
+ "why-calculator": {
+  "file": "why-calculator.webp",
+  "W": 1297,
+  "H": 1212,
+  "x0": 178,
+  "y0": 100,
+  "cw": 970,
+  "ch": 1026
+ },
+ "why-layers": {
+  "file": "why-layers.webp",
+  "W": 1427,
+  "H": 1102,
+  "x0": 248,
+  "y0": 58,
+  "cw": 920,
+  "ch": 1023
+ }
+}
