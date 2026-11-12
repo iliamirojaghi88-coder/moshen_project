@@ -17,7 +17,7 @@ cd metrica && python3 -m http.server 8765    # سپس http://127.0.0.1:8765
 | `assets/css/account.css` | صفحه حساب من (واحد `--a` = یک پیکسل مرجع ۹۴۶px) |
 | `assets/js/app.js` | روتر hash، وضعیت منو، داده حساب، منحنی‌های SVG (هدر و کارت پروفایل) |
 | `assets/img/` | نسخه وب همان PNGهای اصلی (فقط برش حاشیه شفاف و کوچک‌سازی) |
-| `source/` | فایل‌های اصلی دست‌نخورده + نسخه پشتیبان HTML قبلی (Git LFS) |
+| `source/` | فایل‌های اصلی دست‌نخورده + نسخه پشتیبان HTML قبلی (فایل معمولی git؛ LFS در این محیط مسدود است) |
 | `tools/prepare-assets.py` | ساخت `assets/img` و فونت از `source/` |
 | `tools/build-single-html.py` | ساخت نسخه تک‌فایلی `dist/metrica.html` (همه CSS/JS/تصاویر/فونت داخل یک HTML) |
 | `tests/` | `nav.test.cjs` (رفتار ناوبری و داده) و `render-matrix.cjs` (رندر در اندازه‌های مختلف) |
