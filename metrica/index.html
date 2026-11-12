@@ -39,26 +39,42 @@
 
 <!-- ============ shared header ============ -->
 <header class="m-hdr" id="m-hdr">
+  <!-- one curved navy glass surface; logo, separator and buttons sit directly on it -->
   <div class="m-hdr__tray">
     <svg class="m-hdr__skin" data-shape="tray" preserveAspectRatio="none" aria-hidden="true" focusable="false">
       <defs>
-        <linearGradient id="hdrFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d3566"/><stop offset=".45" stop-color="#062750"/><stop offset="1" stop-color="#0a3672"/></linearGradient>
-        <filter id="hdrBlur" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="5"/></filter>
+        <linearGradient id="hdrFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b3b74"/><stop offset=".22" stop-color="#03295a"/><stop offset=".7" stop-color="#012453"/><stop offset="1" stop-color="#06326c"/></linearGradient>
+        <linearGradient id="hdrSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a6fbf" stop-opacity=".55"/><stop offset=".14" stop-color="#2a6fbf" stop-opacity="0"/><stop offset=".86" stop-color="#2a6fbf" stop-opacity="0"/><stop offset="1" stop-color="#2a6fbf" stop-opacity=".55"/></linearGradient>
+        <linearGradient id="hdrTop" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".12" stop-color="#fff" stop-opacity=".75"/><stop offset=".5" stop-color="#fff" stop-opacity=".9"/><stop offset=".88" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        <radialGradient id="hdrSheen" cx=".3" cy="-.35" r=".9"><stop offset=".55" stop-color="#9fd0ff" stop-opacity=".16"/><stop offset=".56" stop-color="#9fd0ff" stop-opacity=".06"/><stop offset="1" stop-color="#9fd0ff" stop-opacity="0"/></radialGradient>
+        <filter id="hdrBlur" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="6"/></filter>
+        <filter id="hdrBlurS" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="2.4"/></filter>
+        <clipPath id="hdrClip"><path data-d="tray"/></clipPath>
       </defs>
-      <path data-d="tray" fill="#3d9bff" opacity=".55" filter="url(#hdrBlur)" transform="translate(0 3)"/>
+      <path data-d="tray" fill="#0a2a60" opacity=".38" filter="url(#hdrBlur)" transform="translate(0 7)"/>
+      <path data-d="trayRim" fill="none" stroke="#67c6ff" stroke-width="7" opacity=".55" filter="url(#hdrBlurS)"/>
       <path data-d="tray" fill="url(#hdrFill)"/>
-      <path data-d="trayRim" fill="none" stroke="#7cc6ff" stroke-width="1.6" opacity=".9"/>
-      <path data-d="trayTop" fill="none" stroke="#ffffff" stroke-width="1.2" opacity=".55"/>
+      <g clip-path="url(#hdrClip)">
+        <rect width="100%" height="100%" fill="url(#hdrSide)"/>
+        <rect width="100%" height="100%" fill="url(#hdrSheen)"/>
+        <path data-d="trayRim" fill="none" stroke="#3aa6ff" stroke-width="8" opacity=".35" filter="url(#hdrBlurS)"/>
+      </g>
+      <path data-d="trayRim" fill="none" stroke="#c9f2ff" stroke-width="1.4" stroke-linecap="round"/>
+      <path data-d="trayTop" fill="none" stroke="url(#hdrTop)" stroke-width="1.1" stroke-linecap="round"/>
     </svg>
     <div class="m-hdr__row">
-      <a class="m-hdr__logo" href="#/features" aria-label="متریکا — امکانات"><img src="assets/img/brand/logo-mark.png" alt="متریکا" width="292" height="256"></a>
+      <a class="m-hdr__brand" href="#/features" aria-label="متریکا — امکانات">
+        <img src="assets/img/brand/logo-mark.png" alt="" width="292" height="256"><span lang="en">METRICA</span>
+      </a>
       <i class="m-hdr__sep" aria-hidden="true"></i>
-      <button class="m-btn m-hdr__sub" type="button" data-action="buy-subscription">
-        <svg class="m-hdr__crown" aria-hidden="true"><use href="#mtCrown"/></svg><span>خرید اشتراک</span>
-      </button>
-      <button class="m-btn m-hdr__login" type="button" data-action="login">
-        <img src="assets/img/nav/account.png" alt="" width="172" height="200"><span>ورود / ثبت‌نام</span>
-      </button>
+      <div class="m-hdr__actions">
+        <button class="m-btn m-hdr__sub" type="button" data-action="buy-subscription">
+          <svg class="m-hdr__crown" aria-hidden="true"><use href="#mtCrown"/></svg><span>خرید اشتراک</span>
+        </button>
+        <button class="m-btn m-hdr__login" type="button" data-action="login">
+          <img src="assets/img/nav/account.png" alt="" width="172" height="200"><span>ورود / ثبت‌نام</span>
+        </button>
+      </div>
     </div>
   </div>
 </header>

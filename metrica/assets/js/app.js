@@ -25,12 +25,15 @@
 
   /* ---------- curved skins: paths rebuilt from the element's real size ---------- */
   const SHAPES = {
-    // header tray: wing tips at the top corners, concave top edge, deep rounded base (account reference header)
+    // header: one glass surface — rounded wing tips, concave top, steep sides, a shallow arch along the base.
+    // Side curve keeps 7.6% of h clearance at mid-height, so the row's 15px padding never touches it.
     tray(w, h) {
-      const d = h * 0.16, k = Math.min(h * 1.5, w * 0.2);
-      const top = `M0,0 C${h * .35},${d * .85} ${h * .8},${d} ${k},${d} L${w - k},${d} C${w - h * .8},${d} ${w - h * .35},${d * .85} ${w},0`;
-      const base = `C${w - 3},${h * .55} ${w - h * .35},${h} ${w - h * 1.1},${h} L${h * 1.1},${h} C${h * .35},${h} 3,${h * .55} 0,0`;
-      return { tray: `${top} ${base} Z`, trayTop: top, trayRim: `M${w},0 ${base}` };
+      const d = h * .14, t = Math.min(4, h * .07), a = h * .05, k = Math.min(h * 1.6, w * .22);
+      const x0 = w - h * .85, x2 = h * .85, c = h * .38, s = (2 * a) / (x0 - w / 2); // s: base-arch slope, keeps the corners tangent
+      const top = `M${t * .9},${t * .35} C${h * .42},${d * .78} ${h * .9},${d} ${k},${d} L${w - k},${d} C${w - h * .9},${d} ${w - h * .42},${d * .78} ${w - t * .9},${t * .35}`;
+      const base = `Q${w},0 ${w},${t} C${w - .5},${h * .62} ${x0 + c},${h - a - c * s} ${x0},${h - a} ` +
+        `Q${w / 2},${h + a} ${x2},${h - a} C${x2 - c},${h - a - c * s} .5,${h * .62} 0,${t} Q0,0 ${t * .9},${t * .35}`;
+      return { tray: `${top} ${base} Z`, trayTop: top, trayRim: `M${w - t * .9},${t * .35} ${base}` };
     },
     // profile card: body with a raised shoulder on the right for the avatar (account reference, 708 × 245)
     profile(w, h) {

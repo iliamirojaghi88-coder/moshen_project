@@ -31,7 +31,7 @@ a{color:inherit}
 .m-btn{font:inherit;color:inherit;border:0;margin:0;padding:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;
   transition:filter .15s ease,transform .15s ease}
 .m-btn:active{transform:scale(.97)}
-:where(.m-btn,.m-nav__item,.m-hdr__logo):focus-visible{outline:2.5px solid #fff;outline-offset:2px;box-shadow:0 0 0 5px #1d6fe0}
+:where(.m-btn,.m-nav__item,.m-hdr__brand):focus-visible{outline:2.5px solid #fff;outline-offset:2px;box-shadow:0 0 0 5px #1d6fe0}
 
 /* gold text, the same rule the sections file uses for «خرید اشتراک» / «متریکا» */
 .m-gold{background:linear-gradient(180deg,#fff6c0 8%,#ffd955 46%,#f7b02c 78%,#ef9a1b 100%);
@@ -51,27 +51,36 @@ a{color:inherit}
 .m-hdr{position:fixed;z-index:30;top:0;left:0;right:0;padding:calc(var(--safe-t) + 8px) 0 6px;pointer-events:none;
   background:linear-gradient(180deg,rgb(205 227 253/.96) 0%,rgb(212 231 253/.85) 60%,rgb(212 231 253/0) 100%)}
 .m-hdr__tray{position:relative;width:calc(var(--chrome-w) + 2 * min(14px,var(--gutter) - 2px));height:var(--hdr-h);margin:0 auto;pointer-events:auto;
-  --dip:calc(var(--hdr-h) * .16)}
+  --dip:calc(var(--hdr-h) * .14);--pad:clamp(22px,5.6vw,30px); /* ≥19.4px keeps the pill ends clear of the curved corners (h = 60px) */--btn-h:max(34px,calc(var(--hdr-h) * .6));--fs:clamp(11.5px,3.2vw,14.5px)}
 .m-hdr__skin{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.m-hdr__row{position:absolute;inset:var(--dip) min(14px,var(--gutter) - 2px) calc(var(--hdr-h) * .1);
-  display:flex;align-items:center;gap:clamp(6px,2vw,14px);padding:0 clamp(14px,4vw,22px) 0 clamp(5px,1.4vw,9px);border-radius:999px;
-  background:linear-gradient(180deg,rgb(3 22 48/.55),rgb(2 18 40/.35));
-  box-shadow:inset 0 0 0 1px rgb(120 175 235/.22),inset 0 1px 0 rgb(170 210 255/.18)}
-.m-hdr__logo{flex:none;display:grid;place-items:center;height:86%;aspect-ratio:292/256;border-radius:10px;position:relative}
-/* soft light behind the navy/gold mark so its dark faces read on the navy bar */
-.m-hdr__logo::before{content:"";position:absolute;inset:-18% -22%;border-radius:50%;
-  background:radial-gradient(closest-side,rgb(160 205 255/.5),rgb(150 195 255/.16) 62%,transparent)}
-.m-hdr__logo img{position:relative;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 1px rgb(255 236 180/.55)) drop-shadow(0 1px 3px rgb(0 0 0/.35))}
-.m-hdr__sep{flex:none;width:1.5px;height:46%;border-radius:2px;background:linear-gradient(rgb(255 255 255/0),rgb(220 232 248/.75) 25%,rgb(220 232 248/.75) 75%,rgb(255 255 255/0))}
-.m-hdr__sub,.m-hdr__login{flex:none;display:flex;align-items:center;justify-content:center;gap:.4em;height:68%;min-height:38px;border-radius:999px;
-  padding:0 clamp(10px,3vw,18px);font-weight:800;font-size:clamp(12px,3.3vw,15px);white-space:nowrap}
-.m-hdr__sub{margin-inline:auto;color:#14213d;
-  background:radial-gradient(70% 120% at 50% 20%,#fff6bf 0%,#ffe680 30%,#fdcf47 62%,#f6aa25 100%);
-  box-shadow:inset 0 2px 3px rgb(255 255 255/.8),inset 0 -3px 6px rgb(205 112 0/.4),0 0 0 1px rgb(255 220 120/.7),0 0 14px rgb(255 186 40/.5)}
-.m-hdr__crown{width:1.25em;height:1.25em;flex:none}
+/* items sit straight on the curved surface: brand | separator | actions, the separator centred between them */
+.m-hdr__row{position:absolute;inset:var(--dip) var(--pad) calc(var(--hdr-h) * .07);display:flex;align-items:center;justify-content:space-between;
+  gap:clamp(7px,2.2vw,14px)}
+.m-hdr__brand{flex:none;display:flex;align-items:center;gap:clamp(5px,1.4vw,8px);direction:ltr;text-decoration:none;border-radius:10px}
+.m-hdr__brand img{height:calc(var(--hdr-h) * .5);width:auto;filter:drop-shadow(0 0 .5px rgb(255 226 150/.6)) drop-shadow(0 1px 2px rgb(0 0 0/.4))}
+.m-hdr__brand span{font-weight:800;font-size:clamp(11.5px,3.3vw,16px);letter-spacing:.06em;line-height:1;color:#fff;text-shadow:0 1px 2px rgb(0 10 40/.45)}
+.m-hdr__sep{flex:none;width:1px;height:38%;background:linear-gradient(rgb(220 236 255/0),rgb(220 236 255/.7) 30%,rgb(220 236 255/.7) 70%,rgb(220 236 255/0))}
+.m-hdr__actions{flex:none;display:flex;align-items:center;gap:clamp(5px,1.6vw,10px)}
+.m-hdr__sub,.m-hdr__login{flex:none;display:flex;align-items:center;justify-content:center;gap:.35em;height:var(--btn-h);border-radius:999px;
+  padding:0 .8em;font-weight:800;font-size:var(--fs);line-height:1;white-space:nowrap}
+.m-hdr__sub{color:#14213d;
+  background:radial-gradient(70% 120% at 50% 18%,#fff6bf 0%,#ffe680 30%,#fdcf47 62%,#f6aa25 100%);
+  box-shadow:inset 0 1.5px 2px rgb(255 255 255/.8),inset 0 -2px 5px rgb(205 112 0/.38),0 0 0 1px rgb(255 220 120/.65),0 0 10px rgb(255 186 40/.38)}
+.m-hdr__crown{width:1.2em;height:1.2em;flex:none}
 .m-hdr__login{color:#fff;font-weight:700;
-  background:linear-gradient(180deg,#0b2d5a,#071f42);box-shadow:inset 0 0 0 1px rgb(120 175 235/.35),inset 0 1px 0 rgb(170 210 255/.2),0 2px 8px rgb(0 10 40/.35)}
-.m-hdr__login img{height:1.45em;width:auto;filter:drop-shadow(0 0 4px rgb(90 190 255/.6))}
+  background:linear-gradient(180deg,rgb(18 64 122/.75),rgb(5 32 72/.75));box-shadow:inset 0 0 0 1px rgb(130 200 255/.5),inset 0 1px 0 rgb(190 225 255/.22)}
+.m-hdr__login img{height:1.35em;width:auto;filter:drop-shadow(0 0 3px rgb(90 190 255/.5))}
+@media (max-width:380px){.m-hdr__sub,.m-hdr__login{padding:0 .66em}} /* 360–380px: the row is 312px, content would be 316px */
+/* phones under 360px: same layout, tighter type so nothing leaves the curve */
+@media (max-width:359px){
+  .m-hdr__tray{--pad:20px;--fs:10.5px}
+  .m-hdr__row{gap:5px}
+  .m-hdr__brand{gap:4px}
+  .m-hdr__brand img{height:calc(var(--hdr-h) * .44)}
+  .m-hdr__brand span{font-size:10px;letter-spacing:.03em}
+  .m-hdr__actions{gap:4px}
+  .m-hdr__sub,.m-hdr__login{padding:0 .6em;gap:.3em}
+}
 .m-hdr__sub:hover,.m-hdr__login:hover{filter:brightness(1.07)}
 
 /* ================= page frame ================= */
