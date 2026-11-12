@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#cfe3fd">
+<title>متریکا — امکانات</title>
+<!-- Font: Estedad (github.com/aminabedi68/Estedad), SIL Open Font License 1.1 — see assets/fonts/OFL.txt -->
+<link rel="preload" href="assets/fonts/Estedad.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="stylesheet" href="assets/css/features.css">
+<link rel="stylesheet" href="assets/css/account.css">
+</head>
+<body>
+
+<!-- shared icon symbols (from the original sections file) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mtChevR" viewBox="0 0 24 24"><path d="M8.6 4.2l7.8 7.8-7.8 7.8" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="mtChevL" viewBox="0 0 24 24"><path d="M15.4 4.2L7.6 12l7.8 7.8" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="mtPlay" viewBox="0 0 24 24"><path d="M6.5 4.6c0-1.3 1.4-2 2.4-1.3l11 7.4c.9.6.9 2 0 2.6l-11 7.4c-1 .7-2.4 0-2.4-1.3z" fill="currentColor"/></symbol>
+    <symbol id="mtCrown" viewBox="0 0 34 34"><path d="M3.5 11.5l7 6.2L17 6.5l6.5 11.2 7-6.2-2.8 15.6H6.3z" fill="currentColor"/><rect x="6.2" y="28.2" width="21.6" height="3.4" rx="1.2" fill="currentColor"/><circle cx="3.5" cy="10" r="2.3" fill="currentColor"/><circle cx="17" cy="4.8" r="2.3" fill="currentColor"/><circle cx="30.5" cy="10" r="2.3" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============ shared background ============ -->
+<div class="app-bg" aria-hidden="true">
+  <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" focusable="false">
+    <defs>
+      <linearGradient id="bgWaveA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <linearGradient id="bgWaveB" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#9cc6f7" stop-opacity=".45"/><stop offset="1" stop-color="#9cc6f7" stop-opacity="0"/></linearGradient>
+    </defs>
+    <path d="M0 0H640C520 60 360 120 230 210C150 265 70 300 0 320Z" fill="url(#bgWaveA)"/>
+    <path d="M1000 120C930 330 915 620 965 880L1000 920Z" fill="url(#bgWaveB)"/>
+    <path d="M0 760C180 700 330 720 470 790C610 860 800 860 1000 800V1000H0Z" fill="url(#bgWaveA)"/>
+    <path d="M0 760C180 700 330 720 470 790C610 860 800 860 1000 800" fill="none" stroke="#fff" stroke-width="1.4" opacity=".7" vector-effect="non-scaling-stroke"/>
+    <path d="M1000 690C860 760 700 820 520 840C330 860 160 850 0 900" fill="none" stroke="#fff" stroke-width="1.2" opacity=".5" vector-effect="non-scaling-stroke"/>
+  </svg>
+</div>
+
+<!-- ============ shared header ============ -->
+<header class="m-hdr" id="m-hdr">
+  <div class="m-hdr__tray">
+    <svg class="m-hdr__skin" data-shape="tray" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="hdrFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d3566"/><stop offset=".45" stop-color="#062750"/><stop offset="1" stop-color="#0a3672"/></linearGradient>
+        <filter id="hdrBlur" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="5"/></filter>
+      </defs>
+      <path data-d="tray" fill="#3d9bff" opacity=".55" filter="url(#hdrBlur)" transform="translate(0 3)"/>
+      <path data-d="tray" fill="url(#hdrFill)"/>
+      <path data-d="trayRim" fill="none" stroke="#7cc6ff" stroke-width="1.6" opacity=".9"/>
+      <path data-d="trayTop" fill="none" stroke="#ffffff" stroke-width="1.2" opacity=".55"/>
+    </svg>
+    <div class="m-hdr__row">
+      <a class="m-hdr__logo" href="#/features" aria-label="متریکا — امکانات"><img src="assets/img/brand/logo-mark.png" alt="متریکا" width="292" height="256"></a>
+      <i class="m-hdr__sep" aria-hidden="true"></i>
+      <button class="m-btn m-hdr__sub" type="button" data-action="buy-subscription">
+        <svg class="m-hdr__crown" aria-hidden="true"><use href="#mtCrown"/></svg><span>خرید اشتراک</span>
+      </button>
+      <button class="m-btn m-hdr__login" type="button" data-action="login">
+        <img src="assets/img/nav/account.png" alt="" width="172" height="200"><span>ورود / ثبت‌نام</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ page content (the only part that changes between routes) ============ -->
+<main id="view" class="m-view" tabindex="-1"></main>
+
+<!-- ============ shared bottom navigation ============ -->
+<nav class="m-nav" id="m-nav" aria-label="ناوبری اصلی">
+  <div class="m-nav__bar">
+    <span class="m-nav__sel" aria-hidden="true"></span>
+    <i class="m-nav__sep" style="--n:1" aria-hidden="true"></i>
+    <i class="m-nav__sep" style="--n:2" aria-hidden="true"></i>
+    <i class="m-nav__sep" style="--n:3" aria-hidden="true"></i>
+    <a class="m-nav__item" href="#/home" data-route="home"><img class="m-nav__ico m-nav__ico--home" src="assets/img/nav/home.png" alt="" width="217" height="200"><span>خانه</span></a>
+    <a class="m-nav__item" href="#/features" data-route="features"><img class="m-nav__ico m-nav__ico--features" src="assets/img/nav/features.png" alt="" width="211" height="200"><span>امکانات</span></a>
+    <a class="m-nav__item" href="#/projects" data-route="projects"><img class="m-nav__ico m-nav__ico--projects" src="assets/img/nav/projects.png" alt="" width="222" height="200"><span>پروژه‌ها</span></a>
+    <a class="m-nav__item" href="#/account" data-route="account"><img class="m-nav__ico m-nav__ico--account" src="assets/img/nav/account.png" alt="" width="172" height="200"><span>حساب من</span></a>
+  </div>
+</nav>
+
+<!-- ============ page templates ============ -->
+
+<!-- خانه: future personal dashboard. Nothing is shown that does not exist yet. -->
+<template id="tpl-home">
+  <section class="pg pg-home" aria-labelledby="pg-home-title">
+    <header class="pg-head">
+      <h1 class="pg-title" id="pg-home-title">خانه</h1>
+      <span class="pg-streak" aria-hidden="true"></span>
+    </header>
+    <div class="pg-empty" data-slot="dashboard">
+      <img src="assets/img/nav/home.png" alt="" width="217" height="200">
+      <h2>داشبورد شخصی شما</h2>
+      <p>نقش حرفه‌ای، فعالیت‌ها، تعداد پروژه‌ها و وضعیت کارهای شما پس از راه‌اندازی داشبورد در این بخش نمایش داده می‌شود.</p>
+    </div>
+  </section>
+</template>
+
+<!-- امکانات: the six tool cards from «metrica-sections (2).html», unchanged content -->
+<template id="tpl-features">
+  <section class="pg pg-features mt-page" aria-labelledby="pg-features-title">
+    <h1 class="m-sr" id="pg-features-title">امکانات</h1>
+    <!-- order follows the reference reading order (right column first in RTL) -->
+    <div class="mt-tools">
+      <div class="mt-cq"><article class="mt-card mt-tool mt-tool--proj">
+        <span class="mt-art" style="aspect-ratio:1148/959"><img src="assets/img/tools/project.webp" alt="" width="760" height="507" style="width:133.798%;left:-16.812%;top:-0.626%" decoding="async" draggable="false"></span>
+        <h3>مدیریت پروژه</h3><p>برنامه‌ریزی و کنترل اجرا</p>
+        <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="مدیریت پروژه" data-mtr-tool="project"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+      </article></div>
+      <div class="mt-cq"><article class="mt-card mt-tool mt-tool--anal">
+        <span class="mt-art" style="aspect-ratio:1447/971"><img src="assets/img/tools/analysis.webp" alt="" width="760" height="507" style="width:106.151%;left:-3.525%;top:-2.163%" decoding="async" draggable="false"></span>
+        <h3>آنالیز ساخت</h3><p>برآورد، هزینه و سود</p>
+        <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="آنالیز ساخت" data-mtr-tool="analysis"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+      </article></div>
+      <div class="mt-cq"><article class="mt-card mt-tool mt-tool--mkt">
+        <span class="mt-art" style="aspect-ratio:1361/990"><img src="assets/img/tools/marketing.webp" alt="" width="760" height="507" style="width:112.858%;left:-7.862%;top:-2.222%" decoding="async" draggable="false"></span>
+        <h3>مارکتینگ</h3><p>فروش و جذب مشتری</p>
+        <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="مارکتینگ" data-mtr-tool="marketing"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+      </article></div>
+      <div class="mt-cq"><article class="mt-card mt-tool mt-tool--cash">
+        <span class="mt-art" style="aspect-ratio:1200/1030"><img src="assets/img/tools/cashflow.webp" alt="" width="760" height="587" style="width:118.917%;left:-10.25%;top:-1.359%" decoding="async" draggable="false"></span>
+        <h3>کش فلو</h3><p>گردش مالی و نقدینگی</p>
+        <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="کش فلو" data-mtr-tool="cashflow"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+      </article></div>
+      <div class="mt-cq"><article class="mt-card mt-tool mt-tool--free">
+        <svg class="mt-swoosh" viewBox="0 0 345 449" preserveAspectRatio="xMinYMin slice" aria-hidden="true" focusable="false">
+          <defs><linearGradient id="mtSwoosh" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#7cc3fb" stop-opacity=".7"/><stop offset=".55" stop-color="#a9d8ff" stop-opacity=".45"/><stop offset="1" stop-color="#d6ecff" stop-opacity="0"/></linearGradient></defs>
+          <path d="M-10 300C40 250 60 170 140 130C210 95 270 70 360 10L360-10L-10-10Z" fill="url(#mtSwoosh)" opacity=".85"/>
+          <path d="M-10 300C40 250 60 170 140 130C210 95 270 70 360 10" fill="none" stroke="#fff" stroke-width="2" opacity=".7"/>
+        </svg>
+        <span class="mt-art" style="aspect-ratio:1562/877"><img src="assets/img/tools/free-trial.webp" alt="" width="760" height="428" style="width:107.042%;left:-4.93%;top:-3.535%" decoding="async" draggable="false"></span>
+        <svg class="mt-bolt" viewBox="0 0 58 80" aria-hidden="true" focusable="false">
+          <defs><linearGradient id="mtBoltG" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#fff6a8"/><stop offset=".45" stop-color="#ffcb35"/><stop offset="1" stop-color="#f39410"/></linearGradient></defs>
+          <path d="M35 1L5 47h20l-8 32 36-51H32l9-27z" fill="url(#mtBoltG)" stroke="#e98a0c" stroke-width="1.2" stroke-linejoin="round"/>
+          <path d="M35 1L5 47h8L38 5z" fill="#fffbe2" opacity=".75"/>
+        </svg>
+        <h3>تجربه رایگان</h3><p>برخی از ابزارهای متریکا را<br>بدون اشتراک امتحان کنید</p>
+        <button class="mt-btn mt-blue-btn" type="button" data-mtr-action="start-trial"><svg aria-hidden="true"><use href="#mtPlay"/></svg>شروع تجربه</button>
+      </article></div>
+      <div class="mt-cq"><article class="mt-card mt-tool mt-tool--contr">
+        <span class="mt-art" style="aspect-ratio:1301/921"><img src="assets/img/tools/contractors.webp" alt="" width="760" height="507" style="width:118.063%;left:-5.457%;top:-4.886%" decoding="async" draggable="false"></span>
+        <h3>مجریان ذیصلاح</h3><p>استعلام و انتخاب مجری</p>
+        <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="مجریان ذیصلاح" data-mtr-tool="contractors"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+      </article></div>
+    </div>
+  </section>
+</template>
+
+<!-- پروژه‌ها: independent page; the list slot is filled once projects exist -->
+<template id="tpl-projects">
+  <section class="pg pg-projects" aria-labelledby="pg-projects-title">
+    <header class="pg-head">
+      <h1 class="pg-title" id="pg-projects-title">پروژه‌ها</h1>
+      <span class="pg-streak" aria-hidden="true"></span>
+    </header>
+    <div class="pg-list" data-slot="projects-list"></div>
+    <div class="pg-empty" data-slot="projects-empty">
+      <img src="assets/img/nav/projects.png" alt="" width="222" height="200">
+      <h2>پروژه‌های شما</h2>
+      <p>پروژه‌هایی که در متریکا تعریف می‌کنید در این بخش فهرست می‌شوند.</p>
+    </div>
+  </section>
+</template>
+
+<!-- حساب من -->
+<template id="tpl-account">
+  <section class="pg acc" aria-labelledby="acc-title">
+    <div class="acc-hero">
+      <div class="acc-arch acc-arch--left" aria-hidden="true">
+        <img src="assets/img/account/arch-construction.png" alt="" width="1200" height="704" decoding="async">
+      </div>
+      <div class="acc-arch acc-arch--right" aria-hidden="true">
+        <img src="assets/img/account/arch-skyline.png" alt="" width="760" height="573" decoding="async">
+      </div>
+      <h1 class="acc-title" id="acc-title">حساب <span class="m-gold">من</span></h1>
+      <span class="acc-streak" aria-hidden="true"></span>
+    </div>
+
+    <article class="acc-profile" aria-label="پروفایل کاربر">
+      <svg class="acc-profile__skin" data-shape="profile" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="accFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a2f66"/><stop offset=".55" stop-color="#05214c"/><stop offset="1" stop-color="#0b3a7e"/></linearGradient>
+          <radialGradient id="accBump" cx=".78" cy=".1" r=".55"><stop offset="0" stop-color="#2a74d4" stop-opacity=".55"/><stop offset="1" stop-color="#2a74d4" stop-opacity="0"/></radialGradient>
+          <radialGradient id="accGold" cx="0" cy="1" r=".42"><stop offset="0" stop-color="#ffb02e" stop-opacity=".95"/><stop offset=".45" stop-color="#ff9a1f" stop-opacity=".35"/><stop offset="1" stop-color="#ff9a1f" stop-opacity="0"/></radialGradient>
+          <filter id="accBlur" x="-10%" y="-20%" width="120%" height="140%"><feGaussianBlur stdDeviation="7"/></filter>
+          <filter id="accBlurS" x="-10%" y="-20%" width="120%" height="140%"><feGaussianBlur stdDeviation="2.2"/></filter>
+          <clipPath id="accClip"><path data-d="profile"/></clipPath>
+        </defs>
+        <path data-d="profile" fill="#2f8cff" opacity=".45" filter="url(#accBlur)" transform="translate(0 6)"/>
+        <path data-d="profile" fill="url(#accFill)"/>
+        <g clip-path="url(#accClip)">
+          <rect width="100%" height="100%" fill="url(#accBump)"/>
+          <rect width="100%" height="100%" fill="url(#accGold)"/>
+          <path data-d="profile" fill="none" stroke="#2f90ff" stroke-width="10" opacity=".45" filter="url(#accBlurS)"/>
+        </g>
+        <path data-d="profile" fill="none" stroke="#8fd0ff" stroke-width="1.5" opacity=".95"/>
+        <path data-d="profileGold" fill="none" stroke="#ffc44a" stroke-width="2.2" stroke-linecap="round"/>
+        <path data-d="profileGold" fill="none" stroke="#ffae2a" stroke-width="7" opacity=".6" filter="url(#accBlurS)"/>
+      </svg>
+      <!-- faint line drawing of buildings, part of the card skin -->
+      <svg class="acc-profile__lines" viewBox="0 0 160 140" aria-hidden="true" focusable="false">
+        <g fill="none" stroke="#6fb4ff" stroke-width="1.1" stroke-linejoin="round">
+          <path d="M60 138V30l34-16 34 14v110"/><path d="M94 14v124"/><path d="M60 30l34 14 34-16"/><path d="M94 44v94"/>
+          <path d="M70 50v80M80 54v80M106 50v80M116 46v84" opacity=".55"/>
+          <path d="M14 138V72l28-12 28 10"/><path d="M42 60v78"/><path d="M14 72l28 10 18-6"/><path d="M42 82v56"/>
+          <path d="M22 92v40M32 96v38" opacity=".55"/>
+          <path d="M4 138h150" opacity=".6"/>
+        </g>
+      </svg>
+      <img class="acc-profile__avatar" data-bind-src="user.avatar" src="assets/img/account/avatar-default.png" alt="" width="420" height="475">
+      <div class="acc-profile__info">
+        <h2 class="acc-profile__name" data-bind="user.name">کاربر متریکا</h2>
+        <p class="acc-plan" data-plan="normal"><span class="acc-plan__k">اشتراک</span> <b data-bind="user.planLabel">عادی</b></p>
+      </div>
+    </article>
+
+    <ul class="acc-menu" role="list">
+      <li><button class="m-btn acc-item acc-item--light" type="button" data-action="account-info">
+        <span class="acc-item__tile"><img src="assets/img/account/info.png" alt="" width="320" height="208"></span>
+        <span class="acc-item__label">اطلاعات حساب</span>
+        <span class="acc-item__disc" aria-hidden="true"><svg><use href="#mtChevL"/></svg></span>
+      </button></li>
+      <li><button class="m-btn acc-item acc-item--dark" type="button" data-action="support">
+        <span class="acc-item__tile"><img src="assets/img/account/support.png" alt="" width="320" height="267"></span>
+        <span class="acc-item__label">پشتیبانی و راهنما</span>
+        <span class="acc-item__disc" aria-hidden="true"><svg><use href="#mtChevL"/></svg></span>
+      </button></li>
+      <li><button class="m-btn acc-item acc-item--light" type="button" data-action="settings">
+        <span class="acc-item__tile"><img src="assets/img/account/settings.png" alt="" width="300" height="303"></span>
+        <span class="acc-item__label">تنظیمات</span>
+        <span class="acc-item__disc" aria-hidden="true"><svg><use href="#mtChevL"/></svg></span>
+      </button></li>
+      <li><button class="m-btn acc-item acc-item--dark acc-item--exit" type="button" data-action="logout">
+        <span class="acc-item__tile"><img src="assets/img/account/logout.png" alt="" width="300" height="282"></span>
+        <span class="acc-item__label">خروج از حساب</span>
+        <span class="acc-item__disc" aria-hidden="true"><svg><use href="#mtChevL"/></svg></span>
+      </button></li>
+    </ul>
+  </section>
+</template>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

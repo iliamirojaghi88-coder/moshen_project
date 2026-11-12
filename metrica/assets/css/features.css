@@ -1,0 +1,78 @@
+/* METRICA — «امکانات»: the six tool cards, ported from «metrica-sections (2).html» (section 1).
+   Every card sizes itself in its own reference pixels (--u = one reference pixel of a 345px-wide card),
+   so art, text and discs keep the reference proportions at any column width. */
+@property --u{syntax:"<length>";inherits:true;initial-value:1px}
+
+.mt-page{--ink:#11244b;--ink-2:#2b3854;color:var(--ink)}
+.mt-page img{display:block;max-width:none;user-select:none;-webkit-user-drag:none}
+.mt-cq{container-type:inline-size;min-width:0}
+.mt-card{--u:clamp(var(--umin,.3px),calc(100cqi / var(--rw)),var(--umax,1.2px));position:relative;isolation:isolate}
+.mt-art{position:absolute;height:auto;pointer-events:none} /* the box is the artwork's content area */
+.mt-art>img{position:absolute;height:auto;max-width:none} /* full original image, transparent margins included */
+.mt-btn{font:inherit;border:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:filter .15s ease,transform .15s ease}
+.mt-btn:hover{filter:brightness(1.06) saturate(1.05)}
+.mt-btn:active{transform:scale(.97)}
+.mt-btn:focus-visible{outline:3px solid #fff;outline-offset:3px;box-shadow:0 0 0 6px #1d6fe0}
+
+/* round arrow discs */
+.mt-disc{position:relative;display:grid;place-items:center;flex:none;border-radius:50%;padding:0;min-height:0;
+  width:max(22px,calc(var(--d,57) * var(--u)));aspect-ratio:1;color:#12284c}
+.mt-disc::before{content:"";position:absolute;inset:min(-6px,calc((100% - 44px) / 2));border-radius:50%} /* touch target always >= 44px */
+.mt-disc svg{width:44%;height:auto;aspect-ratio:1;overflow:visible}
+.mt-card h3,.mt-card p{position:relative}
+.mt-disc--ice{background:radial-gradient(90% 90% at 35% 25%,#e2eefc 0%,#c4daf5 55%,#a9c6ee 100%);color:#13284f;
+  box-shadow:inset 0 calc(1 * var(--u)) calc(2 * var(--u)) rgb(255 255 255/.8),0 calc(2 * var(--u)) calc(6 * var(--u)) rgb(40 100 200/.18)}
+
+/* --- grid: two columns on phones (as the reference), three where the width allows --- */
+.pg-features{container-type:inline-size;width:min(100% - 2 * var(--gutter),1100px)}
+.mt-tools{display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(8px,2.1cqi,24px);row-gap:clamp(14px,3.7cqi,28px);align-items:start}
+
+/* --- glass tool cards (pure CSS) --- */
+.mt-tool{--rw:345;--umax:1.1px;min-height:calc(var(--h) * var(--u));border-radius:calc(44 * var(--u));
+  display:flex;flex-direction:column;justify-content:flex-start;padding:calc(var(--ty) * var(--u)) calc(30 * var(--u)) calc(20 * var(--u)) calc(30 * var(--u));
+  background:
+    radial-gradient(120% 70% at 12% 0%,rgb(255 255 255/.75),transparent 55%),
+    linear-gradient(170deg,rgb(251 253 255/.93) 0%,rgb(238 245 254/.88) 45%,rgb(224 237 253/.92) 100%);
+  border:calc(2.4 * var(--u)) solid rgb(255 255 255/.95);
+  box-shadow:inset 0 calc(-18 * var(--u)) calc(36 * var(--u)) rgb(120 170 240/.16),inset 0 calc(3 * var(--u)) calc(6 * var(--u)) rgb(255 255 255/.9),
+    0 calc(12 * var(--u)) calc(30 * var(--u)) rgb(36 100 210/.2),0 0 calc(12 * var(--u)) rgb(255 255 255/.75)}
+.mt-tool .mt-art{left:calc(var(--ax) * var(--u));top:calc(var(--ay) * var(--u));width:calc(var(--aw) * var(--u));
+  filter:drop-shadow(0 calc(8 * var(--u)) calc(10 * var(--u)) rgb(30 70 150/.25))}
+.mt-tool h3,.mt-tool p{margin-left:max(calc(48 * var(--u)),calc(24px - 2 * var(--u)))} /* clear of the disc even at its 22px floor */
+.mt-tool--free h3,.mt-tool--free p{margin-left:0} /* keep text clear of the arrow disc, as in the reference */
+.mt-tool h3{font-weight:800;font-size:max(14px,calc(36.5 * var(--u)));line-height:1.3;color:var(--ink)}
+.mt-tool p{margin-top:calc(var(--sg,6) * var(--u));font-weight:400;font-size:max(11px,calc(var(--ss,24) * var(--u)));line-height:1.4;color:var(--ink-2)}
+.mt-tool .mt-disc{--d:50;position:absolute;left:calc(24 * var(--u));top:calc((var(--dy) - 35) * var(--u))}
+.mt-tool--proj{--ss:23.8;--h:296;--ty:188;--ax:89;--ay:16;--aw:192;--dy:234}
+.mt-tool--anal{--h:296;--ty:186;--ax:57;--ay:14;--aw:241;--dy:234}
+.mt-tool--mkt{--h:288;--ty:164;--ax:80;--ay:8;--aw:199;--dy:218}
+.mt-tool--cash{--ss:23.5;--h:288;--ty:164;--ax:102;--ay:12;--aw:169;--dy:218}
+.mt-tool--contr{--ss:22.8;--h:367;--ty:204;--ax:74;--ay:19;--aw:226;--dy:291}
+.mt-tool--contr h3{margin-left:0} /* its disc sits below the title, as in the reference */
+.mt-tool--free{--h:449;--ty:179;--ax:24;--ay:36;--aw:232;--dy:0;
+  background:
+    radial-gradient(85% 45% at -5% 52%,rgb(126 194 252/.55),transparent 70%),
+    radial-gradient(60% 40% at 105% 8%,rgb(150 205 255/.35),transparent 70%),
+    radial-gradient(120% 70% at 12% 0%,rgb(255 255 255/.6),transparent 55%),
+    linear-gradient(170deg,rgb(248 251 255/.86) 0%,rgb(232 242 254/.82) 50%,rgb(214 232 253/.86) 100%)}
+.mt-tool--free h3{font-size:max(15px,calc(41 * var(--u)))}
+.mt-tool--free p{font-size:max(11.5px,calc(24.5 * var(--u)));line-height:1.39;--sg:4}
+.mt-swoosh{position:absolute;inset:0;width:100%;height:100%;border-radius:inherit;pointer-events:none}
+.mt-bolt{position:absolute;left:calc(258 * var(--u));top:calc(32 * var(--u));width:calc(58 * var(--u));height:auto;
+  filter:drop-shadow(0 0 calc(8 * var(--u)) rgb(255 190 40/.55))}
+.mt-blue-btn{display:flex;align-items:center;justify-content:center;gap:calc(18 * var(--u));margin:calc(32 * var(--u)) calc(3 * var(--u)) 0 calc(5 * var(--u));
+  min-height:max(44px,calc(68 * var(--u)));border-radius:999px;color:#fff;font-weight:800;font-size:max(13px,calc(29 * var(--u)));white-space:nowrap;
+  background:linear-gradient(180deg,#0f5cb0 0%,#0a4a98 45%,#083c84 100%);
+  box-shadow:inset 0 0 0 calc(2 * var(--u)) rgb(90 200 255/.75),inset 0 calc(3 * var(--u)) calc(4 * var(--u)) rgb(160 220 255/.35),
+    0 0 calc(18 * var(--u)) rgb(40 160 255/.55),0 calc(6 * var(--u)) calc(14 * var(--u)) rgb(10 50 120/.35)}
+.mt-blue-btn svg{width:calc(26 * var(--u));height:calc(26 * var(--u));min-width:12px;min-height:12px}
+
+/* small phones: the disc drops under the text so long titles never collide with it */
+@media (max-width:380px){
+  .mt-tool h3,.mt-tool p{margin-left:0}
+  .mt-tool .mt-disc{position:relative;left:auto;top:auto;align-self:flex-end;margin-top:8px}
+}
+/* tablet landscape and desktop: three columns */
+@media (min-width:900px){
+  .mt-tools{grid-template-columns:repeat(3,1fr)}
+}

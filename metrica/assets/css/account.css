@@ -1,0 +1,125 @@
+/* METRICA — «حساب من».
+   Measured on the account reference (946 px wide): --a is one reference pixel.
+   The composition scales with the screen up to 680 px, then stays centred;
+   the architecture art is re-placed per breakpoint below. */
+
+.acc{width:100%;container-type:inline-size;--acc-max:680px}
+.acc>*{--a:calc(min(100cqi,var(--acc-max)) / 946);width:calc(946 * var(--a));margin-inline:auto;position:relative}
+
+/* ---------- title + architecture ---------- */
+.acc-hero{height:calc(255 * var(--a));z-index:0}
+.acc-title{position:absolute;z-index:2;right:calc(124 * var(--a));top:calc(36 * var(--a));
+  font-weight:900;font-size:max(28px,calc(84 * var(--a)));line-height:1.25;color:#14284b;white-space:nowrap;
+  text-shadow:0 calc(3 * var(--a)) 0 rgb(255 255 255/.7),0 calc(6 * var(--a)) calc(18 * var(--a)) rgb(20 60 140/.18)}
+/* on the light page the pale top of the shared gold reads washed out; this is the reference's deeper gold */
+.acc-title .m-gold{background-image:linear-gradient(180deg,#ffd558 0%,#fcbf30 38%,#f6a51e 72%,#ec8e10 100%);
+  filter:drop-shadow(0 calc(3 * var(--a)) calc(5 * var(--a)) rgb(160 90 0/.28))}
+.acc-streak{position:absolute;z-index:2;left:calc(530 * var(--a));top:calc(150 * var(--a));width:calc(260 * var(--a));height:max(5px,calc(13 * var(--a)))}
+.acc-streak::after{content:"";position:absolute;left:12%;right:12%;top:calc(50% - .5px);height:1px;
+  background:linear-gradient(90deg,transparent,#fff3c4 30%,#fffdf0 50%,#fff3c4 70%,transparent)}
+
+.acc-arch{position:absolute;z-index:1;pointer-events:none}
+.acc-arch img{width:100%;height:auto;max-width:none}
+/* soft ground haze the buildings stand in; same ice-white as the page */
+.acc-arch::after{content:"";position:absolute;pointer-events:none}
+
+/* construction site (left): base and right edge dissolve into the page */
+.acc-arch--left{left:calc(18 * var(--a));top:calc(22 * var(--a));width:calc(500 * var(--a))}
+.acc-arch--left img{
+  -webkit-mask-image:linear-gradient(0deg,transparent 0%,rgb(0 0 0/.55) 9%,#000 22%),linear-gradient(270deg,transparent 0%,#000 13%);
+  -webkit-mask-composite:source-in;mask-image:linear-gradient(0deg,transparent 0%,rgb(0 0 0/.55) 9%,#000 22%),linear-gradient(270deg,transparent 0%,#000 13%);
+  mask-composite:intersect}
+.acc-arch--left::after{left:-6%;right:8%;bottom:-6%;height:34%;
+  background:radial-gradient(55% 60% at 45% 70%,rgb(246 250 255/.85),rgb(232 242 254/.45) 55%,transparent 80%)}
+
+/* skyline (right): the PNG stops on a hard line under the towers — fade it out from 62% down, and its open left side */
+.acc-arch--right{left:calc(676 * var(--a));top:calc(118 * var(--a));width:calc(262 * var(--a))}
+.acc-arch--right img{
+  -webkit-mask-image:linear-gradient(180deg,#000 52%,rgb(0 0 0/.6) 70%,transparent 92%),linear-gradient(90deg,transparent 0%,#000 26%,#000 94%,transparent 100%);
+  -webkit-mask-composite:source-in;mask-image:linear-gradient(180deg,#000 52%,rgb(0 0 0/.6) 70%,transparent 92%),linear-gradient(90deg,transparent 0%,#000 26%,#000 94%,transparent 100%);
+  mask-composite:intersect}
+.acc-arch--right::after{left:-10%;right:-12%;bottom:-4%;height:46%;
+  background:radial-gradient(60% 55% at 55% 75%,rgb(246 250 255/.9),rgb(232 242 254/.5) 55%,transparent 82%)}
+
+/* ---------- profile card ---------- */
+.acc-profile{z-index:2;width:calc(708 * var(--a));height:calc(245 * var(--a));color:#fff}
+.acc-profile__skin{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.acc-profile__lines{position:absolute;left:calc(26 * var(--a));bottom:calc(8 * var(--a));width:calc(160 * var(--a));height:auto;opacity:.38}
+.acc-profile__avatar{position:absolute;left:calc(480 * var(--a));top:calc(10 * var(--a));width:calc(186 * var(--a));height:auto;
+  object-fit:contain;filter:drop-shadow(0 calc(6 * var(--a)) calc(10 * var(--a)) rgb(0 10 40/.45))}
+.acc-profile__info{position:absolute;right:calc(262 * var(--a));left:calc(150 * var(--a));top:calc(78 * var(--a));
+  display:flex;flex-direction:column;align-items:flex-start;gap:calc(16 * var(--a))}
+.acc-profile__name{font-weight:900;font-size:max(15px,calc(44 * var(--a)));line-height:1.3;max-width:100%;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-shadow:0 calc(2 * var(--a)) calc(6 * var(--a)) rgb(0 8 30/.5)}
+/* subscription level: normal / plus / pro */
+.acc-plan{display:inline-flex;align-items:center;gap:.35em;border-radius:999px;white-space:nowrap;
+  padding:calc(7 * var(--a)) calc(22 * var(--a));font-size:max(11.5px,calc(25 * var(--a)));font-weight:600;line-height:1.4;
+  color:#d9ecff;background:rgb(255 255 255/.08);box-shadow:inset 0 0 0 1px rgb(140 200 255/.45)}
+.acc-plan b{font-weight:800;color:#fff}
+.acc-plan[data-plan="plus"]{box-shadow:inset 0 0 0 1px rgb(110 210 255/.8),0 0 10px rgb(60 170 255/.45);background:rgb(40 140 255/.22)}
+.acc-plan[data-plan="pro"]{color:#3a2600;background:radial-gradient(70% 120% at 50% 20%,#fff6bf 0%,#ffe680 30%,#fdcf47 62%,#f6aa25 100%);
+  box-shadow:inset 0 1px 2px rgb(255 255 255/.8),0 0 10px rgb(255 186 40/.5)}
+.acc-plan[data-plan="pro"] b{color:#14213d}
+
+/* ---------- menu cards ---------- */
+.acc-menu{list-style:none;padding:0;margin:calc(44 * var(--a)) auto 0;width:calc(750 * var(--a));display:flex;flex-direction:column;gap:calc(23 * var(--a))}
+.acc-item{position:relative;display:flex;align-items:center;width:100%;height:max(50px,calc(132 * var(--a)));border-radius:calc(60 * var(--a));
+  padding:0 calc(16 * var(--a)) 0 calc(34 * var(--a));text-align:right}
+.acc-item__tile{position:relative;flex:none;align-self:stretch;width:calc(170 * var(--a));margin:calc(12 * var(--a)) 0;display:grid;place-items:center}
+.acc-item__tile::before{content:"";position:absolute;inset:0;border-radius:calc(34 * var(--a));transform:skewX(-8deg)}
+.acc-item__tile img{position:relative;width:auto;height:auto;max-width:calc(var(--iw,128) * var(--a));max-height:calc(var(--ih,96) * var(--a));object-fit:contain;
+  filter:drop-shadow(0 calc(5 * var(--a)) calc(6 * var(--a)) rgb(10 30 80/.3))}
+.acc-item__label{flex:1;min-width:0;padding-right:calc(44 * var(--a));font-weight:900;font-size:max(14px,calc(38 * var(--a)));line-height:1.3;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acc-item__disc{flex:none;display:grid;place-items:center;width:max(28px,calc(62 * var(--a)));aspect-ratio:1;border-radius:50%}
+.acc-item__disc svg{width:42%;height:42%}
+.acc-item:hover{filter:brightness(1.04)}
+
+/* per-icon sizes, as in the reference */
+.acc-item[data-action="account-info"]{--iw:132;--ih:92}
+.acc-item[data-action="support"]{--iw:118;--ih:100}
+.acc-item[data-action="settings"]{--iw:100;--ih:98}
+.acc-item[data-action="logout"]{--iw:94;--ih:88}
+
+/* light glass card */
+.acc-item--light{color:#14284b;
+  background:radial-gradient(120% 90% at 12% 0%,rgb(255 255 255/.8),transparent 55%),
+    linear-gradient(175deg,rgb(252 254 255/.95) 0%,rgb(240 246 254/.9) 50%,rgb(226 238 253/.93) 100%);
+  box-shadow:inset 0 0 0 calc(2.4 * var(--a) + .6px) rgb(255 255 255/.96),inset 0 calc(-14 * var(--a)) calc(28 * var(--a)) rgb(120 170 240/.16),
+    0 calc(10 * var(--a)) calc(26 * var(--a)) rgb(36 100 210/.2),0 0 calc(12 * var(--a)) rgb(255 255 255/.8)}
+.acc-item--light .acc-item__tile::before{
+  background:linear-gradient(160deg,rgb(255 255 255/.97),rgb(220 234 252/.9) 60%,rgb(196 220 250/.9));
+  box-shadow:inset 0 0 0 1.5px rgb(255 255 255/.95),inset 0 calc(-6 * var(--a)) calc(12 * var(--a)) rgb(90 150 230/.2),
+    calc(-5 * var(--a)) calc(6 * var(--a)) calc(10 * var(--a)) rgb(255 172 30/.8),0 calc(4 * var(--a)) calc(12 * var(--a)) rgb(36 100 210/.18)}
+.acc-item--light .acc-item__disc{color:#13284f;background:radial-gradient(90% 90% at 35% 25%,#f2f7fe 0%,#d4e4f8 55%,#b6cff0 100%);
+  box-shadow:inset 0 1px 2px rgb(255 255 255/.85),0 calc(3 * var(--a)) calc(8 * var(--a)) rgb(40 100 200/.2)}
+
+/* dark navy card with its blue rim light */
+.acc-item--dark{color:#fff;
+  background:radial-gradient(80% 140% at 85% -30%,rgb(40 110 200/.5),transparent 60%),
+    linear-gradient(180deg,#0c3672 0%,#082b5f 45%,#06234f 100%);
+  box-shadow:inset 0 0 0 1.5px rgb(110 185 255/.75),inset 0 calc(2 * var(--a)) calc(5 * var(--a)) rgb(160 215 255/.3),
+    0 0 calc(16 * var(--a)) rgb(40 150 255/.5),0 calc(10 * var(--a)) calc(24 * var(--a)) rgb(8 40 110/.35)}
+.acc-item--dark::after{content:"";position:absolute;left:18%;right:18%;bottom:-1px;height:2px;border-radius:2px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,#a8e4ff 35%,#ffffff 50%,#a8e4ff 65%,transparent);box-shadow:0 0 8px #49b8ff}
+.acc-item--dark .acc-item__label{text-shadow:0 calc(2 * var(--a)) calc(6 * var(--a)) rgb(0 8 30/.5)}
+.acc-item--dark .acc-item__tile::before{
+  background:linear-gradient(160deg,rgb(120 170 235/.32),rgb(40 90 170/.22) 55%,rgb(20 60 130/.3));
+  box-shadow:inset 0 0 0 1.5px rgb(150 200 255/.4),inset 0 calc(4 * var(--a)) calc(8 * var(--a)) rgb(200 230 255/.14),
+    calc(-5 * var(--a)) calc(6 * var(--a)) calc(10 * var(--a)) rgb(255 172 30/.75)}
+.acc-item--exit .acc-item__tile::before{box-shadow:inset 0 0 0 1.5px rgb(150 200 255/.4),inset 0 calc(4 * var(--a)) calc(8 * var(--a)) rgb(200 230 255/.14),
+    calc(-5 * var(--a)) calc(6 * var(--a)) calc(11 * var(--a)) rgb(255 84 30/.85)}
+.acc-item--dark .acc-item__disc{color:#fff;background:radial-gradient(90% 90% at 35% 25%,#123f7f 0%,#0a2b5c 60%,#071f45 100%);
+  box-shadow:inset 0 0 0 1.5px rgb(150 205 255/.6),0 0 calc(8 * var(--a)) rgb(60 160 255/.4)}
+
+/* ---------- art placement per screen size ---------- */
+@media (max-width:359px){
+  /* very narrow phones: the title keeps its floor size, so the skyline steps aside */
+  .acc-arch--right{left:calc(720 * var(--a));top:calc(150 * var(--a));width:calc(226 * var(--a))}
+}
+@media (min-width:1024px){
+  /* wide screens: the scene opens up beside the centred column */
+  .acc{--acc-max:660px}
+  .acc-arch--left{left:calc(-150 * var(--a));top:calc(-6 * var(--a));width:calc(620 * var(--a))}
+  .acc-arch--right{left:calc(690 * var(--a));top:calc(70 * var(--a));width:calc(360 * var(--a))}
+}
