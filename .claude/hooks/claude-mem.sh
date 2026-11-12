@@ -20,6 +20,11 @@ export CLAUDE_MEM_TELEMETRY=0
 # to the observer (each observation is one Haiku call). Edits, writes, real
 # commands, prompts and session summaries are still remembered.
 export CLAUDE_MEM_SKIP_TOOLS="ListMcpResourcesTool,SlashCommand,Skill,TodoWrite,AskUserQuestion,Read,Grep,Glob"
+# Per-tool observations cost one background Claude (Haiku) turn per tool call on
+# the user's own subscription (measured: 37 turns, ~1.6M input tokens in one
+# session). Off by default; memory still records one summary per reply from the
+# transcript (Stop hook). Set CLAUDE_MEM_DISABLE_OBSERVATION=0 to turn it back on.
+export CLAUDE_MEM_DISABLE_OBSERVATION="${CLAUDE_MEM_DISABLE_OBSERVATION:-1}"
 export CLAUDE_MEM_SKIP_BASH_PATTERNS='^\s*(cd\s+[^;&|]+&&\s*)?(graphify\s+(query|path|explain|god-nodes|affected|update)|git\s+(status|log|diff|show|rev-parse|ls-files)|ls|pwd|wc)\b[^;&|>]*$'
 
 installed() { [[ -x "$LAUNCHER" && -f "$PLUGIN_ROOT/scripts/worker-service.cjs" ]]; }
