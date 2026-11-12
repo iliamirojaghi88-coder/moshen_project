@@ -19,6 +19,7 @@ cd metrica && python3 -m http.server 8765    # سپس http://127.0.0.1:8765
 | `assets/img/` | نسخه وب همان PNGهای اصلی (فقط برش حاشیه شفاف و کوچک‌سازی) |
 | `source/` | فایل‌های اصلی دست‌نخورده + نسخه پشتیبان HTML قبلی (Git LFS) |
 | `tools/prepare-assets.py` | ساخت `assets/img` و فونت از `source/` |
+| `tools/build-single-html.py` | ساخت نسخه تک‌فایلی `dist/metrica.html` (همه CSS/JS/تصاویر/فونت داخل یک HTML) |
 | `tests/` | `nav.test.cjs` (رفتار ناوبری و داده) و `render-matrix.cjs` (رندر در اندازه‌های مختلف) |
 
 ## رفتار

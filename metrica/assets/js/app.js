@@ -16,7 +16,6 @@
   // Account data. No backend exists yet: a future auth layer fills it with Metrica.setUser().
   // The phone number is deliberately not part of the view.
   const PLANS = { normal: 'عادی', plus: 'پلاس', pro: 'پرو' };
-  const DEFAULT_AVATAR = 'assets/img/account/avatar-default.png';
   const state = { user: { name: 'کاربر متریکا', avatar: null, plan: 'normal' } };
 
   const view = document.getElementById('view');
@@ -63,7 +62,8 @@
     const values = { 'user.name': u.name || 'کاربر متریکا', 'user.planLabel': PLANS[plan] };
     root.querySelectorAll('[data-bind]').forEach((el) => { el.textContent = values[el.dataset.bind] ?? ''; });
     root.querySelectorAll('[data-bind-src="user.avatar"]').forEach((img) => {
-      img.src = u.avatar || DEFAULT_AVATAR;
+      img.dataset.defaultSrc ??= img.getAttribute('src'); // the template's own image is the default avatar
+      img.src = u.avatar || img.dataset.defaultSrc;
       img.alt = u.avatar ? `تصویر ${values['user.name']}` : '';
     });
     root.querySelectorAll('[data-plan]').forEach((el) => { el.dataset.plan = plan; });

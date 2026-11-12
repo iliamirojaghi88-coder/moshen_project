@@ -50,3 +50,4 @@ gdrive*.json
 *service-account*.json
 client_secret*.json
 cloud/*.log
+metrica/dist/
