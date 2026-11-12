@@ -1,0 +1,198 @@
+<!-- ============ sign-in and subscription mini-panels (native modal <dialog>, like the language panel) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mpIArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12h14.6M13.2 5.6 19.6 12l-6.4 6.4"/></symbol>
+    <symbol id="mpIBack" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.6 12H4.9M11 5.6 4.6 12l6.4 6.4"/></symbol>
+    <symbol id="mpIClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="mpIPhone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.7"/><path d="M10.6 18h2.8"/></symbol>
+    <symbol id="mpIEdit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.4 4.6H6.9a2.4 2.4 0 0 0-2.4 2.4v10.1a2.4 2.4 0 0 0 2.4 2.4H17a2.4 2.4 0 0 0 2.4-2.4v-4.5"/><path d="M17.5 3.7a2 2 0 0 1 2.8 2.8l-7.5 7.5-3.7.9.9-3.7z"/></symbol>
+    <symbol id="mpIClock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.9"/><path d="M12 7.2V12l3.1 2.1"/></symbol>
+    <symbol id="mpIRefresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19.4 10.6A7.6 7.6 0 0 0 5.6 7.6L4.4 9.2"/><path d="M4.4 4.9v4.3h4.3"/><path d="M4.6 13.4a7.6 7.6 0 0 0 13.8 3l1.2-1.6"/><path d="M19.6 19.1v-4.3h-4.3"/></symbol>
+    <symbol id="mpIUser" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="7.4" r="4.3"/><path d="M3.7 20.3c.5-4.5 4-7.3 8.3-7.3s7.8 2.8 8.3 7.3a1 1 0 0 1-1 1.1H4.7a1 1 0 0 1-1-1.1z"/></symbol>
+    <symbol id="mpIUsers" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="7" r="3.5"/><path d="M5.9 19.7c.4-3.8 3-6.2 6.1-6.2s5.7 2.4 6.1 6.2a.9.9 0 0 1-.9 1H6.8a.9.9 0 0 1-.9-1z"/><circle cx="5" cy="9" r="2.6"/><circle cx="19" cy="9" r="2.6"/><path d="M.7 18c.3-2.8 2-4.4 4.3-4.4.9 0 1.7.3 2.4.7-1.3 1.2-2.1 2.9-2.4 4.8H1.5a.8.8 0 0 1-.8-1.1zM23.3 18c-.3-2.8-2-4.4-4.3-4.4-.9 0-1.7.3-2.4.7 1.3 1.2 2.1 2.9 2.4 4.8h3.5a.8.8 0 0 0 .8-1.1z"/></symbol>
+    <symbol id="mpIChart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.8" y="11.6" width="3.7" height="8" rx="1"/><rect x="10.15" y="6.8" width="3.7" height="12.8" rx="1"/><rect x="16.5" y="3.6" width="3.7" height="16" rx="1"/><path d="M2.6 21.6h18.8"/></symbol>
+    <symbol id="mpIClip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.8" y="4.4" width="14.4" height="17" rx="2.5"/><path d="M8.9 4.4v-.8c0-.6.4-1 1-1h4.2c.6 0 1 .4 1 1v.8"/><path d="m8.6 13.2 2.5 2.5 4.4-4.8"/></symbol>
+  </defs>
+</svg>
+
+<!-- ورود / ثبت‌نام: step 1 phone → step 2 code (server only) → step 3 name (new users only) -->
+<dialog class="mp-dlg mp-auth" id="mp-auth" aria-labelledby="mp-auth-title" data-step="phone">
+  <div class="mp-auth__in">
+    <header class="mp-top">
+      <button class="m-btn mp-close" type="button" data-mp-close aria-label="بستن"><svg aria-hidden="true"><use href="#mpIClose"/></svg></button>
+      <span class="mp-brand" translate="no">
+        <img src="{{img:mark}}" alt="" width="{{w:mark}}" height="{{h:mark}}">
+        <span class="mp-brand__txt"><b lang="fa">متریکا</b><small lang="en">METRICA</small></span>
+      </span>
+      <button class="m-btn mp-back" type="button" data-mp-edit aria-label="بازگشت به مرحله قبل"><svg aria-hidden="true"><use href="#mpIBack"/></svg></button>
+    </header>
+
+    <!-- step 1: mobile number -->
+    <section class="mp-step mp-step--phone" data-step="phone" aria-labelledby="mp-auth-title">
+      <div class="mp-hero" aria-hidden="true"><img src="{{img:hero}}" alt="" width="{{w:hero}}" height="{{h:hero}}" decoding="async" draggable="false"></div>
+      <h2 class="mp-title" id="mp-auth-title" tabindex="-1">ورود / ثبت‌نام</h2>
+      <p class="mp-lead">به متریکا خوش آمدید</p>
+      <p class="mp-desc">برای ادامه، شماره موبایل خود را وارد کنید<br>تا کد تأیید برایتان ارسال شود.</p>
+      <p class="mp-plan-chip" data-mp-plan-chip hidden><svg aria-hidden="true"><use href="#mtCrown"/></svg><span>ادامه خرید:</span> <b data-mp-plan-name></b></p>
+      <form class="mp-form" data-mp-form="phone" novalidate>
+        <div class="mp-field mp-glass">
+          <label class="mp-label" for="mp-phone">شماره تلفن همراه</label>
+          <div class="mp-input">
+            <svg class="mp-input__ico" aria-hidden="true"><use href="#mpIPhone"/></svg><i class="mp-input__sep" aria-hidden="true"></i>
+            <input id="mp-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" dir="ltr" maxlength="20"
+              placeholder="۰۹۱۲ ۳۴۵ ۶۷۸۹" aria-describedby="mp-phone-msg" spellcheck="false">
+          </div>
+        </div>
+        <p class="mp-msg" id="mp-phone-msg" role="status" aria-live="polite"></p>
+        <button class="m-btn mp-cta" type="submit"><svg aria-hidden="true"><use href="#mpIArrow"/></svg><span>دریافت کد تأیید</span></button>
+        <div class="mp-consent">
+          <input class="mp-consent__box" type="checkbox" id="mp-consent" aria-describedby="mp-phone-msg">
+          <label for="mp-consent"><span>با ادامه،</span> <a href="#" data-mp-doc="terms">قوانین</a> <span>و</span> <a href="#" data-mp-doc="privacy">حریم خصوصی</a> <span>متریکا را می‌پذیرید.</span></label>
+        </div>
+      </form>
+    </section>
+
+    <!-- step 2: 4-digit code. Shown only after the server has issued a code (see panels.js: showCode) -->
+    <section class="mp-step mp-step--code" data-step="code" aria-labelledby="mp-code-title" hidden>
+      <h2 class="mp-title" id="mp-code-title" tabindex="-1">تأیید شماره موبایل</h2>
+      <p class="mp-desc">کد تأیید ۴ رقمی به شماره زیر ارسال شد.</p>
+      <div class="mp-numbox mp-glass">
+        <svg class="mp-input__ico" aria-hidden="true"><use href="#mpIPhone"/></svg><i class="mp-input__sep" aria-hidden="true"></i>
+        <span class="mp-numbox__num" dir="ltr" data-mp-num></span>
+        <button class="m-btn mp-edit" type="button" data-mp-edit aria-label="ویرایش شماره"><span aria-hidden="true">ویرایش</span><svg aria-hidden="true"><use href="#mpIEdit"/></svg></button>
+      </div>
+      <form class="mp-form" data-mp-form="code" novalidate>
+        <fieldset class="mp-otp" dir="ltr">
+          <legend class="m-sr">کد تأیید ۴ رقمی</legend>
+          <input class="mp-otp__box" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" aria-label="رقم ۱ از ۴" aria-describedby="mp-code-msg">
+          <input class="mp-otp__box" type="text" inputmode="numeric" autocomplete="off" pattern="[0-9]*" aria-label="رقم ۲ از ۴" aria-describedby="mp-code-msg">
+          <input class="mp-otp__box" type="text" inputmode="numeric" autocomplete="off" pattern="[0-9]*" aria-label="رقم ۳ از ۴" aria-describedby="mp-code-msg">
+          <input class="mp-otp__box" type="text" inputmode="numeric" autocomplete="off" pattern="[0-9]*" aria-label="رقم ۴ از ۴" aria-describedby="mp-code-msg">
+        </fieldset>
+        <div class="mp-timer mp-glass">
+          <button class="m-btn mp-resend" type="button" data-mp-resend disabled><svg aria-hidden="true"><use href="#mpIRefresh"/></svg><span>ارسال مجدد کد</span></button>
+          <span class="mp-timer__t" role="timer" aria-label="زمان باقی‌مانده"><svg aria-hidden="true"><use href="#mpIClock"/></svg><b dir="ltr"><span data-mp-mm>۰۲</span>:<span data-mp-ss>۰۰</span></b></span>
+        </div>
+        <p class="mp-msg" id="mp-code-msg" role="status" aria-live="polite"></p>
+        <button class="m-btn mp-cta" type="submit"><svg aria-hidden="true"><use href="#mpIArrow"/></svg><span>تأیید و ادامه</span></button>
+      </form>
+      <p class="mp-note mp-glass"><svg aria-hidden="true"><use href="#setIShield"/></svg><span>کد تأیید فقط ۲ دقیقه اعتبار دارد.</span></p>
+    </section>
+
+    <!-- step 3: name for a new account (the server says when it is needed) -->
+    <section class="mp-step mp-step--profile" data-step="profile" aria-labelledby="mp-profile-title" hidden>
+      <h2 class="mp-title" id="mp-profile-title" tabindex="-1">تکمیل ثبت‌نام</h2>
+      <p class="mp-desc">نام و نام خانوادگی خود را وارد کنید.</p>
+      <form class="mp-form" data-mp-form="profile" novalidate>
+        <div class="mp-field mp-glass">
+          <label class="mp-label" for="mp-first">نام</label>
+          <div class="mp-input mp-input--text"><input id="mp-first" name="firstName" type="text" autocomplete="given-name" maxlength="40" aria-describedby="mp-profile-msg"></div>
+          <label class="mp-label" for="mp-last">نام خانوادگی</label>
+          <div class="mp-input mp-input--text"><input id="mp-last" name="lastName" type="text" autocomplete="family-name" maxlength="40" aria-describedby="mp-profile-msg"></div>
+        </div>
+        <p class="mp-msg" id="mp-profile-msg" role="status" aria-live="polite"></p>
+        <button class="m-btn mp-cta" type="submit"><svg aria-hidden="true"><use href="#mpIArrow"/></svg><span>ثبت و ورود</span></button>
+      </form>
+    </section>
+  </div>
+</dialog>
+
+<!-- خرید اشتراک متریکا: three plans; buying needs a signed-in user and the server's payment gateway -->
+<dialog class="mp-dlg mp-sub" id="mp-sub" aria-labelledby="mp-sub-title">
+  <div class="mp-sub__in">
+    <header class="mp-sub__top">
+      <button class="m-btn mp-close mp-close--sub" type="button" data-mp-close aria-label="بستن"><svg aria-hidden="true"><use href="#mpIClose"/></svg></button>
+      <span class="mp-brand mp-brand--sub" translate="no">
+        <img src="{{img:mark}}" alt="" width="{{w:mark}}" height="{{h:mark}}">
+        <span class="mp-brand__txt"><b lang="fa">متریکا</b><small lang="en">METRICA</small></span>
+        <i class="mp-brand__sep" aria-hidden="true"></i>
+      </span>
+    </header>
+
+    <div class="mp-sheet">
+      <div class="mp-sub__head">
+        <svg class="mp-card-ico" viewBox="0 0 118 74" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="mpCardFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b8cf2"/><stop offset=".5" stop-color="#1062d2"/><stop offset="1" stop-color="#0a3f9d"/></linearGradient>
+            <linearGradient id="mpCardGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2a6"/><stop offset=".45" stop-color="#ffc630"/><stop offset="1" stop-color="#f29a10"/></linearGradient>
+          </defs>
+          <rect x="2" y="2" width="114" height="70" rx="15" fill="url(#mpCardFill)" stroke="#7cc8ff" stroke-width="2.2"/>
+          <path d="M8 18c0-6 4-10 10-10h82c6 0 10 4 10 10v6c-30-7-72-7-102 3z" fill="#fff" opacity=".16"/>
+          <path d="M17 25h36M17 37h36M17 49h24" stroke="#eaf5ff" stroke-width="5.4" stroke-linecap="round"/>
+          <path d="M62 38.5l11.5 11.5 25-25" fill="none" stroke="#a35c00" stroke-width="10.5" stroke-linecap="round" stroke-linejoin="round" opacity=".35"/>
+          <path d="M62 37.5l11.5 11.5 25-25" fill="none" stroke="url(#mpCardGold)" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h2 class="mp-sub__title" id="mp-sub-title" tabindex="-1">خرید اشتراک متریکا</h2>
+      </div>
+      <p class="mp-sub__lead">پلن مناسب خود را انتخاب کنید و پروژه‌های ساختمانی‌تان را حرفه‌ای مدیریت کنید.</p>
+
+      <ul class="mp-plans" role="list" aria-label="پلن‌های اشتراک">
+        <li><article class="mp-plan mp-plan--plus" data-plan="plus" aria-labelledby="mp-plan-plus">
+          <div class="mp-plan__body">
+            <div class="mp-plan__info">
+              <p class="mp-plan__row mp-plan__row--users"><span class="mp-disc" aria-hidden="true"><svg><use href="#mpIUser"/></svg></span><b>تک کاربر</b></p>
+              <p class="mp-plan__row"><span class="mp-disc" aria-hidden="true"><svg><use href="#mpIChart"/></svg></span><span class="mp-plan__lines"><span>فقط آنالیز ساخت</span><span>۱ پروژه در هر ۲۴ ساعت</span></span></p>
+            </div>
+            <i class="mp-plan__sep" aria-hidden="true"></i>
+            <div class="mp-plan__name">
+              <h3 id="mp-plan-plus"><span class="mp-plan__fa">پلاس</span><span lang="en" translate="no">Plus</span></h3>
+              <img class="mp-plan__art" src="{{img:plus}}" alt="" width="{{w:plus}}" height="{{h:plus}}" draggable="false">
+            </div>
+          </div>
+          <div class="mp-plan__foot">
+            <button class="m-btn mp-pick" type="button" data-mp-plan="plus" aria-pressed="false" aria-describedby="mp-plan-plus mp-price-plus"><svg class="mp-pick__go" aria-hidden="true"><use href="#mpIArrow"/></svg><svg class="mp-pick__ok" aria-hidden="true"><use href="#setICheck"/></svg><span>انتخاب اشتراک</span></button>
+            <p class="mp-price" id="mp-price-plus">۵۰۰ هزار تومان</p>
+          </div>
+        </article></li>
+
+        <li><article class="mp-plan mp-plan--pro" data-plan="pro" aria-labelledby="mp-plan-pro">
+          <div class="mp-plan__body">
+            <div class="mp-plan__info">
+              <p class="mp-plan__row mp-plan__row--users"><span class="mp-disc" aria-hidden="true"><svg><use href="#mpIUser"/></svg></span><b>تک کاربر</b></p>
+              <p class="mp-plan__row"><span class="mp-disc" aria-hidden="true"><svg><use href="#mpIClip"/></svg></span><span class="mp-plan__lines"><span>آنالیز ساخت و مدیریت پروژه</span><span>۳ پروژه در هر ۲۴ ساعت</span></span></p>
+            </div>
+            <i class="mp-plan__sep" aria-hidden="true"></i>
+            <div class="mp-plan__name">
+              <h3 id="mp-plan-pro"><span class="mp-plan__fa">پرو</span><span lang="en" translate="no">Pro</span></h3>
+              <img class="mp-plan__art" src="{{img:pro}}" alt="" width="{{w:pro}}" height="{{h:pro}}" draggable="false">
+            </div>
+          </div>
+          <div class="mp-plan__foot">
+            <button class="m-btn mp-pick" type="button" data-mp-plan="pro" aria-pressed="false" aria-describedby="mp-plan-pro mp-price-pro"><svg class="mp-pick__go" aria-hidden="true"><use href="#mpIArrow"/></svg><svg class="mp-pick__ok" aria-hidden="true"><use href="#setICheck"/></svg><span>انتخاب اشتراک</span></button>
+            <p class="mp-price" id="mp-price-pro">۱ میلیون تومان</p>
+          </div>
+        </article></li>
+
+        <li><article class="mp-plan mp-plan--max" data-plan="max" aria-labelledby="mp-plan-max">
+          <div class="mp-plan__body">
+            <div class="mp-plan__info">
+              <p class="mp-plan__row mp-plan__row--users"><span class="mp-disc" aria-hidden="true"><svg><use href="#mpIUsers"/></svg></span><b>تا ۵ کاربر</b></p>
+              <p class="mp-plan__row"><svg class="mp-shield" viewBox="0 0 64 72" aria-hidden="true" focusable="false">
+                  <defs>
+                    <linearGradient id="mpShieldFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d4a93"/><stop offset=".55" stop-color="#0d2c63"/><stop offset="1" stop-color="#071d45"/></linearGradient>
+                    <linearGradient id="mpShieldGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0a0"/><stop offset=".5" stop-color="#ffc534"/><stop offset="1" stop-color="#e79310"/></linearGradient>
+                  </defs>
+                  <path d="M32 3.5 57.5 12.6V33c0 17.6-10.6 29.8-25.5 35.6C17.1 62.8 6.5 50.6 6.5 33V12.6z" fill="url(#mpShieldFill)" stroke="url(#mpShieldGold)" stroke-width="3.6" stroke-linejoin="round"/>
+                  <path d="M14 18.5 32 12l18 6.5" fill="none" stroke="#5f9be8" stroke-width="1.6" stroke-linecap="round" opacity=".55"/>
+                  <path d="M20.5 36.5 28.5 44.5 44.5 27" fill="none" stroke="url(#mpShieldGold)" stroke-width="5.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg><span class="mp-plan__lines"><span>دسترسی به تمام امکانات متریکا</span><span>۵ پروژه در هر ۲۴ ساعت</span></span></p>
+            </div>
+            <i class="mp-plan__sep" aria-hidden="true"></i>
+            <div class="mp-plan__name">
+              <h3 id="mp-plan-max"><span lang="en" translate="no">MAX</span></h3>
+              <img class="mp-plan__art" src="{{img:max}}" alt="" width="{{w:max}}" height="{{h:max}}" draggable="false">
+            </div>
+          </div>
+          <ul class="mp-incl" role="list" aria-label="امکانات">
+            <li>آنالیز ساخت</li><li>مدیریت پروژه</li><li>کش فلو</li><li>مارکتینگ</li>
+          </ul>
+          <div class="mp-plan__foot">
+            <button class="m-btn mp-pick" type="button" data-mp-plan="max" aria-pressed="false" aria-describedby="mp-plan-max mp-price-max"><svg class="mp-pick__go" aria-hidden="true"><use href="#mpIArrow"/></svg><svg class="mp-pick__ok" aria-hidden="true"><use href="#setICheck"/></svg><span>انتخاب اشتراک</span></button>
+            <p class="mp-price" id="mp-price-max">۵ میلیون تومان</p>
+          </div>
+        </article></li>
+      </ul>
+      <p class="mp-msg mp-sub__msg" data-mp-sub-msg role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</dialog>

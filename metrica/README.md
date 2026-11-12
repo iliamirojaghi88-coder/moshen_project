@@ -37,3 +37,8 @@ python3 -m http.server 8765 &        # از داخل metrica/
 node tests/nav.test.cjs               # ۲۵ بررسی: مسیرها، سلکتور، ثابت‌ماندن هدر/منو، back، داده حساب، خطای کنسول
 node tests/render-matrix.cjs http://127.0.0.1:8765/index.html <out-dir>   # اسکرین‌شات + overflow افقی + فونت
 ```
+
+## مینی‌پنل‌های ورود/ثبت‌نام و خرید اشتراک (نسخهٔ تک‌فایل)
+
+آخرین نسخهٔ وب‌اپ فایل تک‌صفحه‌ای `source/metrica-webapp.original.html` است (بکاپ دست‌نخورده). پنل‌ها در `panels/` نگهداری و با
+`python3 metrica/panels/build.py --zip` روی آن اعمال می‌شوند → `dist/metrica-webapp.html` و ZIP تحویلی. توضیح کامل: `panels/README-fa.md`، قرارداد API: `panels/API-fa.md`، تست: `node metrica/panels/tests/panels.test.cjs`.
