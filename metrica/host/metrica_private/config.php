@@ -17,7 +17,7 @@ const PATTERN_UID = "PASTE_YOUR_PATTERN_UID_HERE";
 
 // ---- preset: Faraz SMS pattern API (no need to change) ----
 const SMS_API_URL = "https://api.iranpayamak.com/ws/v1/sms/pattern";
-const SMS_SENDER = "09820002022";
+const SMS_SENDER = "90008361";
 const SMS_PATTERN_VARIABLE = "code"; // the variable name in your approved pattern, e.g. «کد ورود متریکا: %code%»
 
 // ---- preset: generated for this package; keep it private, do not change it after going live ----

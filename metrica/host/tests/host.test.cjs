@@ -71,7 +71,7 @@ print(sum(1 for v in d.getdata() if v) if a.size==b.size else 10**9)"`).toString
     ok(pub === '', 'no key, secret or gateway detail in any public file', pub);
     const cfg = fs.readFileSync(path.join(TREE, 'metrica_private/config.php'), 'utf8');
     ok(cfg.includes('API_KEY = "PASTE_YOUR_API_KEY_HERE"') && cfg.includes('PATTERN_UID = "PASTE_YOUR_PATTERN_UID_HERE"'), 'the two placeholders, exactly as asked');
-    ok(cfg.includes('SMS_API_URL = "https://api.iranpayamak.com/ws/v1/sms/pattern"') && cfg.includes('SMS_SENDER = "09820002022"') && cfg.includes('SMS_PATTERN_VARIABLE = "code"'), 'gateway URL, sender and pattern variable preset');
+    ok(cfg.includes('SMS_API_URL = "https://api.iranpayamak.com/ws/v1/sms/pattern"') && cfg.includes('SMS_SENDER = "90008361"') && cfg.includes('SMS_PATTERN_VARIABLE = "code"'), 'gateway URL, sender and pattern variable preset');
     ok(/APP_SECRET = "[0-9a-f]{64}"/.test(cfg), 'a fresh secret generated for this package');
     const lint = execSync(`find ${TREE} -name '*.php' -exec php -l {} \\;`).toString();
     ok(!/Errors parsing|Parse error/.test(lint), 'PHP files parse');
@@ -184,7 +184,7 @@ print(sum(1 for v in d.getdata() if v) if a.size==b.size else 10**9)"`).toString
     ok(fr.headers && fr.headers['api-key'] === 'test-api-key-123' && /^application\/json/.test(fr.headers['content-type']), 'Api-Key header and JSON body', fr.headers);
     ok(fr.body && JSON.stringify(Object.keys(fr.body).sort()) === JSON.stringify(['attributes', 'code', 'line_number', 'number_format', 'recipient'])
       && fr.body.code === 'test-pattern-uid' && /^\d{4}$/.test(fr.body.attributes.code) && Object.keys(fr.body.attributes).join() === 'code'
-      && fr.body.recipient === '09125550001' && fr.body.line_number === '09820002022' && fr.body.number_format === 'english', 'body: code, attributes.code, recipient, line_number, number_format=english; no schedule', fr.body);
+      && fr.body.recipient === '09125550001' && fr.body.line_number === '90008361' && fr.body.number_format === 'english', 'body: code, attributes.code, recipient, line_number, number_format=english; no schedule', fr.body);
     ok(sql("SELECT COUNT(*) FROM mt_otp_requests WHERE phone='09125550001'") === '1' && sql(`SELECT COUNT(*) FROM mt_otp_requests WHERE code_hash LIKE '%${fr.body.attributes.code}%' AND LENGTH(code_hash)=64`) !== '1', 'only an HMAC of the code is stored');
 
     faraz.status = 401; // the gateway refuses (e.g. a wrong key)

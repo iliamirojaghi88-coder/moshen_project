@@ -126,7 +126,7 @@ const PATTERN_UID = "PASTE_YOUR_PATTERN_UID_HERE";
 | ثابت | مقدار |
 |---|---|
 | `SMS_API_URL` | `https://api.iranpayamak.com/ws/v1/sms/pattern` |
-| `SMS_SENDER` | `09820002022` |
+| `SMS_SENDER` | `90008361` |
 | `number_format` | `english` |
 
 ارسال فوری است و `schedule` فرستاده نمی‌شود.
