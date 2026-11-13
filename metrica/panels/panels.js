@@ -17,11 +17,14 @@
     constructor(code, info) { super(code); this.code = code; Object.assign(this, info); }
   }
   const config = () => window.METRICA_CONFIG || {};
-  // the API root, or null while no backend is connected; plain http is refused
+  // the API root, or null while no backend is connected; plain http only for a server on this machine (development, tests)
   function apiBase() {
     const b = config().apiBase;
     if (!b) return null;
-    try { const u = new URL(b, location.href); return u.protocol === 'https:' ? u.href.replace(/\/+$/, '') : null; } catch (e) { return null; }
+    try {
+      const u = new URL(b, location.href), local = u.hostname === 'localhost' || u.hostname === '127.0.0.1';
+      return u.protocol === 'https:' || (u.protocol === 'http:' && local) ? u.href.replace(/\/+$/, '') : null;
+    } catch (e) { return null; }
   }
   const httpsUrl = (s) => { try { const u = new URL(s); return u.protocol === 'https:' ? u.href : null; } catch (e) { return null; } };
 
@@ -44,7 +47,7 @@
     if (res.ok) return data;
     const retry = Number(data.retryAfter ?? res.headers.get('Retry-After'));
     throw new ServiceError(data.error || (res.status === 401 ? 'UNAUTHORIZED' : res.status === 429 ? 'RATE_LIMITED' : res.status === 503 ? 'SERVICE_UNAVAILABLE' : 'SERVER'),
-      { status: res.status, retryAfter: retry > 0 ? retry : undefined, attemptsLeft: data.attemptsLeft });
+      { status: res.status, retryAfter: retry > 0 ? retry : undefined, attemptsLeft: data.attemptsLeft, resendIn: data.resendIn });
   }
 
   // contract: API-fa.md
@@ -88,7 +91,11 @@
     pay: 'پرداخت آنلاین پس از اتصال درگاه پرداخت در دسترس خواهد بود.',
     phone: 'شماره موبایل معتبر نیست؛ شماره ۱۱ رقمی است و با ۰۹ شروع می‌شود.',
     expired: 'کد تأیید منقضی شده است؛ کد جدید دریافت کنید.',
-    attempts: 'تعداد تلاش‌های ناموفق به حد مجاز رسید؛ کد جدید دریافت کنید.',
+    wrong: 'کد واردشده صحیح نیست. لطفاً آن را بررسی و اصلاح کنید.',
+    locked: 'تعداد تلاش‌ها برای این کد به حد مجاز رسید؛ کد جدید دریافت کنید.',
+    blocked: 'تعداد تلاش‌های شما بیش از حد مجاز است. لطفاً تا زمان اعلام‌شده صبر کنید.',
+    limit: 'تعداد درخواست‌های کد برای این شماره به سقف مجاز رسیده است.',
+    next: 'زمان مجاز بعدی:',
     rate: 'تعداد درخواست‌ها بیش از حد مجاز است؛ کمی بعد دوباره تلاش کنید.',
     network: 'اتصال به سرور برقرار نشد؛ اینترنت خود را بررسی و دوباره تلاش کنید.',
     server: 'خطایی در سرور رخ داد؛ کمی بعد دوباره تلاش کنید.',
@@ -100,31 +107,47 @@
       case 'RATE_LIMITED': return ERR.rate;
       case 'INVALID_PHONE': return ERR.phone;
       case 'CODE_EXPIRED': return ERR.expired;
-      case 'TOO_MANY_ATTEMPTS': return ERR.attempts;
+      case 'CODE_LOCKED': return ERR.locked;
+      case 'TOO_MANY_ATTEMPTS': return ERR.blocked;
       default: return ERR.server;
     }
   }
-  // message line: Persian text (translated by the i18n engine) and an optional number in its own text node
-  function say(el, text, tone, n) {
+  const setText = (el, v) => { if (el.dataset.v !== v) { el.textContent = v; el.dataset.v = v; } };
+  const two = (n) => fa(String(n).padStart(2, '0'));
+  // mm:ss into an element holding two spans; Persian digits, localised by the i18n engine like all page text
+  function showClock(t, secs) { const [m, s] = t.querySelectorAll('span'); setText(m, two(Math.floor(secs / 60))); setText(s, two(secs % 60)); }
+  /* a message line. parts: Persian strings, each its own text node (so the i18n engine translates each);
+     until: end of a live mm:ss countdown (epoch ms); key: what the message is about */
+  function say(el, parts, tone, until, key) {
+    const list = [].concat(parts || []).filter(Boolean);
+    const nodes = list.flatMap((p, i) => (i ? [' ', p] : [p]));
+    let t = null;
+    if (until && list.length) {
+      t = document.createElement('b');
+      t.className = 'mp-msg__t';
+      t.dir = 'ltr';
+      t.append(document.createElement('span'), ':', document.createElement('span'));
+      nodes.push(' ', t);
+    }
+    el.replaceChildren(...nodes);
     el.dataset.tone = tone || 'info';
-    el.replaceChildren(...(text ? [text] : []), ...(n != null ? [` ${fa(n)}`] : []));
+    if (t) { el.dataset.until = until; showClock(t, Math.max(0, Math.ceil((until - Date.now()) / 1000))); } else delete el.dataset.until;
+    if (key && list.length) el.dataset.key = key; else delete el.dataset.key;
   }
   function invalid(el, on) {
     el.toggleAttribute('data-invalid', on);
     (el.matches('input') ? [el] : el.querySelectorAll('input')).forEach((i) => (on ? i.setAttribute('aria-invalid', 'true') : i.removeAttribute('aria-invalid')));
   }
-  // one request at a time per button: busy label + spinner, repeated clicks ignored (aria-disabled keeps focus in place)
+  // one request at a time: busy label + spinner on the button, every repeated click or auto-submit ignored meanwhile
   async function run(state, btn, busyLabel, idleLabel, task) {
     if (state.busy) return;
     state.busy = true;
     const label = btn.querySelector('span');
     btn.setAttribute('aria-busy', 'true');
-    btn.setAttribute('aria-disabled', 'true');
     label.textContent = busyLabel;
     try { await task(); } finally {
       state.busy = false;
       btn.removeAttribute('aria-busy');
-      btn.removeAttribute('aria-disabled');
       label.textContent = idleLabel;
     }
   }
@@ -232,13 +255,15 @@
   const q = (s) => A.querySelector(s);
   const steps = [...A.querySelectorAll('.mp-step')];
   const phoneForm = q('[data-mp-form="phone"]'), phoneIn = q('#mp-phone'), consent = q('#mp-consent'), phoneMsg = q('#mp-phone-msg');
-  const codeForm = q('[data-mp-form="code"]'), otpSet = q('.mp-otp'), boxes = [...A.querySelectorAll('.mp-otp__box')], codeMsg = q('#mp-code-msg');
-  const resendBtn = q('[data-mp-resend]'), mmEl = q('[data-mp-mm]'), ssEl = q('[data-mp-ss]'), numEl = q('[data-mp-num]');
+  const codeForm = q('[data-mp-form="code"]'), codeCta = codeForm.querySelector('.mp-cta'), otpSet = q('.mp-otp'), boxes = [...A.querySelectorAll('.mp-otp__box')];
+  const codeMsg = q('#mp-code-msg'), resendBtn = q('[data-mp-resend]'), timerEl = q('.mp-timer__t b'), numEl = q('[data-mp-num]');
   const profileForm = q('[data-mp-form="profile"]'), firstIn = q('#mp-first'), lastIn = q('#mp-last'), profileMsg = q('#mp-profile-msg');
   const chip = q('[data-mp-plan-chip]'), chipName = q('[data-mp-plan-name]');
   const PLAN_NAMES = { plus: 'پلاس', pro: 'پرو', max: 'MAX' };
 
-  // otp: the server's pending code request {phone, requestId, deadline, resendAt, expired, locked}; memory only
+  /* otp: the code the server issued — {phone, requestId, deadline, resendAt, expired, locked, blockedUntil, attemptsLeft, rejected}.
+     Memory only; after a reload the server hands it back (/auth/session → pendingOtp), so its clock never restarts.
+     Every limit is the server's; these fields only mirror its last answer. */
   const auth = { busy: false, otp: null, user: null, newUser: null, pendingPlan: null };
   let ticker = 0, webOtp = null;
 
@@ -246,13 +271,76 @@
     A.dataset.step = step;
     steps.forEach((s) => { s.hidden = s.dataset.step !== step; });
     A.scrollTop = 0;
-    if (step === 'code') { tick(); clearInterval(ticker); ticker = setInterval(tick, 250); listenWebOtp(); } else stopCode();
+    if (step === 'code') { sync(); listenWebOtp(); } else if (webOtp) { webOtp.abort(); webOtp = null; }
     if (!focus) return;
     if (step === 'phone') (finePointer() ? phoneIn : q('#mp-auth-title')).focus({ preventScroll: true });
-    else if (step === 'code') (boxes.find((b) => !b.value) || boxes[0]).focus({ preventScroll: true });
+    else if (step === 'code') {
+      const o = auth.otp, closed = !o || o.expired || o.locked || o.blockedUntil > Date.now();
+      (closed ? q('#mp-code-title') : boxes.find((b) => !b.dataset.v) || boxes[0]).focus({ preventScroll: true });
+    }
     else firstIn.focus({ preventScroll: true });
   }
-  function stopCode() { clearInterval(ticker); ticker = 0; if (webOtp) { webOtp.abort(); webOtp = null; } }
+
+  // a server reply describing a code: new, resumed by the same device, or handed back after a reload
+  function adopt(r, phone) {
+    const life = Number(r.expiresIn), wait = Number(r.resendIn ?? r.expiresIn), num = r.phone || phone;
+    if (!r.requestId || !(life >= 0 && life <= 600) || !(wait >= 0) || !isMobile(num)) throw new ServiceError('SERVER');
+    const now = Date.now(), old = auth.otp, same = !!old && old.requestId === String(r.requestId);
+    auth.otp = {
+      phone: num, requestId: String(r.requestId),
+      deadline: now + life * 1000,                   // the countdown follows the server's expiry, measured from its reply
+      resendAt: now + Math.max(life, wait) * 1000,   // never before the code has run out, then only when the server allows
+      expired: false, locked: !!r.locked,
+      blockedUntil: r.verifyBlockedFor > 0 ? now + r.verifyBlockedFor * 1000 : 0,
+      attemptsLeft: r.attemptsLeft,
+      rejected: same ? old.rejected : new Set(),     // codes the server already refused for this request
+      manual: same ? old.manual : false,             // after a wrong code: corrections go with the button, not automatically
+    };
+    numEl.textContent = fa(groupPhone(num));
+    phoneIn.value = local(groupPhone(num)); // «ویرایش» starts from this number, also after a reload
+    consent.checked = true;                  // a code exists only because the terms were accepted
+    if (!same) clearBoxes();
+  }
+
+  /* one clock for the whole panel: the code countdown, the resend button and every «زمان مجاز بعدی» countdown */
+  const RANK = { blocked: 4, rate: 3, locked: 2, expired: 1 };
+  function standing(key, parts, until) { // a lasting reason replaces lesser messages, never a more important one
+    const cur = codeMsg.dataset.key;
+    if (cur !== key && !((RANK[cur] || 0) > RANK[key])) say(codeMsg, parts, 'error', until, key);
+  }
+  function sync() {
+    const now = Date.now();
+    A.querySelectorAll('.mp-msg[data-until]').forEach((m) => {
+      const left = Math.ceil((Number(m.dataset.until) - now) / 1000);
+      if (left > 0) showClock(m.querySelector('.mp-msg__t'), left); else say(m, ''); // the wait is over
+    });
+    const o = auth.otp;
+    if (!o) return;
+    const left = Math.max(0, Math.ceil((o.deadline - now) / 1000));
+    showClock(timerEl, left);
+    if (!left) o.expired = true;
+    const blocked = o.blockedUntil > now, closed = o.expired || o.locked || blocked;
+    if (blocked) standing('blocked', [ERR.blocked, ERR.next], o.blockedUntil);
+    else if (o.locked) standing('locked', ERR.locked);
+    else if (o.expired) standing('expired', ERR.expired);
+    boxes.forEach((b) => {
+      const ro = closed || auth.busy; // read-only keeps focus where it is (disabled would drop it)
+      if (b.readOnly !== ro) b.readOnly = ro;
+      b.setAttribute('aria-disabled', String(closed));
+    });
+    codeCta.setAttribute('aria-disabled', String(closed));
+    resendBtn.setAttribute('aria-disabled', String(auth.busy || now < o.resendAt));
+  }
+  const startTicker = () => { clearInterval(ticker); ticker = setInterval(sync, 250); sync(); };
+  const stopTicker = () => { clearInterval(ticker); ticker = 0; if (webOtp) { webOtp.abort(); webOtp = null; } };
+
+  // a refusal with a waiting time from the server shows a live «زمان مجاز بعدی» countdown
+  function showError(el, err, unavailable) {
+    const until = err.retryAfter ? Date.now() + err.retryAfter * 1000 : 0;
+    if (until && err.code === 'RATE_LIMITED') return say(el, [ERR.limit, ERR.next], 'error', until, 'rate');
+    if (until && err.code === 'TOO_MANY_ATTEMPTS') return say(el, [ERR.blocked, ERR.next], 'error', until, 'blocked');
+    say(el, errorText(err, unavailable), err.code === 'SERVICE_UNAVAILABLE' ? 'info' : 'error');
+  }
 
   /* step 1 */
   phoneIn.addEventListener('input', () => {
@@ -266,20 +354,20 @@
       phoneIn.setSelectionRange(i, i);
     }
     invalid(phoneIn.parentElement, false);
-    if (phoneMsg.dataset.tone === 'error') say(phoneMsg, '');
+    if (phoneMsg.dataset.tone === 'error') say(phoneMsg, ''); // another number: the server will judge it afresh
   });
-  consent.addEventListener('change', () => { invalid(consent, false); if (consent.checked && phoneMsg.dataset.tone === 'error') say(phoneMsg, ''); });
+  consent.addEventListener('change', () => { invalid(consent, false); if (consent.checked && phoneMsg.dataset.key === 'consent') say(phoneMsg, ''); });
   phoneForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (auth.busy) return;
+    if (auth.busy || Number(phoneMsg.dataset.until) > Date.now()) return; // the server's waiting time is still running
     const phone = fullPhone(phoneDigits(phoneIn.value));
     invalid(phoneIn.parentElement, false);
     invalid(consent, false);
     const bad = !phone ? 'شماره موبایل را وارد کنید.' : !isMobile(phone) ? ERR.phone : !consent.checked ? 'برای ادامه، قوانین و حریم خصوصی را بپذیرید.' : '';
     if (bad) {
-      const field = phone && isMobile(phone) ? consent : phoneIn;
+      const field = isMobile(phone) ? consent : phoneIn;
       invalid(field === consent ? consent : phoneIn.parentElement, true);
-      say(phoneMsg, bad, 'error');
+      say(phoneMsg, bad, 'error', 0, field === consent ? 'consent' : 'phone');
       return field.focus();
     }
     requestCode(phone, phoneForm.querySelector('.mp-cta'), phoneMsg, 'دریافت کد تأیید');
@@ -293,64 +381,63 @@
     say(phoneMsg, 'متن قوانین و حریم خصوصی پس از انتشار در این بخش در دسترس خواهد بود.', 'info');
   });
 
+  // the only way into step 2: a code the server has really sent
   function requestCode(phone, btn, msgEl, idleLabel) {
     return run(auth, btn, 'در حال ارسال…', idleLabel, async () => {
+      sync();
       try {
         const r = await AuthService.requestOtp(phone);
-        const life = Number(r.expiresIn), wait = Number(r.resendIn ?? r.expiresIn);
-        if (!r.requestId || !(life > 0 && life <= 600) || !(wait >= 0)) throw new ServiceError('SERVER');
-        const now = Date.now(); // the countdown follows the server's own expiry, measured from its reply
-        auth.otp = { phone, requestId: String(r.requestId), deadline: now + life * 1000, resendAt: now + wait * 1000, expired: false, locked: false };
-        numEl.textContent = fa(groupPhone(phone));
-        clearBoxes(false);
-        say(codeMsg, msgEl === codeMsg ? 'کد جدید ارسال شد.' : '', 'ok');
+        adopt(r, phone);
         say(phoneMsg, '');
+        say(codeMsg, msgEl === codeMsg && !r.resumed ? 'کد جدید ارسال شد.' : '', 'ok', 0, 'sent');
         setStep('code', true);
       } catch (err) {
-        say(msgEl, errorText(err, ERR.sms), err.code === 'SERVICE_UNAVAILABLE' ? 'info' : 'error');
+        showError(msgEl, err, ERR.sms);
+        if (msgEl === codeMsg && auth.otp && err.retryAfter) auth.otp.resendAt = Math.max(auth.otp.resendAt, Date.now() + err.retryAfter * 1000);
       }
-    });
+    }).then(sync);
   }
 
-  /* step 2 */
-  const code = () => boxes.map((b) => latin(b.value)).join('');
-  function clearBoxes(focus) {
-    boxes.forEach((b) => { b.value = ''; b.dataset.v = ''; b.disabled = false; });
-    invalid(otpSet, false);
-    if (focus) boxes[0].focus();
-  }
-  function lockBoxes() { boxes.forEach((b) => { b.disabled = true; }); }
+  /* step 2: four boxes, one digit each; typing, selecting, Backspace, arrows, paste and SMS autofill */
+  const code = () => boxes.map((b) => b.dataset.v || '').join('');
+  const put = (b, d) => { b.value = local(d); b.dataset.v = d; };
+  function clearBoxes() { boxes.forEach((b) => put(b, '')); invalid(otpSet, false); }
   function fillFrom(digits, start) {
     let i = start;
-    for (const d of digits) { if (i >= boxes.length) break; boxes[i].value = local(d); boxes[i].dataset.v = d; i++; }
-    (boxes[Math.min(i, boxes.length - 1)]).focus();
-    entered();
+    for (const d of digits) { if (i >= boxes.length) break; put(boxes[i], d); i++; }
+    boxes[Math.min(i, boxes.length - 1)].focus();
+    entered(digits.length >= boxes.length);
   }
-  function entered() {
+  /* the user changed a digit: the error goes. A complete code is checked at once when it was entered fresh
+     (typed into empty boxes, pasted, or filled from the SMS); after a wrong code, a corrected one waits for
+     «تأیید و ادامه», so half-retyped codes never use up the server's limited attempts */
+  function entered(fresh) {
+    const o = auth.otp;
     invalid(otpSet, false);
-    if (codeMsg.dataset.tone === 'error') say(codeMsg, '');
-    if (/^\d{4}$/.test(code())) submitCode();
+    if (codeMsg.dataset.key === 'wrong' || codeMsg.dataset.key === 'incomplete' || codeMsg.dataset.key === 'sent') say(codeMsg, '');
+    if (o && (fresh || boxes.every((b) => !b.dataset.v))) o.manual = false;
+    if (o && !o.manual && /^\d{4}$/.test(code())) submitCode();
   }
   boxes.forEach((b, i) => {
     b.placeholder = ' '; // the reference dash is drawn while a box is empty (:placeholder-shown)
-    b.addEventListener('focus', () => b.select());
+    const pick = () => { if (!b.readOnly) b.select(); };
+    b.addEventListener('focus', pick);
+    b.addEventListener('click', pick); // clicking a filled box selects its digit for replacing
     b.addEventListener('input', () => {
       const d = latin(b.value).replace(/\D/g, ''), prev = b.dataset.v || '';
       if (d.length > 1 && !(d.length === 2 && prev.length === 1)) return fillFrom(d, d.length >= boxes.length ? 0 : i); // autofill / paste
-      const one = d.length === 2 ? (d[0] === prev ? d[1] : d[0]) : d; // typed over an existing digit
-      b.value = local(one);
-      b.dataset.v = one;
+      const one = d.length === 2 ? (d[0] === prev ? d[1] : d[0]) : d; // typed beside an existing digit
+      put(b, one);
       if (one && i < boxes.length - 1) boxes[i + 1].focus();
       entered();
     });
     b.addEventListener('paste', (e) => {
       const d = latin((e.clipboardData && e.clipboardData.getData('text')) || '').replace(/\D/g, '');
-      if (!d) return;
       e.preventDefault();
-      fillFrom(d, d.length >= boxes.length ? 0 : i);
+      if (d && !b.readOnly) fillFrom(d, d.length >= boxes.length ? 0 : i);
     });
     b.addEventListener('keydown', (e) => {
-      if (e.key === 'Backspace' && !b.value && i > 0) { e.preventDefault(); boxes[i - 1].value = ''; boxes[i - 1].dataset.v = ''; boxes[i - 1].focus(); }
+      if (e.key === 'Backspace' && !b.value && i > 0 && !b.readOnly) { e.preventDefault(); put(boxes[i - 1], ''); boxes[i - 1].focus(); entered(); }
       else if (e.key === 'ArrowLeft' && i > 0) { e.preventDefault(); boxes[i - 1].focus(); }
       else if (e.key === 'ArrowRight' && i < boxes.length - 1) { e.preventDefault(); boxes[i + 1].focus(); }
     });
@@ -360,30 +447,15 @@
     if (!('OTPCredential' in window) || webOtp) return;
     webOtp = new AbortController();
     navigator.credentials.get({ otp: { transport: ['sms'] }, signal: webOtp.signal })
-      .then((c) => { if (c && c.code && A.dataset.step === 'code') fillFrom(latin(c.code).replace(/\D/g, ''), 0); })
+      .then((c) => { if (c && c.code && A.dataset.step === 'code' && !boxes[0].readOnly) fillFrom(latin(c.code).replace(/\D/g, ''), 0); })
       .catch(() => {})
       .finally(() => { webOtp = null; });
   }
 
-  function tick() {
-    const o = auth.otp;
-    if (!o) return;
-    const now = Date.now(), left = Math.max(0, Math.ceil((o.deadline - now) / 1000));
-    const mm = fa(String(Math.floor(left / 60)).padStart(2, '0')), ss = fa(String(left % 60).padStart(2, '0'));
-    if (mmEl.dataset.v !== mm) { mmEl.textContent = mm; mmEl.dataset.v = mm; }
-    if (ssEl.dataset.v !== ss) { ssEl.textContent = ss; ssEl.dataset.v = ss; }
-    resendBtn.disabled = now < o.resendAt;
-    if (!left && !o.expired) {
-      o.expired = true;
-      lockBoxes();
-      say(codeMsg, ERR.expired, 'error');
-    }
-    codeForm.querySelector('.mp-cta').toggleAttribute('disabled', o.expired || o.locked);
-  }
   resendBtn.addEventListener('click', () => {
-    if (auth.otp && Date.now() >= auth.otp.resendAt) requestCode(auth.otp.phone, resendBtn, codeMsg, 'ارسال مجدد کد');
+    if (auth.otp && resendBtn.getAttribute('aria-disabled') !== 'true') requestCode(auth.otp.phone, resendBtn, codeMsg, 'ارسال مجدد کد');
   });
-  // «ویرایش» and the back arrow: return to the number; a new request replaces the old code on the server
+  // «ویرایش» and the back arrow: back to the number (the server resumes or replaces the code)
   A.addEventListener('click', (e) => {
     if (!e.target.closest('[data-mp-edit]') || A.dataset.step !== 'code') return;
     auth.otp = null;
@@ -392,37 +464,45 @@
     phoneIn.focus();
   });
 
+  function wrongCode(o) {
+    invalid(otpSet, true);
+    say(codeMsg, [ERR.wrong, ...(o.attemptsLeft != null ? ['تلاش باقی‌مانده:', fa(o.attemptsLeft)] : [])], 'error', 0, 'wrong');
+  }
   codeForm.addEventListener('submit', (e) => { e.preventDefault(); submitCode(); });
   function submitCode() {
     const o = auth.otp;
-    if (!o || auth.busy || o.expired || o.locked) return;
+    if (!o || auth.busy || o.expired || o.locked || o.blockedUntil > Date.now()) return;
     const c = code();
     if (!/^\d{4}$/.test(c)) {
       invalid(otpSet, true);
-      say(codeMsg, 'کد ۴ رقمی را کامل وارد کنید.', 'error');
-      return (boxes.find((b) => !b.value) || boxes[0]).focus();
+      say(codeMsg, 'کد ۴ رقمی را کامل وارد کنید.', 'error', 0, 'incomplete');
+      return (boxes.find((b) => !b.dataset.v) || boxes[0]).focus();
     }
-    return run(auth, codeForm.querySelector('.mp-cta'), 'در حال بررسی…', 'تأیید و ادامه', async () => {
+    if (o.rejected.has(c)) return wrongCode(o); // refused already: never sent again, so no loop and no wasted attempt
+    return run(auth, codeCta, 'در حال بررسی…', 'تأیید و ادامه', async () => {
+      sync(); // boxes read-only while the server checks
       try {
         const r = await AuthService.verifyOtp(o.requestId, c);
         auth.otp = null;
-        stopCode();
         if (r.profileRequired) { auth.newUser = r.user || {}; setStep('profile', true); } else signedIn(r.user);
       } catch (err) {
-        if (err.code === 'INVALID_CODE' && err.attemptsLeft > 0) {
-          say(codeMsg, 'کد واردشده درست نیست. تلاش باقی‌مانده:', 'error', err.attemptsLeft);
-          invalid(otpSet, true);
-          boxes.forEach((b) => { b.value = ''; b.dataset.v = ''; });
-          boxes[0].focus();
-        } else if (err.code === 'INVALID_CODE' || err.code === 'TOO_MANY_ATTEMPTS' || err.code === 'CODE_EXPIRED') {
-          if (err.code === 'CODE_EXPIRED') o.expired = true; else o.locked = true;
-          if (err.retryAfter) o.resendAt = Date.now() + err.retryAfter * 1000;
-          lockBoxes();
-          say(codeMsg, err.code === 'CODE_EXPIRED' ? ERR.expired : ERR.attempts, 'error');
-          tick();
-        } else say(codeMsg, errorText(err, ERR.sms), 'error');
+        const now = Date.now();
+        if (err.code === 'INVALID_CODE') {
+          o.rejected.add(c);
+          o.manual = true;
+          if (err.attemptsLeft != null) o.attemptsLeft = err.attemptsLeft;
+          wrongCode(o); // the digits stay for the user to correct
+        } else if (err.code === 'CODE_LOCKED' || (err.code === 'TOO_MANY_ATTEMPTS' && !err.retryAfter)) {
+          o.locked = true;
+          if (err.resendIn != null) o.resendAt = Math.max(o.resendAt, now + err.resendIn * 1000);
+        } else if (err.code === 'TOO_MANY_ATTEMPTS') {
+          o.blockedUntil = now + err.retryAfter * 1000;
+        } else if (err.code === 'CODE_EXPIRED') {
+          o.expired = true;
+          o.deadline = Math.min(o.deadline, now);
+        } else showError(codeMsg, err, ERR.sms);
       }
-    });
+    }).then(sync);
   }
 
   /* step 3 (new account) */
@@ -433,7 +513,7 @@
     invalid(lastIn.parentElement, !l);
     if (!f || !l) { say(profileMsg, 'نام و نام خانوادگی را کامل وارد کنید.', 'error'); return (f ? lastIn : firstIn).focus(); }
     run(auth, profileForm.querySelector('.mp-cta'), 'در حال ثبت…', 'ثبت و ورود', async () => {
-      try { const r = await AuthService.saveProfile(f, l); signedIn(r.user || { ...auth.newUser, firstName: f, lastName: l }); } catch (err) { say(profileMsg, errorText(err, ERR.server), 'error'); }
+      try { const r = await AuthService.saveProfile(f, l); signedIn(r.user || { ...auth.newUser, firstName: f, lastName: l }); } catch (err) { showError(profileMsg, err, ERR.server); }
     });
   });
 
@@ -462,8 +542,9 @@
       if (phoneMsg.dataset.tone !== 'error') say(phoneMsg, '');
       // a pending code keeps its own expiry: reopening never restarts it
       setStep(auth.newUser ? 'profile' : auth.otp ? 'code' : 'phone', true);
+      startTicker();
     },
-    onClose() { stopCode(); },
+    onClose: stopTicker,
   });
 
   /* ================= subscription panel ================= */
@@ -510,8 +591,13 @@
     show('sub', t);
   });
 
-  // an existing server session (HttpOnly cookie) signs the user in silently
-  if (AuthService.connected) AuthService.session().then((r) => { if (r && r.user) applyUser(r.user); }).catch(() => {});
+  // the server's session (HttpOnly cookie) signs the user in silently, or hands back a code this device is still waiting for
+  if (AuthService.connected) {
+    AuthService.session().then((r) => {
+      if (r && r.user) applyUser(r.user);
+      else if (r && r.pendingOtp) adopt(r.pendingOtp);
+    }).catch(() => {});
+  }
 
   window.MetricaServices = { AuthService, SubscriptionService, ServiceError };
   window.MetricaPanels = {

@@ -89,7 +89,8 @@ def package():
             f.write(HERE / doc, doc)
         for p in sorted((DIST / "screenshots").glob("*.png")):
             f.write(p, f"screenshots/{p.name}")
-        for p in ("panels.css", "panels.html", "panels.js", "i18n.js", "build.py"):
+        for p in ("panels.css", "panels.html", "panels.js", "i18n.js", "build.py", "tests/panels.test.cjs",
+                  "server/otp-policy.mjs", "server/api.mjs", "server/otp-policy.test.mjs"):
             f.write(HERE / p, f"source/{p}")
     print(f"{z.relative_to(ROOT.parent)}  {z.stat().st_size / 1e6:.2f} MB")
 
