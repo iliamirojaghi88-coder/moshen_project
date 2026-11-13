@@ -42,3 +42,9 @@ node tests/render-matrix.cjs http://127.0.0.1:8765/index.html <out-dir>   # اس
 
 آخرین نسخهٔ وب‌اپ فایل تک‌صفحه‌ای `source/metrica-webapp.original.html` است (بکاپ دست‌نخورده). پنل‌ها در `panels/` نگهداری و با
 `python3 metrica/panels/build.py --zip` روی آن اعمال می‌شوند → `dist/metrica-webapp.html` و ZIP تحویلی. توضیح کامل: `panels/README-fa.md`، قرارداد API: `panels/API-fa.md`، تست: `node metrica/panels/tests/panels.test.cjs`.
+
+## استقرار روی هاست (DirectAdmin: PHP + MySQL + فراز اس‌ام‌اس)
+
+`host/` بک‌اند PHP (همان قرارداد و قوانین OTP)، `.htaccess`، جدول‌های MySQL و راهنمای نصب `host/README-FA.md` را دارد.
+`python3 metrica/panels/build.py && python3 metrica/host/build_host.py` → `dist/METRICA_HOST_READY.zip` و `dist/index.html` (نسخهٔ مستقل).
+تست‌ها: `php metrica/host/tests/policy_test.php` و `node metrica/host/tests/host.test.cjs` (Apache + MariaDB محلی، `host/tests/local-stack.sh`).

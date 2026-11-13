@@ -1,0 +1,2 @@
+# This folder belongs OUTSIDE public_html. If it ever lands inside it by mistake, refuse every request.
+Require all denied

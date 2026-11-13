@@ -15,8 +15,9 @@ export const LIMITS = {
   window: 600,         // s — the rolling window of the limits below
   phoneRequests: 5,    // codes sent to one phone
   phoneFails: 7,       // wrong codes for one phone, across all its codes
-  ipRequests: 20, deviceRequests: 10,
-  ipFails: 30, deviceFails: 15,
+  // generous per IP: Iranian mobile networks put many users behind one IP (carrier NAT)
+  ipRequests: 50, deviceRequests: 10,
+  ipFails: 100, deviceFails: 15,
   pendingVisible: 600, // s — how long a device can still resume its code after a reload
 };
 
