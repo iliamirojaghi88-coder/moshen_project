@@ -13,7 +13,7 @@ Nothing is added except assets/js/config.*.js, which points the panels at api/in
 
     python3 metrica/panels/build.py && python3 metrica/host/build_host.py
 """
-import base64, hashlib, re, secrets, shutil, zipfile
+import base64, hashlib, os, re, secrets, shutil, zipfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -75,6 +75,58 @@ def split(html):
     return page, files
 
 
+def pack(tree, zip_path):
+    zip_path.unlink(missing_ok=True)
+    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+        for p in sorted(tree.rglob("*")):
+            if p.is_file():
+                z.write(p, p.relative_to(tree).as_posix())
+
+
+# a package for one host with its settings already in config.php. The values come only from the environment
+# (never from this file or git); the result is private: dist/ is git-ignored and the ZIP must not stay on the web.
+FILL = {"DB_NAME": "METRICA_DB_NAME", "DB_USER": "METRICA_DB_USER", "DB_PASS": "METRICA_DB_PASS",
+        "API_KEY": "METRICA_API_KEY", "PATTERN_UID": "METRICA_PATTERN_UID", "SMS_SENDER": "METRICA_SMS_SENDER"}
+
+
+def personal():
+    values = {k: os.environ[env] for k, env in FILL.items() if os.environ.get(env)}
+    for k, v in values.items():
+        assert re.fullmatch(r"[^\\\"$\n]+", v), f"{k}: quotes, backslashes, $ and line breaks are not allowed"
+    out = DIST / (os.environ.get("METRICA_ZIP_NAME") or "METRICA_PERSONAL_HOST_READY.zip")
+    tree = DIST / "final"
+    shutil.rmtree(tree, ignore_errors=True)
+    shutil.copytree(TREE, tree)
+    cfg = tree / "metrica_private" / "config.php"
+    text = cfg.read_text(encoding="utf-8")
+    for k, v in values.items():
+        text, n = re.subn(rf'^const {k} = ".*?";', f'const {k} = "{v}";', text, flags=re.M)
+        assert n == 1, f"{k} not found in config.php"
+    cfg.write_text(text, encoding="utf-8")
+    pack(tree, out)
+
+    # read the archive back: the settings are in it, everything else is the standard build byte for byte
+    with zipfile.ZipFile(out) as z:
+        assert z.testzip() is None
+        names = z.namelist()
+        assert names == sorted(p.relative_to(TREE).as_posix() for p in TREE.rglob("*") if p.is_file())
+        stored = z.read("metrica_private/config.php").decode("utf-8")
+        for k, v in values.items():
+            assert f'const {k} = "{v}";' in stored, f"{k} missing in the archive"
+        for name in names:
+            data = z.read(name)
+            if name != "metrica_private/config.php":
+                assert data == (TREE / name).read_bytes(), f"{name} differs from the standard build"
+            if name.startswith("public_html/") and "API_KEY" in values:
+                assert values["API_KEY"].encode() not in data, f"the API key leaked into {name}"
+    left = re.findall(r'^const (\w+) = "PASTE_[A-Z_]+";', stored, flags=re.M)
+    mask = lambda k, v: v if k in ("DB_NAME", "PATTERN_UID", "SMS_SENDER") else f"{v[:4]}…{v[-3:]} ({len(v)} chars)"
+    print(f"{out.relative_to(ROOT.parent)}  {out.stat().st_size / 1e6:.2f} MB — read back from the archive:")
+    for k, v in values.items():
+        print(f"  {k:12} = {mask(k, v)}")
+    print(f"  still to fill: {', '.join(left) or 'nothing'}")
+
+
 def main():
     html = SINGLE.read_text(encoding="utf-8")
     page, files = split(html)
@@ -91,16 +143,14 @@ def main():
     cfg = TREE / "metrica_private" / "config.php"  # a fresh secret for this package (HMAC of the codes)
     cfg.write_text(cfg.read_text(encoding="utf-8").replace('"GENERATED_AT_BUILD"', f'"{secrets.token_hex(32)}"'), encoding="utf-8")
 
-    ZIP.unlink(missing_ok=True)
-    with zipfile.ZipFile(ZIP, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
-        for p in sorted(TREE.rglob("*")):
-            if p.is_file():
-                z.write(p, p.relative_to(TREE).as_posix())
+    pack(TREE, ZIP)
     shutil.copy(SINGLE, DIST / "index.html")
     shutil.copy(HERE / "README-FA.md", DIST / "README-FA.md")
     size = sum(len(d) for d in files.values())
     print(f"index.html {len(page.encode()) / 1e3:.0f} KB + {len(files)} asset files {size / 1e6:.2f} MB")
     print(f"{ZIP.relative_to(ROOT.parent)}  {ZIP.stat().st_size / 1e6:.2f} MB")
+    if any(os.environ.get(env) for env in FILL.values()):
+        personal()
 
 
 if __name__ == "__main__":

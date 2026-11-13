@@ -41,13 +41,19 @@ function now_ms(): int
     return (int) floor(microtime(true) * 1000);
 }
 
+// all three of name, user and password must be filled in config.php
+function db_configured(): bool
+{
+    return strpos(DB_NAME, NOT_SET) !== 0 && strpos(DB_USER, NOT_SET) !== 0 && strpos(DB_PASS, NOT_SET) !== 0;
+}
+
 function db(): ?PDO
 {
     static $pdo = false;
     if ($pdo !== false) {
         return $pdo;
     }
-    if (strpos(DB_NAME, NOT_SET) === 0) {
+    if (!db_configured()) {
         return $pdo = null;
     }
     try {
@@ -125,7 +131,7 @@ try {
                 $schema = 'missing';
             }
         }
-        $database = strpos(DB_NAME, NOT_SET) === 0 ? 'not-configured' : ($db ? 'ok' : 'error');
+        $database = !db_configured() ? 'not-configured' : ($db ? 'ok' : 'error');
         $sms = FarazSms::ready() ? 'ready' : 'not-configured';
         $php = extension_loaded('curl') && extension_loaded('pdo_mysql') ? 'ok' : 'missing curl or pdo_mysql';
         reply(200, ['database' => $database, 'schema' => $schema, 'sms' => $sms, 'php' => $php,
