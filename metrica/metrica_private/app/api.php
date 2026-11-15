@@ -8,6 +8,7 @@ require dirname(__DIR__) . '/config.php';
 require __DIR__ . '/OtpPolicy.php';
 require __DIR__ . '/FarazSms.php';
 require __DIR__ . '/Sessions.php';
+require __DIR__ . '/Home.php';
 
 ini_set('display_errors', '0');
 header('Content-Type: application/json; charset=utf-8');
@@ -130,6 +131,16 @@ function clean_name($raw): ?string
     return preg_match('/^(?=.*\p{L})[\p{L}\p{M}\x{200C} .\'’-]{1,40}$/u', $n) ? $n : null;
 }
 
+// the signed-in user's home data, or 401 (no session, or the name step is not done yet)
+function home(PDO $db): Home
+{
+    $s = session_user($db);
+    if (!$s || !(int) $s['complete']) {
+        reply(401, ['error' => 'UNAUTHORIZED']);
+    }
+    return new Home($db, (int) $s['id']);
+}
+
 function pub(array $u): array
 {
     return ['id' => (int) $u['id'], 'firstName' => $u['first_name'], 'lastName' => $u['last_name'],
@@ -156,10 +167,21 @@ try {
                 }
             }
         }
+        $home = 'unknown'; // the home page tables: created by database/migrate-home-v3.sql, or on first use
+        if ($db && $schema === 'ok') {
+            try {
+                $db->query('SELECT 1 FROM mt_reminders LIMIT 0');
+                $db->query('SELECT 1 FROM mt_reminder_seq LIMIT 0');
+                $db->query('SELECT 1 FROM mt_notifications LIMIT 0');
+                $home = 'ok';
+            } catch (PDOException $e) {
+                $home = 'pending';
+            }
+        }
         $database = !db_configured() ? 'not-configured' : ($db ? 'ok' : 'error');
         $sms = FarazSms::ready() ? 'ready' : 'not-configured';
         $php = extension_loaded('curl') && extension_loaded('pdo_mysql') ? 'ok' : 'missing curl or pdo_mysql';
-        reply(200, ['database' => $database, 'schema' => $schema, 'sms' => $sms, 'php' => $php,
+        reply(200, ['database' => $database, 'schema' => $schema, 'home' => $home, 'sms' => $sms, 'php' => $php,
             'otp' => $database === 'ok' && $schema === 'ok' && $php === 'ok' && otp_ready() ? 'active' : 'inactive']);
     }
 
@@ -177,6 +199,14 @@ try {
             reply(200, ['user' => null, 'profileRequired' => true, 'pendingOtp' => null]);
         }
         reply(200, ['user' => $user, 'pendingOtp' => $user || !$db ? null : policy($db)->pending($device)]);
+    }
+
+    if ($method === 'GET' && $path === '/home') { // dashboard, reminders and notifications of the signed-in user
+        $db = db();
+        if (!$db) {
+            reply(503, ['error' => 'SERVICE_UNAVAILABLE']);
+        }
+        reply(200, home($db)->overview());
     }
 
     if ($method !== 'POST') {
@@ -246,6 +276,22 @@ try {
             (new Sessions($db))->revoke($token); // this device only; other devices stay signed in
             cookie('msid', '', 0);
             reply(200, []);
+            // no break
+        case '/reminders/save':
+            [$status, $out] = home($db)->save($body);
+            reply($status, $out);
+            // no break
+        case '/reminders/done':
+            [$status, $out] = home($db)->done($body);
+            reply($status, $out);
+            // no break
+        case '/reminders/delete':
+            [$status, $out] = home($db)->delete($body);
+            reply($status, $out);
+            // no break
+        case '/notifications/read':
+            [$status, $out] = home($db)->readAll();
+            reply($status, $out);
             // no break
         case '/subscription/checkout':
             $s = session_user($db);

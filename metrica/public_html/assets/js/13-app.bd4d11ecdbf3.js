@@ -5,9 +5,10 @@
 (() => {
   'use strict';
 
-  // route → template. `chrome:false` would hide header + nav for deeper inner pages (none yet).
+  // route → template. `chrome:false` hides header + nav (full-screen inner pages); `header:false` hides only the
+  // shared header, for a page that draws its own (خانه)
   const ROUTES = {
-    home:     { title: 'خانه',     tpl: 'tpl-home' },
+    home:     { title: 'خانه',     tpl: 'tpl-home', header: false, page: () => window.MetricaHome },
     features: { title: 'امکانات',  tpl: 'tpl-features' },
     projects: { title: 'پروژه‌ها', tpl: 'tpl-projects' },
     account:  { title: 'حساب من',  tpl: 'tpl-account' },
@@ -28,7 +29,9 @@
   // and Metrica.setUser(null) returns to a guest. The phone number is deliberately not part of the view.
   const PLANS = { normal: 'عادی', plus: 'پلاس', pro: 'پرو', max: 'MAX' };
   const GUEST = { name: 'کاربر متریکا', firstName: '', avatar: null, plan: 'normal' };
-  const state = { user: { ...GUEST }, signedIn: false };
+  const state = { user: { ...GUEST }, signedIn: false, checked: false };
+  // pages that depend on who is signed in (خانه) listen for this; fired on every change and once the session is known
+  const announce = () => document.dispatchEvent(new CustomEvent('metrica:user', { detail: { signedIn: state.signedIn } }));
 
   /* header: «ورود / ثبت‌نام» for a guest, the user's name once signed in. The name shows at most 6 visible characters
      (grapheme clusters, so a letter with its marks is one) and then «…»; the full name stays in the tooltip.
@@ -135,7 +138,8 @@
     nav.dataset.idx = idx;
     navItems.forEach((a) => (a.dataset.route === key ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current')));
     document.body.dataset.route = key;
-    document.body.dataset.chrome = route.chrome === false ? 'hidden' : 'shown';
+    document.body.dataset.chrome = route.chrome === false ? 'hidden' : route.header === false ? 'nav' : 'shown';
+    document.getElementById('m-hdr').inert = route.chrome === false || route.header === false; // off-screen: out of the tab order too
     document.title = `متریکا — ${route.title}`;
 
     view.replaceChildren(page ? page.mount() : document.getElementById(route.tpl).content.cloneNode(true));
@@ -172,7 +176,14 @@
       state.user = { ...GUEST, ...(user || {}) };
       bindUser(view);
       bindHeader();
+      announce();
     },
+    sessionChecked() { // panels.js: the server has answered (or there is no server); called after every check
+      if (state.checked) return;
+      state.checked = true;
+      announce();
+    },
+    get sessionKnown() { return state.checked; },
     get signedIn() { return state.signedIn; },
     get user() { return { ...state.user }; },
   };

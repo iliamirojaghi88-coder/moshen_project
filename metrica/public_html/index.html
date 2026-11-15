@@ -104,6 +104,7 @@ FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
 -->
 <link rel="stylesheet" href="assets/css/metrica.a52b3df68cca.css">
+<link rel="stylesheet" href="assets/css/home.332aafee0471.css">
 
 
 
@@ -429,26 +430,198 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   </div>
 </dialog>
 
+<!-- ============ «خانه»: line icons, reminder panel ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="hmIBell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2a5.6 5.6 0 0 0-5.6 5.6v3.5c0 1-.4 2-1.1 2.7l-1 1.1c-.5.5-.1 1.4.6 1.4h14.2c.7 0 1.1-.9.6-1.4l-1-1.1c-.7-.7-1.1-1.7-1.1-2.7V8.8A5.6 5.6 0 0 0 12 3.2Z"/><path d="M9.7 20.2a2.4 2.4 0 0 0 4.6 0"/></symbol>
+<symbol id="hmICal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3.2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 17.2h.01M12 17.2h.01" stroke-width="2.4"/></symbol>
+<symbol id="hmILayers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 3 8.2l9 4.7 9-4.7-9-4.7Z"/><path d="m3 12.2 9 4.7 9-4.7"/><path d="m3 16.1 9 4.7 9-4.7"/></symbol>
+<symbol id="hmIChart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20.5h16M6.5 20.5v-4.5M11 20.5v-7.5M15.5 20.5v-5.5"/><path d="m5 11 4.5-4 3.5 3 6-5.5"/><path d="M15.5 4.3H19v3.5"/></symbol>
+<symbol id="hmIChev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m14.5 6-6 6 6 6"/></symbol>
+<symbol id="hmIChevR" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m9.5 6 6 6-6 6"/></symbol>
+<symbol id="hmIArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="hmIPlus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="hmIFolder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2.2h7a2 2 0 0 1 2 2v8.3a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2Z"/></symbol>
+<symbol id="hmITrash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7h15M9.5 7V5.2c0-.7.5-1.2 1.2-1.2h2.6c.7 0 1.2.5 1.2 1.2V7M6.5 7l.8 11.4c.1 1 .9 1.6 1.8 1.6h5.8c.9 0 1.7-.7 1.8-1.6L17.5 7"/></symbol>
+<symbol id="hmICheck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+<symbol id="hmIUndo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7 4.5 11.5 9 16"/><path d="M5 11.5h9.5a5 5 0 0 1 0 10H12"/></symbol>
+<symbol id="hmIClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+</svg>
+
+<!-- add / edit a reminder (opened from «خانه»; assets/js/home.js). Dates are picked in the Persian calendar and sent as YYYY-MM-DD. -->
+<dialog class="hm-dlg" id="hm-rem-dlg" aria-labelledby="hm-dlg-title">
+  <form class="hm-dlg__in" data-hm-form novalidate>
+    <header class="hm-dlg__head">
+      <img class="hm-dlg__cal" data-hm-dlg-cal src="assets/img/323283aa8982.webp" alt="" width="200" height="200">
+      <h2 class="hm-dlg__title" id="hm-dlg-title" tabindex="-1" data-hm-dlg-title>افزودن یادآوری</h2>
+      <button class="m-btn hm-dlg__x" type="button" data-hm-close aria-label="بستن"><svg aria-hidden="true"><use href="#hmIClose"/></svg></button>
+    </header>
+    <label class="hm-field"><span class="hm-field__k">عنوان یادآوری <i aria-hidden="true">*</i></span>
+      <input name="title" type="text" maxlength="120" required autocomplete="off" dir="auto" enterkeyhint="next" aria-describedby="hm-dlg-msg"></label>
+    <label class="hm-field"><span class="hm-field__k">نام پروژه مرتبط <small>(اختیاری)</small></span>
+      <input name="project" type="text" maxlength="80" autocomplete="off" dir="auto" enterkeyhint="next"></label>
+    <fieldset class="hm-field hm-jdate" aria-describedby="hm-dlg-msg">
+      <legend class="hm-field__k">تاریخ <i aria-hidden="true">*</i></legend>
+      <div class="hm-jdate__row">
+        <select name="d" aria-label="روز"></select>
+        <select name="m" aria-label="ماه"></select>
+        <select name="y" aria-label="سال"></select>
+      </div>
+    </fieldset>
+    <label class="hm-field hm-field--time"><span class="hm-field__k">ساعت <small>(اختیاری)</small></span>
+      <input name="time" type="time" dir="ltr"></label>
+    <p class="hm-msg" id="hm-dlg-msg" role="status" aria-live="polite"></p>
+    <div class="hm-dlg__actions">
+      <button class="m-btn hm-gold hm-save" type="submit"><svg aria-hidden="true"><use href="#hmICheck"/></svg><span>ثبت یادآوری</span></button>
+      <div class="hm-dlg__more" data-hm-edit-only hidden>
+        <button class="m-btn hm-ghost" type="button" data-hm-done><svg aria-hidden="true"><use href="#hmICheck"/></svg><span>انجام شد</span></button>
+        <button class="m-btn hm-ghost hm-ghost--danger" type="button" data-hm-delete><svg aria-hidden="true"><use href="#hmITrash"/></svg><span>حذف</span></button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
 <!-- interface language: dictionaries (Persian source → en / ar) and the engine -->
 <script src="assets/js/02-i18n-en.13fb5dc6d3b3.js"></script>
 <script src="assets/js/03-i18n-ar.aa4439498c44.js"></script>
 <script src="assets/js/04-i18n-panels.e9b30dcc946f.js"></script>
+<script src="assets/js/04b-i18n-home.d90ddf59129d.js"></script>
 <script src="assets/js/05-i18n.89347968b5b3.js"></script>
 
 
 <!-- ============ page templates ============ -->
 
-<!-- خانه: future personal dashboard. Nothing is shown that does not exist yet. -->
+<!-- خانه: the signed-in user's dashboard (assets/js/home.js). Guests see the header and a sign-in card; every figure,
+     name, notification and reminder comes from the server (GET /home). No sample project or number is ever shown. -->
 <template id="tpl-home">
-  <section class="pg pg-home" aria-labelledby="pg-home-title">
-    <header class="pg-head">
-      <h1 class="pg-title" id="pg-home-title">خانه</h1>
-      <span class="pg-streak" aria-hidden="true"></span>
+  <section class="hm" aria-labelledby="hm-hello" data-phase="wait">
+    <header class="hm-hero">
+      <svg class="hm-wave" viewBox="0 0 400 160" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="hmWaveBack" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".35" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity=".9"/></linearGradient>
+          <linearGradient id="hmWaveFront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7fbff"/><stop offset="1" stop-color="#e3eefc" stop-opacity="0"/></linearGradient>
+          <linearGradient id="hmWaveLine" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#9cc4f5" stop-opacity="0"/><stop offset=".45" stop-color="#9cc4f5" stop-opacity=".9"/><stop offset="1" stop-color="#cfe3fb" stop-opacity=".3"/></linearGradient>
+        </defs>
+        <path d="M400 34C330 56 300 104 216 118C150 129 70 116 0 128V160H400Z" fill="url(#hmWaveBack)"/>
+        <path d="M400 34C330 56 300 104 216 118C150 129 70 116 0 128" fill="none" stroke="url(#hmWaveLine)" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+        <path d="M400 112C320 132 250 150 140 146C80 144 35 136 0 140V160H400Z" fill="url(#hmWaveFront)"/>
+      </svg>
+      <div class="hm-hero__in">
+      <div class="hm-bar">
+        <div class="hm-bellbox">
+          <button class="m-btn hm-bell" type="button" data-hm-bell aria-label="اعلان‌ها" aria-haspopup="dialog" aria-expanded="false" aria-controls="hm-pop">
+            <svg aria-hidden="true"><use href="#hmIBell"/></svg><i class="hm-dot" data-hm-dot hidden></i>
+          </button>
+          <div class="hm-pop" id="hm-pop" role="dialog" aria-labelledby="hm-pop-title" hidden>
+            <h2 class="hm-pop__title" id="hm-pop-title">اعلان‌ها</h2>
+            <ul class="hm-pop__list" role="list" data-hm-notes></ul>
+            <div class="hm-pop__empty" data-hm-notes-empty>
+              <svg aria-hidden="true"><use href="#hmIBell"/></svg>
+              <p class="hm-pop__lead">فعلاً اعلان جدیدی ندارید.</p>
+              <p class="hm-pop__sub">اطلاع‌رسانی‌های مهم پروژه‌ها و حساب شما در این بخش نمایش داده می‌شوند.</p>
+            </div>
+          </div>
+        </div>
+        <a class="hm-logo" href="#/features" aria-label="متریکا — امکانات"><img src="assets/img/2099fa9e0d0d.webp" alt="" width="240" height="213" fetchpriority="high"></a>
+      </div>
+      <div class="hm-intro">
+        <h1 class="hm-hello" id="hm-hello"><span>سلام</span><span class="hm-name" data-hm-namebox hidden> <bdi dir="auto" translate="no" data-hm-name></bdi></span><span>، خوش&nbsp;آمدی!</span></h1>
+        <p class="hm-date"><svg aria-hidden="true"><use href="#hmICal"/></svg><time translate="no" data-hm-today></time></p>
+        <p class="hm-lead">مدیریت هوشمند پروژه‌های ساختمانی<br>از برآورد تا اجرا، در یک پلتفرم یکپارچه</p>
+      </div>
+      <img class="hm-building" src="assets/img/5ffa5fa3946b.webp" alt="" width="1000" height="497" fetchpriority="high" decoding="async" draggable="false">
+      </div>
     </header>
-    <div class="pg-empty" data-slot="dashboard">
+
+    <!-- session still being checked -->
+    <div class="hm-wait" data-hm-part="wait" role="status"><span class="hm-spin" aria-hidden="true"></span><span>در حال بارگذاری…</span></div>
+
+    <!-- guest: the dashboard is private -->
+    <div class="hm-card hm-gate" data-hm-part="guest" hidden>
       <img src="assets/img/401f2fa32072.png" alt="" width="217" height="200">
-      <h2>داشبورد شخصی شما</h2>
-      <p>نقش حرفه‌ای، فعالیت‌ها، تعداد پروژه‌ها و وضعیت کارهای شما پس از راه‌اندازی داشبورد در این بخش نمایش داده می‌شود.</p>
+      <h2>داشبورد اختصاصی شما</h2>
+      <p>برای مشاهده پروژه‌ها، وضعیت مالی و یادآوری‌های خود وارد حساب کاربری شوید.</p>
+      <button class="m-btn hm-gold" type="button" data-hm-signin><svg aria-hidden="true"><use href="#mpIUser"/></svg><span>ورود / ثبت‌نام</span></button>
+    </div>
+
+    <!-- signed in but the data could not be read -->
+    <div class="hm-card hm-gate hm-gate--error" data-hm-part="error" hidden>
+      <h2>اطلاعات داشبورد دریافت نشد</h2>
+      <p data-hm-error>اتصال به سرور برقرار نشد؛ اینترنت خود را بررسی و دوباره تلاش کنید.</p>
+      <button class="m-btn hm-gold" type="button" data-hm-retry><span>تلاش دوباره</span></button>
+    </div>
+
+    <div class="hm-dash" data-hm-part="user" hidden>
+      <div class="hm-stats">
+        <article class="hm-card hm-stat" aria-label="پروژه فعال">
+          <span class="hm-stat__ico" aria-hidden="true"><svg><use href="#hmILayers"/></svg></span>
+          <b class="hm-stat__val" translate="no" data-hm-num="activeProjects">–</b>
+          <span class="hm-stat__lbl">پروژه فعال</span>
+        </article>
+        <article class="hm-card hm-stat hm-stat--ring" aria-label="پیشرفت کلی">
+          <span class="hm-ring" data-hm-ring style="--p:0">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="hmRingGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd86a"/><stop offset="1" stop-color="#f3a21c"/></linearGradient></defs>
+              <circle class="hm-ring__track" cx="32" cy="32" r="26"/><circle class="hm-ring__val" cx="32" cy="32" r="26" pathLength="100"/></svg>
+            <b translate="no" data-hm-num="progress">–</b>
+          </span>
+          <span class="hm-stat__lbl">پیشرفت کلی</span>
+        </article>
+        <article class="hm-card hm-stat" aria-label="کل هزینه‌ها">
+          <img class="hm-stat__img" src="assets/img/27883cf71b85.webp" alt="" width="224" height="242">
+          <b class="hm-stat__val" translate="no" data-hm-money="totalCost">–</b>
+          <span class="hm-stat__unit" data-hm-unit="totalCost">تومان</span>
+          <span class="hm-stat__lbl hm-stat__lbl--sm">کل هزینه‌ها</span>
+        </article>
+      </div>
+
+      <section class="hm-banner" aria-labelledby="hm-banner-title">
+        <img class="hm-banner__art" src="assets/img/50e6fbf2d6c4.webp" alt="" width="900" height="436" decoding="async" draggable="false">
+        <div class="hm-banner__txt">
+          <h2 id="hm-banner-title">تحلیل، برآورد و مدیریت ساختمانی</h2>
+          <p>دقیق، سریع و هوشمند</p>
+          <a class="m-btn hm-gold hm-banner__cta" href="#/features"><svg aria-hidden="true"><use href="#hmIArrow"/></svg><span>شروع پروژه جدید</span></a>
+        </div>
+      </section>
+
+      <section class="hm-sec hm-projects" aria-labelledby="hm-proj-title">
+        <header class="hm-sec__head">
+          <h2 class="hm-sec__title" id="hm-proj-title"><svg aria-hidden="true"><use href="#hmILayers"/></svg><span>آخرین پروژه‌ها</span></h2>
+          <a class="hm-more" href="#/projects"><span>مشاهده همه</span><svg aria-hidden="true"><use href="#hmIChev"/></svg></a>
+        </header>
+        <ul class="hm-plist" role="list" data-hm-projects></ul>
+        <div class="hm-card hm-empty" data-hm-projects-empty>
+          <span class="hm-empty__ico" aria-hidden="true"><svg><use href="#hmIFolder"/></svg></span>
+          <span class="hm-empty__txt"><b>هنوز پروژه‌ای ثبت نکرده‌اید.</b><span>پروژه‌های شما به‌زودی در این بخش نمایش داده می‌شوند.</span></span>
+        </div>
+      </section>
+
+      <section class="hm-card hm-fin" aria-labelledby="hm-fin-title">
+        <h2 class="hm-sec__title" id="hm-fin-title"><svg aria-hidden="true"><use href="#hmIChart"/></svg><span>وضعیت مالی پروژه‌ها</span></h2>
+        <div class="hm-fin__body">
+          <ul class="hm-fin__rows" role="list">
+            <li class="hm-fin__row hm-fin__row--income"><span class="hm-tile"><img src="assets/img/27883cf71b85.webp" alt="" width="224" height="242" loading="lazy"></span>
+              <span class="hm-fin__txt"><span class="hm-fin__k">درآمد کل</span><span class="hm-fin__v"><b translate="no" data-hm-money="income">–</b> <span data-hm-unit="income">تومان</span></span></span></li>
+            <li class="hm-fin__row hm-fin__row--cost"><span class="hm-tile"><img src="assets/img/f4c10bfc3a79.webp" alt="" width="224" height="241" loading="lazy"></span>
+              <span class="hm-fin__txt"><span class="hm-fin__k">هزینه کل</span><span class="hm-fin__v"><b translate="no" data-hm-money="cost">–</b> <span data-hm-unit="cost">تومان</span></span></span></li>
+            <li class="hm-fin__row hm-fin__row--profit"><span class="hm-tile"><img src="assets/img/d4715dd46430.webp" alt="" width="224" height="228" loading="lazy"></span>
+              <span class="hm-fin__txt"><span class="hm-fin__k">سود پیش‌بینی‌شده</span><span class="hm-fin__v"><b translate="no" data-hm-money="profit">–</b> <span data-hm-unit="profit">تومان</span></span></span></li>
+          </ul>
+          <!-- decorative picture, not the user's data: a data-driven chart replaces it once projects carry figures -->
+          <figure class="hm-fin__chart" aria-hidden="true"><img src="assets/img/db1ca59437b5.webp" alt="" width="820" height="444" loading="lazy" decoding="async" draggable="false"><figcaption>نمای تصویری</figcaption></figure>
+        </div>
+      </section>
+
+      <section class="hm-sec hm-rems" aria-labelledby="hm-rem-title">
+        <header class="hm-sec__head">
+          <h2 class="hm-sec__title" id="hm-rem-title"><svg aria-hidden="true"><use href="#hmIBell"/></svg><span>یادآوری‌ها</span></h2>
+          <button class="m-btn hm-more" type="button" data-hm-all hidden aria-expanded="false"><span>مشاهده همه</span><svg aria-hidden="true"><use href="#hmIChev"/></svg></button>
+        </header>
+        <ul class="hm-rlist" role="list" data-hm-rems></ul>
+        <div class="hm-card hm-empty hm-empty--rem" data-hm-rems-empty>
+          <img class="hm-empty__cal" src="assets/img/323283aa8982.webp" alt="" width="200" height="200" loading="lazy">
+          <span class="hm-empty__txt"><b>هنوز یادآوری ثبت نکرده‌اید.</b><span>قرارها، پرداخت‌ها و کارهای پروژه را اینجا به خاطر بسپارید.</span></span>
+        </div>
+        <button class="m-btn hm-add" type="button" data-hm-add><svg aria-hidden="true"><use href="#hmIPlus"/></svg><span>افزودن یادآوری</span></button>
+      </section>
     </div>
   </section>
 </template>
@@ -457,29 +630,29 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 <template id="tpl-features">
   <section class="pg pg-features mt-page" aria-labelledby="pg-features-title">
     <h1 class="m-sr" id="pg-features-title">امکانات</h1>
-    <!-- order follows the reference reading order (right column first in RTL) -->
+    <!-- «آنالیز ساخت» top right and «تجربه رایگان» top left (RTL); the other cards keep their previous order -->
     <div class="mt-tools">
-      <div class="mt-cq"><article class="mt-card mt-tool mt-tool--proj">
-        <span class="mt-art" style="aspect-ratio:1148/959"><img src="assets/img/24247194cfd3.webp" alt="" width="760" height="507" style="width:133.798%;left:-16.812%;top:-0.626%" decoding="async" draggable="false"></span>
-        <h3>مدیریت پروژه</h3><p>برنامه‌ریزی و کنترل اجرا</p>
-        <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="مدیریت پروژه" data-mtr-tool="project"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
-      </article></div>
-      <div class="mt-cq"><article class="mt-card mt-tool mt-tool--anal">
+      <!-- two columns on phones and tablets (no gap under the short card beside «تجربه رایگان»); --o is the reading order
+           used by the three-column grid from 900px: آنالیز ساخت, تجربه رایگان, مدیریت پروژه, مارکتینگ, کش فلو, مجریان ذیصلاح -->
+      <div class="mt-col">
+        <div class="mt-cq" style="--o:1"><article class="mt-card mt-tool mt-tool--anal">
         <span class="mt-art" style="aspect-ratio:1447/971"><img src="assets/img/9945ab0678e3.webp" alt="" width="760" height="507" style="width:106.151%;left:-3.525%;top:-2.163%" decoding="async" draggable="false"></span>
         <h3>آنالیز ساخت</h3><p>برآورد، هزینه و سود</p>
         <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="آنالیز ساخت" data-mtr-tool="analysis"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
       </article></div>
-      <div class="mt-cq"><article class="mt-card mt-tool mt-tool--mkt">
-        <span class="mt-art" style="aspect-ratio:1361/990"><img src="assets/img/acae4c83e571.webp" alt="" width="760" height="507" style="width:112.858%;left:-7.862%;top:-2.222%" decoding="async" draggable="false"></span>
-        <h3>مارکتینگ</h3><p>فروش و جذب مشتری</p>
-        <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="مارکتینگ" data-mtr-tool="marketing"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+        <div class="mt-cq" style="--o:3"><article class="mt-card mt-tool mt-tool--proj">
+        <span class="mt-art" style="aspect-ratio:1148/959"><img src="assets/img/24247194cfd3.webp" alt="" width="760" height="507" style="width:133.798%;left:-16.812%;top:-0.626%" decoding="async" draggable="false"></span>
+        <h3>مدیریت پروژه</h3><p>برنامه‌ریزی و کنترل اجرا</p>
+        <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="مدیریت پروژه" data-mtr-tool="project"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
       </article></div>
-      <div class="mt-cq"><article class="mt-card mt-tool mt-tool--cash">
+        <div class="mt-cq" style="--o:5"><article class="mt-card mt-tool mt-tool--cash">
         <span class="mt-art" style="aspect-ratio:1200/1030"><img src="assets/img/c08cc50e55f2.webp" alt="" width="760" height="587" style="width:118.917%;left:-10.25%;top:-1.359%" decoding="async" draggable="false"></span>
         <h3>کش فلو</h3><p>گردش مالی و نقدینگی</p>
         <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="کش فلو" data-mtr-tool="cashflow"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
       </article></div>
-      <div class="mt-cq"><article class="mt-card mt-tool mt-tool--free">
+      </div>
+      <div class="mt-col">
+        <div class="mt-cq" style="--o:2"><article class="mt-card mt-tool mt-tool--free">
         <svg class="mt-swoosh" viewBox="0 0 345 449" preserveAspectRatio="xMinYMin slice" aria-hidden="true" focusable="false">
           <defs><linearGradient id="mtSwoosh" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#7cc3fb" stop-opacity=".7"/><stop offset=".55" stop-color="#a9d8ff" stop-opacity=".45"/><stop offset="1" stop-color="#d6ecff" stop-opacity="0"/></linearGradient></defs>
           <path d="M-10 300C40 250 60 170 140 130C210 95 270 70 360 10L360-10L-10-10Z" fill="url(#mtSwoosh)" opacity=".85"/>
@@ -494,11 +667,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <h3>تجربه رایگان</h3><p>برخی از ابزارهای متریکا را<br>بدون اشتراک امتحان کنید</p>
         <button class="mt-btn mt-blue-btn" type="button" data-mtr-action="start-trial"><svg aria-hidden="true"><use href="#mtPlay"/></svg>شروع تجربه</button>
       </article></div>
-      <div class="mt-cq"><article class="mt-card mt-tool mt-tool--contr">
+        <div class="mt-cq" style="--o:4"><article class="mt-card mt-tool mt-tool--mkt">
+        <span class="mt-art" style="aspect-ratio:1361/990"><img src="assets/img/acae4c83e571.webp" alt="" width="760" height="507" style="width:112.858%;left:-7.862%;top:-2.222%" decoding="async" draggable="false"></span>
+        <h3>مارکتینگ</h3><p>فروش و جذب مشتری</p>
+        <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="مارکتینگ" data-mtr-tool="marketing"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
+      </article></div>
+        <div class="mt-cq" style="--o:6"><article class="mt-card mt-tool mt-tool--contr">
         <span class="mt-art" style="aspect-ratio:1301/921"><img src="assets/img/54923aac26d5.webp" alt="" width="760" height="507" style="width:118.063%;left:-5.457%;top:-4.886%" decoding="async" draggable="false"></span>
         <h3>مجریان ذیصلاح</h3><p>استعلام و انتخاب مجری</p>
         <button class="mt-btn mt-disc mt-disc--ice" type="button" aria-label="مجریان ذیصلاح" data-mtr-tool="contractors"><svg aria-hidden="true"><use href="#mtChevR"/></svg></button>
       </article></div>
+      </div>
     </div>
   </section>
 </template>
@@ -1934,7 +2113,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 <script src="assets/js/11-analysis-results.5810e7850674.js"></script>
 
 <script src="assets/js/12-settings.66509fda0b08.js"></script>
-<script src="assets/js/13-app.1f587203f9f2.js"></script>
-<script src="assets/js/14-panels.8341fe07e2e7.js"></script>
+<script src="assets/js/12b-home.97a12945547f.js"></script>
+<script src="assets/js/13-app.bd4d11ecdbf3.js"></script>
+<script src="assets/js/14-panels.3b63256533d4.js"></script>
 </body>
 </html>

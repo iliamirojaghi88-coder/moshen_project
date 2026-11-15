@@ -50,3 +50,7 @@ labs/*/CLAUDE.md
 .env.*
 *.pem
 *.key
+
+# METRICA site: vendored minified Lottie, original design images
+metrica/public_html/assets/js/06-vendor-*.js
+metrica/source-assets/

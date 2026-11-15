@@ -647,26 +647,29 @@
      device is still waiting for. Asked on page load, and again when a tab comes back into view (at most once a minute)
      or is restored by Back/Forward, so a session ended elsewhere or expired never stays on screen. */
   let checkedAt = 0;
+  const checked = () => window.Metrica && window.Metrica.sessionChecked(); // pages waiting for the answer (خانه) can go on
   function refreshSession(first) {
-    if (!AuthService.connected) return;
+    if (!AuthService.connected) return checked();
     checkedAt = Date.now();
     AuthService.session().then((r) => {
       if (r && r.user) return applyUser(r.user);
       if (auth.user) signedOut();
       if (r && r.profileRequired) auth.newUser = auth.newUser || {}; // code verified earlier, name still missing
       else if (first && r && r.pendingOtp) adopt(r.pendingOtp);
-    }).catch(() => {});
+    }).catch(() => {}).finally(checked);
   }
   refreshSession(true);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Date.now() - checkedAt > 60000) refreshSession(); });
   window.addEventListener('pageshow', (e) => { if (e.persisted) refreshSession(); });
 
-  window.MetricaServices = { AuthService, SubscriptionService, ServiceError };
+  // request: the same API call (session cookie, CSRF header, timeout, errors) for other modules' routes, e.g. /home
+  window.MetricaServices = { AuthService, SubscriptionService, ServiceError, request: api };
   window.MetricaPanels = {
     openSignIn: (from) => show('auth', from),
     openSubscription: (from) => show('sub', from),
     close: hide,
     get selectedPlan() { return selected; },
     get signedIn() { return !!auth.user; },
+    expired: () => { if (auth.user) signedOut(); }, // the server answered 401 to another module: back to a guest
   };
 })();
