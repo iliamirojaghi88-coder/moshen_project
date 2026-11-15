@@ -1,0 +1,33 @@
+# METRICA — web server rules (Apache / LiteSpeed). See README-FA.md.
+Options -Indexes
+DirectoryIndex index.html
+AddDefaultCharset utf-8
+AddType image/webp .webp
+AddType font/woff2 .woff2
+AddType font/ttf .ttf
+AddType application/javascript .js
+
+# hidden files (.htaccess, .user.ini, …) and anything that is not part of the site
+<FilesMatch "^\.|\.(sql|md|log|ini|bak|zip|sh)$">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  # scripts, styles, fonts, images and the API all come from this site only
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+  # file names under assets/ change with their content: cache them for a year; always revalidate the page itself
+  <FilesMatch "\.(css|js|webp|png|svg|woff2|ttf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "^index\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml font/ttf
+</IfModule>

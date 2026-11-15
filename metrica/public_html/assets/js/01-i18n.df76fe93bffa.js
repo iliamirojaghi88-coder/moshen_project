@@ -1,0 +1,1 @@
+/* assets/js/i18n.js (boot): the saved language and direction before the first paint */try{var l=localStorage.getItem('metrica.lang');if(l==='en'||l==='ar'){document.documentElement.lang=l;document.documentElement.dir=l==='en'?'ltr':'rtl'}}catch(e){}

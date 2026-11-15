@@ -1,0 +1,4 @@
+# real settings (database, SMS key) live only on the host — never in git
+metrica_private/config.php
+metrica_private/logs/*.log*
+/dist/
