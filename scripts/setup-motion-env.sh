@@ -109,7 +109,8 @@ if [[ -d "$ROOT/.claude/skills" ]]; then
   # UI/UX Pro Max bundle (nextlevelbuilder/ui-ux-pro-max-skill): 7 sibling skills that
   # call each other's scripts via ../<skill>/scripts/, so they are always copied together.
   # find-skills (vercel-labs/skills): pinned copy, restored offline instead of `npx skills add -g`.
-  for s in playwright unslop strix-security skillui context7 llm-council find-skills \
+  # security-audit (cloudflare/security-audit-skill): manual-only via /security-audit.
+  for s in playwright unslop strix-security skillui context7 llm-council find-skills security-audit \
            ui-ux-pro-max design brand design-system ui-styling slides banner-design; do
     [[ -d "$ROOT/.claude/skills/$s" ]] && cp -a "$ROOT/.claude/skills/$s" "$HOME/.claude/skills/" 2>/dev/null || true
   done

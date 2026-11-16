@@ -420,3 +420,29 @@ Claude در اکوسیستم باز اسکیل‌ها (skills.sh) جست‌وج�
 | ۷ | نشست تازه | ✅ PASS — کلون تازهٔ شاخه + نشست تودرتوی `claude -p` |
 | ۸ | بازیابی کانتینر تمیز | ✅ PASS — با پاک کردن `~/.claude/skills/find-skills` و `~/.agents`، نشست تازه آن را از ریپو داشت و اسکریپت راه‌اندازی نسخهٔ سراسری را عیناً برگرداند (۲۸ ثانیه) |
 | ۹ | تکرار راه‌اندازی بدون تکرار نصب | ✅ PASS — اجرای دوم: همچنان یک پوشه، محتوای یکسان، `git status` تمیز |
+
+## security-audit — ممیزی امنیتی رسمی Cloudflare (فقط دستی)
+
+اسکیل رسمی `security-audit` از Cloudflare نصب شد و **فقط با دستور صریح شما** اجرا می‌شود:
+`/security-audit` (مثلاً `/security-audit این ریپو را ممیزی کن`). Claude خودش آن را صدا نمی‌زند و
+توضیحش هم در کانتکست نیست (هزینهٔ توکن صفر تا وقتی اجرایش نکنید).
+
+| مورد | مقدار |
+|---|---|
+| منبع رسمی | https://github.com/cloudflare/security-audit-skill (`skills/security-audit`) |
+| نسخه | کامیت upstream `c1c8a8c` (۲۰۲۶-۰۹-۱۴)، هش پوشه `8513eb3b…34af5` در `skills-lock.json` |
+| مجوز | MIT — متن در `.claude/licenses/cloudflare-security-audit-MIT.txt` |
+| محتوا | ۱۵ فایل Markdown، `report-schema.json`، دو اعتبارسنج Node بدون وابستگی (`validate-*.cjs`، فقط `fs`/`path`؛ بدون شبکه) و تست‌هایشان |
+| ممیزی skills.sh | API برای این ریپو دادهای برنگرداند؛ کد به‌صورت دستی خوانده شد |
+| تغییر محلی | فقط یک خط در frontmatter فایل `SKILL.md`: `disable-model-invocation: true` (اجرای فقط‌دستی). `npx skills update` این خط را پاک می‌کند؛ بعد از به‌روزرسانی دوباره اضافه شود |
+| نصب پروژه | `npx skills add cloudflare/security-audit-skill --skill security-audit -a claude-code -y` → `.claude/skills/security-audit` + `skills-lock.json` |
+| سراسری | `scripts/setup-motion-env.sh` (هوک SessionStart) نسخهٔ ریپو را در هر نشست جدید بدون شبکه در `~/.claude/skills/` کپی می‌کند |
+| بررسی | `grep disable-model-invocation .claude/skills/security-audit/SKILL.md ~/.claude/skills/security-audit/SKILL.md` |
+
+- هیچ هوک، زمان‌بندی، ممیزی خودکار یا پردازش پس‌زمینه‌ای برای آن ساخته نشده است.
+- خودِ اسکیل در حالت پیش‌فرض «راهنما» است؛ ممیزی کامل شش‌مرحله‌ای (چندین زیرایجنت، پرمصرف)
+  فقط وقتی شروع می‌شود که صریحاً «ممیزی کامل/تست نفوذ» یا فایل گزارش بخواهید. خروجی پیش‌فرض بیرون از
+  ریپو است: `~/security-audit-skill/<repo>/run-<N>`.
+- کد هدف را فقط در سندباکس بدون شبکه اجرا می‌کند؛ در غیر این صورت مورد را `needs_validation` می‌گذارد.
+- Recovery Kit (`docs/claude-code-recovery/`) عکس لحظه‌ای قبل از این نصب است و این اسکیل را ندارد؛
+  برای افزودنش `docs/claude-code-recovery/build-kit.sh` را دوباره بسازید.

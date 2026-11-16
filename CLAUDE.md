@@ -15,6 +15,7 @@ research engine with a licence ledger, a Blender/glTF 3D pipeline, Persian
   - **Agent Skills** (`addyosmani/agent-skills`): 25 lifecycle skills, agents `code-reviewer`, `security-auditor`, `test-engineer`, `web-performance-auditor`; commands `/spec`, `/planning`, `/build`, `/test`, `/quality-review`, `/code-simplify`, `/ship`, `/constraints`, `/webperf` (`/plan` and `/review` stay the built-ins).
   - **claude-mem** (`thedotmack/claude-mem`): automatic memory of each session's work, injected at the next session start; search with `/mem-search` or the `claude-mem` MCP tools. Memory lives in `~/.claude-mem` of the container. Wrap secrets in `<private>…</private>` so they are not stored.
 - Editing real footage or a voice note into a reel: the **MP video skillset** section below.
+- Security audit: `cloudflare/security-audit-skill` is manual-only (`disable-model-invocation`). It runs only when the owner types `/security-audit`. If asked in words, point to that command. Never start an audit, hook or background scan yourself.
 
 ## MP video skillset (footage / voice → finished reel)
 
