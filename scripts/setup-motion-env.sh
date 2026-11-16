@@ -128,4 +128,7 @@ command -v skillui >/dev/null && echo "✓ skillui $(skillui --version 2>/dev/nu
 command -v strix   >/dev/null && echo "✓ strix $(strix --version 2>/dev/null | head -1)" || echo "✗ strix"
 command -v graphify >/dev/null && echo "✓ $(graphify --version 2>/dev/null)" || echo "✗ graphify"
 [[ -f "$HOME/.claude/skills/find-skills/SKILL.md" ]] && echo "✓ find-skills" || echo "✗ find-skills"
+# security-audit must stay manual-only; `npx skills update` drops this local line. Warn only, never fix.
+grep -qx 'disable-model-invocation: true' "$ROOT/.claude/skills/security-audit/SKILL.md" 2>/dev/null \
+  || echo "⚠ WARNING: 'disable-model-invocation: true' missing from .claude/skills/security-audit/SKILL.md; /security-audit is no longer manual-only. Re-add it by hand (docs/AGENT-SKILLS-fa.md)."
 command -v claude  >/dev/null && { echo "MCP servers:"; claude mcp list 2>/dev/null | grep -E 'context7|playwright' || true; }
